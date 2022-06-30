@@ -21,7 +21,7 @@ public static class CollectionUtilities
 
 		if (index < 0)
 		{
-			index = 0;
+			index = collection.Count() - 1;
 		}
 
 		return collection.ElementAt(index);
