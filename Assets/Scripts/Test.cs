@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    Interpolators i;
-    Lerper<Vector3> x;
-    public Vector3 y = new Vector3(10,10,10);
+    InterpolatorsManager i;
+    Animator<float> x;
+    Animator<Vector2> y;
+    Animator<Vector3> z;
+    Animator<Color> w;
+    public float e = 0f;
     public float time = 2f;
     // Start is called before the first frame update
     void Start()
     {
-        i = gameObject.GetComponent<Interpolators>();
-        x = i.Lerp_Vector3(new Vector3(0,0,0), y, time);
+        i = gameObject.GetComponent<InterpolatorsManager>();
+        x = i.Animate(0, e, time,new AnimationMode(AnimationType.Linear));
+        y = i.Animate(new Vector2(0, 0), new Vector2(e, e), time, new AnimationMode(AnimationType.Bounce));
+        z = i.Animate(new Vector3(0, 0,0), new Vector3(2,2,2), time, new AnimationMode(AnimationType.Ease_In_Out));
+        AnimationCurve curve = new AnimationCurve(new Keyframe(0,1), new Keyframe(1,0));
+        w = i.Animate(new Color(0,0,0,0), new Color(1,1,1,0), time, new AnimationMode(curve));
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = x.GetCurrent();
+        transform.position = new Vector3(x.Current,y.Current.x,y.Current.x);
+        transform.localScale= z.Current;
+        Debug.Log(w.Current.ToString());
     }
 }
