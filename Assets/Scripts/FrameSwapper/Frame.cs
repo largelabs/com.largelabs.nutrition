@@ -7,11 +7,13 @@ public class Frame
 	[SerializeField] private Sprite sprite;
 	[SerializeField] private float screenTime;
 
-	private float currentTime = 0;
+	private float currentTimeSpent = 0;
 
-	public bool IsFinishedPlaying() => screenTime <= currentTime;
+	public bool IsFinishedPlaying() => screenTime <= currentTimeSpent;
 
-	public void IncrementCurrentTime(float increaseValue) => currentTime += increaseValue;
+	public void IncrementCurrentTimeSpent(float increaseValue) => currentTimeSpent += increaseValue;
+
+	public void ResetCurrentTimeSpent() => currentTimeSpent = 0;
 
 	public Sprite GetSprite() => sprite;
 }

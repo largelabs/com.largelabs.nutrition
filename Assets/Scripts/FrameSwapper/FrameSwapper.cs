@@ -25,13 +25,9 @@ public class FrameSwapper : MonoBehaviour
 			UpdateCurrentFrame();
 		}
 
-		currentFrame.IncrementCurrentTime(Time.deltaTime);
+		currentFrame.IncrementCurrentTimeSpent(Time.deltaTime);
 		spriteRenderer.sprite = currentFrame.GetSprite();
 	}
-
-	public void Pause() => isPlaying = false;
-
-	public void Resume() => isPlaying = true;
 
 	private void UpdateCurrentFrame()
 	{
@@ -40,10 +36,17 @@ public class FrameSwapper : MonoBehaviour
 			return;
 		}
 
-		currentFrame = CollectionsUtilities.GetNextElementInCircularCollection(currentFrame, frames);
+		currentFrame = CollectionUtilities.GetNextElementInCircularCollection(currentFrame, frames);
+
+		currentFrame.ResetCurrentTimeSpent();
 	}
 
 	private bool LastFrameReached => !isLooping && frames.Last().Equals(currentFrame);
 
+	public void Pause() => isPlaying = false;
+
+	public void Resume() => isPlaying = true;
+
+	public void ResetAnimation() => currentFrame = frames[0];
 
 }

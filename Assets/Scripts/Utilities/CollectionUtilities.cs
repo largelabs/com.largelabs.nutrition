@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public static class CollectionsUtilities
+public static class CollectionUtilities
 {
 	public static T GetNextElementInCircularCollection<T>(T element, IEnumerable<T> collection)
 	{
