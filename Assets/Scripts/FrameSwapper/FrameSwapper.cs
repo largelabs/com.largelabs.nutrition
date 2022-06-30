@@ -5,10 +5,11 @@ using UnityEngine;
 public class FrameSwapper : MonoBehaviour
 {
 	private SpriteRenderer spriteRenderer;
-	private bool isPlaying = true;
+	private bool isResumed = true;
 
 	[SerializeField] private bool isLooping;
 	[SerializeField] private Frame[] frames;
+	public float animationSpeedMultiplier = 1;
 
 	private Frame currentFrame;
 
@@ -20,12 +21,12 @@ public class FrameSwapper : MonoBehaviour
 
 	private void Update()
 	{
-		if (isPlaying && currentFrame.IsFinishedPlaying())
+		if (isResumed && currentFrame.IsFinishedPlaying())
 		{
 			UpdateCurrentFrame();
 		}
 
-		currentFrame.IncrementCurrentTimeSpent(Time.deltaTime);
+		currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * animationSpeedMultiplier);
 		spriteRenderer.sprite = currentFrame.GetSprite();
 	}
 
@@ -43,9 +44,9 @@ public class FrameSwapper : MonoBehaviour
 
 	private bool LastFrameReached => !isLooping && frames.Last().Equals(currentFrame);
 
-	public void Pause() => isPlaying = false;
+	public void Pause() => isResumed = false;
 
-	public void Resume() => isPlaying = true;
+	public void Resume() => isResumed = true;
 
 	public void ResetAnimation() => currentFrame = frames[0];
 
