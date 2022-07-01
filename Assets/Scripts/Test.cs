@@ -5,10 +5,10 @@ using UnityEngine;
 public class Test : MonoBehaviour
 {
     InterpolatorsManager i;
-    Animator<float> x;
-    Animator<Vector2> y;
-    Animator<Vector3> z;
-    Animator<Color> w;
+    ITypedAnimator<float> x;
+    ITypedAnimator<Vector2> y;
+    ITypedAnimator<Vector3> z;
+    ITypedAnimator<Color> w;
     public float e = 0f;
     public float time = 2f;
     // Start is called before the first frame update
