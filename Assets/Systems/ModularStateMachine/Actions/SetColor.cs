@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SetColor : Action
 {
-    public Renderer renderer;
+    public new Renderer renderer;
     public Color color;
     public override void PerformAction()
     {

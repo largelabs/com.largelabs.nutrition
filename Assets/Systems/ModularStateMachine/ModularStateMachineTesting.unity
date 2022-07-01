@@ -172,16 +172,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e986865975997f43ba0149210031db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  genericStateId: Walking
   initialActions: []
   entryActions:
   - {fileID: 165396938}
   - {fileID: 165396940}
   updateActions:
   - {fileID: 165396939}
-  exitActions: []
-  transitionActions:
   - {fileID: 165396941}
   - {fileID: 165396942}
+  fixedUpdateActions: []
+  exitActions: []
 --- !u!114 &165396938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,16 +329,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e986865975997f43ba0149210031db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  genericStateId: Idle
   initialActions: []
   entryActions:
   - {fileID: 436082807}
   - {fileID: 436082806}
   updateActions:
   - {fileID: 436082809}
-  exitActions: []
-  transitionActions:
   - {fileID: 436082810}
   - {fileID: 436082811}
+  fixedUpdateActions: []
+  exitActions: []
 --- !u!114 &436082809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,16 +763,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e986865975997f43ba0149210031db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  genericStateId: Running
   initialActions: []
   entryActions:
   - {fileID: 1788753035}
   - {fileID: 1788753038}
   updateActions:
   - {fileID: 1788753037}
-  exitActions: []
-  transitionActions:
   - {fileID: 1788753036}
   - {fileID: 1788753039}
+  fixedUpdateActions: []
+  exitActions: []
 --- !u!114 &1788753035
 MonoBehaviour:
   m_ObjectHideFlags: 0

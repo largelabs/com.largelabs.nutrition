@@ -45,7 +45,7 @@ public abstract class State : MonoBehaviour
         stateMachine.SetState(i_state);
     }
 
-    protected void setState<TState>() where TState : GenericState
+    protected void setState<TState>() where TState : State
     {
         stateMachine.SetState<TState>();
     }

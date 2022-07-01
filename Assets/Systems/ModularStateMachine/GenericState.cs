@@ -3,22 +3,17 @@ using UnityEngine;
 
 public class GenericState : State
 {
-    [SerializeField] private string generciStateId = null;
+    [SerializeField] private string genericStateId;
 
-    public List<Action> initialActions;
-    public List<Action> entryActions;
-    public List<Action> updateActions;
-    public List<Action> exitActions;
-    public List<Action> transitionActions;
+    [SerializeField] List<Action> initialActions;
+    [SerializeField] List<Action> entryActions;
+    [SerializeField] List<Action> updateActions;
+    [SerializeField] List<Action> fixedUpdateActions;
+    [SerializeField] List<Action> exitActions;
 
-    // ?????
-    public void Transition()
-    {
-        foreach (var action in transitionActions)
-        {
-            action.PerformAction();
-        }
-    }
+    public string GenericStateId { get { return genericStateId; }}
+
+    
 
     protected override void onStateInit()
     {
@@ -59,6 +54,17 @@ public class GenericState : State
             return;
 
         foreach (var action in updateActions)
+        {
+            action.PerformAction();
+        }
+    }
+
+    protected override void onStateFixedUpdate()
+    {
+        if (fixedUpdateActions is null)
+            return;
+
+        foreach (var action in fixedUpdateActions)
         {
             action.PerformAction();
         }

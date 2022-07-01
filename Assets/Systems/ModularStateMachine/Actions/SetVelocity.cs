@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SetVelocity : Action
 {
-    public Rigidbody rigidbody;
+    public new Rigidbody rigidbody;
     public float speed;
     public int direction;
     public override void PerformAction()

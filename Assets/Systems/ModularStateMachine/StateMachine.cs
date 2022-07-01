@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    public State initialState;
+    [SerializeField] State initialState;
     State currentState;
 
-    GenericState[] genericStates = null; 
+    GenericState[] genericStates = null;
     State[] allStates = null;
 
     Dictionary<System.Type, State> allStatesByType = null;
@@ -64,6 +64,21 @@ public class StateMachine : MonoBehaviour
     void initializeStateCollections()
     {
         allStates = GetComponentsInChildren<State>();
+        genericStates = GetComponentsInChildren<GenericState>();
+        allStatesByType = new Dictionary<System.Type, State>();
+        allGenericStates = new Dictionary<string, GenericState>();
+
+        foreach (var state in allStates)
+        {
+            if (state.GetType()!= typeof(GenericState))
+                allStatesByType.Add(state.GetType(), state);
+        }
+        
+        foreach (var genericState in genericStates)
+        {
+            allGenericStates.Add(genericState.GenericStateId, genericState);
+        }
+
 
         // Build dictionaries and other collections
 
