@@ -5,26 +5,46 @@ public static class CollectionUtilities
 {
 	public static T GetNextElementInCircularCollection<T>(T element, IEnumerable<T> collection)
 	{
-		var index = collection.ToList().IndexOf(element) + 1;
+		return GetNextElementInCircularList(element, collection.ToList());
+	}
 
-		if (index >= collection.Count())
+	public static T GetNextElementInCircularList<T>(T element, List<T> collection)
+	{
+		return GetNextElementInCircularList(collection.IndexOf(element), collection, collection.Count);
+	}
+
+	public static T GetNextElementInCircularList<T>(int currentIndex, List<T> collection, int collectionCount)
+	{
+		var newIndex = currentIndex + 1;
+
+		if (newIndex >= collectionCount)
 		{
-			index = 0;
+			newIndex = 0;
 		}
 
-		return collection.ElementAt(index);
+		return collection[newIndex];
 	}
 
 	public static T GetPreviousElementInCircularCollection<T>(T element, IEnumerable<T> collection)
 	{
-		var index = collection.ToList().IndexOf(element) - 1;
+		return GetPreviousElementInCircularList(element, collection.ToList());
+	}
 
-		if (index < 0)
+	public static T GetPreviousElementInCircularList<T>(T element, List<T> collection)
+	{
+		return GetPreviousElementInCircularList(collection.IndexOf(element), collection, collection.Count);
+	}
+
+	public static T GetPreviousElementInCircularList<T>(int currentIndex, List<T> collection, int collectionCount)
+	{
+		var newIndex = currentIndex - 1;
+
+		if (newIndex < 0)
 		{
-			index = collection.Count() - 1;
+			newIndex = collectionCount - 1;
 		}
 
-		return collection.ElementAt(index);
+		return collection[newIndex];
 	}
 
 }

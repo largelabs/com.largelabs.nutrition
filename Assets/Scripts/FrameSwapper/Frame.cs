@@ -8,8 +8,10 @@ public class Frame : IFrame
 	[SerializeField] private float screenTime;
 
 	// Implement frame event register / unregister API and call from frame swapper
-	FrameEvent OnStartedPlayback = null;
-	FrameEvent OnEndedPlayback = null;
+
+	private FrameEvent onStartedPlayback = null;
+	private FrameEvent onEndedPlayback = null;
+
 
 	private float currentTimeSpent = 0;
 
@@ -23,13 +25,27 @@ public class Frame : IFrame
 
 	public Sprite FrameSprite => sprite;
 
-    #endregion
+	public FrameEvent OnStartedPlayback => onStartedPlayback;
 
-    #region MUTABLE
+	public FrameEvent OnEndedPlayback => onEndedPlayback;
 
-    public void IncrementCurrentTimeSpent(float increaseValue) => currentTimeSpent += increaseValue;
+	#endregion
+
+	#region MUTABLE
+
+	public void IncrementCurrentTimeSpent(float increaseValue) => currentTimeSpent += increaseValue;
 
 	public void ResetCurrentTimeSpent() => currentTimeSpent = 0;
 
-    #endregion
+	#region events registery
+	public void RegisterStartPlaybackEvent(FrameEvent i_frameEvent) => onStartedPlayback += i_frameEvent;
+	public void UnRegisterStartPlaybackEvent(FrameEvent i_frameEvent) => onStartedPlayback -= i_frameEvent;
+	public void UnRegisterAllStartPlaybackEvents() => onStartedPlayback = null;
+
+	public void RegisterEndedPlaybackEvent(FrameEvent i_frameEvent) => onEndedPlayback += i_frameEvent;
+	public void UnRegisterEndedPlaybackEvent(FrameEvent i_frameEvent) => onEndedPlayback -= i_frameEvent;
+	public void UnRegisterAllEndedPlaybackEvents() => onEndedPlayback = null;
+	#endregion
+
+	#endregion
 }

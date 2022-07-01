@@ -3,63 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public interface IFrameSwapper
+public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRenderer : Renderer
 {
-	// Define user's API here
-}
-
-
-public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper
-{
-	[SerializeField] bool playOnEnable = false;
-	[SerializeField] private SpriteRenderer spriteRenderer;
+	#region Serialized fields
+	[SerializeField] private bool playOnEnable = false;
+	[SerializeField] private TRenderer renderer;
 	[SerializeField] private bool isLooping;
 	[SerializeField] private List<Frame> frames;
 	[SerializeField] private int loopIndex;
-	[SerializeField] float animationSpeedMultiplier = 1;
+	#endregion
 
-	bool isResumed = true;
+	#region IFrameSwapper
+	public float AnimationSpeedMultiplier { get; set; }
+	public int LoopCount => loopCount;
+	public bool IsPlaying => null != playback;
+	#endregion
+
+	private bool isResumed = true;
 	private Frame currentFrame;
 	private Coroutine playback = null;
-
 	private int loopCount = 0;
-;
+
 	private void Awake()
 	{
 		setCurrentFrame(0);
 	}
 
-    private void OnEnable()
-    {
+	private void OnEnable()
+	{
 		if (playOnEnable) Play();
-    }
+	}
 
-    void setCurrentFrame(int i_index)
-    {
+	void setCurrentFrame(int i_index)
+	{
 		int count = frames.Count;
 		if (count > 0 && i_index < count)
 			currentFrame = frames[0];
 	}
 
-    public void Play()
-    {
+	public void Play()
+	{
 		if (playback != null) return;
 
 		// Start animation
+		loopCount = 0;
 		playback = StartCoroutine(playbackRoutine());
 
 	}
 
 	public void Stop()
-    {
+	{
 		if (null == playback) return;
 
 		StopCoroutine(playback);
 		playback = null;
 	}
-
-	public bool IsPlaying => null != playback;
-
 
 	public void Pause() => isResumed = false;
 
@@ -71,21 +69,27 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper
 	private IEnumerator playbackRoutine()
 	{
 
-		while(true)
-        {
+		while (true)
+		{
 			if (isResumed && currentFrame.IsFinishedPlaying)
 			{
 				UpdateCurrentFrame();
 			}
 
-			currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * animationSpeedMultiplier);
-			spriteRenderer.sprite = currentFrame.FrameSprite;
+			currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * AnimationSpeedMultiplier);
+			updateRenderedObject();
 
 			yield return null;
 		}
 
+	}
 
-
+	private void updateRenderedObject()
+	{
+		if (renderer is SpriteRenderer)
+		{
+			(renderer as SpriteRenderer).sprite = currentFrame.FrameSprite;
+		}
 	}
 
 	private void UpdateCurrentFrame()
@@ -96,13 +100,21 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper
 			return;
 		}
 
-		currentFrame = CollectionUtilities.GetNextElementInCircularCollection(currentFrame, frames);
+		currentFrame.OnEndedPlayback.Invoke();/////////////////
+
+		currentFrame = CollectionUtilities.GetNextElementInCircularList(currentFrame, frames);
+
+		currentFrame.OnStartedPlayback.Invoke();//////////////
+
+		if (frames[0].Equals(currentFrame))
+		{
+			loopCount++;
+		}
 
 		currentFrame.ResetCurrentTimeSpent();
 	}
 
 	private bool LastFrameReached => !isLooping && frames.Last().Equals(currentFrame);
-
 
 	public void ResetAnimation() => currentFrame = frames[0];
 
