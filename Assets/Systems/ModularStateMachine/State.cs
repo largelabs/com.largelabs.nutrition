@@ -1,64 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class State : MonoBehaviour
+
+public abstract class State : MonoBehaviour
 {
-    public List<Action> initialActions;
-    public List<Action> entryActions;
-    public List<Action> updateActions;
-    public List<Action> exitActions;
-    public List<Action> transitionActions;
+    private StateMachine stateMachine = null;
+    private bool isInit = false;
 
-    private void Start()
+    #region PUBLIC API
+    public void Initialize(StateMachine i_stateMachine)
     {
-        Initialize();
-    }
-    public void Initialize()
-    {
-        if (initialActions is null)
-            return;
+        if (false == isInit) return;
 
-        foreach (var action in initialActions)
-        {
-            action.performAction();
-        }
+        stateMachine = i_stateMachine;
+        onStateInit();
+
+        isInit = true;
     }
+
     public void EnterState()
     {
-        if (entryActions is null)
-            return;
-
-        foreach (var action in entryActions)
-        {
-            action.performAction();
-        }
+        onStateEnter();
     }
     public void UpdateState()
     {
-        if (updateActions is null)
-            return;
-
-        foreach (var action in updateActions)
-        {
-            action.performAction();
-        }
+        onStateUpdate();
     }
+
+    public void FixedUpdateState()
+    {
+        onStateFixedUpdate();
+    }
+
     public void ExitState()
     {
-        if (exitActions is null)
-            return;
+        onStateExit();
+    }
 
-        foreach (var action in exitActions)
-        {
-            action.performAction();
-        }
-    }
-    public void Transition()
+    #endregion
+
+    #region PROTECTED API
+
+    protected void setState(GenericState i_state)
     {
-        foreach (var action in transitionActions)
-        {
-            action.performAction();
-        }
+        stateMachine.SetState(i_state);
     }
+
+    protected void setState<TState>() where TState : GenericState
+    {
+        stateMachine.SetState<TState>();
+    }
+
+    protected abstract void onStateInit();
+
+    protected abstract void onStateEnter();
+
+    protected abstract void onStateExit();
+
+    protected abstract void onStateUpdate();
+
+    protected virtual void onStateFixedUpdate() { }
+
+    #endregion
+
 }

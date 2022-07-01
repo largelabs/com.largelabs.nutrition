@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ConsoleStateName : Action
 {
-    public override void performAction()
+    public override void PerformAction()
     {
         Debug.Log(gameObject.name);
     }

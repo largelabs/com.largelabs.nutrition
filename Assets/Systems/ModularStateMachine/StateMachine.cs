@@ -6,6 +6,18 @@ public class StateMachine : MonoBehaviour
 {
     public State initialState;
     State currentState;
+
+    GenericState[] genericStates = null; 
+    State[] allStates = null;
+
+    Dictionary<System.Type, State> allStatesByType = null;
+    Dictionary<string, GenericState> allGenericStates = null;
+
+    private void Awake()
+    {
+        initializeStateCollections();
+    }
+
     void Start()
     {
         SetState(initialState);
@@ -19,16 +31,42 @@ public class StateMachine : MonoBehaviour
         currentState.UpdateState();
     }
 
-    public void SetState(State newState)
+    private void FixedUpdate()
+    {
+        if (currentState is null)
+            return;
+
+        currentState.FixedUpdateState();
+    }
+
+    public void SetState(State i_newState)
     {
         if (currentState is not null)
             currentState.ExitState();
 
-        currentState = newState;
+        currentState = i_newState;
+        currentState.Initialize(this);
         currentState.EnterState();
     }
-    private void LateUpdate()
+
+
+    public void SetState<TState>() where TState : State
     {
-        currentState.Transition();
+        System.Type stateType = typeof(TState);
+
+        // check that state type isn't generic state
+
+        // Get State in dictionary
+
+        // Call SetState(State)
     }
+
+    void initializeStateCollections()
+    {
+        allStates = GetComponentsInChildren<State>();
+
+        // Build dictionaries and other collections
+
+    }
+
 }

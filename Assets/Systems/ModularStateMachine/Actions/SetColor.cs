@@ -6,7 +6,7 @@ public class SetColor : Action
 {
     public Renderer renderer;
     public Color color;
-    public override void performAction()
+    public override void PerformAction()
     {
         if (renderer is null)
             return;

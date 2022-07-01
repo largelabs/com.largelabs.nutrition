@@ -7,7 +7,7 @@ public class SetVelocity : Action
     public Rigidbody rigidbody;
     public float speed;
     public int direction;
-    public override void performAction()
+    public override void PerformAction()
     {
         if (rigidbody is null)
             return;

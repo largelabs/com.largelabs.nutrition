@@ -5,9 +5,9 @@ using UnityEngine;
 public class SwitchToWalking : Action
 {
     public StateMachine stateMachine;
-    public State WALKING;
+    public GenericState WALKING;
     public SetVelocity setVelocity;
-    public override void performAction()
+    public override void PerformAction()
     {
         if (stateMachine is null)
             return;

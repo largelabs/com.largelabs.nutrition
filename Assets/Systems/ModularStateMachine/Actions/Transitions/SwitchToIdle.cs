@@ -5,9 +5,9 @@ using UnityEngine;
 public class SwitchToIdle : Action
 {
     public StateMachine stateMachine;
-    public State IDLE;
+    public GenericState IDLE;
     public SetVelocity setVelocity;
-    public override void performAction()
+    public override void PerformAction()
     {
         if (stateMachine is null)
             return;

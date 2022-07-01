@@ -5,9 +5,9 @@ using UnityEngine;
 public class SwitchToRunning : Action
 {
     public StateMachine stateMachine;
-    public State RUNNING;
+    public GenericState RUNNING;
     public SetVelocity setVelocity;
-    public override void performAction()
+    public override void PerformAction()
     {
         if (stateMachine is null)
             return;
