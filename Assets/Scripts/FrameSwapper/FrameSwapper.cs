@@ -23,6 +23,7 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRende
 	private Frame currentFrame;
 	private Coroutine playback = null;
 	private int loopCount = 0;
+	private CycleEvent cycleEvent = null;
 
 	private void Awake()
 	{
@@ -71,12 +72,16 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRende
 
 		while (true)
 		{
-			if (isResumed && currentFrame.IsFinishedPlaying)
+			if (isResumed)
 			{
-				UpdateCurrentFrame();
+				currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * AnimationSpeedMultiplier);
+
+				if(currentFrame.IsFinishedPlaying)
+				{
+					UpdateCurrentFrame();
+				}
 			}
 
-			currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * AnimationSpeedMultiplier);
 			updateRenderedObject();
 
 			yield return null;
@@ -100,15 +105,16 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRende
 			return;
 		}
 
-		currentFrame.OnEndedPlayback.Invoke();/////////////////
+		currentFrame.InvokeEndedPlaybackEvent();
 
 		currentFrame = CollectionUtilities.GetNextElementInCircularList(currentFrame, frames);
 
-		currentFrame.OnStartedPlayback.Invoke();//////////////
+		currentFrame.InvokeStartPlaybackEvent();
 
 		if (frames[0].Equals(currentFrame))
 		{
 			loopCount++;
+			cycleEvent.Invoke(this);
 		}
 
 		currentFrame.ResetCurrentTimeSpent();

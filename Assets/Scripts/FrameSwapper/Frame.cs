@@ -25,10 +25,6 @@ public class Frame : IFrame
 
 	public Sprite FrameSprite => sprite;
 
-	public FrameEvent OnStartedPlayback => onStartedPlayback;
-
-	public FrameEvent OnEndedPlayback => onEndedPlayback;
-
 	#endregion
 
 	#region MUTABLE
@@ -37,7 +33,7 @@ public class Frame : IFrame
 
 	public void ResetCurrentTimeSpent() => currentTimeSpent = 0;
 
-	#region events registery
+	#region events registery and invocation
 	public void RegisterStartPlaybackEvent(FrameEvent i_frameEvent) => onStartedPlayback += i_frameEvent;
 	public void UnRegisterStartPlaybackEvent(FrameEvent i_frameEvent) => onStartedPlayback -= i_frameEvent;
 	public void UnRegisterAllStartPlaybackEvents() => onStartedPlayback = null;
@@ -45,6 +41,9 @@ public class Frame : IFrame
 	public void RegisterEndedPlaybackEvent(FrameEvent i_frameEvent) => onEndedPlayback += i_frameEvent;
 	public void UnRegisterEndedPlaybackEvent(FrameEvent i_frameEvent) => onEndedPlayback -= i_frameEvent;
 	public void UnRegisterAllEndedPlaybackEvents() => onEndedPlayback = null;
+
+	public void InvokeStartPlaybackEvent() => onStartedPlayback.Invoke(this);
+	public void InvokeEndedPlaybackEvent() => onEndedPlayback.Invoke(this);
 	#endregion
 
 	#endregion
