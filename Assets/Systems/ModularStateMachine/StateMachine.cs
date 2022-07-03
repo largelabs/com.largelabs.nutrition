@@ -54,11 +54,11 @@ public class StateMachine : MonoBehaviour
     {
         System.Type stateType = typeof(TState);
 
-        // check that state type isn't generic state
+        if (stateType == typeof(GenericState)) return;
 
-        // Get State in dictionary
+        allStatesByType.TryGetValue(stateType, out State i_state);
+        SetState(i_state);
 
-        // Call SetState(State)
     }
 
     void initializeStateCollections()
@@ -70,17 +70,14 @@ public class StateMachine : MonoBehaviour
 
         foreach (var state in allStates)
         {
-            if (state.GetType()!= typeof(GenericState))
+            if (state.GetType() != typeof(GenericState))
                 allStatesByType.Add(state.GetType(), state);
         }
-        
+
         foreach (var genericState in genericStates)
         {
             allGenericStates.Add(genericState.GenericStateId, genericState);
         }
-
-
-        // Build dictionaries and other collections
 
     }
 

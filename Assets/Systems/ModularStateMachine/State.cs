@@ -9,7 +9,7 @@ public abstract class State : MonoBehaviour
     #region PUBLIC API
     public void Initialize(StateMachine i_stateMachine)
     {
-        if (false == isInit) return;
+        if (isInit) return;
 
         stateMachine = i_stateMachine;
         onStateInit();

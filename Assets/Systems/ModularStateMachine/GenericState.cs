@@ -11,9 +11,9 @@ public class GenericState : State
     [SerializeField] List<Action> fixedUpdateActions;
     [SerializeField] List<Action> exitActions;
 
-    public string GenericStateId { get { return genericStateId; }}
+    public string GenericStateId { get { return genericStateId; } }
 
-    
+
 
     protected override void onStateInit()
     {
