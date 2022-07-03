@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class StateMachine : MonoBehaviourBase
 {
     [SerializeField] State initialState;
     State currentState;
@@ -13,8 +13,9 @@ public class StateMachine : MonoBehaviour
     Dictionary<System.Type, State> allStatesByType = null;
     Dictionary<string, GenericState> allGenericStates = null;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         initializeStateCollections();
     }
 
