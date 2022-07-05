@@ -3,48 +3,48 @@ using System.Linq;
 
 public static class CollectionUtilities
 {
-	public static T GetNextElementInCircularCollection<T>(T element, IEnumerable<T> collection)
+	public static T GetNextElementInCircularCollection<T>(T i_element, IEnumerable<T> i_collection)
 	{
-		return GetNextElementInCircularList(element, collection.ToList());
+		return GetNextElementInCircularList(i_element, i_collection.ToList());
 	}
 
-	public static T GetNextElementInCircularList<T>(T element, List<T> collection)
+	public static T GetNextElementInCircularList<T>(T i_element, List<T> i_collection)
 	{
-		return GetNextElementInCircularList(collection.IndexOf(element), collection, collection.Count);
+		return GetNextElementInCircularList(i_collection.IndexOf(i_element), i_collection, i_collection.Count);
 	}
 
-	public static T GetNextElementInCircularList<T>(int currentIndex, List<T> collection, int collectionCount)
+	public static T GetNextElementInCircularList<T>(int i_currentIndex, List<T> i_collection, int i_collectionCount)
 	{
-		var newIndex = currentIndex + 1;
+		var newIndex = i_currentIndex + 1;
 
-		if (newIndex >= collectionCount)
+		if (newIndex >= i_collectionCount)
 		{
 			newIndex = 0;
 		}
 
-		return collection[newIndex];
+		return i_collection[newIndex];
 	}
 
-	public static T GetPreviousElementInCircularCollection<T>(T element, IEnumerable<T> collection)
+	public static T GetPreviousElementInCircularCollection<T>(T i_element, IEnumerable<T> i_collection)
 	{
-		return GetPreviousElementInCircularList(element, collection.ToList());
+		return GetPreviousElementInCircularList(i_element, i_collection.ToList());
 	}
 
-	public static T GetPreviousElementInCircularList<T>(T element, List<T> collection)
+	public static T GetPreviousElementInCircularList<T>(T i_element, List<T> i_collection)
 	{
-		return GetPreviousElementInCircularList(collection.IndexOf(element), collection, collection.Count);
+		return GetPreviousElementInCircularList(i_collection.IndexOf(i_element), i_collection, i_collection.Count);
 	}
 
-	public static T GetPreviousElementInCircularList<T>(int currentIndex, List<T> collection, int collectionCount)
+	public static T GetPreviousElementInCircularList<T>(int i_currentIndex, List<T> i_collection, int i_collectionCount)
 	{
-		var newIndex = currentIndex - 1;
+		var newIndex = i_currentIndex - 1;
 
 		if (newIndex < 0)
 		{
-			newIndex = collectionCount - 1;
+			newIndex = i_collectionCount - 1;
 		}
 
-		return collection[newIndex];
+		return i_collection[newIndex];
 	}
 
 }

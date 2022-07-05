@@ -29,7 +29,7 @@ public class Frame : IFrame
 
 	#region MUTABLE
 
-	public void IncrementCurrentTimeSpent(float increaseValue) => currentTimeSpent += increaseValue;
+	public void IncrementCurrentTimeSpent(float i_increaseValue) => currentTimeSpent += i_increaseValue;
 
 	public void ResetCurrentTimeSpent() => currentTimeSpent = 0;
 

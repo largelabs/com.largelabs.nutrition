@@ -78,7 +78,7 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRende
 
 				if(currentFrame.IsFinishedPlaying)
 				{
-					UpdateCurrentFrame();
+					updateCurrentFrame();
 				}
 			}
 
@@ -97,9 +97,9 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRende
 		}
 	}
 
-	private void UpdateCurrentFrame()
+	private void updateCurrentFrame()
 	{
-		if (LastFrameReached)
+		if (lastFrameReached)
 		{
 			Stop();
 			return;
@@ -120,7 +120,7 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRende
 		currentFrame.ResetCurrentTimeSpent();
 	}
 
-	private bool LastFrameReached => !isLooping && frames.Last().Equals(currentFrame);
+	private bool lastFrameReached => !isLooping && frames.Last().Equals(currentFrame);
 
 	public void ResetAnimation() => currentFrame = frames[0];
 
