@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+// Always remove useless usings to reduce build size
 using UnityEngine;
 
-public class Conventions : MonoBehaviour
+public class CodingConventions : MonoBehaviour
 {
     // Any data that you want to show in the inspector is
     // private
     // [SerializeField]
     [SerializeField] int myInt = 0;
-
 
     // for unity defined functions (unity messages), keep them in a region at the beginning of your script
     #region UNITY AND CORE
@@ -30,13 +28,15 @@ public class Conventions : MonoBehaviour
 
     #endregion
 
-    // Public functions take a capital
+    #region PUBLIC API
+
+    // Public functions take a capital latter
     public void DoSomething()
     {
 
     }
 
-    // We make public getters properties. Takes a capital as well
+    // We write public getters as C# properties. Takes a capital latter as well
     public int MyInt => myInt;
 
     // For setters, we use functions
@@ -51,14 +51,24 @@ public class Conventions : MonoBehaviour
         myInt = i_myInt;
     }
 
-    // Private and protected functions don't take a capital
+    #endregion
+
+    #region PRIVATE
+
+    // Private and protected functions don't take a capital letter
     void doSomethingPrivate()
     {
 
     }
 
+    #endregion
+
+    #region PROTECTED
+
     protected void doSomethingProtected()
     {
 
     }
+
+    #endregion
 }

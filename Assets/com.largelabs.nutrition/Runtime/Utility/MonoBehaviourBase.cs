@@ -3,6 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Base MonoBehaviour that automatically caches the transform.
 /// Inherit from this class and access transform as usual.
+/// MonoBehaviourBase also enables some useful editor features.
 /// </summary>
 public class MonoBehaviourBase : MonoBehaviour
 {

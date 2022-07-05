@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Using these constants to initialize Vector variables will improve performance.
+/// Use these instead of Vector3.zero etc... 
+/// </summary>
 public static class MathConstants
 {
     public static readonly Vector3 VECTOR_3_ZERO = Vector3.zero;
