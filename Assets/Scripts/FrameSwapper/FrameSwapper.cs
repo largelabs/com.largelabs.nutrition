@@ -39,11 +39,9 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 		if (playOnEnable) Play();
 	}
 
-	// make it while loop with yielding
-	// don't forget to call Stop here when the anim ends, to release the routine ref
 	private IEnumerator playbackRoutine()
 	{
-		
+
 		while (true)
 		{
 			if (isResumed)
@@ -52,7 +50,6 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 
 				if (currentFrame.IsFinishedPlaying)
 				{
-					Debug.Log("here");
 					updateCurrentFrame();
 				}
 			}
@@ -66,7 +63,7 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 
 	public void RegisterCycleEvents(params CycleEvent[] i_cycleEvents)
 	{
-		foreach(var eventCallback in i_cycleEvents)
+		foreach (var eventCallback in i_cycleEvents)
 		{
 			cycleEvent += eventCallback;
 		}
@@ -90,7 +87,6 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 	{
 		if (playback != null) return;
 
-		// Start animation
 		loopCount = 0;
 		playback = StartCoroutine(playbackRoutine());
 

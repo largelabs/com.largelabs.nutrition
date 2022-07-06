@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public interface IFrame<T>
+﻿public interface IFrame<T>
 {
 	float CurrentFrameTime { get; }
 

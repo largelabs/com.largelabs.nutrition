@@ -7,17 +7,15 @@ public class Frame<T> : IFrame<T>
 	[SerializeField] private T frameObject;
 	[SerializeField] private float screenTime;
 
-	// Implement frame event register / unregister API and call from frame swapper
-
 	private FrameEvent<T> onStartedPlayback = null;
 	private FrameEvent<T> onEndedPlayback = null;
 
 
 	private float currentTimeSpent = 0;
 
-    #region IFrame
+	#region IFrame
 
-    public float CurrentFrameTime => currentTimeSpent;
+	public float CurrentFrameTime => currentTimeSpent;
 
 	public float CurrentFrameRatio => currentTimeSpent / screenTime;
 
@@ -36,7 +34,7 @@ public class Frame<T> : IFrame<T>
 	#region events registery and invocation
 	public void RegisterStartPlaybackEvents(params FrameEvent<T>[] i_frameEvents)
 	{
-		foreach(var frameEvent in i_frameEvents)
+		foreach (var frameEvent in i_frameEvents)
 		{
 			onStartedPlayback += frameEvent;
 		}
