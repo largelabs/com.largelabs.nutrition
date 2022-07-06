@@ -3,15 +3,29 @@ using UnityEngine;
 
 public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D, IVelocity2DManager
 {
+    [Header("Gizmos")]
+    [SerializeField] bool enableGizmos = false;
+    [SerializeField] Color groundTangentColor = Color.red;
+    [SerializeField] Color groundNormalColor = Color.green;
+    [SerializeField] Color velocityColor = Color.blue;
+    [SerializeField] [Range(0.1f, 3f)] float gizmoThickness = 2f;
+
+    [Header("Physics components")]
     [SerializeField] private Collider2D objectCollider = null;
     [SerializeField] private Rigidbody2D objectRgbd2D = null;
     [SerializeField] private PhysicsConfig2D physicsConfig = null;
 
-    // Collision data
+    // Contact filter allows us to filter our raycasting depending on layers for example
     private ContactFilter2D contactFilter = new ContactFilter2D();
+
+    // Our huit buffer will be updated by Unity's casting
     private RaycastHit2D[] hitBuffer = null;
+
+    // These lists are used to cache the successful hits on ither x or y movement during a physics loop.
     private List<RaycastHit2D> hitBufferListX = null;
     private List<RaycastHit2D> hitBufferListY = null;
+
+    // We cache the ground transforms 
     private Dictionary<Transform, RaycastHit2D> groundTransformsBuffer = null;
 
     // Object transfrom
@@ -19,8 +33,8 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
     private Transform initialParent = null;
 
     // Runtime values
-    private Vector2 targetVelocity = MathConstants.VECTOR_2_ZERO;
-    private Vector2 velocity = MathConstants.VECTOR_2_ZERO;
+    private Vector2 targetVelocity = MathConstants.VECTOR_2_ZERO; // The inputed velocity 
+    private Vector2 velocity = MathConstants.VECTOR_2_ZERO; // The internal velocity updated by the physics system
     private bool isGrounded = false;
     private bool wasGrounded = false;
     private bool isHittingWall = false;
@@ -50,18 +64,28 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
         if (null == hitBuffer) return;
 
         wasGrounded = isGrounded;
+        wasHittingWall = isHittingWall;
+
+        // Our object is constantly attracted by the gravity, scaled by our gravity modifier
+        velocity += physicsConfig.GravityModifier * Physics2D.gravity * Time.fixedDeltaTime;
         isGrounded = false;
 
-        wasHittingWall = isHittingWall;
+        velocity.x = targetVelocity.x;
         isHittingWall = false;
 
-        velocity += physicsConfig.GravityModifier * Physics2D.gravity * Time.fixedDeltaTime;
-        velocity.x = targetVelocity.x;
-
+        // Our position delta at the current physics frame (current velocity * dt). This will be used for our movement.
         Vector2 deltaPosition = velocity * Time.fixedDeltaTime;
 
-        Vector2 xMov = updateMovement(new Vector2(groundNormal.y, -groundNormal.x) * deltaPosition.x, false);
+        // To make it easier to deal with slopes, we call updateMovement twice : 
+        // once for x, once for y, with different parameters involved...
+
+        // Horizontal movement takes a vector that includes the ground normal, 
+        // so our entity can move along the ground's tangent
+        Vector2 groundTangent = new Vector2(groundNormal.y, -groundNormal.x);
+        Vector2 xMov = updateMovement(groundTangent * deltaPosition.x, false);
         objectRgbd2D.position += new Vector2(xMov.x, xMov.y);
+
+        // Vertical movement takes the up vector scaled with our deltaPosition.
         Vector2 yMov = updateMovement(MathConstants.VECTOR_2_UP * deltaPosition.y, true);
         objectRgbd2D.position += new Vector2(yMov.x, yMov.y);
 
@@ -169,6 +193,13 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
 
     #region PRIVATE
 
+    /// <summary>
+    /// Raycasts the shape of either the collider or the rigidbody. Will update the hit buffer array defined in this class
+    /// </summary>
+    /// <param name="i_direction">The direction in which we want to cast from the shape</param>
+    /// <param name="i_distance">The length of the ray we want to cast</param>
+    /// <param name="i_raycastSource">Whether we cast from the collider shape or the whole rigidbody</param>
+    /// <returns>The number of hits</returns>
     int cast(Vector2 i_direction, float i_distance, RaycastSource i_raycastSource)
     {
         int hitCount = 0;
@@ -185,15 +216,19 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
         List<RaycastHit2D> hitBufferList = i_yMovement ? hitBufferListY : hitBufferListX;
         groundTransformsBuffer.Clear();
 
+        // Only check for collisions if they are enable and if the object has actually moved
         if (true == physicsConfig.EnableCollisions && distance > physicsConfig.MinMoveDistance)
         {
-            float shellRadius = physicsConfig.ShellRadius;
             RaycastSource raycastSource = physicsConfig.RaycastSource;
             Vector2 currentNormal;
             RaycastHit2D hit;
             float minGroundNormalY = physicsConfig.MinGroundNormalY;
 
+            // We cast in the move direction (either in front of us if we are checking collisions on x or under us if we are checking collisions on y)
+            // We also add a shell radius to the ray length. This is to make sure we don't get stuck in another collider.
+            float shellRadius = physicsConfig.ShellRadius;
             int hitCount = cast(i_move, distance + shellRadius, raycastSource);
+
             hitBufferList.Clear();
 
             for (int i = 0; i < hitCount; i++)
@@ -202,11 +237,14 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
 
                 if (true == hit)
                 {
+                    // We check the normals of our hits in order to determine the angle of the collision 
                     currentNormal = hit.normal;
                     hitBufferList.Add(hit);
 
                     if (true == canCheckForCollision(ref i_move, i_yMovement, hit))
                     {
+                        // Entity will be grounded only if the hit's normal has an angle
+                        // on which we can actually stand
                         if (currentNormal.y > minGroundNormalY)
                         {
                             currentGroundHit = hit.point;
@@ -224,10 +262,16 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
                             }
                         }
 
+                        // Projecting our velocity on our current normal. This will help us scale
+                        // our velocity variation depending on collision
                         float projection = Vector2.Dot(velocity, currentNormal);
 
+                        // In that case, our projection shows us that our velocity and our normal
+                        // are in opposite directions.
                         if (projection < 0f)
                         {
+                            // Therefore, we cancel out the part of the velocity that has to be removed
+                            // by the collision.
                             velocity -= projection * currentNormal;
 
                             if (false == i_yMovement)
@@ -237,6 +281,8 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
                             }
                         }
 
+                        // The final step is to check if our given distance is less than our shell size.
+                        // if it is, we fix the distance in order to avoid getting stuck inside other colliders
                         float modifiedDistance = hit.distance - shellRadius;
                         distance = modifiedDistance < distance ? modifiedDistance : distance;
                     }
@@ -345,6 +391,9 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
         groundTransformsBuffer = new Dictionary<Transform, RaycastHit2D>(bufferSize);
     }
 
+    /// <summary>
+    /// This setting will filter the layers with which we want check collisions 
+    /// </summary>
     private void setContactFilters()
     {
         contactFilter = new ContactFilter2D();
@@ -369,6 +418,33 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
         currentGroundCmpt = null;
         previousGroundCmpt = null;
     }
+
+    #endregion
+
+    #region GIZMOS
+
+#if UNITY_EDITOR
+
+    void OnDrawGizmos()
+    {
+        if (false == enableGizmos) return;
+        if (null == currentGroundHit) return;
+
+        Vector3 hit = new Vector3(currentGroundHit.Value.x, currentGroundHit.Value.y);
+        Vector3 normal = new Vector3(groundNormal.x, groundNormal.y).normalized;
+        Vector3 groundTangent = new Vector3(groundNormal.y, -groundNormal.x).normalized;
+        Vector3 vel = new Vector3(velocity.x, velocity.y).normalized;
+
+        GizmoUtility.DrawArrow(transform.position, transform.position + vel, gizmoThickness, velocityColor);
+
+        if (true == isGrounded)
+        {
+            GizmoUtility.DrawArrow(hit, hit + groundTangent, gizmoThickness, groundTangentColor);
+            GizmoUtility.DrawArrow(hit, hit + normal, gizmoThickness, groundNormalColor);
+        }
+    }
+
+#endif
 
     #endregion
 }
