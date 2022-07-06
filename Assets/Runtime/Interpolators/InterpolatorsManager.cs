@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class InterpolatorsManager : MonoBehaviour
+public class InterpolatorsManager : MonoBehaviourBase
 {
     Dictionary<IAnimator, Coroutine> animators = new Dictionary<IAnimator, Coroutine>();
 
