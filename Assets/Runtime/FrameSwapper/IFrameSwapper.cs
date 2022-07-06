@@ -5,4 +5,6 @@ public interface IFrameSwapper
 	int LoopCount { get; }
 
 	bool IsPlaying { get; }
+
+	bool IsPaused { get; }
 }

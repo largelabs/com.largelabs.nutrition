@@ -15,7 +15,7 @@ public static class CollectionUtilities
 
 	public static T GetNextElementInCircularList<T>(int i_currentIndex, List<T> i_collection, int i_collectionCount)
 	{
-		var newIndex = i_currentIndex + 1;
+		int newIndex = i_currentIndex + 1;
 
 		if (newIndex >= i_collectionCount)
 		{
@@ -37,7 +37,7 @@ public static class CollectionUtilities
 
 	public static T GetPreviousElementInCircularList<T>(int i_currentIndex, List<T> i_collection, int i_collectionCount)
 	{
-		var newIndex = i_currentIndex - 1;
+		int newIndex = i_currentIndex - 1;
 
 		if (newIndex < 0)
 		{

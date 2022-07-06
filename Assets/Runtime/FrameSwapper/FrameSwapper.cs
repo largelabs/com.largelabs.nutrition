@@ -100,6 +100,9 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 		playback = null;
 	}
 
+	// Implement this
+	public bool IsPaused { get; }
+
 	public void Pause() => isResumed = false;
 
 	public void Resume() => isResumed = true;
