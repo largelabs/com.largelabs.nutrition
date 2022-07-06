@@ -34,16 +34,44 @@ public class Frame<T> : IFrame<T>
 	public void ResetCurrentTimeSpent() => currentTimeSpent = 0;
 
 	#region events registery and invocation
-	public void RegisterStartPlaybackEvent(FrameEvent<T> i_frameEvent) => onStartedPlayback += i_frameEvent;
-	public void UnRegisterStartPlaybackEvent(FrameEvent<T> i_frameEvent) => onStartedPlayback -= i_frameEvent;
+	public void RegisterStartPlaybackEvents(params FrameEvent<T>[] i_frameEvents)
+	{
+		foreach(var frameEvent in i_frameEvents)
+		{
+			onStartedPlayback += frameEvent;
+		}
+	}
+
+	public void UnRegisterStartPlaybackEvents(params FrameEvent<T>[] i_frameEvents)
+	{
+		foreach (var frameEvent in i_frameEvents)
+		{
+			onStartedPlayback -= frameEvent;
+		}
+	}
+
 	public void UnRegisterAllStartPlaybackEvents() => onStartedPlayback = null;
 
-	public void RegisterEndedPlaybackEvent(FrameEvent<T> i_frameEvent) => onEndedPlayback += i_frameEvent;
-	public void UnRegisterEndedPlaybackEvent(FrameEvent<T> i_frameEvent) => onEndedPlayback -= i_frameEvent;
+	public void RegisterEndedPlaybackEvents(params FrameEvent<T>[] i_frameEvents)
+	{
+		foreach (var frameEvent in i_frameEvents)
+		{
+			onEndedPlayback += frameEvent;
+		}
+	}
+
+	public void UnRegisterEndedPlaybackEvent(params FrameEvent<T>[] i_frameEvents)
+	{
+		foreach (var frameEvent in i_frameEvents)
+		{
+			onEndedPlayback -= frameEvent;
+		}
+	}
+
 	public void UnRegisterAllEndedPlaybackEvents() => onEndedPlayback = null;
 
-	public void InvokeStartPlaybackEvent() => onStartedPlayback.Invoke(this);
-	public void InvokeEndedPlaybackEvent() => onEndedPlayback.Invoke(this);
+	public void InvokeStartPlaybackEvent() => onStartedPlayback?.Invoke(this);
+	public void InvokeEndedPlaybackEvent() => onEndedPlayback?.Invoke(this);
 	#endregion
 
 	#endregion

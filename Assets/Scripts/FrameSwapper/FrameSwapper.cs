@@ -18,17 +18,20 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 	public bool IsPlaying => null != playback;
 	#endregion
 
+	#region private members
 	private bool isResumed = true;
 	private Frame<Sprite> currentFrame;
 	private Coroutine playback = null;
 	private int loopCount = 0;
 	private CycleEvent cycleEvent = null;
-	private int framesCount;
+	private Frame<Sprite> lastFrame;
+	#endregion
 
 	protected override void Awake()
 	{
 		setCurrentFrame(0);
-		framesCount = frames.Count;
+		lastFrame = frames[frames.Count - 1];
+		AnimationSpeedMultiplier = 1;
 	}
 
 	private void OnEnable()
@@ -36,14 +39,53 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 		if (playOnEnable) Play();
 	}
 
-	void setCurrentFrame(int i_index)
+	// make it while loop with yielding
+	// don't forget to call Stop here when the anim ends, to release the routine ref
+	private IEnumerator playbackRoutine()
 	{
-		if (framesCount > 0 && i_index < framesCount)
+		
+		while (true)
 		{
-			currentFrame = frames[i_index];
+			if (isResumed)
+			{
+				currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * AnimationSpeedMultiplier);
+
+				if (currentFrame.IsFinishedPlaying)
+				{
+					Debug.Log("here");
+					updateCurrentFrame();
+				}
+			}
+
+			updateRenderedObject();
+
+			yield return null;
+		}
+
+	}
+
+	public void RegisterCycleEvents(params CycleEvent[] i_cycleEvents)
+	{
+		foreach(var eventCallback in i_cycleEvents)
+		{
+			cycleEvent += eventCallback;
 		}
 	}
 
+	public void UnregisterCycleEvents(params CycleEvent[] i_cycleEvents)
+	{
+		foreach (var eventCallback in i_cycleEvents)
+		{
+			cycleEvent -= eventCallback;
+		}
+	}
+
+	public void UnregisterAllCycleEvents()
+	{
+		cycleEvent = null;
+	}
+
+	#region helper functions
 	public void Play()
 	{
 		if (playback != null) return;
@@ -66,29 +108,16 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 
 	public void Resume() => isResumed = true;
 
+	public void ResetAnimation() => currentFrame = frames[0];
 
-	// make it while loop with yielding
-	// don't forget to call Stop here when the anim ends, to release the routine ref
-	private IEnumerator playbackRoutine()
+	#endregion
+
+	private void setCurrentFrame(int i_index)
 	{
-
-		while (true)
+		if (frames.Count > 0 && i_index < frames.Count)
 		{
-			if (isResumed)
-			{
-				currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * AnimationSpeedMultiplier);
-
-				if (currentFrame.IsFinishedPlaying)
-				{
-					updateCurrentFrame();
-				}
-			}
-
-			updateRenderedObject();
-
-			yield return null;
+			currentFrame = frames[i_index];
 		}
-
 	}
 
 	private void updateRenderedObject()
@@ -116,14 +145,12 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 		if (frames[0].Equals(currentFrame))
 		{
 			loopCount++;
-			cycleEvent.Invoke(this);
+			cycleEvent?.Invoke(this);
 		}
 
 		currentFrame.ResetCurrentTimeSpent();
 	}
 
-	private bool lastFrameReached => !isLooping && frames[framesCount - 1].Equals(currentFrame);
-
-	public void ResetAnimation() => currentFrame = frames[0];
+	private bool lastFrameReached => !isLooping && lastFrame.Equals(currentFrame);
 
 }
