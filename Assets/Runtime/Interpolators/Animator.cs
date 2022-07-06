@@ -4,9 +4,23 @@ using UnityEngine;
 
 public interface IAnimator
 {
-    bool  IsActive { get; }
+    /// <summary>
+    /// True when the interpolator routine is running,
+    /// whether it is paused or not
+    /// </summary>
+    bool IsActive { get; }
 
+    /// <summary>
+    /// True when the value is being updated in the interpolator
+    /// AND the interpolator is not paused
+    /// </summary>
     bool IsAnimating { get; }
+
+    /// <summary>
+    /// True when the interpolator is paused by user
+    /// </summary>
+    bool IsPaused { get; }
+
     float Delay { get; }
 
     AnimationCurve Function { get; }
@@ -54,11 +68,14 @@ public class Animator<T> : ITypedAnimator<T>
     public bool IsActive => isActive;
     public bool IsAnimating => isAnimating;
     public void Activate() { isActive = true; }
-    public void Deactivate() { isActive = false; }
+    public void Deactivate() { isActive = false; isAnimating = false; }
     public void Pause() { isAnimating = false; }
     public void Resume() { isAnimating = true; }
     public float Delay => delay;
     public AnimationCurve Function => function;
+
+    // Implement this 
+    public bool IsPaused => throw new System.NotImplementedException();
 
     #endregion
 

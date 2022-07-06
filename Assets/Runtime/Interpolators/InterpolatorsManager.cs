@@ -12,28 +12,28 @@ public class InterpolatorsManager : MonoBehaviourBase
         FloatAnimator fl = new FloatAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_delay);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
-        return (ITypedAnimator<float>)fl;
+        return fl;
     }
     public ITypedAnimator<Vector2> Animate(Vector2 i_start, Vector2 i_target, float i_time, AnimationMode i_interpolationMode, float i_delay = 0)
     {
         V2Animator fl = new V2Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_delay);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
-        return (ITypedAnimator<Vector2>)fl;
+        return fl;
     }
     public ITypedAnimator<Vector3> Animate(Vector3 i_start, Vector3 i_target, float i_time, AnimationMode i_interpolationMode, float i_delay = 0)
     {
         V3Animator fl = new V3Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_delay);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
-        return (ITypedAnimator<Vector3>)fl;
+        return fl;
     }
     public ITypedAnimator<Color> Animate(Color i_start, Color i_target, float i_time, AnimationMode i_interpolationMode, float i_delay = 0)
     {
         ColorAnimator fl = new ColorAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_delay);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
-        return (ITypedAnimator<Color>)fl;
+        return fl;
     }
     public void Stop(IAnimator fl)
     {
@@ -60,7 +60,11 @@ public class InterpolatorsManager : MonoBehaviourBase
     IEnumerator Interpolat<T>(Animator<T> c)
     {
         c.Activate();
+
+        // truen this into a while loop with a time accumulator
         yield return new WaitForSeconds(c.Delay);
+
+        // should be removed when we add the isPaused variable
         c.Resume();
         float timer = 0f;
         float end = c.EndTime;
