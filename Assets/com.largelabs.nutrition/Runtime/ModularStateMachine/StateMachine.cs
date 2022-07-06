@@ -40,12 +40,12 @@ public class StateMachine : MonoBehaviourBase
         currentState.FixedUpdateState();
     }
 
-    public void SetState(State i_newState)
+    public void SetState(State i_genericState)
     {
         if (currentState is not null)
             currentState.ExitState();
 
-        currentState = i_newState;
+        currentState = i_genericState;
         currentState.Initialize(this);
         currentState.EnterState();
     }
