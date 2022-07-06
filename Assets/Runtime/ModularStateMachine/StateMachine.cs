@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +6,6 @@ public class StateMachine : MonoBehaviourBase
     [SerializeField] State initialState;
     State currentState;
 
-    GenericState[] genericStates = null;
     State[] allStates = null;
 
     Dictionary<System.Type, State> allStatesByType = null;
@@ -40,14 +38,25 @@ public class StateMachine : MonoBehaviourBase
         currentState.FixedUpdateState();
     }
 
-    public void SetState(State i_genericState)
+    public void SetState(State i_state)
     {
+        if (null == i_state) return;
+
         if (currentState is not null)
             currentState.ExitState();
 
-        currentState = i_genericState;
+        currentState = i_state;
         currentState.Initialize(this);
         currentState.EnterState();
+    }
+
+    // @Karim : add string as a possible input
+    [ExposePublicMethod]
+    public void SetGenericState(string i_id)
+    {
+        if (string.IsNullOrEmpty(i_id)) return;
+        // Implement this
+
     }
 
 
@@ -57,29 +66,33 @@ public class StateMachine : MonoBehaviourBase
 
         if (stateType == typeof(GenericState)) return;
 
-        allStatesByType.TryGetValue(stateType, out State i_state);
-        SetState(i_state);
-
+        State state = null;
+        if(true == allStatesByType.TryGetValue(stateType, out state))
+        {
+            SetState(state);
+        }
     }
 
     void initializeStateCollections()
     {
-        allStates = GetComponentsInChildren<State>();
-        genericStates = GetComponentsInChildren<GenericState>();
+        allStates = GetComponentsInChildren<State>(true);
         allStatesByType = new Dictionary<System.Type, State>();
         allGenericStates = new Dictionary<string, GenericState>();
 
-        foreach (var state in allStates)
-        {
-            if (state.GetType() != typeof(GenericState))
-                allStatesByType.Add(state.GetType(), state);
-        }
+        System.Type currentType = null;
+        System.Type genericStateType = typeof(GenericState);
 
-        foreach (var genericState in genericStates)
+        foreach (State state in allStates)
         {
-            allGenericStates.Add(genericState.GenericStateId, genericState);
-        }
+            currentType = state.GetType();
 
+            if (currentType != genericStateType)
+                allStatesByType.Add(currentType, state);
+            else
+            {
+                GenericState genericState = state as GenericState;
+                allGenericStates.Add(genericState.GenericStateId, genericState);
+            }
+        }
     }
-
 }
