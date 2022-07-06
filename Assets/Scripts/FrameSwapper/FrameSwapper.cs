@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class FrameSwapper<TRenderer> : MonoBehaviourBase, IFrameSwapper where TRenderer : Renderer
+public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 {
 	#region Serialized fields
 	[SerializeField] private bool playOnEnable = false;
-	[SerializeField] private TRenderer renderer;
+	[SerializeField] private Renderer renderer;
 	[SerializeField] private bool isLooping;
 	[SerializeField] private List<Frame<Sprite>> frames;
 	[SerializeField] private int loopIndex;
@@ -24,10 +23,12 @@ public class FrameSwapper<TRenderer> : MonoBehaviourBase, IFrameSwapper where TR
 	private Coroutine playback = null;
 	private int loopCount = 0;
 	private CycleEvent cycleEvent = null;
+	private int framesCount;
 
-	private void Awake()
+	protected override void Awake()
 	{
 		setCurrentFrame(0);
+		framesCount = frames.Count;
 	}
 
 	private void OnEnable()
@@ -37,9 +38,10 @@ public class FrameSwapper<TRenderer> : MonoBehaviourBase, IFrameSwapper where TR
 
 	void setCurrentFrame(int i_index)
 	{
-		int count = frames.Count;
-		if (count > 0 && i_index < count)
-			currentFrame = frames[0];
+		if (framesCount > 0 && i_index < framesCount)
+		{
+			currentFrame = frames[i_index];
+		}
 	}
 
 	public void Play()
@@ -76,7 +78,7 @@ public class FrameSwapper<TRenderer> : MonoBehaviourBase, IFrameSwapper where TR
 			{
 				currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * AnimationSpeedMultiplier);
 
-				if(currentFrame.IsFinishedPlaying)
+				if (currentFrame.IsFinishedPlaying)
 				{
 					updateCurrentFrame();
 				}
@@ -120,7 +122,7 @@ public class FrameSwapper<TRenderer> : MonoBehaviourBase, IFrameSwapper where TR
 		currentFrame.ResetCurrentTimeSpent();
 	}
 
-	private bool lastFrameReached => !isLooping && frames.Last().Equals(currentFrame);
+	private bool lastFrameReached => !isLooping && frames[framesCount - 1].Equals(currentFrame);
 
 	public void ResetAnimation() => currentFrame = frames[0];
 
