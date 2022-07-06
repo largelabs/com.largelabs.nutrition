@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRenderer : Renderer
+public class FrameSwapper<TRenderer> : MonoBehaviourBase, IFrameSwapper where TRenderer : Renderer
 {
 	#region Serialized fields
 	[SerializeField] private bool playOnEnable = false;
 	[SerializeField] private TRenderer renderer;
 	[SerializeField] private bool isLooping;
-	[SerializeField] private List<Frame> frames;
+	[SerializeField] private List<Frame<Sprite>> frames;
 	[SerializeField] private int loopIndex;
 	#endregion
 
@@ -20,7 +20,7 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRende
 	#endregion
 
 	private bool isResumed = true;
-	private Frame currentFrame;
+	private Frame<Sprite> currentFrame;
 	private Coroutine playback = null;
 	private int loopCount = 0;
 	private CycleEvent cycleEvent = null;
@@ -93,7 +93,7 @@ public class FrameSwapper<TRenderer> : MonoBehaviour, IFrameSwapper where TRende
 	{
 		if (renderer is SpriteRenderer)
 		{
-			(renderer as SpriteRenderer).sprite = currentFrame.FrameSprite;
+			(renderer as SpriteRenderer).sprite = currentFrame.FrameObject;
 		}
 	}
 

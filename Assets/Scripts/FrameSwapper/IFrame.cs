@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IFrame
+public interface IFrame<T>
 {
 	float CurrentFrameTime { get; }
 
@@ -8,5 +8,5 @@ public interface IFrame
 
 	bool IsFinishedPlaying { get; }
 
-	Sprite FrameSprite { get; }
+	T FrameObject { get; }
 }
