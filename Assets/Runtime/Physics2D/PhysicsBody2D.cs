@@ -4,7 +4,7 @@ using UnityEngine;
 public class PhysicsBody2D : MonoBehaviourBase, IPhysicsBody2D, IWallDetector2D, IGroundedObject2D, IVelocity2DManager
 {
     [Header("Gizmos")]
-    [SerializeField] bool enableGizmos = false;
+    [SerializeField] GizmoDrawMode gizmoDrawMode = GizmoDrawMode.NONE;
     [SerializeField] Color groundTangentColor = Color.red;
     [SerializeField] Color groundNormalColor = Color.green;
     [SerializeField] Color velocityColor = Color.blue;
@@ -452,18 +452,16 @@ public class PhysicsBody2D : MonoBehaviourBase, IPhysicsBody2D, IWallDetector2D,
 
 #if UNITY_EDITOR
 
-    void OnDrawGizmos()
+    void drawGizmos()
     {
-        if (false == enableGizmos) return;
-
-        if(velocity != MathConstants.VECTOR_2_ZERO)
+        if (velocity != MathConstants.VECTOR_2_ZERO)
         {
             Vector3 vel = new Vector3(velocity.x, velocity.y);
             if (true == normalizeVelocityGizmo) vel.Normalize();
             GizmoUtility.DrawArrow(transform.position, transform.position + vel, gizmoThickness, velocityColor);
         }
 
-        if(null != currentGroundHit)
+        if (null != currentGroundHit)
         {
             Vector3 hit = new Vector3(currentGroundHit.Value.x, currentGroundHit.Value.y);
             Vector3 normal = new Vector3(groundNormal.x, groundNormal.y).normalized;
@@ -475,6 +473,16 @@ public class PhysicsBody2D : MonoBehaviourBase, IPhysicsBody2D, IWallDetector2D,
                 GizmoUtility.DrawArrow(hit, hit + normal, gizmoThickness, groundNormalColor);
             }
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        if (gizmoDrawMode == GizmoDrawMode.ALWAYS) drawGizmos();
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (gizmoDrawMode == GizmoDrawMode.ON_SELECTED) drawGizmos();
     }
 
 #endif

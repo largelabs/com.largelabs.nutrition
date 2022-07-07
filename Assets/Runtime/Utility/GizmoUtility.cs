@@ -1,6 +1,14 @@
 ﻿
 using UnityEngine;
 
+
+public enum GizmoDrawMode
+{
+    NONE = 0,
+    ON_SELECTED = 1,
+    ALWAYS = 2,
+}
+
 public static class GizmoUtility
 {
     #region PUBLIC API

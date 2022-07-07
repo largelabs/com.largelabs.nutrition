@@ -1174,10 +1174,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 618467ff2b3a7e640a37b0d27f739adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableGizmos: 1
+  gizmoDrawMode: 1
   groundTangentColor: {r: 1, g: 0, b: 0, a: 1}
   groundNormalColor: {r: 0, g: 1, b: 0, a: 1}
   velocityColor: {r: 0, g: 0, b: 1, a: 1}
+  normalizeVelocityGizmo: 1
   gizmoThickness: 2
   objectCollider: {fileID: 0}
   objectRgbd2D: {fileID: 850187174}
