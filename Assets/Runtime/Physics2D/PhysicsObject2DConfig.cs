@@ -14,7 +14,7 @@ public class PhysicsObject2DConfig : ScriptableObject, IGravity2DConfig, ICollis
     [Header("Layer masks")]
     [SerializeField] private LayerMask groundLayerMask = 0;
     [SerializeField] private LayerMask oneWayGroundLayerMask = 0;
-    [SerializeField] private LayerMask movingGroundLayerMask = 0;
+   // [SerializeField] private LayerMask movingGroundLayerMask = 0; // WIP
 
     [Header("Gravity")]
     [SerializeField] private float gravityModifier = 1f;
@@ -57,7 +57,7 @@ public class PhysicsObject2DConfig : ScriptableObject, IGravity2DConfig, ICollis
 
     public LayerMask OneWayGroundLayerMask => oneWayGroundLayerMask;
 
-    public LayerMask MovingGroundLayerMask => movingGroundLayerMask;
+   // public LayerMask MovingGroundLayerMask => movingGroundLayerMask; // WIP
 
     public RaycastSource RaycastSource => raycastSource;
 
@@ -89,7 +89,7 @@ public class PhysicsObject2DConfig : ScriptableObject, IGravity2DConfig, ICollis
         shellRadius_init = shellRadius;
         groundLayerMask_init = groundLayerMask;
         oneWayGroundLayerMask_init = oneWayGroundLayerMask;
-        movingGroundLayerMask_init = movingGroundLayerMask;
+      //  movingGroundLayerMask_init = movingGroundLayerMask;
         gravityModifier_init = gravityModifier;
     }
 
@@ -103,7 +103,7 @@ public class PhysicsObject2DConfig : ScriptableObject, IGravity2DConfig, ICollis
         shellRadius = shellRadius_init;
         groundLayerMask = groundLayerMask_init;
         oneWayGroundLayerMask = oneWayGroundLayerMask_init;
-        movingGroundLayerMask = movingGroundLayerMask_init;
+      //  movingGroundLayerMask = movingGroundLayerMask_init;
         gravityModifier = gravityModifier_init;
     }
 

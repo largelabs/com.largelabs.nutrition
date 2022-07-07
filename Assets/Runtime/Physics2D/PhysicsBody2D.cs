@@ -195,7 +195,37 @@ public class PhysicsBody2D : MonoBehaviourBase, IPhysicsBody2D, IWallDetector2D,
 
     protected virtual bool canCheckForCollision(ref Vector2 i_move, bool i_yMovement, RaycastHit2D i_hit)
     {
-        return true;
+        int layer = i_hit.collider.gameObject.layer;
+        LayerMask oneWayGroundLayers = physicsConfig.OneWayGroundLayerMask; 
+        bool isOneWay = oneWayGroundLayers == (oneWayGroundLayers | (1 << layer));
+        bool checkForCollsions = true;
+        float shellRadius = physicsConfig.ShellRadius;
+
+        if (true == isOneWay)
+        {
+            if (i_yMovement)
+            {
+                if (VelocityY > 0.1f) return false;
+                if(null == objectCollider)
+                {
+                    Debug.LogWarning("PhysicsBody2D::canCheckForCollision -> cannot check one way ground collisions if collider isn't assigned.");
+                    return false;
+                }
+
+                float hitY = i_hit.point.y;
+                float boundsY = objectCollider.bounds.min.y;
+
+                if (hitY /*+ shellRadius*/ > boundsY)
+                    checkForCollsions = false;
+            }
+            else
+            {
+                i_move.y = 0f;
+                checkForCollsions = false;
+            }
+        }
+
+        return checkForCollsions;
     }
 
     protected virtual void onWallHitEnter() { }
@@ -377,6 +407,15 @@ public class PhysicsBody2D : MonoBehaviourBase, IPhysicsBody2D, IWallDetector2D,
         {
             if (true == isGrounded && false == wasGrounded)
             {
+                // Moving ground WIP
+               /* LayerMask movingGroundLayers = physicsConfig.MovingGroundLayerMask;
+                bool isMoving = movingGroundLayers == (movingGroundLayers | (1 << currentGroundLayer));
+
+                if (true == isMoving)
+                    objectTransform.SetParent(currentGroundTransform);
+                else
+                    objectTransform.SetParent(initialParent);*/
+
                 OnGroundedStatusChanged?.Invoke(this);
                 onEnterGround();
             }

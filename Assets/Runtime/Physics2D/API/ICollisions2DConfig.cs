@@ -39,9 +39,9 @@ public interface ICollisions2DConfig
     LayerMask OneWayGroundLayerMask { get; }
 
     /// <summary>
-    /// Ground layers that will be in motion
+    /// Ground layers that will be in motion. WIP
     /// </summary>
-    LayerMask MovingGroundLayerMask { get; }
+   // LayerMask MovingGroundLayerMask { get; }
 
     /// <summary>
     /// Whether or not collisions are enabled for this object

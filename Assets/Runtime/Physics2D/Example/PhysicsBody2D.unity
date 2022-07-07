@@ -446,10 +446,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 850187177}
+  - component: {fileID: 850187179}
   - component: {fileID: 850187176}
   - component: {fileID: 850187175}
   - component: {fileID: 850187174}
-  - component: {fileID: 850187178}
+  - component: {fileID: 850187180}
   m_Layer: 0
   m_Name: Object
   m_TagString: Untagged
@@ -474,9 +475,9 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!23 &850187175
 MeshRenderer:
@@ -545,7 +546,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &850187178
+--- !u!114 &850187179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850187173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a75e7c9651e8ca64190287d9789b1169, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 2025261116}
+  maxVelocityX: 5
+  midAirVelocityX: 4
+  maxVelocityY: 10
+--- !u!58 &850187180
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1227,8 +1244,8 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
-  m_GenerationType: 0
+  m_GeometryType: 1
+  m_GenerationType: 1
   m_EdgeRadius: 0
   m_ColliderPaths:
   - m_Collider: {fileID: 1773260034}
@@ -1415,6 +1432,6 @@ MonoBehaviour:
   velocityColor: {r: 0, g: 0, b: 1, a: 1}
   normalizeVelocityGizmo: 1
   gizmoThickness: 2
-  objectCollider: {fileID: 0}
+  objectCollider: {fileID: 850187180}
   objectRgbd2D: {fileID: 850187174}
   physicsConfig: {fileID: 11400000, guid: 00a3a4f94df34a9438b3d7179da0e744, type: 2}

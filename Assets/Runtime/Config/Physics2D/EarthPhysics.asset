@@ -17,7 +17,7 @@ MonoBehaviour:
   collisionBufferSize: 16
   minGroundNormalY: 0.65
   minMoveDistance: 0.001
-  shellRadius: 0.01
+  shellRadius: 0.015
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 968
