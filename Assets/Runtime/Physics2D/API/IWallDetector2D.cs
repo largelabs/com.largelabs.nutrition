@@ -1,4 +1,4 @@
-﻿public interface IWallDetector
+﻿public interface IWallDetector2D
 {
     bool IsHittingWall { get; }
 

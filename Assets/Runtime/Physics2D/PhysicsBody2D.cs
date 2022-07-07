@@ -1,19 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D, IVelocity2DManager
+public class PhysicsBody2D : MonoBehaviourBase, IPhysicsBody2D, IWallDetector2D, IGroundedObject2D, IVelocity2DManager
 {
     [Header("Gizmos")]
     [SerializeField] bool enableGizmos = false;
     [SerializeField] Color groundTangentColor = Color.red;
     [SerializeField] Color groundNormalColor = Color.green;
     [SerializeField] Color velocityColor = Color.blue;
+    [SerializeField] bool normalizeVelocityGizmo = true;
     [SerializeField] [Range(0.1f, 3f)] float gizmoThickness = 2f;
 
     [Header("Physics components")]
     [SerializeField] private Collider2D objectCollider = null;
     [SerializeField] private Rigidbody2D objectRgbd2D = null;
-    [SerializeField] private PhysicsConfig2D physicsConfig = null;
+    [SerializeField] private PhysicsObject2DConfig physicsConfig = null;
 
     // Contact filter allows us to filter our raycasting depending on layers for example
     private ContactFilter2D contactFilter = new ContactFilter2D();
@@ -53,6 +54,8 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
     {
         base.Awake();
 
+
+        if (null != physicsConfig) physicsConfig = Instantiate<PhysicsObject2DConfig>(physicsConfig);
         if(null == objectRgbd2D) objectRgbd2D = GetComponent<Rigidbody2D>();
         if (null == objectCollider) objectCollider = GetComponent<Collider2D>();
 
@@ -92,6 +95,13 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
         triggerWallEvents();
         triggerGroundedEvents();
     }
+
+    #endregion
+
+    #region IPhysicsBody2D
+    public IGravity2DConfig GravityConfig => physicsConfig;
+
+    public ICollisions2DConfig CollisionsConfig => physicsConfig;
 
     #endregion
 
@@ -164,6 +174,23 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
 
     #endregion
 
+    #region MUTABLE API
+
+    [ExposePublicMethod]
+    public void SetGravityModifier(float i_gravityModifier) { if (null != physicsConfig) physicsConfig.SetGravityModifier(i_gravityModifier); }
+
+    [ExposePublicMethod]
+    public void ResetGravityModifier() { if (null != physicsConfig) physicsConfig.ResetGravityModifier(); }
+
+    [ExposePublicMethod]
+    public void ResetToInitialState()
+    {
+        resetValues();
+        if (null != physicsConfig) physicsConfig.ResetToInitialState();
+    }
+
+    #endregion
+
     #region PROTECTED VIRTUAL
 
     protected virtual bool canCheckForCollision(ref Vector2 i_move, bool i_yMovement, RaycastHit2D i_hit)
@@ -217,7 +244,7 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
         groundTransformsBuffer.Clear();
 
         // Only check for collisions if they are enable and if the object has actually moved
-        if (true == physicsConfig.EnableCollisions && distance > physicsConfig.MinMoveDistance)
+        if (true == physicsConfig.IsCollisionEnabled && distance > physicsConfig.MinMoveDistance)
         {
             RaycastSource raycastSource = physicsConfig.RaycastSource;
             Vector2 currentNormal;
@@ -296,7 +323,7 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
     void triggerWallEvents()
     {
         if (null == physicsConfig) return;
-        if (false == physicsConfig.EnableCollisions) return;
+        if (false == physicsConfig.IsCollisionEnabled) return;
 
         if (false == wasHittingWall && true == isHittingWall)
         {
@@ -313,7 +340,7 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
     void triggerGroundedEvents()
     {
         if (null == physicsConfig) return;
-        if (false == physicsConfig.EnableCollisions) return;
+        if (false == physicsConfig.IsCollisionEnabled) return;
 
         if (false == isGrounded && true == wasGrounded)
         {
@@ -428,19 +455,25 @@ public class PhysicsBody2D : MonoBehaviourBase, IWallDetector, IGroundedObject2D
     void OnDrawGizmos()
     {
         if (false == enableGizmos) return;
-        if (null == currentGroundHit) return;
 
-        Vector3 hit = new Vector3(currentGroundHit.Value.x, currentGroundHit.Value.y);
-        Vector3 normal = new Vector3(groundNormal.x, groundNormal.y).normalized;
-        Vector3 groundTangent = new Vector3(groundNormal.y, -groundNormal.x).normalized;
-        Vector3 vel = new Vector3(velocity.x, velocity.y).normalized;
-
-        GizmoUtility.DrawArrow(transform.position, transform.position + vel, gizmoThickness, velocityColor);
-
-        if (true == isGrounded)
+        if(velocity != MathConstants.VECTOR_2_ZERO)
         {
-            GizmoUtility.DrawArrow(hit, hit + groundTangent, gizmoThickness, groundTangentColor);
-            GizmoUtility.DrawArrow(hit, hit + normal, gizmoThickness, groundNormalColor);
+            Vector3 vel = new Vector3(velocity.x, velocity.y);
+            if (true == normalizeVelocityGizmo) vel.Normalize();
+            GizmoUtility.DrawArrow(transform.position, transform.position + vel, gizmoThickness, velocityColor);
+        }
+
+        if(null != currentGroundHit)
+        {
+            Vector3 hit = new Vector3(currentGroundHit.Value.x, currentGroundHit.Value.y);
+            Vector3 normal = new Vector3(groundNormal.x, groundNormal.y).normalized;
+            Vector3 groundTangent = new Vector3(groundNormal.y, -groundNormal.x).normalized;
+
+            if (true == isGrounded)
+            {
+                GizmoUtility.DrawArrow(hit, hit + groundTangent, gizmoThickness, groundTangentColor);
+                GizmoUtility.DrawArrow(hit, hit + normal, gizmoThickness, groundNormalColor);
+            }
         }
     }
 
