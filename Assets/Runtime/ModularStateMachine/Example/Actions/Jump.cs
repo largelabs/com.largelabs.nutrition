@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Jump : Action
 {
-    [SerializeField] Rigidbody rigidbody;
+    [SerializeField] Rigidbody rb;
     [SerializeField] float jumpSpeed;
     public override void PerformAction()
     {
-        rigidbody.velocity += jumpSpeed * Vector3.up;
+        rb.velocity += jumpSpeed * Vector3.up;
     }
 }
