@@ -53,6 +53,7 @@ public class Animator<T> : ITypedAnimator<T>
     float endTime;
     bool isActive;
     bool isAnimating;
+    bool isPaused;
     float delay;
     protected AnimationCurve function;
 
@@ -67,15 +68,15 @@ public class Animator<T> : ITypedAnimator<T>
     public float EndTime => endTime;
     public bool IsActive => isActive;
     public bool IsAnimating => isAnimating;
+    public bool IsPaused => isPaused;
     public void Activate() { isActive = true; }
     public void Deactivate() { isActive = false; isAnimating = false; }
-    public void Pause() { isAnimating = false; }
-    public void Resume() { isAnimating = true; }
+    public void Pause() { isPaused = true; }
+    public void Resume() { isPaused = false; }
+    public void Animating() { isAnimating = true; }
+    public void stopAnimating() { isAnimating = false; }
     public float Delay => delay;
     public AnimationCurve Function => function;
-
-    // Implement this 
-    public bool IsPaused => throw new System.NotImplementedException();
 
     #endregion
 

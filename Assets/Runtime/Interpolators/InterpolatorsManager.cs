@@ -60,27 +60,30 @@ public class InterpolatorsManager : MonoBehaviourBase
     IEnumerator Interpolat<T>(Animator<T> c)
     {
         c.Activate();
-
-        // truen this into a while loop with a time accumulator
-        yield return new WaitForSeconds(c.Delay);
-
-        // should be removed when we add the isPaused variable
-        c.Resume();
         float timer = 0f;
+        float delay = c.Delay;
+
+        while(timer <= delay)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        timer = 0f;        
         float end = c.EndTime;
         while (timer < end)
         {
-            while (!c.IsAnimating)
+            while (c.IsPaused)
             {
+                c.stopAnimating();
                 yield return null;
             }
+            c.Animating();
             c.UpdateAnimator(timer/end);
             timer += Time.deltaTime;
             yield return null;
         }
         c.UpdateAnimator(1);
         yield return null;
-        c.Pause();
         animators.Remove(c);
         c.Deactivate();
     }
