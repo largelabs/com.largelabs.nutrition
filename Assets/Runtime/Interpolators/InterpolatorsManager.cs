@@ -63,7 +63,7 @@ public class InterpolatorsManager : MonoBehaviourBase
         float timer = 0f;
         float delay = c.Delay;
 
-        while(timer <= delay)
+        while(timer < delay)
         {
             timer += Time.deltaTime;
             yield return null;
