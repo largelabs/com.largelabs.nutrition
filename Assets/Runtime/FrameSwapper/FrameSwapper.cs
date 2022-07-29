@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
+public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFrameSwapper
 {
 	#region Serialized fields
 	[SerializeField] private bool playOnEnable = false;
-	[SerializeField] private Renderer renderer;
+	[SerializeField] protected TRenderer renderer;
 	[SerializeField] private bool isLooping;
-	[SerializeField] private List<Frame<Sprite>> frames;
-	[SerializeField] private int loopIndex;
+	[SerializeField] private List<Frame<TFrame>> frames;
+	[SerializeField] private int loopStartIndex; //////
+	[SerializeField] private int loopEndIndex; //////
+
 	#endregion
 
 	#region IFrameSwapper
@@ -20,11 +23,11 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 
 	#region private members
 	private bool isResumed = true;
-	private Frame<Sprite> currentFrame;
+	protected Frame<TFrame> currentFrame;
 	private Coroutine playback = null;
 	private int loopCount = 0;
 	private CycleEvent cycleEvent = null;
-	private Frame<Sprite> lastFrame;
+	private Frame<TFrame> lastFrame;
 	#endregion
 
 	protected override void Awake()
@@ -100,8 +103,7 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 		playback = null;
 	}
 
-	// Implement this
-	public bool IsPaused { get; }
+	public bool IsPaused => !isResumed;
 
 	public void Pause() => isResumed = false;
 
@@ -119,13 +121,7 @@ public class FrameSwapper : MonoBehaviourBase, IFrameSwapper
 		}
 	}
 
-	private void updateRenderedObject()
-	{
-		if (renderer is SpriteRenderer)
-		{
-			(renderer as SpriteRenderer).sprite = currentFrame.FrameObject;
-		}
-	}
+	protected abstract void updateRenderedObject();
 
 	private void updateCurrentFrame()
 	{
