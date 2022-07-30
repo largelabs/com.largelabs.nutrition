@@ -5,14 +5,19 @@ using UnityEngine;
 public class S_jump : State
 {
     [SerializeField] PhysicsBody2D body;
+    [SerializeField] Vector2 Jump_speed;
+    [SerializeField] float Fall_speed;
     protected override void onStateEnter()
     {
         Debug.Log("Entered Jump");
+        body.SetVelocity(Jump_speed);
+        body.SetGravityModifier(Fall_speed);
     }
 
     protected override void onStateExit()
     {
         return;
+        body.ResetGravityModifier();
     }
 
     protected override void onStateInit()

@@ -8,28 +8,37 @@ public class S_fall : State
     [SerializeField] HarankashControls controller;
     [SerializeField] float fall_gravity;
     [SerializeField] float strife_velocity_fall;
+
+    private float originalVelocityX;
     protected override void onStateEnter()
     {
         Debug.Log("Entered Fall");
+        originalVelocityX = body.VelocityX;
         controller.JumpReleased += OnGlide;
-        body.SetGravityModifier(fall_gravity);
+        controller.MoveStarted += OnSteerPressed;
+        controller.MoveReleased += OnSteerReleased;
+        OnSteerPressed();
+        body.SetGravityModifier(0);
     }
 
     protected override void onStateExit()
     {
         Debug.Log("Exited Fall");
         controller.JumpReleased -= OnGlide;
-        body.SetGravityModifier(1f);
+        controller.MoveStarted -= OnSteerPressed;
+        controller.MoveReleased -= OnSteerReleased;
+        OnSteerReleased();
+        body.ResetGravityModifier();
     }
 
     protected override void onStateFixedUpdate()
     {
-        body.SetVelocityX(strife_velocity_fall * controller.MoveDirection());
         if(true == body.IsGrounded)
         {
-            body.SetVelocityX(0);
             setState<S_idle>();
+            return;
         }
+        body.SetVelocityY(-fall_gravity);
     }
 
     protected override void onStateInit()
@@ -47,5 +56,14 @@ public class S_fall : State
     private void OnGlide()
     {
         setState<S_glide>();
+    }
+
+    private void OnSteerPressed()
+    {
+        body.AddVelocityX(strife_velocity_fall * controller.MoveDirection());
+    }
+    private void OnSteerReleased()
+    {
+        body.SetVelocityX(originalVelocityX);
     }
 }

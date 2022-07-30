@@ -6,10 +6,10 @@ public class S_idle : State
 {
     [SerializeField] HarankashControls controller;
     [SerializeField] PhysicsBody2D body;
-    [SerializeField] Vector2 jump_speed;
     protected override void onStateEnter()
     {
         Debug.Log("Entered IDLE");
+        body.SetVelocityX(0);
         controller.JumpPressed += OnJump;
         //play appropriate animation and sounds
         return;
@@ -23,8 +23,7 @@ public class S_idle : State
             Debug.LogError("NO PHYSICS IN STATES");
             return;
         }
-        body.SetVelocity(jump_speed);
-
+        
         controller.JumpPressed -= OnJump;
 
         //Play Appropriate sound and animation
