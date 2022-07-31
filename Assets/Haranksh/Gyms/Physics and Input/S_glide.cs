@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class S_glide : State
+public class S_glide : MoveHorizontalAbstractState
 {
     [SerializeField] PhysicsBody2D body;
     [SerializeField] HarankashControls controller;
@@ -51,8 +49,7 @@ public class S_glide : State
 
     protected override void onStateUpdate()
     {
-        //Implement animations here
-        return;
+
     }
     private void OnFall()
     {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class S_idle : State
@@ -11,8 +9,6 @@ public class S_idle : State
         Debug.Log("Entered IDLE");
         body.SetVelocityX(0);
         controller.JumpPressed += OnJump;
-        //play appropriate animation and sounds
-        return;
     }
 
     protected override void onStateExit()
@@ -25,22 +21,17 @@ public class S_idle : State
         }
         
         controller.JumpPressed -= OnJump;
-
-        //Play Appropriate sound and animation
-        return;
     }
 
     protected override void onStateInit()
     {
         Debug.Log("Idle State initialized");
-        //put neccessary settings and set variables
     }
 
     protected override void onStateUpdate()
     {
-        //just idling, play animation and sound here
-        return;
     }
+
     private void OnJump(){
         setState<S_jump>();
     }

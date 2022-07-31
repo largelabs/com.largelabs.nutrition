@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class S_jump : State
+public class S_jump : MoveHorizontalAbstractState
 {
     [SerializeField] PhysicsBody2D body;
     [SerializeField] Vector2 Jump_speed;
@@ -16,14 +14,12 @@ public class S_jump : State
 
     protected override void onStateExit()
     {
-        return;
         body.ResetGravityModifier();
     }
 
     protected override void onStateInit()
     {
         Debug.Log("Jump State initialized");
-        //put neccessary settings and set variables
     }
 
     protected override void onStateFixedUpdate()
@@ -35,6 +31,5 @@ public class S_jump : State
     }
     protected override void onStateUpdate()
     {
-        return;
     }
 }

@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class S_fall : State
+public class S_fall : MoveHorizontalAbstractState
 {
     [SerializeField] PhysicsBody2D body;
     [SerializeField] HarankashControls controller;
