@@ -10,15 +10,14 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 	[SerializeField] protected TRenderer renderer;
 	[SerializeField] private bool isLooping;
 	[SerializeField] private List<Frame<TFrame>> frames;
-	[SerializeField] private int loopStartIndex; //////
-	[SerializeField] private int loopEndIndex; //////
-
+	[SerializeField] private int loopStartIndex;
 	#endregion
 
 	#region IFrameSwapper
 	public float AnimationSpeedMultiplier { get; set; }
 	public int LoopCount => loopCount;
 	public bool IsPlaying => null != playback;
+	public bool IsPaused => !isResumed;
 	#endregion
 
 	#region private members
@@ -66,7 +65,7 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 
 	public void RegisterCycleEvents(params CycleEvent[] i_cycleEvents)
 	{
-		foreach (var eventCallback in i_cycleEvents)
+		foreach (CycleEvent eventCallback in i_cycleEvents)
 		{
 			cycleEvent += eventCallback;
 		}
@@ -74,7 +73,7 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 
 	public void UnregisterCycleEvents(params CycleEvent[] i_cycleEvents)
 	{
-		foreach (var eventCallback in i_cycleEvents)
+		foreach (CycleEvent eventCallback in i_cycleEvents)
 		{
 			cycleEvent -= eventCallback;
 		}
@@ -103,13 +102,15 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 		playback = null;
 	}
 
-	public bool IsPaused => !isResumed;
-
 	public void Pause() => isResumed = false;
 
 	public void Resume() => isResumed = true;
 
 	public void ResetAnimation() => currentFrame = frames[0];
+
+	public void StopLoop() => isLooping = false;
+
+	public void StartLoop() => isLooping = true;
 
 	#endregion
 

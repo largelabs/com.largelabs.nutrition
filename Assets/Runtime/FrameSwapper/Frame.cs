@@ -5,7 +5,7 @@ using UnityEngine;
 public class Frame<T> : IFrame<T>
 {
 	[SerializeField] private T frameObject;
-	[SerializeField] private float screenTime;
+	[SerializeField] [Min(0)] private float screenTime;
 
 	private FrameEvent<T> onStartedPlayback = null;
 	private FrameEvent<T> onEndedPlayback = null;
@@ -34,7 +34,7 @@ public class Frame<T> : IFrame<T>
 	#region events registery and invocation
 	public void RegisterStartPlaybackEvents(params FrameEvent<T>[] i_frameEvents)
 	{
-		foreach (var frameEvent in i_frameEvents)
+		foreach (FrameEvent<T> frameEvent in i_frameEvents)
 		{
 			onStartedPlayback += frameEvent;
 		}
@@ -42,7 +42,7 @@ public class Frame<T> : IFrame<T>
 
 	public void UnRegisterStartPlaybackEvents(params FrameEvent<T>[] i_frameEvents)
 	{
-		foreach (var frameEvent in i_frameEvents)
+		foreach (FrameEvent<T> frameEvent in i_frameEvents)
 		{
 			onStartedPlayback -= frameEvent;
 		}
@@ -52,7 +52,7 @@ public class Frame<T> : IFrame<T>
 
 	public void RegisterEndedPlaybackEvents(params FrameEvent<T>[] i_frameEvents)
 	{
-		foreach (var frameEvent in i_frameEvents)
+		foreach (FrameEvent<T> frameEvent in i_frameEvents)
 		{
 			onEndedPlayback += frameEvent;
 		}
@@ -60,7 +60,7 @@ public class Frame<T> : IFrame<T>
 
 	public void UnRegisterEndedPlaybackEvent(params FrameEvent<T>[] i_frameEvents)
 	{
-		foreach (var frameEvent in i_frameEvents)
+		foreach (FrameEvent<T> frameEvent in i_frameEvents)
 		{
 			onEndedPlayback -= frameEvent;
 		}
