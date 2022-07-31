@@ -40,9 +40,9 @@ public abstract class State : MonoBehaviourBase
 
     #region PROTECTED API
 
-    protected void setState(GenericState i_state)
+    protected void setState(string i_id)
     {
-        stateMachine.SetState(i_state);
+        stateMachine.SetGenericState(i_id);
     }
 
     protected void setState<TState>() where TState : State

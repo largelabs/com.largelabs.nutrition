@@ -55,8 +55,8 @@ public class StateMachine : MonoBehaviourBase
     public void SetGenericState(string i_id)
     {
         if (string.IsNullOrEmpty(i_id)) return;
-        // Implement this
-
+        State genericState = allGenericStates[i_id];
+        SetState(genericState);
     }
 
 

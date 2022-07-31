@@ -5,11 +5,11 @@ public class GenericState : State
 {
     [SerializeField] private string genericStateId;
 
-    [SerializeField] List<Action> initialActions;
-    [SerializeField] List<Action> entryActions;
-    [SerializeField] List<Action> updateActions;
-    [SerializeField] List<Action> fixedUpdateActions;
-    [SerializeField] List<Action> exitActions;
+    [SerializeField] List<GenericAction> initialActions;
+    [SerializeField] List<GenericAction> entryActions;
+    [SerializeField] List<GenericAction> updateActions;
+    [SerializeField] List<GenericAction> fixedUpdateActions;
+    [SerializeField] List<GenericAction> exitActions;
 
     public string GenericStateId { get { return genericStateId; } }
 
