@@ -3,7 +3,7 @@ using UnityEngine;
 public class S_glide : MoveHorizontalAbstractState
 {
     [SerializeField] PhysicsBody2D body;
-    [SerializeField] HarankashControls controller;
+    [SerializeField] Controls controller;
     [SerializeField] float glide_gravity;
     [SerializeField] float strife_velocity_glide;
 

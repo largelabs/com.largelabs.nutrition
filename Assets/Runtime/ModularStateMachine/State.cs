@@ -4,14 +4,16 @@
 public abstract class State : MonoBehaviourBase
 {
     private StateMachine stateMachine = null;
+    public Controls controls = null;
     private bool isInit = false;
 
     #region PUBLIC API
-    public void Initialize(StateMachine i_stateMachine)
+    public void Initialize(StateMachine i_stateMachine, Controls i_controls )
     {
         if (isInit) return;
 
         stateMachine = i_stateMachine;
+        controls = i_controls;
         onStateInit();
 
         isInit = true;

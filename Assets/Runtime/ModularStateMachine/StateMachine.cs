@@ -4,6 +4,7 @@ using UnityEngine;
 public class StateMachine : MonoBehaviourBase
 {
     [SerializeField] State initialState;
+    [SerializeField] Controls controls;
     State currentState;
 
     State[] allStates = null;
@@ -46,7 +47,7 @@ public class StateMachine : MonoBehaviourBase
             currentState.ExitState();
 
         currentState = i_state;
-        currentState.Initialize(this);
+        currentState.Initialize(this, controls);
         currentState.EnterState();
     }
 
@@ -67,7 +68,7 @@ public class StateMachine : MonoBehaviourBase
         if (stateType == typeof(GenericState)) return;
 
         State state = null;
-        if(true == allStatesByType.TryGetValue(stateType, out state))
+        if (true == allStatesByType.TryGetValue(stateType, out state))
         {
             SetState(state);
         }

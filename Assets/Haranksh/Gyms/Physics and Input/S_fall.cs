@@ -3,7 +3,7 @@ using UnityEngine;
 public class S_fall : MoveHorizontalAbstractState
 {
     [SerializeField] PhysicsBody2D body;
-    [SerializeField] HarankashControls controller;
+    [SerializeField] Controls controller;
     [SerializeField] float fall_gravity;
     [SerializeField] float strife_velocity_fall;
 

@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HarankashControls : MonoBehaviourBase
+public class Controls : MonoBehaviourBase
 {
     HarankashInputActions inputActions;
     public Action JumpPressed;

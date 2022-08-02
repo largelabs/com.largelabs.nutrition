@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class TestJump : State
 {
-    [SerializeField] HarankashControls controls;
     protected override void onStateEnter()
     {
         print("JUMP entered");
