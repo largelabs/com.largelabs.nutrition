@@ -37,6 +37,8 @@ public class HarankashControls : MonoBehaviourBase
 
     public float MoveDirection()
     {
-        return inputActions.Player.HMovement.ReadValue<float>();
+        return inputActions.Player.HMovement.ReadValue<Vector2>().x;
     }
+
+    
 }
