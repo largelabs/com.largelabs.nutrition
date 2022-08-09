@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -326,7 +326,7 @@ MonoBehaviour:
   gizmoThickness: 2
   objectCollider: {fileID: 213628914}
   objectRgbd2D: {fileID: 213628913}
-  physicsConfig: {fileID: 11400000, guid: 00a3a4f94df34a9438b3d7179da0e744, type: 2}
+  physicsConfig: {fileID: 11400000, guid: 9433b041f75b32541bfdca2bad440e9a, type: 2}
 --- !u!1 &344631259
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +462,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491247222}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.193175, y: 3.792725, z: 0.17546415}
+  m_LocalPosition: {x: 14.193175, y: 1.4, z: 0.17546415}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -485,6 +485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialState: {fileID: 1016221062}
+  controls: {fileID: 1822505441}
 --- !u!1 &720920175
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,10 +640,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928b265dc09ecca43b71250245bcae02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controls: {fileID: 1822505441}
   body: {fileID: 213628915}
-  controller: {fileID: 962039361}
-  glide_gravity: 25
-  strife_velocity_glide: 10
+  fall_speed: 1
+  steer_speed: 2.5
 --- !u!1 &962039358
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,8 +653,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 962039359}
-  - component: {fileID: 962039362}
-  - component: {fileID: 962039361}
   m_Layer: 0
   m_Name: States
   m_TagString: Untagged
@@ -680,48 +679,6 @@ Transform:
   m_Father: {fileID: 491247223}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &962039361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 962039358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdec3798c3ae444489e628add1e8aed6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &962039362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 962039358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 656fdaeea1eb85c44a6a92afb7f2f9f7, type: 3}
-  m_NotificationBehavior: 3
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &1016221060
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,7 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48730e1fed38d6641a75b46d24a020ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 962039361}
+  controls: {fileID: 1822505441}
   body: {fileID: 213628915}
 --- !u!1 &1142175361
 GameObject:
@@ -1033,10 +990,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c90842977efeae43ba712734f4160c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controls: {fileID: 1822505441}
   body: {fileID: 213628915}
-  controller: {fileID: 962039361}
-  fall_gravity: 50
-  strife_velocity_fall: 5
+  fall_speed: 5
+  steer_speed: 2.5
 --- !u!1 &1228303015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1395,9 +1352,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41750d6e020b40f439fef582dd98e35c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controls: {fileID: 1822505441}
   body: {fileID: 213628915}
-  Jump_speed: {x: 10, y: 75}
-  Fall_speed: 5
+  fall_speed: 0.5
+  steer_speed: 0
+  jump_speed: {x: 10, y: 40.1}
 --- !u!1 &1744303534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,6 +1560,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1822505440}
+  - component: {fileID: 1822505442}
+  - component: {fileID: 1822505441}
   m_Layer: 0
   m_Name: Controls
   m_TagString: Untagged
@@ -1623,6 +1584,48 @@ Transform:
   m_Father: {fileID: 491247223}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1822505441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822505439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdec3798c3ae444489e628add1e8aed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1822505442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822505439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 656fdaeea1eb85c44a6a92afb7f2f9f7, type: 3}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1920974328
 GameObject:
   m_ObjectHideFlags: 0
