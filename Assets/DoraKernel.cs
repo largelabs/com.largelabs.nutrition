@@ -1,54 +1,49 @@
-using System.Collections;
 using UnityEngine;
 
-public class DoraKernel : MonoBehaviourBase
+public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 {
-    [SerializeField] AnimationCurve appearCurve = null;
+    [SerializeField] DoraKernalAppear appear = null;
 
-    InterpolatorsManager interpolators = null;
-    Coroutine appearRoutine = null;
+    bool isInit = false;
 
     public void Init(InterpolatorsManager i_interpolators)
     {
+        if (true == isInit) return;
+
         gameObject.SetActive(false);
-        interpolators = i_interpolators;
+        appear.Init(i_interpolators);
+        isInit = true;
     }
 
-    public void Appear(bool i_animated)
+    public bool IsInit => isInit;
+
+    #region IAppear
+
+    [ExposePublicMethod]
+    public void Appear(bool i_animated) { appear?.Appear(i_animated); }
+
+    [ExposePublicMethod]
+    public void Disappear(bool i_animated) { appear?.Disappear(i_animated); }
+
+    public bool IsAppearing => null != appear ? appear.IsAppearing : false;
+
+    public bool IsDisappearing => null != appear ? appear.IsDisappearing : false;
+
+    #endregion
+
+    #region ISelectable
+
+    public bool IsSelected => throw new System.NotImplementedException();
+
+    public void Select()
     {
-        gameObject.SetActive(true);
-
-        if (true == i_animated)
-        {
-            if (null == appearRoutine) appearRoutine = StartCoroutine(appearAnimated());
-        }
-        else
-        {
-            onDidAppear();
-        }
+        throw new System.NotImplementedException();
     }
 
-    IEnumerator appearAnimated()
+    public void Unselect()
     {
-        transform.localScale = MathConstants.VECTOR_3_ZERO;
-
-        AnimationMode mode = new AnimationMode(appearCurve);
-        ITypedAnimator<Vector3> scaleInterpolator = interpolators.Animate(MathConstants.VECTOR_3_ZERO, MathConstants.VECTOR_3_ONE, 0.5f, mode, false);
-
-        while(true == scaleInterpolator.IsActive)
-        {
-            transform.localScale = scaleInterpolator.Current;
-            yield return null;
-        }
-
-        onDidAppear();
+        throw new System.NotImplementedException();
     }
 
-    void onDidAppear()
-    {
-        transform.localScale = MathConstants.VECTOR_3_ONE;
-        if (null != appearRoutine) StopCoroutine(appearRoutine);
-        appearRoutine = null;
-    }
-
+    #endregion
 }
