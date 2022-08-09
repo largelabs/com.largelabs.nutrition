@@ -2,31 +2,20 @@ using UnityEngine;
 
 public class S_jump : MoveHorizontalAbstractState
 {
-    [SerializeField] PhysicsBody2D body;
-    [SerializeField] Vector2 Jump_speed;
-    [SerializeField] float Fall_speed;
+    [SerializeField] Vector2 jump_speed;
     protected override void onStateEnter()
     {
-        Debug.Log("Entered Jump");
-        body.SetVelocity(Jump_speed);
-        body.SetGravityModifier(Fall_speed);
-    }
-
-    protected override void onStateExit()
-    {
-        body.ResetGravityModifier();
-    }
-
-    protected override void onStateInit()
-    {
-        Debug.Log("Jump State initialized");
+        Debug.Log("Enter jump");
+        base.onStateEnter();
+        body.SetVelocity(jump_speed);
     }
 
     protected override void onStateFixedUpdate()
     {
+        base.onStateFixedUpdate();
         if(body.VelocityY <= 0)
         {
-            setState<S_glide>();
+            setState<S_fall>();
         }
     }
     protected override void onStateUpdate()

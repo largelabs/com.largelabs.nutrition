@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class S_idle : State
 {
-    [SerializeField] Controls controller;
     [SerializeField] PhysicsBody2D body;
     protected override void onStateEnter()
     {
         Debug.Log("Entered IDLE");
         body.SetVelocityX(0);
-        controller.JumpPressed += OnJump;
+        controls.JumpPressed += OnJump;
     }
 
     protected override void onStateExit()
@@ -20,7 +19,7 @@ public class S_idle : State
             return;
         }
         
-        controller.JumpPressed -= OnJump;
+        controls.JumpPressed -= OnJump;
     }
 
     protected override void onStateInit()
