@@ -75,20 +75,21 @@ public class DoraKernelFactory : MonoBehaviourBase
 
         if(true == i_animated)
         {
-            StartCoroutine(populateAnimated());
+            StartCoroutine(populateAnimated(0,6, true));
+            StartCoroutine(populateAnimated(6, 12, false));
         }
 
     }
 
-    IEnumerator populateAnimated()
+    IEnumerator populateAnimated(int i_startRow, int i_endRow, bool i_updateRowIndex)
     {
-        for (int i = 0; i < 12; i++)
+        for (int i = i_startRow; i < i_endRow; i++)
         {
-            updateRowIndex(i);
+            if(true == i_updateRowIndex) updateRowIndex(i);
             for (int j = 0; j < 11; j++)
             {
                 kernelMap[i, j].Appear(true);
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.025f);
             }
         }
     }

@@ -7,30 +7,30 @@ public class InterpolatorsManager : MonoBehaviourBase
 {
     Dictionary<IAnimator, Coroutine> animators = new Dictionary<IAnimator, Coroutine>();
 
-    public ITypedAnimator<float> Animate(float i_start, float i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0)
+    public ITypedAnimator<float> Animate(float i_start, float i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<float>> i_onAnimationEnded = null)
     {
-        FloatAnimator fl = new FloatAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay);
+        FloatAnimator fl = new FloatAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
-    public ITypedAnimator<Vector2> Animate(Vector2 i_start, Vector2 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0)
+    public ITypedAnimator<Vector2> Animate(Vector2 i_start, Vector2 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Vector2>> i_onAnimationEnded = null)
     {
-        V2Animator fl = new V2Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay);
+        V2Animator fl = new V2Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
-    public ITypedAnimator<Vector3> Animate(Vector3 i_start, Vector3 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0)
+    public ITypedAnimator<Vector3> Animate(Vector3 i_start, Vector3 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Vector3>> i_onAnimationEnded = null)
     {
-        V3Animator fl = new V3Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay);
+        V3Animator fl = new V3Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
-    public ITypedAnimator<Color> Animate(Color i_start, Color i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0)
+    public ITypedAnimator<Color> Animate(Color i_start, Color i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Color>> i_onAnimationEnded = null)
     {
-        ColorAnimator fl = new ColorAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay);
+        ColorAnimator fl = new ColorAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
@@ -74,7 +74,7 @@ public class InterpolatorsManager : MonoBehaviourBase
         {
             while (i_animator.IsPaused)
             {
-                i_animator.stopAnimating();
+                i_animator.StopAnimating();
                 yield return null;
             }
             i_animator.EnableAnimation();
@@ -83,6 +83,8 @@ public class InterpolatorsManager : MonoBehaviourBase
             yield return null;
         }
         i_animator.UpdateAnimator(1);
+        i_animator.TriggerExitCallback();
+
         yield return null;
         animators.Remove(i_animator);
         i_animator.Deactivate();
