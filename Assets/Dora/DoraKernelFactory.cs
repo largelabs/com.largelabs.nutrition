@@ -31,7 +31,7 @@ public class DoraKernelFactory : MonoBehaviourBase
         }
     }
 
-    private GUIStyle guiStyle = new GUIStyle(); //create a new variable
+   /* private GUIStyle guiStyle = new GUIStyle(); //create a new variable
     private void OnGUI()
     {
         guiStyle.fontSize = 30;
@@ -40,6 +40,7 @@ public class DoraKernelFactory : MonoBehaviourBase
         float dot = Vector3.Dot(rowNormal.forward, Camera.main.transform.forward);
         GUI.Label(new Rect(10, 90, 200, 40), "dot " + dot.ToString(), guiStyle);
     }
+   */
 
     public void Populate(bool i_animated)
     {
@@ -94,39 +95,6 @@ public class DoraKernelFactory : MonoBehaviourBase
         }
     }
 
-    [ExposePublicMethod]
-    public void Explore()
-    {
-        StartCoroutine(exploreRoutine());
-    }
-
-    IEnumerator exploreRoutine()
-    {
-        for (int i = 0; i < 12; i++)
-        {
-            updateRowIndex(i);
-
-            for (int j = 0; j < 11; j++)
-            {
-                currentColumnIndex = j;
-
-                StartCoroutine(bounceScale(kernelMap[i, j].transform));
-
-                yield return new WaitForSeconds(0.3f);
-            }
-        }
-    }
-
-    IEnumerator bounceScale(Transform i_tr)
-    {
-        AnimationMode mode = new AnimationMode(AnimationType.Bounce);
-        ITypedAnimator<Vector3> scaleInterpolator = interpolators.Animate(i_tr.localScale, i_tr.localScale * 2f, 0.5f, mode, false);
-        while(true == scaleInterpolator.IsActive)
-        {
-            i_tr.localScale = scaleInterpolator.Current;
-            yield return null;
-        }
-    }
 
     void updateRowIndex(int i_rowIndex)
     {

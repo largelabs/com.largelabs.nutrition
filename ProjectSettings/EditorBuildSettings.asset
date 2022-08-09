@@ -4,6 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Dora/Dora.unity
+    guid: e5b1b62f4513dd24fa4d69693490cf1c
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ede9f5ff6a56d3548a9bb7b809628622, type: 2}
