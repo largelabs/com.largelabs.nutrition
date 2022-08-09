@@ -37,5 +37,8 @@ public static class MathConstants
     public static readonly Vector2Int VECTOR_2_INT_DOWN = Vector2Int.down;
     public static readonly Vector2Int VECTOR_2_INT_LEFT = Vector2Int.left;
     public static readonly Vector2Int VECTOR_2_INT_RIGHT = Vector2Int.right;
+
+    public static readonly Quaternion QUATERNION_IDENTITY = Quaternion.identity;
+
 }
 

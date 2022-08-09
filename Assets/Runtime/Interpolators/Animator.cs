@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public interface IAnimator
@@ -23,7 +21,9 @@ public interface IAnimator
 
     float Delay { get; }
 
-    AnimationCurve Function { get; }
+    bool IsClamped { get; }
+
+    AnimationCurve AnimationFunction { get; }
     void Activate();
     void Deactivate();
 
@@ -31,7 +31,7 @@ public interface IAnimator
 
     void Resume();
 
-    float EndTime { get; }
+    float AnimationTime { get; }
 }
 
 public interface ITypedAnimator<T> : IAnimator
@@ -47,36 +47,50 @@ public interface ITypedAnimator<T> : IAnimator
 
 public class Animator<T> : ITypedAnimator<T>
 {
-    protected T start;
-    protected T target;
-    T current;
-    float endTime;
-    bool isActive;
-    bool isAnimating;
-    bool isPaused;
-    float delay;
-    protected AnimationCurve function;
+    protected T start = default;
+    protected T target = default;
+    protected bool clamped = true;
+
+    T current = default;
+    float animationTime = 0f;
+    bool isActive = false;
+    bool isAnimating = false;
+    bool isPaused = false;
+    float delay = 0f;
+    protected AnimationCurve animationFunction = null;
 
     #region CTOR
 
-    public Animator(T b, T e, float et, AnimationCurve a, float d=0f){ start = b; target = e; endTime = et; current = b;isActive = true; isAnimating = false; delay = d; function = a; }
+    public Animator(T i_start, T i_target, float i_animTime, AnimationCurve i_animationCurve, bool i_clamped, float i_delay = 0f)
+    { 
+        start = i_start; 
+        target = i_target; 
+        animationTime = i_animTime;
+        current = i_start;
+        isActive = true; 
+        isAnimating = false; 
+        clamped = i_clamped; 
+        delay = i_delay; 
+        animationFunction = i_animationCurve; 
+    }
 
     #endregion
 
     #region IAnimator
 
-    public float EndTime => endTime;
+    public float AnimationTime => animationTime;
     public bool IsActive => isActive;
     public bool IsAnimating => isAnimating;
     public bool IsPaused => isPaused;
+    public bool IsClamped => clamped;
     public void Activate() { isActive = true; }
     public void Deactivate() { isActive = false; isAnimating = false; }
     public void Pause() { isPaused = true; }
     public void Resume() { isPaused = false; }
-    public void Animating() { isAnimating = true; }
+    public void EnableAnimation() { isAnimating = true; }
     public void stopAnimating() { isAnimating = false; }
     public float Delay => delay;
-    public AnimationCurve Function => function;
+    public AnimationCurve AnimationFunction => animationFunction;
 
     #endregion
 
@@ -90,33 +104,50 @@ public class Animator<T> : ITypedAnimator<T>
 
     #region MUTABLE
 
-    public void SetCurrent(T c){ current = c; }
-    public virtual void UpdateAnimator(float ratio) { }
+    public void SetCurrent(T i_currentValue) { current = i_currentValue; }
+    public virtual void UpdateAnimator(float i_ratio) { }
 
     #endregion
 }
 
 public class FloatAnimator: Animator<float>
 {
-    public FloatAnimator(float b, float e, float et, AnimationCurve a, float d = 0f):base(b,e,et,a,d) { }
-    public override void UpdateAnimator(float ratio) { SetCurrent(Mathf.Lerp(start, target, function.Evaluate(ratio))); }
+    public FloatAnimator(float b, float e, float et, AnimationCurve a, bool i_clamped, float d = 0f):base(b,e,et,a, i_clamped,d) { }
+    public override void UpdateAnimator(float ratio)
+    {
+        SetCurrent(clamped ?    Mathf.Lerp(start, target, animationFunction.Evaluate(ratio)) :
+                                Mathf.LerpUnclamped(start, target, animationFunction.Evaluate(ratio)));
+    }
 
 }
 public class V2Animator : Animator<Vector2>
 {
-    public V2Animator(Vector2 b, Vector2 e, float et, AnimationCurve a, float d = 0f) : base(b, e, et, a, d) { }
-    public override void UpdateAnimator(float ratio) { SetCurrent(Vector2.Lerp(start, target, function.Evaluate(ratio))); }
+    public V2Animator(Vector2 b, Vector2 e, float et, AnimationCurve a, bool i_clamped, float d = 0f) : base(b, e, et, a, i_clamped, d) { }
+
+    public override void UpdateAnimator(float ratio)
+    {
+        SetCurrent(clamped ?    Vector2.Lerp(start, target, animationFunction.Evaluate(ratio)) :
+                                Vector2.LerpUnclamped(start, target, animationFunction.Evaluate(ratio)));
+    }
 
 }
 public class V3Animator : Animator<Vector3>
 {
-    public V3Animator(Vector3 b, Vector3 e, float et, AnimationCurve a, float d = 0f) : base(b, e, et, a, d) { }
-    public override void UpdateAnimator(float ratio) { SetCurrent(Vector3.Lerp(start, target, function.Evaluate(ratio))); }
+    public V3Animator(Vector3 b, Vector3 e, float et, AnimationCurve a, bool i_clamped, float d = 0f) : base(b, e, et, a, i_clamped, d) { }
+    public override void UpdateAnimator(float ratio) 
+    {
+        SetCurrent(clamped ?    Vector3.Lerp(start, target, animationFunction.Evaluate(ratio)) : 
+                                Vector3.LerpUnclamped(start, target, animationFunction.Evaluate(ratio))); 
+    }
 
 }
 public class ColorAnimator : Animator<Color>
 {
-    public ColorAnimator(Color b, Color e, float et, AnimationCurve a, float d = 0f) : base(b, e, et, a, d) { }
-    public override void UpdateAnimator(float ratio) { SetCurrent(Color.Lerp(start, target, function.Evaluate(ratio))); }
+    public ColorAnimator(Color b, Color e, float et, AnimationCurve a, bool i_clamped, float d = 0f) : base(b, e, et, a, i_clamped, d) { }
 
+    public override void UpdateAnimator(float ratio)
+    {
+        SetCurrent(clamped ?    Color.Lerp(start, target, animationFunction.Evaluate(ratio)) :
+                                Color.LerpUnclamped(start, target, animationFunction.Evaluate(ratio)));
+    }
 }

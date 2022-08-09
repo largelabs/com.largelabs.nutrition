@@ -351,6 +351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2973852795684463437}
   - component: {fileID: 5121594635215016961}
+  - component: {fileID: 6891196076344109177}
   m_Layer: 0
   m_Name: Dora_Cob
   m_TagString: Untagged
@@ -665,6 +666,19 @@ MonoBehaviour:
   - {fileID: 2973852796890534217}
   - {fileID: 2973852795931583314}
   kernel: {fileID: 8426721250731948442, guid: b65354043dce61e4aa8be2e57dd53238, type: 3}
+  interpolators: {fileID: 6891196076344109177}
+--- !u!114 &6891196076344109177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2973852795684463434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2973852795687102239
 GameObject:
   m_ObjectHideFlags: 0
@@ -3192,7 +3206,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &2973852796973183390
 Transform:
@@ -3237,7 +3251,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: f8b34f541e250d04eb3a13f355974a95, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3245,7 +3259,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
+  m_ReceiveGI: 2
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

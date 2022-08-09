@@ -6,8 +6,9 @@ public class DoraKernelFactory : MonoBehaviourBase
     [SerializeField] Transform[] anchors = null;
     [SerializeField] Transform[] normalAnchors = null;
     [SerializeField] GameObject kernel = null;
+    [SerializeField] InterpolatorsManager interpolators = null;
 
-    GameObject[,] kernelMap = null;
+    DoraKernel[,] kernelMap = null;
     int currentRowIndex = 0;
     int currentColumnIndex = 0;
     Transform rowNormal = null;
@@ -15,7 +16,7 @@ public class DoraKernelFactory : MonoBehaviourBase
 
     private void Start()
     {
-        Populate();
+        Populate(true);
         updateRowIndex(0);
     }
 
@@ -28,7 +29,6 @@ public class DoraKernelFactory : MonoBehaviourBase
             int sign = dot < -1f ? -1 : 1;
             transform.Rotate(Time.deltaTime * sign * 200f, 0f, 0f);
         }
-
     }
 
     private GUIStyle guiStyle = new GUIStyle(); //create a new variable
@@ -41,32 +41,54 @@ public class DoraKernelFactory : MonoBehaviourBase
         GUI.Label(new Rect(10, 90, 200, 40), "dot " + dot.ToString(), guiStyle);
     }
 
-    [ExposePublicMethod]
-    public void Populate()
+    public void Populate(bool i_animated)
     {
         int count = anchors.Length;
 
-        GameObject[] kernels = new GameObject[count];
+        DoraKernel[] kernels = new DoraKernel[count];
+        DoraKernel curr = null;
 
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             GameObject go = GameObject.Instantiate(kernel);
             go.transform.SetParent(anchors[i]);
+            go.transform.localPosition = MathConstants.VECTOR_3_ZERO;
+            go.transform.localRotation = MathConstants.QUATERNION_IDENTITY;
+            go.transform.localScale = MathConstants.VECTOR_3_ONE;
 
-            go.transform.localPosition = Vector3.zero;
-            go.transform.localRotation = Quaternion.identity;
-            go.transform.localScale = Vector3.one;
+            curr = kernels[i] = go.GetComponent<DoraKernel>();
+            curr.Init(interpolators);
 
-            kernels[i] = go;
+            if (false == i_animated)
+                curr.Appear(false);
         }
 
-        kernelMap = CollectionUtilities.Make2DArray<GameObject>(kernels, 12, 11);
+        kernelMap = CollectionUtilities.Make2DArray<DoraKernel>(kernels, 12, 11);
 
         for(int i = 0; i < 12; i++)
         {
             for(int j = 0; j < 11; j++)
             {
                 kernelMap[i, j].name = i + "," + j;
+            }
+        }
+
+        if(true == i_animated)
+        {
+            StartCoroutine(populateAnimated());
+        }
+
+    }
+
+    IEnumerator populateAnimated()
+    {
+        for (int i = 0; i < 12; i++)
+        {
+            updateRowIndex(i);
+            for (int j = 0; j < 11; j++)
+            {
+                kernelMap[i, j].Appear(true);
+                yield return new WaitForSeconds(0.05f);
             }
         }
     }
@@ -77,11 +99,8 @@ public class DoraKernelFactory : MonoBehaviourBase
         StartCoroutine(exploreRoutine());
     }
 
-
     IEnumerator exploreRoutine()
     {
-        Material curr = null;
-
         for (int i = 0; i < 12; i++)
         {
             updateRowIndex(i);
@@ -90,16 +109,22 @@ public class DoraKernelFactory : MonoBehaviourBase
             {
                 currentColumnIndex = j;
 
-                if (null != curr) curr.SetColor("_Color", Color.white);
-                curr = kernelMap[i, j].GetComponent<MeshRenderer>().material;
+                StartCoroutine(bounceScale(kernelMap[i, j].transform));
 
-                curr.SetColor("_Color", Color.red);
-
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.3f);
             }
         }
+    }
 
-        curr.SetColor("_Color", Color.white);
+    IEnumerator bounceScale(Transform i_tr)
+    {
+        AnimationMode mode = new AnimationMode(AnimationType.Bounce);
+        ITypedAnimator<Vector3> scaleInterpolator = interpolators.Animate(i_tr.localScale, i_tr.localScale * 2f, 0.5f, mode, false);
+        while(true == scaleInterpolator.IsActive)
+        {
+            i_tr.localScale = scaleInterpolator.Current;
+            yield return null;
+        }
     }
 
     void updateRowIndex(int i_rowIndex)

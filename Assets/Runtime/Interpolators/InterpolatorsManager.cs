@@ -7,30 +7,30 @@ public class InterpolatorsManager : MonoBehaviourBase
 {
     Dictionary<IAnimator, Coroutine> animators = new Dictionary<IAnimator, Coroutine>();
 
-    public ITypedAnimator<float> Animate(float i_start, float i_target, float i_time, AnimationMode i_interpolationMode, float i_delay = 0)
+    public ITypedAnimator<float> Animate(float i_start, float i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0)
     {
-        FloatAnimator fl = new FloatAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_delay);
+        FloatAnimator fl = new FloatAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
-    public ITypedAnimator<Vector2> Animate(Vector2 i_start, Vector2 i_target, float i_time, AnimationMode i_interpolationMode, float i_delay = 0)
+    public ITypedAnimator<Vector2> Animate(Vector2 i_start, Vector2 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0)
     {
-        V2Animator fl = new V2Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_delay);
+        V2Animator fl = new V2Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
-    public ITypedAnimator<Vector3> Animate(Vector3 i_start, Vector3 i_target, float i_time, AnimationMode i_interpolationMode, float i_delay = 0)
+    public ITypedAnimator<Vector3> Animate(Vector3 i_start, Vector3 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0)
     {
-        V3Animator fl = new V3Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_delay);
+        V3Animator fl = new V3Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
-    public ITypedAnimator<Color> Animate(Color i_start, Color i_target, float i_time, AnimationMode i_interpolationMode, float i_delay = 0)
+    public ITypedAnimator<Color> Animate(Color i_start, Color i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0)
     {
-        ColorAnimator fl = new ColorAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_delay);
+        ColorAnimator fl = new ColorAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
@@ -57,11 +57,11 @@ public class InterpolatorsManager : MonoBehaviourBase
         animators.Clear();
     }
 
-    IEnumerator Interpolat<T>(Animator<T> c)
+    IEnumerator Interpolat<T>(Animator<T> i_animator)
     {
-        c.Activate();
+        i_animator.Activate();
         float timer = 0f;
-        float delay = c.Delay;
+        float delay = i_animator.Delay;
 
         while(timer < delay)
         {
@@ -69,23 +69,23 @@ public class InterpolatorsManager : MonoBehaviourBase
             yield return null;
         }
         timer = 0f;        
-        float end = c.EndTime;
-        while (timer < end)
+        float animationTime = i_animator.AnimationTime;
+        while (timer < animationTime)
         {
-            while (c.IsPaused)
+            while (i_animator.IsPaused)
             {
-                c.stopAnimating();
+                i_animator.stopAnimating();
                 yield return null;
             }
-            c.Animating();
-            c.UpdateAnimator(timer/end);
+            i_animator.EnableAnimation();
+            i_animator.UpdateAnimator(timer/animationTime);
             timer += Time.deltaTime;
             yield return null;
         }
-        c.UpdateAnimator(1);
+        i_animator.UpdateAnimator(1);
         yield return null;
-        animators.Remove(c);
-        c.Deactivate();
+        animators.Remove(i_animator);
+        i_animator.Deactivate();
     }
 
 }
