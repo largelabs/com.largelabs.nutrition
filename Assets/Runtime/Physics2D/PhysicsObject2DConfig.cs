@@ -75,6 +75,8 @@ public class PhysicsObject2DConfig : ScriptableObject, IGravity2DConfig, ICollis
 
     public float GravityModifier => gravityModifier;
 
+    public Vector2 GravityVector => Physics2D.gravity * gravityModifier;
+
     #endregion
 
     #region PRIVATE

@@ -2,23 +2,64 @@ using UnityEngine;
 
 public class S_jump : MoveHorizontalAbstractState
 {
-    [SerializeField] Vector2 jump_speed;
+    [SerializeField][Range(1f, 30f)] private float maxJumpHeight = 8f;
+
+    float startJumpY = 0f;
+    float stopJumpY = 0f;
+
+    #region PROTECTED
+    protected override void onStateInit()
+    {
+    }
+
+
     protected override void onStateEnter()
     {
         Debug.Log("Enter jump");
-        base.onStateEnter();
-        body.SetVelocity(jump_speed);
+
+        startJumpY = body.transform.position.y;
+        stopJumpY = startJumpY + maxJumpHeight;
+
+        Debug.Log(startJumpY + "  " + stopJumpY);
+
+        body.SetVelocityY(accelerationData.MaxVelocityY);
+
+        controls.JumpPressed += goToFastFall;
+    }
+
+    protected override void onStateExit()
+    {
+        controls.JumpPressed -= goToFastFall;
+    }
+
+    protected override void onStateUpdate()
+    {
     }
 
     protected override void onStateFixedUpdate()
     {
         base.onStateFixedUpdate();
-        if(body.VelocityY <= 0)
+        checkHeight();
+    }
+
+    #endregion
+
+    #region PRIVATE
+
+    void checkHeight()
+    {
+        if (false == enabled) return;
+
+        if (body.transform.position.y >= stopJumpY)
         {
             setState<S_fall>();
         }
     }
-    protected override void onStateUpdate()
+
+    void goToFastFall()
     {
+        setState<S_fastFall>();
     }
+
+    #endregion
 }

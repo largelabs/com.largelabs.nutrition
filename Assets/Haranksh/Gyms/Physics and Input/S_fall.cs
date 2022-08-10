@@ -1,22 +1,28 @@
-using UnityEngine;
 
-public class S_fall : MoveHorizontalAbstractState
+public class S_fall : FallAbstractState
 {
+    #region PROTECTED
+    protected override void onStateInit()
+    {
+    }
     protected override void onStateEnter()
     {
-        Debug.Log("Enter fall");
-        base.onStateEnter();
-        controls.JumpPressed += OnGlide;
+        controls.JumpPressed += goToFastFall;
     }
 
     protected override void onStateExit()
     {
-        base.onStateExit();
-        controls.JumpPressed -= OnGlide;
+        controls.JumpPressed -= goToFastFall;
     }
 
-    private void OnGlide()
+    #endregion
+
+    #region PRIVATE
+
+    void goToFastFall()
     {
-        setState<S_glide>();
+        setState<S_fastFall>();
     }
+
+    #endregion
 }

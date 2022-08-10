@@ -1,50 +1,82 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class MoveHorizontalAbstractState : State
 {
-    public PhysicsBody2D body;
-    public float fall_speed;
-    public float steer_speed;
+    [SerializeField] protected AccelerationConfig2D accelerationData = null;
+    [SerializeField] protected PhysicsBody2D body = null;
 
-    protected float originalVelocityX;
-    protected override void onStateEnter()
-    {
-        originalVelocityX = body.VelocityX;
-        controls.MoveStarted += OnSteerPressed;
-        controls.MoveReleased += OnSteerReleased;
-        OnSteerPressed();
-    }
-
-    protected override void onStateExit()
-    {
-        controls.MoveStarted -= OnSteerPressed;
-        controls.MoveReleased -= OnSteerReleased;
-    }
+    #region PROTECTED
 
     protected override void onStateFixedUpdate()
     {
-        body.AddVelocityY(-fall_speed);
+        base.onStateFixedUpdate();
+        updateMoveVelocity();
     }
 
-    protected override void onStateInit()
+    protected virtual void accelerateX(IAccelerationConfig i_currentAccelerationConfig, float i_velocityX, float i_deltaX)
     {
-    }
-
-    protected override void onStateUpdate()
-    {
-        if (true == body.IsGrounded)
+        float maxVelX = i_currentAccelerationConfig.MaxVelocityX;
+        if (Mathf.Abs(i_velocityX) >= maxVelX)
         {
-            setState<S_idle>();
-            return;
+            descelerateX(i_currentAccelerationConfig, body.VelocityX);
+        }
+        else
+        {
+            float addedVelocity = i_deltaX * i_currentAccelerationConfig.AccelerationX;
+            body.AddVelocityX(addedVelocity);
+            clampVelocityX(body.VelocityX, maxVelX);
         }
     }
-    private void OnSteerPressed()
+
+    protected virtual void descelerateX(IAccelerationConfig i_currentAccelerationConfig, float i_velocityX)
     {
-        body.AddVelocityX(steer_speed * controls.MoveDirection());
+        if (false == enabled) return;
+
+        if (null != i_currentAccelerationConfig && i_velocityX != 0f)
+        {
+            float velocitySign = Mathf.Sign(i_velocityX);
+            float addedVelocity = -velocitySign * i_currentAccelerationConfig.DescelerationX * Time.fixedDeltaTime;
+
+            body.AddVelocityX(addedVelocity);
+
+            if (velocitySign != Mathf.Sign(i_velocityX)) onDidStop();
+        }
+        else
+        {
+            onDidStop();
+        }
     }
-    private void OnSteerReleased()
+
+    protected virtual void onDidStop()
+    { }
+
+    #endregion
+
+    #region PRIVATE
+
+    void clampVelocityX(float i_velocityX, float i_maxVelocityX)
     {
-        body.SetVelocityX(originalVelocityX);
+        if (Mathf.Abs(i_velocityX) >= i_maxVelocityX)
+        {
+            body.SetVelocityX(Mathf.Sign(i_velocityX) * i_maxVelocityX);
+        }
     }
+
+    void updateMoveVelocity()
+    {
+        float moveDirection = controls.MoveDirection();
+
+        if (moveDirection != 0)
+        {
+            float deltaX = moveDirection * Time.fixedDeltaTime;
+            accelerateX(accelerationData, body.VelocityX, deltaX);
+        }
+        else
+        {
+            descelerateX(accelerationData, body.VelocityX);
+        }
+    }
+
+    #endregion
+   
 }

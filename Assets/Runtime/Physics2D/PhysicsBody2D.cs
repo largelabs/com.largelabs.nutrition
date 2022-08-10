@@ -70,7 +70,7 @@ public class PhysicsBody2D : MonoBehaviourBase, IPhysicsBody2D, IWallDetector2D,
         wasHittingWall = isHittingWall;
 
         // Our object is constantly attracted by the gravity, scaled by our gravity modifier
-        velocity += physicsConfig.GravityModifier * Physics2D.gravity * Time.fixedDeltaTime;
+        velocity += physicsConfig.GravityVector * Time.fixedDeltaTime;
         isGrounded = false;
 
         velocity.x = targetVelocity.x;
@@ -102,6 +102,8 @@ public class PhysicsBody2D : MonoBehaviourBase, IPhysicsBody2D, IWallDetector2D,
     public IGravity2DConfig GravityConfig => physicsConfig;
 
     public ICollisions2DConfig CollisionsConfig => physicsConfig;
+
+    public Vector2 GravityVector => (null == physicsConfig ? Physics2D.gravity : physicsConfig.GravityVector);
 
     #endregion
 
