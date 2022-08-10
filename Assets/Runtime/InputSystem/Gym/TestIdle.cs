@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TestIdle : State
 {
-    [SerializeField] HarankashControls controls;
+    
 
     protected override void onStateEnter()
     {

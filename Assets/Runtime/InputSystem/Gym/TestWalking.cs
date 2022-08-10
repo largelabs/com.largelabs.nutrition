@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TestWalking : State
 {
-    [SerializeField] HarankashControls controls;
+    
     [SerializeField] float speed;
 
     protected override void onStateEnter()

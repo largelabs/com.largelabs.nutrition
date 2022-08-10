@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class S_idle : State
 {
-    [SerializeField] HarankashControls controller;
+    [SerializeField] Controls controller;
     [SerializeField] PhysicsBody2D body;
     protected override void onStateEnter()
     {
