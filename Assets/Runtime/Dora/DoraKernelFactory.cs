@@ -8,7 +8,7 @@ public class DoraKernelFactory : MonoBehaviourBase
     [SerializeField] GameObject kernel = null;
     [SerializeField] InterpolatorsManager interpolators = null;
 
-    DoraKernel[,] kernelMap = null;
+    DoraCellData[,] doraMap = null;
     int currentRowIndex = 0;
     int currentColumnIndex = 0;
     Transform rowNormal = null;
@@ -46,31 +46,40 @@ public class DoraKernelFactory : MonoBehaviourBase
     {
         int count = anchors.Length;
 
-        DoraKernel[] kernels = new DoraKernel[count];
-        DoraKernel curr = null;
+        DoraCellData[] kernels = new DoraCellData[count];
+        DoraCellData currData = null;
+        DoraKernel currKernel = null;
+        Transform currAnchor = null;
 
         for (int i = 0; i < count; i++)
         {
+            currAnchor = anchors[i];
+
             GameObject go = GameObject.Instantiate(kernel);
             go.transform.SetParent(anchors[i]);
             go.transform.localPosition = MathConstants.VECTOR_3_ZERO;
             go.transform.localRotation = MathConstants.QUATERNION_IDENTITY;
             go.transform.localScale = MathConstants.VECTOR_3_ONE;
 
-            curr = kernels[i] = go.GetComponent<DoraKernel>();
-            curr.Init(interpolators);
+            currKernel = go.GetComponent<DoraKernel>();
+            currKernel.Init(interpolators);
+
+            currData = kernels[i] = new DoraCellData();
+            currData.Init(currKernel, currAnchor);
 
             if (false == i_animated)
-                curr.Appear(false);
+                currKernel.Appear(false);
         }
 
-        kernelMap = CollectionUtilities.Make2DArray<DoraKernel>(kernels, 12, 11);
+        doraMap = CollectionUtilities.Make2DArray<DoraCellData>(kernels, 12, 11);
 
         for(int i = 0; i < 12; i++)
         {
             for(int j = 0; j < 11; j++)
             {
-                kernelMap[i, j].name = i + "," + j;
+                currData = doraMap[i, j];
+                currData.SetCoords(new Vector2Int(i, j));
+                currData.SetKernelName(i + "," + j);
             }
         }
 
@@ -89,8 +98,11 @@ public class DoraKernelFactory : MonoBehaviourBase
             if(true == i_updateRowIndex) updateRowIndex(i);
             for (int j = 0; j < 11; j++)
             {
-                kernelMap[i, j].Appear(true);
-                yield return new WaitForSeconds(0.025f);
+                if(true == doraMap[i, j].HasKernel)
+                {
+                    doraMap[i, j].Kernel.Appear(true);
+                    yield return new WaitForSeconds(0.025f);
+                }
             }
         }
     }

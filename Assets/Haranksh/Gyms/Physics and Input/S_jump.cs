@@ -12,7 +12,6 @@ public class S_jump : MoveHorizontalAbstractState
     {
     }
 
-
     protected override void onStateEnter()
     {
         Debug.Log("Enter jump");
