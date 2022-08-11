@@ -10,7 +10,6 @@ public class Frame<T> : IFrame<T>
 	private FrameEvent<T> onStartedPlayback = null;
 	private FrameEvent<T> onEndedPlayback = null;
 
-
 	private float currentTimeSpent = 0;
 
 	#region IFrame

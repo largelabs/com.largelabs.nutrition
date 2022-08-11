@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFrameSwapper
 {
