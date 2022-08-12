@@ -15,7 +15,6 @@ public class AccelerationConfig2D : ScriptableObject, IAccelerationConfig
     [SerializeField] float maxVelY = 0f;
     [SerializeField] float minVelX = 0f;
     [SerializeField] float minVelY = 0f;
-    [SerializeField] float wallVelX = 0f;
 
     #region IAccelerationConfig2D
 
@@ -42,8 +41,6 @@ public class AccelerationConfig2D : ScriptableObject, IAccelerationConfig
     public float MinVelocityY { get { return minVelY; } }
 
     public float MinVelocityZ { get { return 0f; } }
-
-    public float WallVelocityX { get { return wallVelX; } }
 
     #endregion
 }

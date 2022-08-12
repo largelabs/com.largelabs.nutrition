@@ -96,7 +96,7 @@ public class DoraCellMap : MonoBehaviourBase
                 if(true == cellMap[i, j].HasKernel)
                 {
                     cellMap[i, j].Kernel.Appear(true);
-                    yield return new WaitForSeconds(0.025f);
+                    yield return this.Wait(0.025f);
                 }
             }
         }
