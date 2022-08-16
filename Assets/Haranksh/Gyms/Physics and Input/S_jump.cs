@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class S_jump : MoveHorizontalAbstractState
 {
-    [SerializeField][Range(1f, 30f)] private float maxJumpHeight = 8f;
+    [SerializeField][Range(1f, 30f)] protected float maxJumpHeight = 8f;
 
     float startJumpY = 0f;
     float stopJumpY = 0f;
@@ -52,6 +52,12 @@ public class S_jump : MoveHorizontalAbstractState
         if (body.transform.position.y >= stopJumpY)
         {
             setState<S_fall>();
+            return;
+        }
+        if(body.VelocityY < 0)
+        {
+            setState<S_fall>();
+            return;
         }
     }
 
