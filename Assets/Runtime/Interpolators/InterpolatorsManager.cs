@@ -7,30 +7,48 @@ public class InterpolatorsManager : MonoBehaviourBase
 {
     Dictionary<IAnimator, Coroutine> animators = new Dictionary<IAnimator, Coroutine>();
 
+    private ManagedPool<FloatAnimator> floatAnimationPool;
+    private ManagedPool<V2Animator> v2AnimationPool;
+    private ManagedPool<V3Animator> v3AnimationPool;
+    private ManagedPool<ColorAnimator> colorAnimationPool;
+
+
+    public InterpolatorsManager(int MaxConcurrentFloat = -1, int MaxConcurrentV2 = -1, int MaxConcurrentV3 = -1, int MaxConcurrentColor = -1)
+    {
+        floatAnimationPool = new ManagedPool<FloatAnimator>(MaxConcurrentFloat);
+        v2AnimationPool = new ManagedPool<V2Animator>(MaxConcurrentV2);
+        v3AnimationPool = new ManagedPool<V3Animator>(MaxConcurrentV3);
+        colorAnimationPool = new ManagedPool<ColorAnimator>(MaxConcurrentColor);
+    }
+
     public ITypedAnimator<float> Animate(float i_start, float i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<float>> i_onAnimationEnded = null)
     {
-        FloatAnimator fl = new FloatAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
+        FloatAnimator fl = floatAnimationPool.GetItem();
+        fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
     public ITypedAnimator<Vector2> Animate(Vector2 i_start, Vector2 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Vector2>> i_onAnimationEnded = null)
     {
-        V2Animator fl = new V2Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
+        V2Animator fl = v2AnimationPool.GetItem();
+        fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
     public ITypedAnimator<Vector3> Animate(Vector3 i_start, Vector3 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Vector3>> i_onAnimationEnded = null)
     {
-        V3Animator fl = new V3Animator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
+        V3Animator fl = v3AnimationPool.GetItem();
+        fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
     public ITypedAnimator<Color> Animate(Color i_start, Color i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Color>> i_onAnimationEnded = null)
     {
-        ColorAnimator fl = new ColorAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
+        ColorAnimator fl = colorAnimationPool.GetItem();
+        fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
         return fl;
@@ -43,6 +61,7 @@ public class InterpolatorsManager : MonoBehaviourBase
             fl.Deactivate();
             fl.Pause();
             animators.Remove(fl);
+            return_to_pool(fl);
         }
     }
 
@@ -55,6 +74,10 @@ public class InterpolatorsManager : MonoBehaviourBase
             fl.Pause();
         }
         animators.Clear();
+        floatAnimationPool.ResetAll();
+        v2AnimationPool.ResetAll();
+        v3AnimationPool.ResetAll();
+        colorAnimationPool.ResetAll();
     }
 
     IEnumerator Interpolat<T>(Animator<T> i_animator)
@@ -63,12 +86,12 @@ public class InterpolatorsManager : MonoBehaviourBase
         float timer = 0f;
         float delay = i_animator.Delay;
 
-        while(timer < delay)
+        while (timer < delay)
         {
             timer += Time.deltaTime;
             yield return null;
         }
-        timer = 0f;        
+        timer = 0f;
         float animationTime = i_animator.AnimationTime;
         while (timer < animationTime)
         {
@@ -78,7 +101,7 @@ public class InterpolatorsManager : MonoBehaviourBase
                 yield return null;
             }
             i_animator.EnableAnimation();
-            i_animator.UpdateAnimator(timer/animationTime);
+            i_animator.UpdateAnimator(timer / animationTime);
             timer += Time.deltaTime;
             yield return null;
         }
@@ -87,7 +110,31 @@ public class InterpolatorsManager : MonoBehaviourBase
 
         yield return null;
         animators.Remove(i_animator);
+        return_to_pool(i_animator);
         i_animator.Deactivate();
     }
 
+    private void return_to_pool(IAnimator fl)
+    {
+        if(fl.GetType() == typeof(FloatAnimator))
+        {
+            floatAnimationPool.ResetItem((FloatAnimator)fl);
+        }
+        else if (fl.GetType() == typeof(V2Animator))
+        {
+            v2AnimationPool.ResetItem((V2Animator)fl);
+        }
+        else if (fl.GetType() == typeof(V3Animator))
+        {
+            v3AnimationPool.ResetItem((V3Animator)fl);
+        }
+        else if (fl.GetType() == typeof(ColorAnimator))
+        {
+            colorAnimationPool.ResetItem((ColorAnimator)fl);
+        }
+        else
+        {
+            Debug.LogError("CANNOT CONVERT ANIMATOR TO CORRECT TYPE");
+        }
+    }
 }

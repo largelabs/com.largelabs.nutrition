@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public interface IAnimator
+public interface IAnimator : IPoolable
 {
     /// <summary>
     /// True when the interpolator routine is running,
@@ -76,6 +76,24 @@ public class Animator<T> : ITypedAnimator<T>
         animationFunction = i_animationCurve;
         onAnimationEnded = i_onAnimationEnded;
     }
+    public Animator()
+    {
+        isActive = false;
+        isAnimating = false;
+    }
+    public void setUpAnimator(T i_start, T i_target, float i_animTime, AnimationCurve i_animationCurve, bool i_clamped, float i_delay = 0f, Action<ITypedAnimator<T>> i_onAnimationEnded = null)
+    {
+        start = i_start;
+        target = i_target;
+        animationTime = i_animTime;
+        current = i_start;
+        isActive = true;
+        isAnimating = false;
+        clamped = i_clamped;
+        delay = i_delay;
+        animationFunction = i_animationCurve;
+        onAnimationEnded = i_onAnimationEnded;
+    }
 
     #endregion
 
@@ -105,7 +123,19 @@ public class Animator<T> : ITypedAnimator<T>
 
     #endregion
 
-
+    #region IPoolable
+    public void Reset()
+    {
+        current = start;
+        isActive = false;
+        isAnimating = false;
+    }
+    public void Dispose()
+    {
+        isAnimating = false;
+        isActive = false;
+    }
+    #endregion
 
     #region ITypedAnimator
 
@@ -136,6 +166,8 @@ public class FloatAnimator: Animator<float>
         base(i_start, i_target, i_animationTime, i_animationFunction, i_clamped, i_delay, i_onAnimationEnded)
     { }
 
+    public FloatAnimator() : base{}
+
     public override void UpdateAnimator(float ratio)
     {
         SetCurrent(clamped ?    Mathf.Lerp(start, target, animationFunction.Evaluate(ratio)) :
@@ -156,6 +188,8 @@ public class V2Animator : Animator<Vector2>
         base(i_start, i_target, i_animationTime, i_animationFunction, i_clamped, i_delay, i_onAnimationEnded)
     { }
 
+    public V2Animator() : base(){}
+
     public override void UpdateAnimator(float ratio)
     {
         SetCurrent(clamped ?    Vector2.Lerp(start, target, animationFunction.Evaluate(ratio)) :
@@ -175,6 +209,8 @@ public class V3Animator : Animator<Vector3>
         Action<ITypedAnimator<Vector3>> i_onAnimationEnded = null) :
         base(i_start, i_target, i_animationTime, i_animationFunction, i_clamped, i_delay, i_onAnimationEnded)
     { }
+
+    public V3Animator() : base(){}
     public override void UpdateAnimator(float ratio) 
     {
         SetCurrent(clamped ?    Vector3.Lerp(start, target, animationFunction.Evaluate(ratio)) : 
@@ -194,6 +230,8 @@ public class ColorAnimator : Animator<Color>
         Action<ITypedAnimator<Color>> i_onAnimationEnded = null) : 
         base(i_start, i_target, i_animationTime, i_animationFunction, i_clamped, i_delay, i_onAnimationEnded) 
     { }
+
+    public ColorAnimator() : base(){}
 
     public override void UpdateAnimator(float ratio)
     {
