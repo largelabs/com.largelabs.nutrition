@@ -166,7 +166,7 @@ public class FloatAnimator: Animator<float>
         base(i_start, i_target, i_animationTime, i_animationFunction, i_clamped, i_delay, i_onAnimationEnded)
     { }
 
-    public FloatAnimator() : base{}
+    public FloatAnimator() : base(){}
 
     public override void UpdateAnimator(float ratio)
     {

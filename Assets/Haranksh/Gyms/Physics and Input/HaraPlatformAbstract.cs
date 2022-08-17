@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class HaraPlatformAbstract : MonoBehaviour
+public abstract class HaraPlatformAbstract : MonoBehaviourBase
 {
 
     public AccelerationConfig2D AccelerationConfig;
