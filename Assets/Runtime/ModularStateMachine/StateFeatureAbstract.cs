@@ -2,10 +2,8 @@ using UnityEngine;
 
 public abstract class StateFeatureAbstract : MonoBehaviourBase
 {
-
     #region Public
 
-    //You should probably override the protected functions not the public ones
     public void FeatureInit()
     {
         onInit();
