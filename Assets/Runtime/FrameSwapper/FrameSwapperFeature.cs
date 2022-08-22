@@ -7,10 +7,12 @@ public class FrameSwapperFeature : StateFeatureAbstract
 
     // Code review comments :
     // Lacks all the options that we might need for such a script.
-    // Adding them below for future implementation
+    // Adding some examples for said options below for future implementation
     [SerializeField] bool playOnStateEnter = true;
     [SerializeField] bool stopOnStateExit = true;
-    [SerializeField] UnityEvent onStartNewCycle = null; // register to cycle events on the frame swapper and trigger these Unity events
+    [SerializeField] float playDelay = 0f;
+    [SerializeField] UnityEvent onStartNewCycle = null; // register to cycle events on the frame swapper itself
+                                                        // and trigger these Unity events internally
 
     protected override void onStart()
     {

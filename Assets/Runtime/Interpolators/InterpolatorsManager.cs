@@ -5,6 +5,11 @@ using System;
 
 public class InterpolatorsManager : MonoBehaviourBase
 {
+    [SerializeField] int maxConcurrentFloat = -1;
+    [SerializeField] int maxConcurrentV2 = -1;
+    [SerializeField] int maxConcurrentV3 = -1;
+    [SerializeField] int maxConcurrentColor = -1;
+
     Dictionary<IAnimator, Coroutine> animators = new Dictionary<IAnimator, Coroutine>();
 
     private ManagedPool<FloatAnimator> floatAnimationPool;
@@ -12,17 +17,10 @@ public class InterpolatorsManager : MonoBehaviourBase
     private ManagedPool<V3Animator> v3AnimationPool;
     private ManagedPool<ColorAnimator> colorAnimationPool;
 
-
-    public InterpolatorsManager(int MaxConcurrentFloat = -1, int MaxConcurrentV2 = -1, int MaxConcurrentV3 = -1, int MaxConcurrentColor = -1)
-    {
-        floatAnimationPool = new ManagedPool<FloatAnimator>(MaxConcurrentFloat);
-        v2AnimationPool = new ManagedPool<V2Animator>(MaxConcurrentV2);
-        v3AnimationPool = new ManagedPool<V3Animator>(MaxConcurrentV3);
-        colorAnimationPool = new ManagedPool<ColorAnimator>(MaxConcurrentColor);
-    }
-
     public ITypedAnimator<float> Animate(float i_start, float i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<float>> i_onAnimationEnded = null)
     {
+        if(null == floatAnimationPool) floatAnimationPool = new ManagedPool<FloatAnimator>(maxConcurrentFloat);
+
         FloatAnimator fl = floatAnimationPool.GetItem();
         fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
@@ -31,6 +29,8 @@ public class InterpolatorsManager : MonoBehaviourBase
     }
     public ITypedAnimator<Vector2> Animate(Vector2 i_start, Vector2 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Vector2>> i_onAnimationEnded = null)
     {
+        if (null == v2AnimationPool) v2AnimationPool = new ManagedPool<V2Animator>(maxConcurrentV2);
+
         V2Animator fl = v2AnimationPool.GetItem();
         fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
@@ -39,14 +39,21 @@ public class InterpolatorsManager : MonoBehaviourBase
     }
     public ITypedAnimator<Vector3> Animate(Vector3 i_start, Vector3 i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Vector3>> i_onAnimationEnded = null)
     {
+        if (null == v3AnimationPool) v3AnimationPool = new ManagedPool<V3Animator>(maxConcurrentV3);
+
         V3Animator fl = v3AnimationPool.GetItem();
         fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
+
+        Debug.Log(v3AnimationPool.TotalCount);
+
         return fl;
     }
     public ITypedAnimator<Color> Animate(Color i_start, Color i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Color>> i_onAnimationEnded = null)
     {
+        if (null == colorAnimationPool) colorAnimationPool = new ManagedPool<ColorAnimator>(maxConcurrentColor);
+
         ColorAnimator fl = colorAnimationPool.GetItem();
         fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));

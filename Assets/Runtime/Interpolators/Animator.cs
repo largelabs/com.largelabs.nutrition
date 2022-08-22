@@ -132,8 +132,7 @@ public class Animator<T> : ITypedAnimator<T>
     }
     public void Dispose()
     {
-        isAnimating = false;
-        isActive = false;
+        Reset();
     }
     #endregion
 
