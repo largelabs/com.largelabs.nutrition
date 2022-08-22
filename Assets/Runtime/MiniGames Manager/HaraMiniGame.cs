@@ -1,13 +1,16 @@
 using System.Collections;
 using UnityEngine;
+using Cinemachine;
 
 public class HaraMiniGame : MiniGameFlow //Should it be a Singleton?
 {
+	[SerializeField] private CinemachineVirtualCamera camera;
+	[SerializeField] private InterpolatorsManager cameraInterpolatorsManager;
+
 	protected override IEnumerator introRoutine()
 	{
-		Debug.Log("started");
-		yield return this.Wait(2);
-		Debug.Log("ended");
+		interpolatorsManager.Animate(camera.m_Lens.OrthographicSize, 5f, 2f, new AnimationMode(AnimationType.Ease_In_Out)); //not working
+		yield return null;
 	}
 
 	protected override IEnumerator onFailure()
