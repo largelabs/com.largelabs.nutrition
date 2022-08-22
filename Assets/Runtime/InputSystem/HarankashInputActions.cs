@@ -38,9 +38,9 @@ public partial class @HarankashInputActions : IInputActionCollection2, IDisposab
                 },
                 {
                     ""name"": ""Jump"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""b0d60e8b-b8fa-4b51-888e-7a6dfe5cdddc"",
-                    ""expectedControlType"": ""Digital"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -161,6 +161,17 @@ public partial class @HarankashInputActions : IInputActionCollection2, IDisposab
                     ""name"": """",
                     ""id"": ""1414478c-47df-4bac-b5e2-4ec1bb1fe871"",
                     ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""56cb4948-aa09-44db-acf8-224459d99071"",
+                    ""path"": ""<HID::ShanWan USB WirelessGamepad >/button3"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

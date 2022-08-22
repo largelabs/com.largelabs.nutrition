@@ -4,65 +4,50 @@ using UnityEngine;
 
 public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFrameSwapper
 {
-	#region Serialized fields
 	[SerializeField] private bool playOnEnable = false;
 	[SerializeField] protected TRenderer renderer;
 	[SerializeField] private bool isLooping;
 	[SerializeField] private List<Frame<TFrame>> frames;
 	[SerializeField] private int loopStartIndex;
-	#endregion
 
-	#region IFrameSwapper
-	public float AnimationSpeedMultiplier { get; set; }
+    private bool isResumed = true;
+    protected Frame<TFrame> currentFrame;
+    private Coroutine playback = null;
+    private int loopCount = 0;
+    private CycleEvent cycleEvent = null;
+    private Frame<TFrame> lastFrame;
+
+
+    #region UNITY AND CORE
+
+    protected override void Awake()
+    {
+        setCurrentFrame(0);
+        lastFrame = frames[frames.Count - 1];
+        AnimationSpeedMultiplier = 1;
+    }
+
+    private void OnEnable()
+    {
+        if (playOnEnable) Play();
+    }
+
+    #endregion
+
+    #region IFrameSwapper
+
+    // Code review comments : no {get; set;}. Please create a private variable and create a property get for it
+    // and a setter in the mutable public API
+    public float AnimationSpeedMultiplier { get; set; }
 	public int LoopCount => loopCount;
 	public bool IsPlaying => null != playback;
 	public bool IsPaused => !isResumed;
-	#endregion
+    #endregion
 
-	#region private members
-	private bool isResumed = true;
-	protected Frame<TFrame> currentFrame;
-	private Coroutine playback = null;
-	private int loopCount = 0;
-	private CycleEvent cycleEvent = null;
-	private Frame<TFrame> lastFrame;
-	#endregion
 
-	protected override void Awake()
-	{
-		setCurrentFrame(0);
-		lastFrame = frames[frames.Count - 1];
-		AnimationSpeedMultiplier = 1;
-	}
+    #region MUTABLE
 
-	private void OnEnable()
-	{
-		if (playOnEnable) Play();
-	}
-
-	private IEnumerator playbackRoutine()
-	{
-
-		while (true)
-		{
-			if (isResumed)
-			{
-				currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * AnimationSpeedMultiplier);
-
-				if (currentFrame.IsFinishedPlaying)
-				{
-					updateCurrentFrame();
-				}
-			}
-
-			updateRenderedObject();
-
-			yield return null;
-		}
-
-	}
-
-	public void RegisterCycleEvents(params CycleEvent[] i_cycleEvents)
+    public void RegisterCycleEvents(params CycleEvent[] i_cycleEvents)
 	{
 		foreach (CycleEvent eventCallback in i_cycleEvents)
 		{
@@ -83,7 +68,6 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 		cycleEvent = null;
 	}
 
-	#region helper functions
 	public void Play()
 	{
 		if (playback != null) return;
@@ -111,41 +95,67 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 
 	public void StartLoop() => isLooping = true;
 
-	#endregion
+    #endregion
 
-	private void setCurrentFrame(int i_index)
-	{
-		if (frames.Count > 0 && i_index < frames.Count)
-		{
-			currentFrame = frames[i_index];
-		}
-	}
+    #region PRIVATE
 
-	protected abstract void updateRenderedObject();
+    private IEnumerator playbackRoutine()
+    {
 
-	private void updateCurrentFrame()
-	{
-		if (lastFrameReached)
-		{
-			Stop();
-			return;
-		}
+        while (true)
+        {
+            if (isResumed)
+            {
+                currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * AnimationSpeedMultiplier);
 
-		currentFrame.InvokeEndedPlaybackEvent();
+                if (currentFrame.IsFinishedPlaying)
+                {
+                    updateCurrentFrame();
+                }
+            }
 
-		currentFrame = CollectionUtilities.GetNextElementInCircularList(currentFrame, frames);
+            updateRenderedObject();
 
-		currentFrame.InvokeStartPlaybackEvent();
+            yield return null;
+        }
 
-		if (frames[0].Equals(currentFrame))
-		{
-			loopCount++;
-			cycleEvent?.Invoke(this);
-		}
+    }
 
-		currentFrame.ResetCurrentTimeSpent();
-	}
+    private void setCurrentFrame(int i_index)
+    {
+        if (frames.Count > 0 && i_index < frames.Count)
+        {
+            currentFrame = frames[i_index];
+        }
+    }
 
-	private bool lastFrameReached => !isLooping && lastFrame.Equals(currentFrame);
+    protected abstract void updateRenderedObject();
+
+    private void updateCurrentFrame()
+    {
+        if (lastFrameReached)
+        {
+            Stop();
+            return;
+        }
+
+        currentFrame.InvokeEndedPlaybackEvent();
+
+        currentFrame = CollectionUtilities.GetNextElementInCircularList(currentFrame, frames);
+
+        currentFrame.InvokeStartPlaybackEvent();
+
+        if (frames[0].Equals(currentFrame))
+        {
+            loopCount++;
+            cycleEvent?.Invoke(this);
+        }
+
+        currentFrame.ResetCurrentTimeSpent();
+    }
+
+    private bool lastFrameReached => !isLooping && lastFrame.Equals(currentFrame);
+
+    #endregion
 
 }

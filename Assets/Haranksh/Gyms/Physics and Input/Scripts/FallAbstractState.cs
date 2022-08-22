@@ -9,6 +9,11 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     {
         if (true == body.IsGrounded)
         {
+            if(body.CurrentGroundTransform.gameObject.tag == "Bouncy")
+            {
+                setState<S_bounce>();
+                return;
+            }
             setState<S_idle>();
             return;
         }
