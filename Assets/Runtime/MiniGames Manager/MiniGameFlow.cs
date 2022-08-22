@@ -4,26 +4,28 @@ using UnityEngine.SceneManagement;
 
 public abstract class MiniGameFlow : MonoBehaviourBase
 {
-	// Code review comments : 
-	// keep references to the running coroutines with Coroutine objects.
-	// Use this.DisposeCoroutine(ref myCoroutineObject) to stop them and release the Coroutine ref
-
-	Coroutine introCouroutine = null;
-    Coroutine successCouroutine = null;
-    Coroutine failureCoroutine = null;
-    Coroutine updateGameplayCoroutine = null;
-
-	// Success and failure coroutines are never triggered.
-	// Trigger them in ExitMiniGame with a boolean in the parameters bool i_endWithSuccess
-
+	private Coroutine introCouroutine = null;
+    private Coroutine successCouroutine = null;
+    private Coroutine failureCoroutine = null;
+    private Coroutine updateGameplayCoroutine = null;
 
     #region PUBLIC API
 
     public void EnterMiniGame() => StartCoroutine(introSequence());
 
-    public void EndMiniGame()
+    public void EndMiniGame(bool i_endWithSuccess)
     {
-        StopCoroutine(updateGameplay()); 
+		this.DisposeCoroutine(ref updateGameplayCoroutine);
+
+		if(i_endWithSuccess)
+		{
+			successCouroutine = StartCoroutine(onSuccess());
+		}
+		else
+		{
+			failureCoroutine = StartCoroutine(onFailure());
+		}
+
         onGameplayEnded();
     }
 
@@ -46,7 +48,7 @@ public abstract class MiniGameFlow : MonoBehaviourBase
 
     private IEnumerator introSequence()
 	{
-		yield return StartCoroutine(introRoutine());
+		yield return introCouroutine = StartCoroutine(introRoutine());
 		startMiniGame();
 	}
 
@@ -62,7 +64,7 @@ public abstract class MiniGameFlow : MonoBehaviourBase
 	private void startMiniGame()
 	{
 		onGameplayStarted();
-		StartCoroutine(updateGameplay());
+		updateGameplayCoroutine = StartCoroutine(updateGameplay());
 	}
 
     #endregion
