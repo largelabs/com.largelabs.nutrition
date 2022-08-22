@@ -9,7 +9,7 @@ public class HaraMiniGame : MiniGameFlow //Should it be a Singleton?
 
 	protected override IEnumerator introRoutine()
 	{
-		interpolatorsManager.Animate(camera.m_Lens.OrthographicSize, 5f, 2f, new AnimationMode(AnimationType.Ease_In_Out)); //not working
+		cameraInterpolatorsManager.Animate(camera.m_Lens.OrthographicSize, 5f, 2f, new AnimationMode(AnimationType.Ease_In_Out)); //not working
 		yield return null;
 	}
 
