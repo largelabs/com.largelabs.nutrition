@@ -1,42 +1,35 @@
 using System.Collections;
 using UnityEngine;
-using Cinemachine;
 
-public class HaraMiniGame : MiniGameFlow //Should it be a Singleton?
+public class HaraMiniGame : MiniGameFlow
 {
-	[SerializeField] private CinemachineVirtualCamera camera;
-	[SerializeField] private InterpolatorsManager cameraInterpolatorsManager;
-
 	protected override IEnumerator introRoutine()
 	{
-		cameraInterpolatorsManager.Animate(camera.m_Lens.OrthographicSize, 5f, 2f, new AnimationMode(AnimationType.Ease_In_Out)); //not working
-		yield return null;
+		throw new System.NotImplementedException();
 	}
 
 	protected override IEnumerator onFailure()
 	{
-		Debug.Log("failed");
-		yield return null;
+		throw new System.NotImplementedException();
 	}
 
 	protected override void onGameplayEnded()
 	{
-		Debug.Log("Gameplay ended");
+		throw new System.NotImplementedException();
 	}
 
 	protected override void onGameplayStarted()
 	{
-		Debug.Log("Gameplay started");
+		throw new System.NotImplementedException();
 	}
 
 	protected override void onGameplayUpdate()
 	{
-		Debug.Log("Gameplay update");
+		throw new System.NotImplementedException();
 	}
 
 	protected override IEnumerator onSuccess()
 	{
-		Debug.Log("success");
-		yield return null;
+		throw new System.NotImplementedException();
 	}
 }
