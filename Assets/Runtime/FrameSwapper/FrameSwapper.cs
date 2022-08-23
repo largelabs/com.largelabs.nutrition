@@ -16,7 +16,7 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
     private int loopCount = 0;
     private CycleEvent cycleEvent = null;
     private Frame<TFrame> lastFrame;
-
+    private float animationSpeedMultiplier = 1;
 
     #region UNITY AND CORE
 
@@ -24,7 +24,6 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
     {
         setCurrentFrame(0);
         lastFrame = frames[frames.Count - 1];
-        AnimationSpeedMultiplier = 1;
     }
 
     private void OnEnable()
@@ -35,15 +34,11 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
     #endregion
 
     #region IFrameSwapper
-
-    // Code review comments : no {get; set;}. Please create a private variable and create a property get for it
-    // and a setter in the mutable public API
-    public float AnimationSpeedMultiplier { get; set; }
+    public float AnimationSpeedMultiplier => animationSpeedMultiplier;
 	public int LoopCount => loopCount;
 	public bool IsPlaying => null != playback;
 	public bool IsPaused => !isResumed;
     #endregion
-
 
     #region MUTABLE
 
@@ -95,6 +90,12 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 
 	public void StartLoop() => isLooping = true;
 
+    public void SetAnimationSpeed(float value) => animationSpeedMultiplier = value;
+
+    public void IncreaseAnimationSpeed(float increaseValue) => animationSpeedMultiplier += increaseValue;
+
+    public void DecreaseAnimationSpeed(float decreaseValue) => animationSpeedMultiplier -= decreaseValue;
+
     #endregion
 
     #region PRIVATE
@@ -106,7 +107,7 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
         {
             if (isResumed)
             {
-                currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * AnimationSpeedMultiplier);
+                currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * animationSpeedMultiplier);
 
                 if (currentFrame.IsFinishedPlaying)
                 {
