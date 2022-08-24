@@ -6,14 +6,13 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     [SerializeField] MeshRenderer kernelRnd = null;
     [SerializeField] Color baseColor = Color.white;
     [SerializeField] Color targetColor = Color.white;
+    [SerializeField] Color burntColor = Color.black;
 
     int baseColorId = 0;
     int firstShadeColorId = 0;
     int secondShadeColorId = 0;
 
     Material mat = null;
-
-    bool materialIdsSet = false;
 
     protected override void Awake()
     {
@@ -22,7 +21,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         baseColorId = Shader.PropertyToID("_BaseColor");
         firstShadeColorId = Shader.PropertyToID("_1st_ShadeColor");
         secondShadeColorId = Shader.PropertyToID("_2nd_ShadeColor");
-        materialIdsSet = true;
     }
 
     private void OnDisable()
@@ -51,7 +49,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     public bool IsInit => isInit;
 
     #region Durability
-    float durability = 1f;
+    public float durability = 1f;
     bool isBurnt = false;
 
     public float Durability => durability;
@@ -81,12 +79,14 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public void UpdateColor()
     {
-        if (durability == 0f && isBurnt == false)
+        if (durability == 0f)
         {
-            BurnKernel();
+            if(isBurnt == false)
+                BurnKernel();
         }
         else
         {
+            isBurnt = false;
             if (mat != null)
             {
                 Color lerpedColor = Color.Lerp(baseColor, targetColor, (1 - durability));
@@ -108,7 +108,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     private void setKernelColor(Color i_color)
     {
         if (mat == null) return;
-        if (materialIdsSet == false) return;
 
         mat.SetColor(baseColorId, i_color);
         mat.SetColor(firstShadeColorId, i_color);

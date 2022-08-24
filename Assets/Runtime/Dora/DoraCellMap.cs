@@ -109,71 +109,70 @@ public class DoraCellMap : MonoBehaviourBase
 
     #endregion
 
-
     #region Durability
-    public float? GetDurability(int i_index0, int i_index1)
-    {
-        if(cellMap.GetLength(0) <= i_index0) return null;
-        if(cellMap.GetLength(1) <= i_index1) return null;
+    //public float? GetDurability(int i_index0, int i_index1)
+    //{
+    //    if(cellMap.GetLength(0) <= i_index0) return null;
+    //    if(cellMap.GetLength(1) <= i_index1) return null;
 
-        return cellMap[i_index0, i_index1].GetDurability();
-    }
+    //    return cellMap[i_index0, i_index1].GetDurability();
+    //}
 
-    public bool? KernelIsBurnt(int i_index0, int i_index1)
-    {
-        if(cellMap.GetLength(0) <= i_index0) return null;
-        if(cellMap.GetLength(1) <= i_index1) return null;
+    //public bool? KernelIsBurnt(int i_index0, int i_index1)
+    //{
+    //    if(cellMap.GetLength(0) <= i_index0) return null;
+    //    if(cellMap.GetLength(1) <= i_index1) return null;
 
-        return cellMap[i_index0, i_index1].KernelIsBurnt();
-    }
+    //    return cellMap[i_index0, i_index1].KernelIsBurnt();
+    //}
 
-    public bool SetDurability(int i_index0, int i_index1, float i_durability)
-    {
-        if(cellMap.GetLength(0) <= i_index0) return false;
-        if(cellMap.GetLength(1) <= i_index1) return false;
+    //public bool SetDurability(int i_index0, int i_index1, float i_durability)
+    //{
+    //    if(cellMap.GetLength(0) <= i_index0) return false;
+    //    if(cellMap.GetLength(1) <= i_index1) return false;
 
-        return cellMap[i_index0, i_index1].SetDurability(i_durability);
-    }
+    //    return cellMap[i_index0, i_index1].SetDurability(i_durability);
+    //}
 
-    public bool DecreaseDurability(int i_index0, int i_index1, float i_durability)
-    {
-        if(cellMap.GetLength(0) <= i_index0) return false;
-        if(cellMap.GetLength(1) <= i_index1) return false;
+    //public bool DecreaseDurability(int i_index0, int i_index1, float i_durability)
+    //{
+    //    if(cellMap.GetLength(0) <= i_index0) return false;
+    //    if(cellMap.GetLength(1) <= i_index1) return false;
 
-        return cellMap[i_index0, i_index1].DecreaseDurability(i_durability);
-    }
+    //    return cellMap[i_index0, i_index1].DecreaseDurability(i_durability);
+    //}
 
-    public bool IncreaseDurability(int i_index0, int i_index1, float i_durability)
-    {
-        if(cellMap.GetLength(0) <= i_index0) return false;
-        if(cellMap.GetLength(1) <= i_index1) return false;
+    //public bool IncreaseDurability(int i_index0, int i_index1, float i_durability)
+    //{
+    //    if(cellMap.GetLength(0) <= i_index0) return false;
+    //    if(cellMap.GetLength(1) <= i_index1) return false;
 
-        return cellMap[i_index0, i_index1].IncreaseDurability(i_durability);
-    }
+    //    return cellMap[i_index0, i_index1].IncreaseDurability(i_durability);
+    //}
 
-    public bool SetBurntStatus(int i_index0, int i_index1, bool i_burnt)
-    {
-        if (cellMap.GetLength(0) <= i_index0) return false;
-        if (cellMap.GetLength(1) <= i_index1) return false;
+    //public bool SetBurntStatus(int i_index0, int i_index1, bool i_burnt)
+    //{
+    //    if (cellMap.GetLength(0) <= i_index0) return false;
+    //    if (cellMap.GetLength(1) <= i_index1) return false;
 
-        return cellMap[i_index0, i_index1].SetBurntStatus(i_burnt);
-    }
+    //    return cellMap[i_index0, i_index1].SetBurntStatus(i_burnt);
+    //}
 
-    public bool UpdateColor(int i_index0, int i_index1)
-    {
-        if (cellMap.GetLength(0) <= i_index0) return false;
-        if (cellMap.GetLength(1) <= i_index1) return false;
+    //public bool UpdateColor(int i_index0, int i_index1)
+    //{
+    //    if (cellMap.GetLength(0) <= i_index0) return false;
+    //    if (cellMap.GetLength(1) <= i_index1) return false;
 
-        return cellMap[i_index0, i_index1].UpdateColor();
-    }
+    //    return cellMap[i_index0, i_index1].UpdateColor();
+    //}
 
-    public bool BurnKernel(int i_index0, int i_index1)
-    {
-        if (cellMap.GetLength(0) <= i_index0) return false;
-        if (cellMap.GetLength(1) <= i_index1) return false;
+    //public bool BurnKernel(int i_index0, int i_index1)
+    //{
+    //    if (cellMap.GetLength(0) <= i_index0) return false;
+    //    if (cellMap.GetLength(1) <= i_index1) return false;
 
-        return cellMap[i_index0, i_index1].BurnKernel();
-    }
+    //    return cellMap[i_index0, i_index1].BurnKernel();
+    //}
 
     #endregion
 

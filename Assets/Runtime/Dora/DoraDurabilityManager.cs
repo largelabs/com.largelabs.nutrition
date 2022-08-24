@@ -37,13 +37,16 @@ public class DoraDurabilityManager : MonoBehaviour
 
         float rng = 0f;
 
+        DoraCellData currCellData = null;
+
         for (int i = 0; i < length0; i++)
         {
             for (int j = 0; j < length1; j++)
             {
+                currCellData = cellMap.GetCell(new Vector2Int(i, j), false, false);
                 rng = UnityEngine.Random.Range(minDurability, maxDurability);
-                cellMap.SetDurability(i, j, rng);
-                cellMap.UpdateColor(i, j);
+                currCellData.SetDurability(rng);
+                currCellData.UpdateColor();
             }
         }
 
@@ -58,7 +61,7 @@ public class DoraDurabilityManager : MonoBehaviour
 
     public void DeactivateDurabilityUpdate()
     {
-        StopCoroutine(updateDurability());
+        this.DisposeCoroutine(ref updateDurabilityRoutine);
         updateDurabilityRoutine = null;
     }
 
@@ -83,33 +86,42 @@ public class DoraDurabilityManager : MonoBehaviour
         float durabilityLossInterval = cellMap.DoraData.DurabilityLossInterval;
         float durabilityLossPerInterval = cellMap.DoraData.DurabilityLossPerInterval;
 
+        float? durability = 0f;
+        DoraCellData currCellData = null;
+
         while (true)
         {
             int totalKernels = 0;
             int burntKernels = 0;
-            float? durability = 0f;
 
             for (int i = 0; i < length0; i++)
             {
                 for (int j = 0; j < length1; j++)
                 {
-                    durability = cellMap.GetDurability(i, j);
+                    currCellData = cellMap.GetCell(new Vector2Int(i, j), false, false);
+                    durability = currCellData.GetDurability();
                     if (durability != null)
                     {
                         totalKernels++;
-                        if (durability == 0f)
+                        if (durability.Value == 0f)
                             burntKernels++;
                     }
 
-                    cellMap.DecreaseDurability(i, j, durabilityLossPerInterval);
-                    cellMap.UpdateColor(i, j);
+                    currCellData.DecreaseDurability(durabilityLossPerInterval);
+                    currCellData.UpdateColor();
                 }
             }
 
+            Debug.LogError("burnt: " + burntKernels);
+            Debug.LogError("total: " + totalKernels);
+
             if (totalKernels > 0)
             {
-                if ((burntKernels / totalKernels) > burnThreshold)
+                if ((burntKernels / (float)totalKernels) > burnThreshold)
+                {
                     OnPassBurnThreshold?.Invoke();
+                    Debug.LogError("Burn Threshold: " + burnThreshold + " passed!");
+                }
             }
 
             yield return this.Wait(durabilityLossInterval);
