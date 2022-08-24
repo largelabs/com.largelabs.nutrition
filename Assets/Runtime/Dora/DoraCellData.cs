@@ -60,4 +60,83 @@ public class DoraCellData : ISelectable
     {
         if (null != kernel) kernel.gameObject.name = i_name;
     }
+
+    #region Durability
+    public float? GetDurability()
+    {
+        if (HasKernel)
+            return kernel.Durability;
+        else
+            return null;
+    }
+
+    public bool? KernelIsBurnt()
+    {
+        if (HasKernel)
+            return kernel.IsBurnt;
+        else
+            return null;
+    }
+
+    public bool SetDurability(float i_durability)
+    {
+        if (HasKernel)
+            kernel.SetDurability(i_durability);
+        else
+            return false;
+
+        return true;
+    }
+
+    public bool DecreaseDurability(float i_durability)
+    {
+        if (HasKernel)
+            kernel.DecreaseDurability(i_durability);
+        else
+            return false;
+
+        return true;
+    }
+
+    public bool IncreaseDurability(float i_durability)
+    {
+        if (HasKernel)
+            kernel.IncreaseDurability(i_durability);
+        else
+            return false;
+
+        return true;
+    }
+
+    public bool SetBurntStatus(bool i_burnt)
+    {
+        if (HasKernel)
+            kernel.SetBurntStatus(i_burnt);
+        else
+            return false;
+
+        return true;
+    }
+
+    public bool UpdateColor()
+    {
+        if (HasKernel)
+            kernel.UpdateColor();
+        else
+            return false;
+
+        return true;
+    }
+
+    public bool BurnKernel()
+    {
+        if (HasKernel)
+            kernel.BurnKernel();
+        else
+            return false;
+
+        return true;
+    }
+
+    #endregion
 }
