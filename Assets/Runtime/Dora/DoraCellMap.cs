@@ -7,12 +7,17 @@ public class DoraCellMap : MonoBehaviourBase
     [SerializeField] Transform[] normalAnchors = null;
     [SerializeField] GameObject kernel = null;
     [SerializeField] InterpolatorsManager interpolators = null;
+    [SerializeField] DoraData doraData = null;
 
     DoraCellData[,] cellMap = null;
     int currentRowIndex = 0;
     int currentColumnIndex = 0;
     Transform rowNormal = null;
     DoraCellFactory cellFactory = null;
+
+    public DoraData DoraData => doraData;
+    public int cellMapLength0 => cellMap.GetLength(0);
+    public int cellMapLength1 => cellMap.GetLength(1);
 
     private const int NB_ROWS = 12;
     private const int NB_COLUMNS = 11;
@@ -104,17 +109,84 @@ public class DoraCellMap : MonoBehaviourBase
 
     #endregion
 
-    #region PRIVATE
 
+    #region Durability
+    public float? GetDurability(int i_index0, int i_index1)
+    {
+        if(cellMap.GetLength(0) <= i_index0) return null;
+        if(cellMap.GetLength(1) <= i_index1) return null;
+
+        return cellMap[i_index0, i_index1].GetDurability();
+    }
+
+    public bool? KernelIsBurnt(int i_index0, int i_index1)
+    {
+        if(cellMap.GetLength(0) <= i_index0) return null;
+        if(cellMap.GetLength(1) <= i_index1) return null;
+
+        return cellMap[i_index0, i_index1].KernelIsBurnt();
+    }
+
+    public bool SetDurability(int i_index0, int i_index1, float i_durability)
+    {
+        if(cellMap.GetLength(0) <= i_index0) return false;
+        if(cellMap.GetLength(1) <= i_index1) return false;
+
+        return cellMap[i_index0, i_index1].SetDurability(i_durability);
+    }
+
+    public bool DecreaseDurability(int i_index0, int i_index1, float i_durability)
+    {
+        if(cellMap.GetLength(0) <= i_index0) return false;
+        if(cellMap.GetLength(1) <= i_index1) return false;
+
+        return cellMap[i_index0, i_index1].DecreaseDurability(i_durability);
+    }
+
+    public bool IncreaseDurability(int i_index0, int i_index1, float i_durability)
+    {
+        if(cellMap.GetLength(0) <= i_index0) return false;
+        if(cellMap.GetLength(1) <= i_index1) return false;
+
+        return cellMap[i_index0, i_index1].IncreaseDurability(i_durability);
+    }
+
+    public bool SetBurntStatus(int i_index0, int i_index1, bool i_burnt)
+    {
+        if (cellMap.GetLength(0) <= i_index0) return false;
+        if (cellMap.GetLength(1) <= i_index1) return false;
+
+        return cellMap[i_index0, i_index1].SetBurntStatus(i_burnt);
+    }
+
+    public bool UpdateColor(int i_index0, int i_index1)
+    {
+        if (cellMap.GetLength(0) <= i_index0) return false;
+        if (cellMap.GetLength(1) <= i_index1) return false;
+
+        return cellMap[i_index0, i_index1].UpdateColor();
+    }
+
+    public bool BurnKernel(int i_index0, int i_index1)
+    {
+        if (cellMap.GetLength(0) <= i_index0) return false;
+        if (cellMap.GetLength(1) <= i_index1) return false;
+
+        return cellMap[i_index0, i_index1].BurnKernel();
+    }
+
+    #endregion
+
+    #region PRIVATE
 
     IEnumerator revealCellsAnimated(int i_startRow, int i_endRow, bool i_updateRowIndex)
     {
         for (int i = i_startRow; i < i_endRow; i++)
         {
-            if(true == i_updateRowIndex) updateRowIndex(i);
+            if (true == i_updateRowIndex) updateRowIndex(i);
             for (int j = 0; j < 11; j++)
             {
-                if(true == cellMap[i, j].HasKernel)
+                if (true == cellMap[i, j].HasKernel)
                 {
                     cellMap[i, j].Kernel.Appear(true);
                     yield return this.Wait(0.025f);
@@ -123,13 +195,11 @@ public class DoraCellMap : MonoBehaviourBase
         }
     }
 
-
     void updateRowIndex(int i_rowIndex)
     {
         currentRowIndex = i_rowIndex;
         rowNormal = normalAnchors[currentRowIndex];
     }
-
 
     int getLoopedInteger(int i_input, int i_maxValue)
     {

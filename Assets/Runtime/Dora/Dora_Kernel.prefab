@@ -98,6 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   appear: {fileID: 3224803383649992173}
+  kernelRnd: {fileID: 40511290784818256}
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  targetColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &3224803383649992173
 MonoBehaviour:
   m_ObjectHideFlags: 0
