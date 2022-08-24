@@ -353,6 +353,7 @@ GameObject:
   - component: {fileID: 5121594635215016961}
   - component: {fileID: 6891196076344109177}
   - component: {fileID: 69763543163915382}
+  - component: {fileID: 8300991783027058464}
   m_Layer: 0
   m_Name: Dora_Cob
   m_TagString: Untagged
@@ -668,6 +669,7 @@ MonoBehaviour:
   - {fileID: 2973852795931583314}
   kernel: {fileID: 8426721250731948442, guid: b65354043dce61e4aa8be2e57dd53238, type: 3}
   interpolators: {fileID: 6891196076344109177}
+  doraData: {fileID: 11400000, guid: 022361e63e3149142b800cf71d7a402e, type: 2}
 --- !u!114 &6891196076344109177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,6 +682,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxConcurrentFloat: -1
+  maxConcurrentV2: -1
+  maxConcurrentV3: -1
+  maxConcurrentColor: -1
 --- !u!114 &69763543163915382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,6 +698,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6d114d6b762e443b93eac19fe7e162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8300991783027058464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2973852795684463434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85dc13fe91ad3248acf2e2c6d3d1be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cellMap: {fileID: 5121594635215016961}
+  burnThreshold: 0.3
 --- !u!1 &2973852795687102239
 GameObject:
   m_ObjectHideFlags: 0
