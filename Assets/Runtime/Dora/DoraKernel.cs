@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 {
-    [SerializeField] DoraKernalAppear appear = null;
+    [SerializeField] DoraKernelAppear appear = null;
     [SerializeField] MeshRenderer kernelRnd = null;
     [SerializeField] Color baseColor = Color.white;
     [SerializeField] Color targetColor = Color.white;
@@ -15,8 +15,9 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     bool materialIdsSet = false;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         mat = kernelRnd.material;
         baseColorId = Shader.PropertyToID("_BaseColor");
         firstShadeColorId = Shader.PropertyToID("_1st_ShadeColor");
