@@ -43,6 +43,7 @@ public class DoraDurabilityManager : MonoBehaviour
             {
                 rng = UnityEngine.Random.Range(minDurability, maxDurability);
                 cellMap.SetDurability(i, j, rng);
+                cellMap.UpdateColor(i, j);
             }
         }
 
@@ -86,18 +87,30 @@ public class DoraDurabilityManager : MonoBehaviour
         {
             int totalKernels = 0;
             int burntKernels = 0;
+            float? durability = 0f;
 
             for (int i = 0; i < length0; i++)
             {
                 for (int j = 0; j < length1; j++)
                 {
+                    durability = cellMap.GetDurability(i, j);
+                    if (durability != null)
+                    {
+                        totalKernels++;
+                        if (durability == 0f)
+                            burntKernels++;
+                    }
+
                     cellMap.DecreaseDurability(i, j, durabilityLossPerInterval);
                     cellMap.UpdateColor(i, j);
                 }
             }
 
-            if ((burntKernels / totalKernels) > burnThreshold)
-                OnPassBurnThreshold?.Invoke();
+            if (totalKernels > 0)
+            {
+                if ((burntKernels / totalKernels) > burnThreshold)
+                    OnPassBurnThreshold?.Invoke();
+            }
 
             yield return this.Wait(durabilityLossInterval);
         }
