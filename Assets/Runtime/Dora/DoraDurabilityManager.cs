@@ -11,10 +11,16 @@ public class DoraDurabilityManager : MonoBehaviour
 
     Coroutine updateDurabilityRoutine = null;
 
+    #region UNITY AND CORE
+
     private void Awake()
     {
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
     }
+
+    #endregion
+
+    #region PUBLIC API
 
     public void InitKernels()
     {
@@ -64,6 +70,10 @@ public class DoraDurabilityManager : MonoBehaviour
         this.DisposeCoroutine(ref updateDurabilityRoutine);
         updateDurabilityRoutine = null;
     }
+
+    #endregion
+
+    #region PRIVATE
 
     private IEnumerator updateDurability()
     {
@@ -127,4 +137,6 @@ public class DoraDurabilityManager : MonoBehaviour
             yield return this.Wait(durabilityLossInterval);
         }
     }
+
+    #endregion
 }

@@ -8,19 +8,22 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     [SerializeField] Color targetColor = Color.white;
     [SerializeField] Color burntColor = Color.black;
 
-    int baseColorId = 0;
-    int firstShadeColorId = 0;
-    int secondShadeColorId = 0;
+    private static readonly int baseColorId = Shader.PropertyToID("_BaseColor");
+    private static readonly int firstShadeColorId = Shader.PropertyToID("_1st_ShadeColor");
+    private static readonly int secondShadeColorId = Shader.PropertyToID("_2nd_ShadeColor");
+
+    bool isInit = false;
+    bool isBurnt = false;
+    float durability = 1f;
 
     Material mat = null;
+
+    #region UNITY AND CORE
 
     protected override void Awake()
     {
         base.Awake();
         mat = kernelRnd.material;
-        baseColorId = Shader.PropertyToID("_BaseColor");
-        firstShadeColorId = Shader.PropertyToID("_1st_ShadeColor");
-        secondShadeColorId = Shader.PropertyToID("_2nd_ShadeColor");
     }
 
     private void OnDisable()
@@ -35,7 +38,9 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
             mat.SetColor(baseColorId, baseColor);
     }
 
-    bool isInit = false;
+    #endregion
+
+    #region PUBLIC API
 
     public void Init(InterpolatorsManager i_interpolators)
     {
@@ -48,11 +53,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public bool IsInit => isInit;
 
-    #region Durability
-    public float durability = 1f;
-    bool isBurnt = false;
-
     public float Durability => durability;
+
     public bool IsBurnt => isBurnt;
 
     public void SetDurability(float i_durability)
@@ -105,15 +107,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         durability = 0f;
     }
 
-    private void setKernelColor(Color i_color)
-    {
-        if (mat == null) return;
-
-        mat.SetColor(baseColorId, i_color);
-        mat.SetColor(firstShadeColorId, i_color);
-        mat.SetColor(secondShadeColorId, i_color);
-    }
-
     #endregion
 
     #region IAppear
@@ -142,6 +135,19 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     public void Unselect()
     {
         throw new System.NotImplementedException();
+    }
+
+    #endregion
+
+    #region PRIVATE
+
+    private void setKernelColor(Color i_color)
+    {
+        if (mat == null) return;
+
+        mat.SetColor(baseColorId, i_color);
+        mat.SetColor(firstShadeColorId, i_color);
+        mat.SetColor(secondShadeColorId, i_color);
     }
 
     #endregion
