@@ -45,9 +45,6 @@ public class InterpolatorsManager : MonoBehaviourBase
         fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
         Coroutine coroutine = StartCoroutine(Interpolat(fl));
         animators.Add(fl, coroutine);
-
-        Debug.Log(v3AnimationPool.TotalCount);
-
         return fl;
     }
     public ITypedAnimator<Color> Animate(Color i_start, Color i_target, float i_time, AnimationMode i_interpolationMode, bool i_clamped = true, float i_delay = 0, Action<ITypedAnimator<Color>> i_onAnimationEnded = null)

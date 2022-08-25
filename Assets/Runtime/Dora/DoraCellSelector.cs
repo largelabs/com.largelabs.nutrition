@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DoraCellSelector : MonoBehaviourBase
 {
-    [SerializeField] DoraCellMap cellMap = null;
     [SerializeField] int maxSelectionRadius = 3;
     [SerializeField] Vector2Int defaultSelect = new Vector2Int(5, 5);
     [SerializeField] [Range(100f, 500f)] float rotationSpeed = 200f;
 
+    DoraCellMap cellMap = null;
     Dictionary<Vector2Int, DoraCellData> selectedRange = null;
     List<Vector2Int> recursiveSelectBuffer = null;
     List<Vector2Int> lastRecursiveSelect = null;
@@ -18,13 +18,11 @@ public class DoraCellSelector : MonoBehaviourBase
 
     #region UNITY AND CORE
 
-    private void Start()
-    {
-        SelectCell(defaultSelect, true, true);
-    }
-
     private void Update()
     {
+        if (null == cellMap) return;
+        if (null == rowNormal) return;
+
         float dot = Vector3.Dot(rowNormal.forward, Camera.main.transform.forward);
 
         if (dot < -1.1f || dot > -0.97f)
@@ -37,6 +35,14 @@ public class DoraCellSelector : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+
+    public void SetCellMap(DoraCellMap i_cellMap)
+    {
+        ClearSelection();
+
+        cellMap = i_cellMap;            
+        SelectCell(defaultSelect, true, true);
+    }
 
     [ExposePublicMethod]
     public void SelectCell(Vector2Int i_cell, bool i_loopCoords, bool i_clearSelection)
@@ -68,6 +74,8 @@ public class DoraCellSelector : MonoBehaviourBase
     [ExposePublicMethod]
     public void ClearSelection()
     {
+        rowNormal = null;
+
         if (null == selectedRange) return;
 
         foreach (KeyValuePair<Vector2Int, DoraCellData> pair in selectedRange)
@@ -80,6 +88,7 @@ public class DoraCellSelector : MonoBehaviourBase
 
     bool trySelectCell(Vector2Int i_coord, bool i_loopX, bool i_loopY, bool i_updateNormal)
     {
+        if (null == cellMap) return false;
         if (null == selectedRange) selectedRange = new Dictionary<Vector2Int, DoraCellData>(1 + maxSelectionRadius * maxSelectionRadius * 4);
 
         if (false == selectedRange.ContainsKey(i_coord))
