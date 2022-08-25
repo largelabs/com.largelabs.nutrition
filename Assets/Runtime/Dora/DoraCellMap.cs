@@ -5,7 +5,8 @@ public class DoraCellMap : MonoBehaviourBase
 {
     [SerializeField] Transform[] anchors = null;
     [SerializeField] Transform[] normalAnchors = null;
-    [SerializeField] GameObject kernel = null;
+    [SerializeField] KernelSpawner kernelSpawner = null;
+    //[SerializeField] GameObject kernel = null;
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] DoraData doraData = null;
 
@@ -83,8 +84,7 @@ public class DoraCellMap : MonoBehaviourBase
 
         for (int i = 0; i < count; i++)
         {
-            cellBuffer[i] = cellFactory.MakeCell(anchors[i], kernel, i);
-
+            cellBuffer[i] = cellFactory.MakeCell(kernelSpawner.SpawnDoraKernelWithAnchor(anchors[i]));
         }
 
         cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cellBuffer, NB_ROWS, NB_COLUMNS);
