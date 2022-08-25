@@ -75,6 +75,13 @@ public class DoraCellMap : MonoBehaviourBase
 
     public void PopulateMap()
     {
+        if (kernelSpawner == null)
+        {
+            Debug.LogError("Kernel spawner is null...Cannot populate map!");
+            return;
+        }
+
+
         int count = anchors.Length;
 
         DoraCellData[] cellBuffer = new DoraCellData[count];
@@ -82,9 +89,17 @@ public class DoraCellMap : MonoBehaviourBase
 
         if (null == cellFactory) cellFactory = new DoraCellFactory(interpolators);
 
+        DoraKernel currentKernel = null;
         for (int i = 0; i < count; i++)
         {
-            cellBuffer[i] = cellFactory.MakeCell(kernelSpawner.SpawnDoraKernelWithAnchor(anchors[i]));
+            currentKernel = kernelSpawner.SpawnDoraKernelWithAnchor(anchors[i]);
+            if (currentKernel != null)
+                cellBuffer[i] = cellFactory.MakeCell(currentKernel);
+            else
+            {
+                Debug.LogError("Factory could not create cell! Returning...");
+                return;
+            }
         }
 
         cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cellBuffer, NB_ROWS, NB_COLUMNS);
