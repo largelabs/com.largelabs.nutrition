@@ -17,6 +17,8 @@ public class DoraCellData : ISelectable
         if (true == isSelected) return;
         if (null != kernel) kernel.Select();
         isSelected = true;
+
+        Debug.Log("Did select cell " + coords);
     }
 
     public void Unselect()
@@ -24,6 +26,9 @@ public class DoraCellData : ISelectable
         if (false == isSelected) return;
         if (null != kernel) kernel.Unselect();
         isSelected = false;
+
+        Debug.Log("Did unselect cell " + coords);
+
     }
 
     #endregion

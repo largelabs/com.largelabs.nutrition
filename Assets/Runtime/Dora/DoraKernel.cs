@@ -15,6 +15,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     bool isInit = false;
     bool isBurnt = false;
     float durability = 1f;
+    bool isSelected = false;
 
     Material mat = null;
 
@@ -125,16 +126,25 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     #region ISelectable
 
-    public bool IsSelected => throw new System.NotImplementedException();
+    public bool IsSelected => isSelected;
 
     public void Select()
     {
-        throw new System.NotImplementedException();
+        if (true == isSelected) return;
+        isSelected = true;
+
+        transform.localScale = MathConstants.VECTOR_3_ONE * 1.2f;
+        setKernelColor(Color.red);
     }
 
     public void Unselect()
     {
-        throw new System.NotImplementedException();
+        if (false == isSelected) return;
+        isSelected = false;
+
+        transform.localScale = MathConstants.VECTOR_3_ONE;
+        setKernelColor(baseColor);
+
     }
 
     #endregion
