@@ -8746,8 +8746,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4439804392825474004}
-  - component: {fileID: 8582649402227204830}
   - component: {fileID: 5964104436916433776}
+  - component: {fileID: 9087975254910316267}
+  - component: {fileID: 8582649402227204830}
   m_Layer: 0
   m_Name: Dora
   m_TagString: Untagged
@@ -8772,25 +8773,6 @@ Transform:
   m_Father: {fileID: 5155214119658718485}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8582649402227204830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7971496874767940635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b9e69e68b39d3444b792ef1539b33e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anchors:
-  - {fileID: 4366286978264544450}
-  - {fileID: 2386924889465837128}
-  - {fileID: 1779908795297366230}
-  - {fileID: 1115967018170665630}
-  - {fileID: 8344200267884183322}
-  interpolatorManager: {fileID: 5964104436916433776}
 --- !u!114 &5964104436916433776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8807,6 +8789,46 @@ MonoBehaviour:
   maxConcurrentV2: -1
   maxConcurrentV3: -1
   maxConcurrentColor: -1
+--- !u!114 &9087975254910316267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7971496874767940635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dcf85c4b702c654e9a46350a1df639b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchors: []
+--- !u!114 &8582649402227204830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7971496874767940635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9e69e68b39d3444b792ef1539b33e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playAnchor: {fileID: 0}
+  doneAnchor: {fileID: 0}
+  interpolatorManager: {fileID: 5964104436916433776}
+  playMoveCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  doneMoveCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7980079966155085775
 GameObject:
   m_ObjectHideFlags: 0
