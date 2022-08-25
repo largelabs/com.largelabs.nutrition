@@ -10,9 +10,6 @@ public class DoraCellMap : MonoBehaviourBase
     [SerializeField] DoraData doraData = null;
 
     DoraCellData[,] cellMap = null;
-    int currentRowIndex = 0;
-    int currentColumnIndex = 0;
-    Transform rowNormal = null;
     DoraCellFactory cellFactory = null;
 
     public DoraData DoraData => doraData;
@@ -24,23 +21,11 @@ public class DoraCellMap : MonoBehaviourBase
 
     #region UNITY AND CORE
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         PopulateMap();
-        updateRowIndex(0);
-
         RevealCells(true);
-    }
-
-    private void Update()
-    {
-        float dot = Vector3.Dot(rowNormal.forward, Camera.main.transform.forward);
-
-        if(dot < -1.1f || dot > -0.97f)
-        {
-            int sign = dot < -1f ? -1 : 1;
-            transform.Rotate(Time.deltaTime * sign * 200f, 0f, 0f);
-        }
     }
 
     #endregion
@@ -53,8 +38,8 @@ public class DoraCellMap : MonoBehaviourBase
 
         if(true == i_animated)
         {
-            StartCoroutine(revealCellsAnimated(0, NB_ROWS / 2, true));
-            StartCoroutine(revealCellsAnimated(NB_ROWS / 2, NB_ROWS, false));
+            StartCoroutine(revealCellsAnimated(0, NB_ROWS / 2));
+            StartCoroutine(revealCellsAnimated(NB_ROWS / 2, NB_ROWS));
         }
         else
         {
@@ -68,7 +53,6 @@ public class DoraCellMap : MonoBehaviourBase
                     }
                 }
             }
-            updateRowIndex(0);
         }
     }
 
@@ -107,83 +91,26 @@ public class DoraCellMap : MonoBehaviourBase
         return cellMap[fixedCoord.x, fixedCoord.y];
     }
 
-    #endregion
+    public Vector2Int GetLoopedCoord(Vector2Int i_coord, bool i_loopX, bool i_loopY)
+    {
+        return getCoords(i_coord, i_loopX, i_loopY);
+    }
 
-    #region Durability
-    //public float? GetDurability(int i_index0, int i_index1)
-    //{
-    //    if(cellMap.GetLength(0) <= i_index0) return null;
-    //    if(cellMap.GetLength(1) <= i_index1) return null;
-
-    //    return cellMap[i_index0, i_index1].GetDurability();
-    //}
-
-    //public bool? KernelIsBurnt(int i_index0, int i_index1)
-    //{
-    //    if(cellMap.GetLength(0) <= i_index0) return null;
-    //    if(cellMap.GetLength(1) <= i_index1) return null;
-
-    //    return cellMap[i_index0, i_index1].KernelIsBurnt();
-    //}
-
-    //public bool SetDurability(int i_index0, int i_index1, float i_durability)
-    //{
-    //    if(cellMap.GetLength(0) <= i_index0) return false;
-    //    if(cellMap.GetLength(1) <= i_index1) return false;
-
-    //    return cellMap[i_index0, i_index1].SetDurability(i_durability);
-    //}
-
-    //public bool DecreaseDurability(int i_index0, int i_index1, float i_durability)
-    //{
-    //    if(cellMap.GetLength(0) <= i_index0) return false;
-    //    if(cellMap.GetLength(1) <= i_index1) return false;
-
-    //    return cellMap[i_index0, i_index1].DecreaseDurability(i_durability);
-    //}
-
-    //public bool IncreaseDurability(int i_index0, int i_index1, float i_durability)
-    //{
-    //    if(cellMap.GetLength(0) <= i_index0) return false;
-    //    if(cellMap.GetLength(1) <= i_index1) return false;
-
-    //    return cellMap[i_index0, i_index1].IncreaseDurability(i_durability);
-    //}
-
-    //public bool SetBurntStatus(int i_index0, int i_index1, bool i_burnt)
-    //{
-    //    if (cellMap.GetLength(0) <= i_index0) return false;
-    //    if (cellMap.GetLength(1) <= i_index1) return false;
-
-    //    return cellMap[i_index0, i_index1].SetBurntStatus(i_burnt);
-    //}
-
-    //public bool UpdateColor(int i_index0, int i_index1)
-    //{
-    //    if (cellMap.GetLength(0) <= i_index0) return false;
-    //    if (cellMap.GetLength(1) <= i_index1) return false;
-
-    //    return cellMap[i_index0, i_index1].UpdateColor();
-    //}
-
-    //public bool BurnKernel(int i_index0, int i_index1)
-    //{
-    //    if (cellMap.GetLength(0) <= i_index0) return false;
-    //    if (cellMap.GetLength(1) <= i_index1) return false;
-
-    //    return cellMap[i_index0, i_index1].BurnKernel();
-    //}
+    public Transform GetRowNormal(int i_index, bool i_loop)
+    {
+        i_index = i_loop ? getLoopedInteger(i_index, NB_ROWS) : Mathf.Clamp(i_index, 0, NB_ROWS - 1);
+        return normalAnchors[i_index];
+    }
 
     #endregion
 
     #region PRIVATE
 
-    IEnumerator revealCellsAnimated(int i_startRow, int i_endRow, bool i_updateRowIndex)
+    IEnumerator revealCellsAnimated(int i_startRow, int i_endRow)
     {
         for (int i = i_startRow; i < i_endRow; i++)
         {
-            if (true == i_updateRowIndex) updateRowIndex(i);
-            for (int j = 0; j < 11; j++)
+            for (int j = 0; j < NB_COLUMNS; j++)
             {
                 if (true == cellMap[i, j].HasKernel)
                 {
@@ -192,12 +119,6 @@ public class DoraCellMap : MonoBehaviourBase
                 }
             }
         }
-    }
-
-    void updateRowIndex(int i_rowIndex)
-    {
-        currentRowIndex = i_rowIndex;
-        rowNormal = normalAnchors[currentRowIndex];
     }
 
     int getLoopedInteger(int i_input, int i_maxValue)

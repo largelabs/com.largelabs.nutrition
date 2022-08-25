@@ -6,10 +6,35 @@ public class DoraCellSelector : MonoBehaviourBase
 {
     [SerializeField] DoraCellMap cellMap = null;
     [SerializeField] int maxSelectionRadius = 3;
+    [SerializeField] Vector2Int defaultSelect = new Vector2Int(5, 5);
+    [SerializeField] [Range(100f, 500f)] float rotationSpeed = 200f;
 
     Dictionary<Vector2Int, DoraCellData> selectedRange = null;
     List<Vector2Int> recursiveSelectBuffer = null;
     List<Vector2Int> lastRecursiveSelect = null;
+    Transform rowNormal = null;
+
+    int currentRowIndex = 0;
+
+    #region UNITY AND CORE
+
+    private void Start()
+    {
+        SelectCell(defaultSelect, true, true);
+    }
+
+    private void Update()
+    {
+        float dot = Vector3.Dot(rowNormal.forward, Camera.main.transform.forward);
+
+        if (dot < -1.1f || dot > -0.97f)
+        {
+            int sign = dot < -1f ? -1 : 1;
+            cellMap.transform.Rotate(Time.deltaTime * sign * rotationSpeed, 0f, 0f);
+        }
+    }
+
+    #endregion
 
     #region PUBLIC API
 
@@ -18,7 +43,7 @@ public class DoraCellSelector : MonoBehaviourBase
     {
         if (true == i_clearSelection) ClearSelection();
 
-        trySelectCell(i_cell, i_loopCoords, i_loopCoords);
+        trySelectCell(i_cell, i_loopCoords, i_loopCoords, true);
     }
 
     [ExposePublicMethod]
@@ -28,9 +53,11 @@ public class DoraCellSelector : MonoBehaviourBase
 
         i_radius = Mathf.Clamp(i_radius, 0, maxSelectionRadius);
 
-        trySelectCell(i_origin, i_loopX, i_loopY);
+        trySelectCell(i_origin, i_loopX, i_loopY, true);
 
-        if(null == lastRecursiveSelect) lastRecursiveSelect = new List<Vector2Int>();
+        if (null == lastRecursiveSelect) lastRecursiveSelect = new List<Vector2Int>();
+        lastRecursiveSelect.Clear();
+
         lastRecursiveSelect.Add(i_origin);
         int currRadius = 0;
         selectRecursive(ref lastRecursiveSelect, ref currRadius, i_radius, i_loopX, i_loopY);
@@ -51,7 +78,7 @@ public class DoraCellSelector : MonoBehaviourBase
 
     #region PRIVATE
 
-    bool trySelectCell(Vector2Int i_coord, bool i_loopX, bool i_loopY)
+    bool trySelectCell(Vector2Int i_coord, bool i_loopX, bool i_loopY, bool i_updateNormal)
     {
         if (null == selectedRange) selectedRange = new Dictionary<Vector2Int, DoraCellData>(1 + maxSelectionRadius * maxSelectionRadius * 4);
 
@@ -60,6 +87,12 @@ public class DoraCellSelector : MonoBehaviourBase
             DoraCellData cell = cellMap.GetCell(i_coord, i_loopX, i_loopY);
             selectedRange.Add(i_coord, cell);
             cell.Select();
+
+            if(true == i_updateNormal)
+            {
+                updateRowIndex(cell.Coords.x);
+            }
+
             return true;
         }
 
@@ -75,7 +108,7 @@ public class DoraCellSelector : MonoBehaviourBase
         selectedCoord.x = i_coord.x + i_offsetX;
         selectedCoord.y = i_coord.y + i_offsetY;
 
-        trySelectCell(selectedCoord, i_loopX, i_loopY);
+        trySelectCell(selectedCoord, i_loopX, i_loopY, false);
         recursiveSelectBuffer.Add(selectedCoord);
     }
 
@@ -101,6 +134,12 @@ public class DoraCellSelector : MonoBehaviourBase
         recursiveSelectBuffer.Clear();
 
         selectRecursive(ref i_lastRecursiveSelect, ref i_currRadius, i_radius, i_loopX, i_loopY);
+    }
+
+    void updateRowIndex(int i_rowIndex)
+    {
+        currentRowIndex = i_rowIndex;
+        rowNormal = cellMap.GetRowNormal(currentRowIndex, true);
     }
 
     #endregion
