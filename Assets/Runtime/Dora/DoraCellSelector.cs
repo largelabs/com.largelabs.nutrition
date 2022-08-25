@@ -12,6 +12,7 @@ public class DoraCellSelector : MonoBehaviourBase
     Dictionary<Vector2Int, DoraCellData> selectedRange = null;
     List<Vector2Int> recursiveSelectBuffer = null;
     List<Vector2Int> lastRecursiveSelect = null;
+    Vector2Int? currentOriginCell = null;
     Transform rowNormal = null;
 
     int currentRowIndex = 0;
@@ -36,6 +37,10 @@ public class DoraCellSelector : MonoBehaviourBase
 
     #region PUBLIC API
 
+    public int MaxSelectionRadius => maxSelectionRadius;
+
+    public Vector2Int? CurrentOriginCell => currentOriginCell;
+
     public void SetCellMap(DoraCellMap i_cellMap)
     {
         ClearSelection();
@@ -49,7 +54,7 @@ public class DoraCellSelector : MonoBehaviourBase
     {
         if (true == i_clearSelection) ClearSelection();
 
-        trySelectCell(i_cell, i_loopCoords, i_loopCoords, true);
+        trySelectCell(i_cell, i_loopCoords, i_loopCoords, true, true);
     }
 
     [ExposePublicMethod]
@@ -59,7 +64,7 @@ public class DoraCellSelector : MonoBehaviourBase
 
         i_radius = Mathf.Clamp(i_radius, 0, maxSelectionRadius);
 
-        trySelectCell(i_origin, i_loopX, i_loopY, true);
+        trySelectCell(i_origin, i_loopX, i_loopY, true, true);
 
         if (null == lastRecursiveSelect) lastRecursiveSelect = new List<Vector2Int>();
         lastRecursiveSelect.Clear();
@@ -75,6 +80,7 @@ public class DoraCellSelector : MonoBehaviourBase
     public void ClearSelection()
     {
         rowNormal = null;
+        currentOriginCell = null;
 
         if (null == selectedRange) return;
 
@@ -86,7 +92,7 @@ public class DoraCellSelector : MonoBehaviourBase
 
     #region PRIVATE
 
-    bool trySelectCell(Vector2Int i_coord, bool i_loopX, bool i_loopY, bool i_updateNormal)
+    bool trySelectCell(Vector2Int i_coord, bool i_loopX, bool i_loopY, bool i_isOriginCell, bool i_updateNormal)
     {
         if (null == cellMap) return false;
         if (null == selectedRange) selectedRange = new Dictionary<Vector2Int, DoraCellData>(1 + maxSelectionRadius * maxSelectionRadius * 4);
@@ -98,9 +104,10 @@ public class DoraCellSelector : MonoBehaviourBase
             cell.Select();
 
             if(true == i_updateNormal)
-            {
                 updateRowIndex(cell.Coords.x);
-            }
+
+            if (true == i_isOriginCell)
+                currentOriginCell = cell.Coords;
 
             return true;
         }
@@ -117,7 +124,7 @@ public class DoraCellSelector : MonoBehaviourBase
         selectedCoord.x = i_coord.x + i_offsetX;
         selectedCoord.y = i_coord.y + i_offsetY;
 
-        trySelectCell(selectedCoord, i_loopX, i_loopY, false);
+        trySelectCell(selectedCoord, i_loopX, i_loopY, false, false);
         recursiveSelectBuffer.Add(selectedCoord);
     }
 
