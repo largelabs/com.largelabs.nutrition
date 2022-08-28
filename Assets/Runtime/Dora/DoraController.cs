@@ -134,6 +134,7 @@ public class DoraController : MonoBehaviourBase
         inputActions.Player.Move.Enable();
 
         Debug.Log("released");
+        // EAT STUFF here
 
         this.DisposeCoroutine(ref eatRoutine);
     }

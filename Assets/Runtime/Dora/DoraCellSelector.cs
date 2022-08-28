@@ -100,6 +100,9 @@ public class DoraCellSelector : MonoBehaviourBase
         if (false == selectedRange.ContainsKey(i_coord))
         {
             DoraCellData cell = cellMap.GetCell(i_coord, i_loopX, i_loopY);
+
+            if (null == cell) return false;
+
             selectedRange.Add(i_coord, cell);
             cell.Select();
 
