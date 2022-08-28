@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,8 @@ public class DoraController : MonoBehaviourBase
 {
     [SerializeField] DoraCellMap defaultCellMap = null;
     [SerializeField] DoraCellSelector cellSelector = null;
+    [SerializeField] KernelSpawner kernelSpawner = null;
+    [SerializeField] DoraScoreManager scoreManager = null;
 
     DoraActions inputActions = null;
     DoraCellMap cellMap = null;
@@ -134,7 +137,8 @@ public class DoraController : MonoBehaviourBase
         inputActions.Player.Move.Enable();
 
         Debug.Log("released");
-        // EAT STUFF here
+
+        eatKernels();
 
         this.DisposeCoroutine(ref eatRoutine);
     }
@@ -150,6 +154,20 @@ public class DoraController : MonoBehaviourBase
     {
         inputActions.Player.Eat.Enable();
         this.DisposeCoroutine(ref moveRoutine);
+    }
+
+    private void eatKernels()
+    {
+        Dictionary<Vector2Int, DoraCellData> cellsDictionary = cellSelector.SelectedRange;
+
+        foreach (KeyValuePair<Vector2Int, DoraCellData> pair in cellsDictionary)
+        {
+            DoraCellData cell = pair.Value;
+            kernelSpawner.DespawnKernel(cell.Kernel);
+            cell.Reset();
+        }
+
+        scoreManager.AddScore(cellsDictionary.Count);
     }
 
     #endregion

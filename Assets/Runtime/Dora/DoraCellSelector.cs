@@ -41,6 +41,8 @@ public class DoraCellSelector : MonoBehaviourBase
 
     public Vector2Int? CurrentOriginCell => currentOriginCell;
 
+    public Dictionary<Vector2Int, DoraCellData> SelectedRange => selectedRange;
+
     public void SetCellMap(DoraCellMap i_cellMap)
     {
         ClearSelection();
@@ -74,8 +76,6 @@ public class DoraCellSelector : MonoBehaviourBase
         selectRecursive(ref lastRecursiveSelect, ref currRadius, i_radius, i_loopX, i_loopY);
     }
 
-    #endregion
-
     [ExposePublicMethod]
     public void ClearSelection()
     {
@@ -89,6 +89,8 @@ public class DoraCellSelector : MonoBehaviourBase
 
         selectedRange.Clear();
     }
+
+    #endregion
 
     #region PRIVATE
 
