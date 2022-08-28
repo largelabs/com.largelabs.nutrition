@@ -25,6 +25,11 @@ public class DoraCellMap : MonoBehaviourBase
     protected override void Awake()
     {
         base.Awake();
+
+    }
+
+    private void Start()
+    {
         PopulateMap();
         RevealCells(true);
     }
@@ -76,7 +81,7 @@ public class DoraCellMap : MonoBehaviourBase
         DoraKernel currentKernel = null;
         for (int i = 0; i < count; i++)
         {
-            currentKernel = kernelSpawner.SpawnDoraKernelWithAnchor(anchors[i]);
+            currentKernel = kernelSpawner.SpawnDoraKernelAtAnchor(anchors[i]);
             if (currentKernel != null)
                 cellBuffer[i] = cellFactory.MakeCell(currentKernel);
             else

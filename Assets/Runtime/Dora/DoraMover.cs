@@ -12,6 +12,7 @@ public class DoraMover : MonoBehaviourBase
     [SerializeField] private AnimationCurve doneMoveCurve = null;
 
     private Queue<Transform> doraCobQueue = null;
+    private Transform currentCob = null;
 
     Coroutine nextCobRoutine = null;
 
@@ -19,20 +20,23 @@ public class DoraMover : MonoBehaviourBase
     [ExposePublicMethod]
     public void GetNextCob()
     {
-        if (doraCobQueue == null || doraCobQueue.Count < 1) return;
-
         if (nextCobRoutine == null)
         {
-            Transform doraCob = doraCobQueue.Dequeue();
-
-            nextCobRoutine = 
-                StartCoroutine(animateToPosition(doraCob, playAnchor.localPosition, 1f, 
-                                                    playMoveCurve, onPlayMoveDone));
+            nextCobRoutine = StartCoroutine(getNextCob());
         }
     }
 
     public void RegisterCob(Transform i_doraCob)
     {
+        if (i_doraCob == null)
+        {
+            Debug.LogError("Transform is null! Cannot register cob");
+            return;
+        }
+
+        if (doraCobQueue == null)
+            doraCobQueue = new Queue<Transform>();
+
         doraCobQueue.Enqueue(i_doraCob);
     }
 
@@ -42,23 +46,51 @@ public class DoraMover : MonoBehaviourBase
     // only move to play point if there is a cob on the grill and no cob on the play point
     #endregion
 
-    #region PRIVATE
+    #region PRIVATE API
+
+    private IEnumerator getNextCob()
+    {
+        if (currentCob != null)
+        {
+            yield return StartCoroutine(animateToPosition(currentCob, doneAnchor.position, 1f,
+                                            playMoveCurve, onPlayMoveDone));
+        }
+
+        if (doraCobQueue != null && doraCobQueue.Count > 0)
+        {
+            Transform nextCob = doraCobQueue.Dequeue();
+            if (nextCob != null)
+            {
+                DoraDurabilityManager dorabilityManager = nextCob.GetComponent<DoraDurabilityManager>();
+                if (dorabilityManager != null)
+                    dorabilityManager.DeactivateDurabilityUpdate();
+
+                yield return StartCoroutine(animateToPosition(nextCob, playAnchor.position, 1f,
+                                                playMoveCurve, onPlayMoveDone));
+            }
+
+            currentCob = nextCob;
+        }
+        else
+            currentCob = null;
+
+        this.DisposeCoroutine(ref nextCobRoutine);
+    }
 
     IEnumerator animateToPosition(Transform i_nextCob, Vector3 i_target, float i_time, AnimationCurve i_curve, Action<ITypedAnimator<Vector3>> i_onAnimationEnded)
     {
         AnimationMode mode = new AnimationMode(i_curve);
-        ITypedAnimator<Vector3> posInterpolator = interpolatorManager.Animate(i_nextCob.localPosition, i_target, i_time, mode, false, 0f, i_onAnimationEnded);
+        ITypedAnimator<Vector3> posInterpolator = interpolatorManager.Animate(i_nextCob.position, i_target, i_time, mode, false, 0f, i_onAnimationEnded);
 
         while (true == posInterpolator.IsActive)
         {
-            i_nextCob.localPosition = posInterpolator.Current;
+            i_nextCob.position = posInterpolator.Current;
             yield return null;
         }
     }
 
     private void onPlayMoveDone(ITypedAnimator<Vector3> i_anim)
     {
-        this.DisposeCoroutine(ref nextCobRoutine);
     }
     #endregion
 }
