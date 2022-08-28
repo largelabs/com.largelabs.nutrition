@@ -9,22 +9,13 @@ public class DoraCellFactory
         interpolators = i_interpolators;
     }
 
-    public DoraCellData MakeCell(Transform i_anchor, GameObject i_kernalPrefab, int i_index)
+    public DoraCellData MakeCell(DoraKernel i_kernel)
     {
-        // TODO : take from prefab pool
-        GameObject go = GameObject.Instantiate(i_kernalPrefab);
-        go.transform.SetParent(i_anchor);
-        go.transform.localPosition = MathConstants.VECTOR_3_ZERO;
-        go.transform.localRotation = MathConstants.QUATERNION_IDENTITY;
-        go.transform.localScale = MathConstants.VECTOR_3_ONE;
+        i_kernel.Init(interpolators);
+        i_kernel.Disappear(false);
 
-        DoraKernel kernel = go.GetComponent<DoraKernel>();
-        kernel.Init(interpolators);
-        kernel.Disappear(false);
-
-        // TODO :  Take from pool
         DoraCellData cellData = new DoraCellData();
-        cellData.Init(kernel, i_anchor);
+        cellData.Init(i_kernel, i_kernel.transform.parent);
 
         return cellData;
     }

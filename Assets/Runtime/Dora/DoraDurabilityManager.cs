@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class DoraDurabilityManager : MonoBehaviour
+public class DoraDurabilityManager : MonoBehaviourBase
 {
     [SerializeField] private DoraCellMap cellMap = null;
     [SerializeField] [Range(0.0f, 1.0f)] private float burnThreshold = 0.3f;
@@ -13,8 +13,9 @@ public class DoraDurabilityManager : MonoBehaviour
 
     #region UNITY AND CORE
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
     }
 
@@ -27,6 +28,7 @@ public class DoraDurabilityManager : MonoBehaviour
         InitializeKernelDurability();
     }
 
+    [ExposePublicMethod]
     public bool InitializeKernelDurability()
     {
         if (cellMap == null)
@@ -59,12 +61,14 @@ public class DoraDurabilityManager : MonoBehaviour
         return true;
     }
 
+    [ExposePublicMethod]
     public void ActivateDurabilityUpdate()
     {
         if (updateDurabilityRoutine == null)
             updateDurabilityRoutine = StartCoroutine(updateDurability());
     }
 
+    [ExposePublicMethod]
     public void DeactivateDurabilityUpdate()
     {
         this.DisposeCoroutine(ref updateDurabilityRoutine);
