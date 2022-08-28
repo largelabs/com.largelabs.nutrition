@@ -15,6 +15,8 @@ public class DoraMover : MonoBehaviourBase
     private Transform currentCob = null;
 
     Coroutine nextCobRoutine = null;
+    public Action<DoraCellMap> OnTryGetNextCob = null;
+    public Action OnQueueEmpty = null;
 
     #region PUBLIC API
     [ExposePublicMethod]
@@ -22,7 +24,14 @@ public class DoraMover : MonoBehaviourBase
     {
         if (nextCobRoutine == null)
         {
-            nextCobRoutine = StartCoroutine(getNextCob());
+            Transform nextCob = null;
+
+            if (doraCobQueue != null && doraCobQueue.Count > 0)
+                nextCob = doraCobQueue.Dequeue();
+            else
+                OnQueueEmpty.Invoke();
+
+            nextCobRoutine = StartCoroutine(getNextCob(nextCob));
         }
     }
 
@@ -40,15 +49,23 @@ public class DoraMover : MonoBehaviourBase
         doraCobQueue.Enqueue(i_doraCob);
     }
 
-    // implement api to be able to move cobs 
-    // grill -> play point
-    // play point -> off screen
-    // only move to play point if there is a cob on the grill and no cob on the play point
+    public void reverseQueue()
+    {
+        List<Transform> holder = new List<Transform>();
+        while (doraCobQueue.Count > 0)
+            holder.Add(doraCobQueue.Dequeue());
+
+        int length = holder.Count;
+        for (int i = length-1; i >= 0; i--)
+        {
+            doraCobQueue.Enqueue(holder[i]);
+        }
+    }
     #endregion
 
     #region PRIVATE API
 
-    private IEnumerator getNextCob()
+    private IEnumerator getNextCob(Transform i_nextCob)
     {
         if (currentCob != null)
         {
@@ -56,23 +73,19 @@ public class DoraMover : MonoBehaviourBase
                                             playMoveCurve, onPlayMoveDone));
         }
 
-        if (doraCobQueue != null && doraCobQueue.Count > 0)
+        if (i_nextCob != null)
         {
-            Transform nextCob = doraCobQueue.Dequeue();
-            if (nextCob != null)
-            {
-                DoraDurabilityManager dorabilityManager = nextCob.GetComponent<DoraDurabilityManager>();
-                if (dorabilityManager != null)
-                    dorabilityManager.DeactivateDurabilityUpdate();
+            DoraDurabilityManager dorabilityManager = i_nextCob.GetComponent<DoraDurabilityManager>();
+            if (dorabilityManager != null)
+                dorabilityManager.DeactivateDurabilityUpdate();
 
-                yield return StartCoroutine(animateToPosition(nextCob, playAnchor.position, 1f,
-                                                playMoveCurve, onPlayMoveDone));
-            }
-
-            currentCob = nextCob;
+            yield return StartCoroutine(animateToPosition(i_nextCob, playAnchor.position, 1f,
+                                            playMoveCurve, onPlayMoveDone));
         }
-        else
-            currentCob = null;
+
+        currentCob = i_nextCob;
+        DoraCellMap cellMap = currentCob.GetComponent<DoraCellMap>();
+        OnTryGetNextCob?.Invoke(cellMap);
 
         this.DisposeCoroutine(ref nextCobRoutine);
     }
@@ -91,6 +104,7 @@ public class DoraMover : MonoBehaviourBase
 
     private void onPlayMoveDone(ITypedAnimator<Vector3> i_anim)
     {
+
     }
     #endregion
 }

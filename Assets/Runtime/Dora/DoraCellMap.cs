@@ -6,7 +6,7 @@ public class DoraCellMap : MonoBehaviourBase
     [SerializeField] Transform[] anchors = null;
     [SerializeField] Transform[] normalAnchors = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
-    //[SerializeField] GameObject kernel = null;
+    [SerializeField] DoraDurabilityManager durabilityManager = null;
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] DoraData doraData = null;
 
@@ -30,13 +30,20 @@ public class DoraCellMap : MonoBehaviourBase
 
     private void Start()
     {
-        PopulateMap();
-        RevealCells(true);
+        //PopulateMap();
+        //durabilityManager.InitializeKernelDurability();
+        //RevealCells(true);
     }
 
     #endregion
 
     #region PUBLIC API
+    public void InitializeDoraCob()
+    {
+        PopulateMap();
+        durabilityManager.InitializeKernelDurability();
+        RevealCells(true);
+    }
 
     public void RevealCells(bool i_animated)
     {

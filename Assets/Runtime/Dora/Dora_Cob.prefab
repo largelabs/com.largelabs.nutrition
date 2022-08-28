@@ -582,6 +582,7 @@ MonoBehaviour:
   - {fileID: 2973852796890534217}
   - {fileID: 2973852795931583314}
   kernelSpawner: {fileID: 4942314497940810940}
+  durabilityManager: {fileID: 8300991783027058464}
   interpolators: {fileID: 6891196076344109177}
   doraData: {fileID: 11400000, guid: 022361e63e3149142b800cf71d7a402e, type: 2}
 --- !u!114 &6891196076344109177

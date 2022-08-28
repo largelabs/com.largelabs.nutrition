@@ -23,12 +23,12 @@ public class DoraPlacer : MonoBehaviourBase
 
     #region PUBLIC API
     [ExposePublicMethod]
-    public void SpawnDoraAtAllAnchors()
+    public DoraCellMap SpawnDoraAtAllAnchors()
     {
         if (doraSpawner == null)
         {
             Debug.LogError("Dora Spawner is null! Returning...");
-            return;
+            return null;
         }
 
         int length = anchors.Count;
@@ -47,15 +47,17 @@ public class DoraPlacer : MonoBehaviourBase
             else
                 Debug.LogError("Dora Mover is null, Cob not registered!");
         }
+
+        return currCob;
     } 
     
     [ExposePublicMethod]
-    public void SpawnDoraAtAnchor(DoraPositions i_doraPosition)
+    public DoraCellMap SpawnDoraAtAnchor(DoraPositions i_doraPosition)
     {
         if (doraSpawner == null)
         {
             Debug.LogError("Dora Spawner is null! Returning...");
-            return;
+            return null;
         }
 
         int spawnIndex = (int)i_doraPosition;
@@ -63,7 +65,7 @@ public class DoraPlacer : MonoBehaviourBase
         if (spawnIndex < 0 || spawnIndex >= anchors.Count)
         {
             Debug.LogError("No valid anchor provided for chosen dora position! Returning!");
-            return;
+            return null;
         }
         else
         {
@@ -79,6 +81,8 @@ public class DoraPlacer : MonoBehaviourBase
             else
                 Debug.LogError("Dora Mover is null, Cob not registered!");
         }
+
+        return currCob;
     }
     #endregion
 
