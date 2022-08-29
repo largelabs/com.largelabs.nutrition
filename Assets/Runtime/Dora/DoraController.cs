@@ -159,15 +159,17 @@ public class DoraController : MonoBehaviourBase
     private void eatKernels()
     {
         Dictionary<Vector2Int, DoraCellData> cellsDictionary = cellSelector.SelectedRange;
-
+        int burntKenrelsCount = 0;
         foreach (KeyValuePair<Vector2Int, DoraCellData> pair in cellsDictionary)
         {
             DoraCellData cell = pair.Value;
+            if (true == cell.KernelIsBurnt()) burntKenrelsCount++;
             kernelSpawner.DespawnKernel(cell.Kernel);
             cell.Reset();
         }
 
-        scoreManager.AddScore(cellsDictionary.Count);
+        scoreManager.AddScore(cellsDictionary.Count - burntKenrelsCount);
+        scoreManager.RemoveScore(burntKenrelsCount);
     }
 
     #endregion
