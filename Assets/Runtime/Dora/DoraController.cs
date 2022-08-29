@@ -31,6 +31,9 @@ public class DoraController : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+
+    public IDoraCellProvider CurrentCellProvider => cellMap;
+
     public int CurrentEatenKernelCount => currentEatenKernelCount;
 
     [ExposePublicMethod]
@@ -61,6 +64,8 @@ public class DoraController : MonoBehaviourBase
 
         currentEatenKernelCount = 0;
     }
+
+    
 
     #endregion
 
@@ -169,12 +174,17 @@ public class DoraController : MonoBehaviourBase
     private void eatKernels()
     {
         Debug.LogError("Eating");
-        Dictionary<Vector2Int, DoraCellData> cellsDictionary = cellSelector.SelectedRange;
+        IReadOnlyList<Vector2Int> selectedCells = cellSelector.SelectedRange;
+        if (null == selectedCells) return;
+
         int burntKenrelsCount = 0;
         int eatenKernels = 0;
-        foreach (KeyValuePair<Vector2Int, DoraCellData> pair in cellsDictionary)
+
+        int count = selectedCells.Count;
+
+        for (int i = 0 ; i < count; i++)
         {
-            DoraCellData cell = pair.Value;
+            DoraCellData cell = cellMap.GetCell(selectedCells[i], false, false);
 
             if (cell.HasKernel)
             {
