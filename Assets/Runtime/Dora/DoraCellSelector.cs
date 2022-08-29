@@ -1,8 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
-public class DoraCellSelector : MonoBehaviourBase
+public interface IRangeSelectionProvider
+{
+    int MaxSelectionRadius { get; }
+
+    Vector2Int? CurrentOriginCell { get; }
+
+    IReadOnlyList<Vector2Int> SelectedRange { get; }
+}
+
+public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
 {
     [SerializeField] int maxSelectionRadius = 3;
     [SerializeField] Vector2Int defaultSelect = new Vector2Int(5, 5);
@@ -35,19 +46,13 @@ public class DoraCellSelector : MonoBehaviourBase
 
     #endregion
 
-    #region PUBLIC API
-
-    public int MaxSelectionRadius => maxSelectionRadius;
-
-    public Vector2Int? CurrentOriginCell => currentOriginCell;
-
-    public Dictionary<Vector2Int, DoraCellData> SelectedRange => selectedRange;
+    #region MUTABLE
 
     public void SetCellMap(DoraCellMap i_cellMap)
     {
         ClearSelection();
 
-        cellMap = i_cellMap;            
+        cellMap = i_cellMap;
         SelectCell(defaultSelect, true, true);
     }
 
@@ -89,6 +94,16 @@ public class DoraCellSelector : MonoBehaviourBase
 
         selectedRange.Clear();
     }
+
+    #endregion
+
+    #region IRangeSelectionProvider
+
+    public int MaxSelectionRadius => maxSelectionRadius;
+
+    public Vector2Int? CurrentOriginCell => currentOriginCell;
+
+    public IReadOnlyList<Vector2Int> SelectedRange => null == selectedRange ? null : selectedRange.Keys.ToList();
 
     #endregion
 

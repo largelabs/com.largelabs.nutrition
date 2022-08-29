@@ -1,7 +1,22 @@
 using System.Collections;
 using UnityEngine;
 
-public class DoraCellMap : MonoBehaviourBase
+public interface IDoraCellProvider
+{
+    int CellMapLength0 { get; }
+    int CellMapLength1 { get; }
+
+    DoraCellData GetCell(Vector2Int i_coord, bool i_loopX, bool i_loopY);
+
+    Vector2Int GetLoopedCoord(Vector2Int i_coord, bool i_loopX, bool i_loopY);
+
+    Transform GetRowNormal(int i_index, bool i_loop);
+
+    int GetKernelCount();
+}
+
+
+public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 {
     [SerializeField] Transform[] anchors = null;
     [SerializeField] Transform[] normalAnchors = null;
@@ -12,11 +27,7 @@ public class DoraCellMap : MonoBehaviourBase
 
     DoraCellData[,] cellMap = null;
     DoraCellFactory cellFactory = null;
-
-    public DoraData DoraData => doraData;
-    public int cellMapLength0 => cellMap.GetLength(0);
-    public int cellMapLength1 => cellMap.GetLength(1);
-
+ 
     private const int NB_ROWS = 12;
     private const int NB_COLUMNS = 11;
 
@@ -37,7 +48,54 @@ public class DoraCellMap : MonoBehaviourBase
 
     #endregion
 
+    #region IDoraCellProvider
+
+    public int CellMapLength0 => cellMap.GetLength(0);
+    public int CellMapLength1 => cellMap.GetLength(1);
+
+    public DoraCellData GetCell(Vector2Int i_coord, bool i_loopX, bool i_loopY)
+    {
+        if (null == cellMap) return null;
+        Vector2Int fixedCoord = getCoords(i_coord, i_loopX, i_loopY);
+        return cellMap[fixedCoord.x, fixedCoord.y];
+    }
+
+    public Vector2Int GetLoopedCoord(Vector2Int i_coord, bool i_loopX, bool i_loopY)
+    {
+        return getCoords(i_coord, i_loopX, i_loopY);
+    }
+
+    public Transform GetRowNormal(int i_index, bool i_loop)
+    {
+        i_index = i_loop ? getLoopedInteger(i_index, NB_ROWS) : Mathf.Clamp(i_index, 0, NB_ROWS - 1);
+        return normalAnchors[i_index];
+    }
+
+    public int GetKernelCount()
+    {
+        if (cellMap == null) return 0;
+
+        int ret = 0;
+        int length0 = CellMapLength0;
+        int length1 = CellMapLength1;
+
+        for (int i = 0; i < length0; i++)
+        {
+            for (int j = 0; j < length1; j++)
+            {
+                if (cellMap[i, j].HasKernel) ret++;
+            }
+        }
+
+        return ret;
+    }
+
+    #endregion
+
     #region PUBLIC API
+
+    public DoraData DoraData => doraData;
+
     public void InitializeDoraCob()
     {
         PopulateMap();
@@ -109,43 +167,6 @@ public class DoraCellMap : MonoBehaviourBase
                 currData.SetKernelName(i + "," + j);
             }
         }
-    }
-
-    public DoraCellData GetCell(Vector2Int i_coord, bool i_loopX, bool i_loopY)
-    {
-        if (null == cellMap) return null;
-        Vector2Int fixedCoord = getCoords(i_coord, i_loopX, i_loopY);
-        return cellMap[fixedCoord.x, fixedCoord.y];
-    }
-
-    public Vector2Int GetLoopedCoord(Vector2Int i_coord, bool i_loopX, bool i_loopY)
-    {
-        return getCoords(i_coord, i_loopX, i_loopY);
-    }
-
-    public Transform GetRowNormal(int i_index, bool i_loop)
-    {
-        i_index = i_loop ? getLoopedInteger(i_index, NB_ROWS) : Mathf.Clamp(i_index, 0, NB_ROWS - 1);
-        return normalAnchors[i_index];
-    }
-
-    public int GetKernelCount()
-    {
-        if (cellMap == null) return 0;
-
-        int ret = 0;
-        int length0 = cellMapLength0;
-        int length1 = cellMapLength1;
-
-        for (int i = 0; i < length0; i++)
-        {
-            for (int j = 0; j < length1; j++)
-            {
-                if (cellMap[i, j].HasKernel) ret++;
-            }
-        }
-
-        return ret;
     }
 
     #endregion

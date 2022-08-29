@@ -51,6 +51,8 @@ public class DoraCellData : ISelectable
 
     public DoraKernel Kernel => kernel;
 
+    public Bounds CellBounds => null != kernel ? kernel.RendererBounds : new Bounds(anchor.position, new Vector3(0.25f, 0.25f, 0.25f));
+
     public void SetCoords(Vector2Int i_coords)
     {
         coords = i_coords;

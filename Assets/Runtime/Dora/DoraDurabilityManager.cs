@@ -37,8 +37,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
             return false;
         }
 
-        int length0 = cellMap.cellMapLength0;
-        int length1 = cellMap.cellMapLength1;
+        int length0 = cellMap.CellMapLength0;
+        int length1 = cellMap.CellMapLength1;
 
         float maxDurability = cellMap.DoraData.MaxInitialDurability;
         float minDurability = cellMap.DoraData.MinInitialDurability;
@@ -87,8 +87,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
             yield return null;
         }
 
-        int length0 = cellMap.cellMapLength0;
-        int length1 = cellMap.cellMapLength1;
+        int length0 = cellMap.CellMapLength0;
+        int length1 = cellMap.CellMapLength1;
 
         if (cellMap.DoraData == null)
         {
