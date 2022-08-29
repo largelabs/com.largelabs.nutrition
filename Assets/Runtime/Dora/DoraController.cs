@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,28 +7,31 @@ public class DoraController : MonoBehaviourBase
 {
     [SerializeField] DoraCellMap defaultCellMap = null;
     [SerializeField] DoraCellSelector cellSelector = null;
+    [SerializeField] KernelSpawner kernelSpawner = null;
+    [SerializeField] DoraScoreManager scoreManager = null;
 
     DoraActions inputActions = null;
     DoraCellMap cellMap = null;
     Coroutine moveRoutine = null;
     Coroutine eatRoutine = null;
 
+    private int currentEatenKernelCount = 0;
 
     #region UNITY AND CORE
 
     void Start ()
     {
-        base.Awake();
-
         initInputs();
         EnableController();
 
-        SetCellMap(defaultCellMap);
+        if(defaultCellMap != null)
+            SetCellMap(defaultCellMap);
     }
 
     #endregion
 
     #region PUBLIC API
+    public int CurrentEatenKernelCount => currentEatenKernelCount;
 
     [ExposePublicMethod]
     public void EnableController()
@@ -48,6 +52,14 @@ public class DoraController : MonoBehaviourBase
         cellMap = i_cellMap;
         if (null == cellMap) DisableController();
         cellSelector.SetCellMap(cellMap);
+
+        KernelSpawner kSpawner = i_cellMap.GetComponentInChildren<KernelSpawner>();
+        if (kSpawner != null)
+            kernelSpawner = kSpawner;
+        else
+            Debug.LogError("No kernel spawner attached to the provided cell map!");
+
+        currentEatenKernelCount = 0;
     }
 
     #endregion
@@ -134,10 +146,11 @@ public class DoraController : MonoBehaviourBase
         inputActions.Player.Move.Enable();
 
         Debug.Log("released");
-        // EAT STUFF here
+
+        eatKernels();
 
         this.DisposeCoroutine(ref eatRoutine);
-    }
+    } 
 
     private void onMoveStarted(InputAction.CallbackContext obj)
     {
@@ -149,7 +162,33 @@ public class DoraController : MonoBehaviourBase
     private void onMoveCanceled(InputAction.CallbackContext obj)
     {
         inputActions.Player.Eat.Enable();
+        inputActions.Player.TestAction.Enable();
         this.DisposeCoroutine(ref moveRoutine);
+    }
+
+    private void eatKernels()
+    {
+        Debug.LogError("Eating");
+        Dictionary<Vector2Int, DoraCellData> cellsDictionary = cellSelector.SelectedRange;
+        int burntKenrelsCount = 0;
+        int eatenKernels = 0;
+        foreach (KeyValuePair<Vector2Int, DoraCellData> pair in cellsDictionary)
+        {
+            DoraCellData cell = pair.Value;
+
+            if (cell.HasKernel)
+            {
+                if (true == cell.KernelIsBurnt()) burntKenrelsCount++;
+                kernelSpawner.DespawnKernel(cell.Kernel);
+                cell.Reset();
+                eatenKernels++;
+            }
+        }
+
+        scoreManager.AddScore(eatenKernels - burntKenrelsCount);
+        scoreManager.RemoveScore(burntKenrelsCount);
+
+        currentEatenKernelCount += eatenKernels;
     }
 
     #endregion

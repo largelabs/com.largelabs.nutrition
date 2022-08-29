@@ -60,7 +60,7 @@ public class KernelSpawner : MonoBehaviourBase
     }
 
     [ExposePublicMethod]
-    public DoraKernel SpawnDoraKernelWithAnchor(Transform i_anchor)
+    public DoraKernel SpawnDoraKernelAtAnchor(Transform i_anchor)
     {
         if (kernelPool == null)
         {
@@ -109,7 +109,7 @@ public class KernelSpawner : MonoBehaviourBase
     }
 
 
-    public List<DoraKernel> SpawnKernelGroupWithAnchor(List<Transform> i_anchors)
+    public List<DoraKernel> SpawnKernelGroupAtAnchor(List<Transform> i_anchors)
     {
         if (i_anchors == null || i_anchors.Count < 1)
         {
@@ -122,7 +122,7 @@ public class KernelSpawner : MonoBehaviourBase
 
         for (int i = 0; i < length; i++)
         {
-            ret.Add(SpawnDoraKernelWithAnchor(i_anchors[i]));
+            ret.Add(SpawnDoraKernelAtAnchor(i_anchors[i]));
         }
 
         return ret;

@@ -6,7 +6,7 @@ public class DoraCellMap : MonoBehaviourBase
     [SerializeField] Transform[] anchors = null;
     [SerializeField] Transform[] normalAnchors = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
-    //[SerializeField] GameObject kernel = null;
+    [SerializeField] DoraDurabilityManager durabilityManager = null;
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] DoraData doraData = null;
 
@@ -25,13 +25,25 @@ public class DoraCellMap : MonoBehaviourBase
     protected override void Awake()
     {
         base.Awake();
-        PopulateMap();
-        RevealCells(true);
+
+    }
+
+    private void Start()
+    {
+        //PopulateMap();
+        //durabilityManager.InitializeKernelDurability();
+        //RevealCells(true);
     }
 
     #endregion
 
     #region PUBLIC API
+    public void InitializeDoraCob()
+    {
+        PopulateMap();
+        durabilityManager.InitializeKernelDurability();
+        RevealCells(true);
+    }
 
     public void RevealCells(bool i_animated)
     {
@@ -76,7 +88,7 @@ public class DoraCellMap : MonoBehaviourBase
         DoraKernel currentKernel = null;
         for (int i = 0; i < count; i++)
         {
-            currentKernel = kernelSpawner.SpawnDoraKernelWithAnchor(anchors[i]);
+            currentKernel = kernelSpawner.SpawnDoraKernelAtAnchor(anchors[i]);
             if (currentKernel != null)
                 cellBuffer[i] = cellFactory.MakeCell(currentKernel);
             else
@@ -115,6 +127,25 @@ public class DoraCellMap : MonoBehaviourBase
     {
         i_index = i_loop ? getLoopedInteger(i_index, NB_ROWS) : Mathf.Clamp(i_index, 0, NB_ROWS - 1);
         return normalAnchors[i_index];
+    }
+
+    public int GetKernelCount()
+    {
+        if (cellMap == null) return 0;
+
+        int ret = 0;
+        int length0 = cellMapLength0;
+        int length1 = cellMapLength1;
+
+        for (int i = 0; i < length0; i++)
+        {
+            for (int j = 0; j < length1; j++)
+            {
+                if (cellMap[i, j].HasKernel) ret++;
+            }
+        }
+
+        return ret;
     }
 
     #endregion

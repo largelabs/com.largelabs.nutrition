@@ -58,6 +58,38 @@ public class DoraSpawner : MonoBehaviourBase
         return ret;
     }
 
+    public DoraCellMap SpawnDoraCobAtAnchor(Transform i_anchor)
+    {
+        if (doraCobPool == null)
+        {
+            Debug.LogError("Dora_Cob pool is null!");
+            return null;
+        }
+
+        Transform tr = doraCobPool.Spawn(DORA_COB);
+        tr.SetParent(i_anchor);
+        tr.localPosition = MathConstants.VECTOR_3_ZERO;
+        tr.localRotation = MathConstants.QUATERNION_IDENTITY;
+        tr.localScale = MathConstants.VECTOR_3_ONE;
+
+        DoraCellMap ret = tr.GetComponent<DoraCellMap>();
+
+        if (ret != null)
+        {
+            KernelSpawner kernelSpawner = tr.GetComponentInChildren<KernelSpawner>();
+            kernelSpawner.registerToSpawnPool(doraKernelPool);
+
+            // register to any events if needed
+
+            livingDora.Add(ret);
+            OnSpawn?.Invoke(ret);
+        }
+        else
+            Debug.LogError("No DoraCellMap attached to cob prefab!");
+
+        return ret;
+    }
+
     public List<DoraCellMap> SpawnDoraCobGroup(List<Vector3> i_worldPositions)
     {
         if (i_worldPositions == null || i_worldPositions.Count < 1)
@@ -72,6 +104,25 @@ public class DoraSpawner : MonoBehaviourBase
         for (int i = 0; i < length; i++)
         {
             ret.Add(SpawnDoraCob(i_worldPositions[i]));
+        }
+
+        return ret;
+    }
+
+    public List<DoraCellMap> SpawnDoraCobGroupAtAnchor(List<Transform> i_anchors)
+    {
+        if (i_anchors == null || i_anchors.Count < 1)
+        {
+            Debug.LogError("The provided anchor list is invalid!");
+            return null;
+        }
+
+        int length = i_anchors.Count;
+        List<DoraCellMap> ret = new List<DoraCellMap>();
+
+        for (int i = 0; i < length; i++)
+        {
+            ret.Add(SpawnDoraCobAtAnchor(i_anchors[i]));
         }
 
         return ret;

@@ -44,6 +44,15 @@ public partial class @DoraActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TestAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""e50279e6-e714-4906-baf0-e29bddbb2c4a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -154,6 +163,17 @@ public partial class @DoraActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Eat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e0f94af-2235-406c-9ea7-cf43d129ca1f"",
+                    ""path"": ""<Keyboard>/#(Z)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TestAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -743,6 +763,7 @@ public partial class @DoraActions : IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Eat = m_Player.FindAction("Eat", throwIfNotFound: true);
+        m_Player_TestAction = m_Player.FindAction("TestAction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -816,12 +837,14 @@ public partial class @DoraActions : IInputActionCollection2, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Eat;
+    private readonly InputAction m_Player_TestAction;
     public struct PlayerActions
     {
         private @DoraActions m_Wrapper;
         public PlayerActions(@DoraActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Eat => m_Wrapper.m_Player_Eat;
+        public InputAction @TestAction => m_Wrapper.m_Player_TestAction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -837,6 +860,9 @@ public partial class @DoraActions : IInputActionCollection2, IDisposable
                 @Eat.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEat;
                 @Eat.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEat;
                 @Eat.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEat;
+                @TestAction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTestAction;
+                @TestAction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTestAction;
+                @TestAction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTestAction;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -847,6 +873,9 @@ public partial class @DoraActions : IInputActionCollection2, IDisposable
                 @Eat.started += instance.OnEat;
                 @Eat.performed += instance.OnEat;
                 @Eat.canceled += instance.OnEat;
+                @TestAction.started += instance.OnTestAction;
+                @TestAction.performed += instance.OnTestAction;
+                @TestAction.canceled += instance.OnTestAction;
             }
         }
     }
@@ -1005,6 +1034,7 @@ public partial class @DoraActions : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnEat(InputAction.CallbackContext context);
+        void OnTestAction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
