@@ -225,7 +225,7 @@ Material:
     - _RimLight: 1
     - _RimLight_FeatherOff: 0
     - _RimLight_InsideMask: 0.0001
-    - _RimLight_Power: 0.466
+    - _RimLight_Power: 0.156
     - _Rotate_EmissiveUV: 0
     - _Rotate_MatCapUV: 0
     - _Rotate_NormalMapForMatCapUV: 0
@@ -269,18 +269,18 @@ Material:
     - _utsVersionY: 7
     - _utsVersionZ: 5
     m_Colors:
-    - _1st_ShadeColor: {r: 0.5, g: 0.3304166, b: 0.16745284, a: 1}
-    - _2nd_ShadeColor: {r: 0.38679248, g: 0.19860564, b: 0.06385724, a: 1}
+    - _1st_ShadeColor: {r: 0.3679245, g: 0.26641935, b: 0.17875579, a: 1}
+    - _2nd_ShadeColor: {r: 0.3584906, g: 0.21540333, b: 0.10653258, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.5849056, g: 0.35216227, b: 0.1517444, a: 1}
-    - _Color: {r: 0.5849056, g: 0.35216227, b: 0.1517444, a: 1}
+    - _BaseColor: {r: 0.38679248, g: 0.29794312, b: 0.22441262, a: 1}
+    - _Color: {r: 0.38679248, g: 0.29794312, b: 0.22441262, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}
     - _HighColor: {r: 0, g: 0, b: 0, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _Outline_Color: {r: 0.3962264, g: 0.2046762, b: 0.11400853, a: 1}
-    - _RimLightColor: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
+    - _RimLightColor: {r: 0.254717, g: 0.21266466, b: 0.21266466, a: 1}
     - _ViewShift: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
