@@ -7,6 +7,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
     [SerializeField] private DoraCellMap cellMap = null;
     [SerializeField] [Range(0.0f, 1.0f)] private float burnThreshold = 0.3f;
 
+    private float burntPercentage = 0.0f;
     public Action OnPassBurnThreshold = null;
 
     Coroutine updateDurabilityRoutine = null;
@@ -22,6 +23,9 @@ public class DoraDurabilityManager : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+    public float BurntPercentage => burntPercentage;
+    public float BurnThreshold => burnThreshold;
+    public bool IsPastBurnThreshold => (burntPercentage > burnThreshold);
 
     public void InitKernels()
     {
@@ -58,6 +62,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
             }
         }
 
+        burntPercentage = 0.0f;
         return true;
     }
 
@@ -131,7 +136,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
 
             if (totalKernels > 0)
             {
-                if ((burntKernels / (float)totalKernels) > burnThreshold)
+                burntPercentage = (burntKernels / (float)totalKernels);
+                if (IsPastBurnThreshold)
                 {
                     OnPassBurnThreshold?.Invoke();
                     Debug.LogError("Burn Threshold: " + burnThreshold + " passed!");

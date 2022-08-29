@@ -8903,6 +8903,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  doraSpawner: {fileID: 2275471812010175597}
 --- !u!1 &7980079966155085775
 GameObject:
   m_ObjectHideFlags: 0

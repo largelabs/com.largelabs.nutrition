@@ -50,6 +50,7 @@ public class KernelSpawner : MonoBehaviourBase
         {
             // register to any events if needed
 
+            ret.InitializeValues();
             livingKernels.Add(ret);
             OnSpawn?.Invoke(ret);
         }
@@ -80,6 +81,7 @@ public class KernelSpawner : MonoBehaviourBase
         {
             // register to any events if needed
 
+            ret.InitializeValues();
             livingKernels.Add(ret);
             OnSpawn?.Invoke(ret);
         }

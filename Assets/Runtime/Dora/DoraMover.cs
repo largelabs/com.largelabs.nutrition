@@ -10,6 +10,7 @@ public class DoraMover : MonoBehaviourBase
     [SerializeField] private InterpolatorsManager interpolatorManager = null;
     [SerializeField] private AnimationCurve playMoveCurve = null;
     [SerializeField] private AnimationCurve doneMoveCurve = null;
+    [SerializeField] private DoraSpawner doraSpawner = null;
 
     private Queue<Transform> doraCobQueue = null;
     private Transform currentCob = null;
@@ -67,8 +68,9 @@ public class DoraMover : MonoBehaviourBase
     {
         if (currentCob != null)
         {
+            // could possibly do smth different if cob is burnt
             yield return StartCoroutine(animateToPosition(currentCob, doneAnchor.position, 1f,
-                                            playMoveCurve, onPlayMoveDone));
+                                            playMoveCurve, onMoveToDone));
         }
 
         if (i_nextCob != null)
@@ -78,7 +80,7 @@ public class DoraMover : MonoBehaviourBase
                 dorabilityManager.DeactivateDurabilityUpdate();
 
             yield return StartCoroutine(animateToPosition(i_nextCob, playAnchor.position, 1f,
-                                            playMoveCurve, onPlayMoveDone));
+                                            playMoveCurve, null));
 
             DoraCellMap cellMap = i_nextCob.GetComponent<DoraCellMap>();
             OnGetNextCob?.Invoke(cellMap);
@@ -105,9 +107,18 @@ public class DoraMover : MonoBehaviourBase
         }
     }
 
-    private void onPlayMoveDone(ITypedAnimator<Vector3> i_anim)
+    private void onMoveToDone(ITypedAnimator<Vector3> i_anim)
     {
+        if (currentCob == null)
+        {
+            Debug.LogError("No current cob, how was this triggered?");
+            return;
+        }
 
+        DoraCellMap cellMap = currentCob.GetComponent<DoraCellMap>();
+
+        if(cellMap != null)
+            doraSpawner.DespawnDoraCob(cellMap);
     }
     #endregion
 }

@@ -15,7 +15,7 @@ public class DoraData : ScriptableObject
     [SerializeField] [Range(0.0f, 10.0f)] private float durabilityLossInterval = 0.1f;
 
     [Tooltip("The total time (in seconds) it would take for a kernel on this corn to go from durability 1.0 to durability 0.0")]
-    [SerializeField] [Range(0.0f, 120.0f)] private float durabilityFullLossTime = 30.0f;
+    [SerializeField] [Range(0.0f, 300.0f)] private float durabilityFullLossTime = 30.0f;
 
     public float MaxInitialDurability => maxInitialDurability;
     public float MinInitialDurability => minInitialDurability;

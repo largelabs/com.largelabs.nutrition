@@ -38,6 +38,10 @@ public class DoraCellMap : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+    public float BurntPercentage => durabilityManager.BurntPercentage;
+    public float BurnThreshold => durabilityManager.BurnThreshold;
+    public bool IsPastBurnThreshold => durabilityManager.IsPastBurnThreshold;
+
     public void InitializeDoraCob()
     {
         PopulateMap();
