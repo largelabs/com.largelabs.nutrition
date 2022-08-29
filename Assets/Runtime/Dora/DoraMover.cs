@@ -28,8 +28,6 @@ public class DoraMover : MonoBehaviourBase
 
             if (doraCobQueue != null && doraCobQueue.Count > 0)
                 nextCob = doraCobQueue.Dequeue();
-            else
-                OnQueueEmpty.Invoke();
 
             nextCobRoutine = StartCoroutine(getNextCob(nextCob));
         }
@@ -81,11 +79,16 @@ public class DoraMover : MonoBehaviourBase
 
             yield return StartCoroutine(animateToPosition(i_nextCob, playAnchor.position, 1f,
                                             playMoveCurve, onPlayMoveDone));
+
+            DoraCellMap cellMap = i_nextCob.GetComponent<DoraCellMap>();
+            OnTryGetNextCob?.Invoke(cellMap);
+        }
+        else
+        {
+            OnQueueEmpty.Invoke();
         }
 
-        currentCob = i_nextCob;
-        DoraCellMap cellMap = currentCob.GetComponent<DoraCellMap>();
-        OnTryGetNextCob?.Invoke(cellMap);
+        currentCob = i_nextCob;          
 
         this.DisposeCoroutine(ref nextCobRoutine);
     }

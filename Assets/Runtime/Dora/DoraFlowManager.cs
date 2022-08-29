@@ -12,6 +12,10 @@ public class DoraFlowManager : MiniGameFlow
     private DoraCellMap currentCob = null;
     private DoraCellMap previousCob = null;
 
+    Coroutine doraGameplayRoutine;
+
+    DoraActions inputActions = null;
+
     #region Start?
     private void Start()
     {
@@ -64,7 +68,8 @@ public class DoraFlowManager : MiniGameFlow
                 currDurabilityManager.ActivateDurabilityUpdate();
         }
 
-        StartCoroutine(simulatedFlow());
+        doraMover.GetNextCob();
+        //StartCoroutine(simulatedFlow());
     }
 
     protected override void onGameplayUpdate()
@@ -79,7 +84,8 @@ public class DoraFlowManager : MiniGameFlow
 
     protected override IEnumerator onSuccess()
     {
-        yield break;
+        Debug.LogError("SUCCESS!");
+        yield return null;
     }
 
     protected override IEnumerator onFailure()
@@ -104,19 +110,48 @@ public class DoraFlowManager : MiniGameFlow
         yield return this.Wait(5f);
     }
 
-    private void getCurrentCob(DoraCellMap i_cellMap)
+    private IEnumerator doraGameplay(DoraCellMap i_cellMap)
     {
-        currentCob = i_cellMap;
+        if (null == inputActions) inputActions = new DoraActions();
+
+        inputActions.Player.Enable();
+
+        while (true)
+        {
+            // gameplay stuff
+
+            if (inputActions.Player.TestAction.WasPressedThisFrame())
+            {
+                doraMover.GetNextCob();
+                this.DisposeCoroutine(ref doraGameplayRoutine);
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    private void goToSuccess()
+    {
+        StartCoroutine(onSuccess());
+    }
+
+    private void startDoraGameplay(DoraCellMap i_cellMap)
+    {
+        if(doraGameplayRoutine == null)
+            doraGameplayRoutine = StartCoroutine(doraGameplay(i_cellMap));
     }
 
     private void registerEvents()
     {
-        doraMover.OnTryGetNextCob += getCurrentCob;
+        doraMover.OnTryGetNextCob += startDoraGameplay;
+        doraMover.OnQueueEmpty += goToSuccess;
     }
 
     private void unregisterEvents()
     {
-        doraMover.OnTryGetNextCob -= getCurrentCob;
+        doraMover.OnTryGetNextCob -= startDoraGameplay;
+        doraMover.OnQueueEmpty -= goToSuccess;
     }
 
     #endregion
