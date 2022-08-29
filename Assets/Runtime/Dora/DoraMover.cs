@@ -15,7 +15,7 @@ public class DoraMover : MonoBehaviourBase
     private Transform currentCob = null;
 
     Coroutine nextCobRoutine = null;
-    public Action<DoraCellMap> OnTryGetNextCob = null;
+    public Action<DoraCellMap> OnGetNextCob = null;
     public Action OnQueueEmpty = null;
 
     #region PUBLIC API
@@ -81,11 +81,11 @@ public class DoraMover : MonoBehaviourBase
                                             playMoveCurve, onPlayMoveDone));
 
             DoraCellMap cellMap = i_nextCob.GetComponent<DoraCellMap>();
-            OnTryGetNextCob?.Invoke(cellMap);
+            OnGetNextCob?.Invoke(cellMap);
         }
         else
         {
-            OnQueueEmpty.Invoke();
+            OnQueueEmpty?.Invoke();
         }
 
         currentCob = i_nextCob;          

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DoraFlowManager : MiniGameFlow
 {
+    [SerializeField] private DoraController doraController = null;
     [SerializeField] private DoraPlacer doraPlacer = null;
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
@@ -114,11 +115,20 @@ public class DoraFlowManager : MiniGameFlow
     {
         if (null == inputActions) inputActions = new DoraActions();
 
-        inputActions.Player.Enable();
+        inputActions.Player.TestAction.Enable();
+
+        doraController.SetCellMap(i_cellMap);
 
         while (true)
         {
             // gameplay stuff
+
+            if (doraController.CurrentEatenKernelCount == 132)
+            {
+                doraMover.GetNextCob();
+                this.DisposeCoroutine(ref doraGameplayRoutine);
+                yield break;
+            }
 
             if (inputActions.Player.TestAction.WasPressedThisFrame())
             {
@@ -144,13 +154,13 @@ public class DoraFlowManager : MiniGameFlow
 
     private void registerEvents()
     {
-        doraMover.OnTryGetNextCob += startDoraGameplay;
+        doraMover.OnGetNextCob += startDoraGameplay;
         doraMover.OnQueueEmpty += goToSuccess;
     }
 
     private void unregisterEvents()
     {
-        doraMover.OnTryGetNextCob -= startDoraGameplay;
+        doraMover.OnGetNextCob -= startDoraGameplay;
         doraMover.OnQueueEmpty -= goToSuccess;
     }
 

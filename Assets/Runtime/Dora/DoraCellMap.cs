@@ -129,6 +129,25 @@ public class DoraCellMap : MonoBehaviourBase
         return normalAnchors[i_index];
     }
 
+    public int GetKernelCount()
+    {
+        if (cellMap == null) return 0;
+
+        int ret = 0;
+        int length0 = cellMapLength0;
+        int length1 = cellMapLength1;
+
+        for (int i = 0; i < length0; i++)
+        {
+            for (int j = 0; j < length1; j++)
+            {
+                if (cellMap[i, j].HasKernel) ret++;
+            }
+        }
+
+        return ret;
+    }
+
     #endregion
 
     #region PRIVATE
