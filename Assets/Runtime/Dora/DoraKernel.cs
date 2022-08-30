@@ -115,6 +115,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         durability = 0f;
     }
 
+    public Bounds RendererBounds => kernelRnd.bounds;
+
     #endregion
 
     #region IAppear
