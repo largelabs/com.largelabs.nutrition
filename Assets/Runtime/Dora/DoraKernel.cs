@@ -52,6 +52,13 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         isInit = true;
     }
 
+    public void ResetValues()
+    {
+        isBurnt = false;
+        durability = 1f;
+        isSelected = false;
+    }
+
     public bool IsInit => isInit;
 
     public float Durability => durability;
@@ -107,6 +114,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         isBurnt = true;
         durability = 0f;
     }
+
+    public Bounds RendererBounds => kernelRnd.bounds;
 
     #endregion
 
