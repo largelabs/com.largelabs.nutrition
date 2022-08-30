@@ -195,6 +195,8 @@ public class DoraController : MonoBehaviourBase
             }
         }
 
+        Debug.LogError(eatenKernels);
+
         scoreManager.AddScore(eatenKernels - burntKenrelsCount);
         scoreManager.RemoveScore(burntKenrelsCount);
 

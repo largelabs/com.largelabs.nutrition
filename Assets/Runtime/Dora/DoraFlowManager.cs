@@ -9,6 +9,7 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraPlacer doraPlacer = null;
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
+    [SerializeField] private GameObject doraHUD = null;
 
     [Header("Extra Options")]
     [SerializeField] [Range(1, 4)] private int doraPerBatch = 4;
@@ -65,7 +66,7 @@ public class DoraFlowManager : MiniGameFlow
         //yield return this.Wait(3.4f);
 
 
-        yield return this.Wait(2.4f);
+        //yield return this.Wait(2.4f);
 
         doraMover.ReverseQueue();
     }
@@ -103,21 +104,6 @@ public class DoraFlowManager : MiniGameFlow
     #endregion
 
     #region private
-    private IEnumerator simulatedFlow()
-    {
-        doraMover.GetNextCob();
-        yield return this.Wait(5f);
-
-        doraMover.GetNextCob();
-        yield return this.Wait(5f);
-
-        doraMover.GetNextCob();
-        yield return this.Wait(5f); ;
-
-        doraMover.GetNextCob();
-        yield return this.Wait(5f);
-    }
-
     private IEnumerator doraGameplay(DoraCellMap i_cellMap)
     {
         if (null == inputActions) inputActions = new DoraActions();
@@ -128,26 +114,23 @@ public class DoraFlowManager : MiniGameFlow
 
         int totalCellCount = i_cellMap.TotalCellCount;
 
+        doraHUD.SetActive(true);
+
         while (true)
         {
             // gameplay stuff
 
             if (doraController.CurrentEatenKernelCount == totalCellCount)
             {
+                doraHUD.SetActive(false);
                 doraMover.GetNextCob();
                 this.DisposeCoroutine(ref doraGameplayRoutine);
                 yield break;
             }
-
-            if (inputActions.Player.TestAction.WasPressedThisFrame())
-            {
-                doraMover.GetNextCob();
-                this.DisposeCoroutine(ref doraGameplayRoutine);
-                yield break;
-            }
-
             yield return null;
         }
+
+
     }
 
     private IEnumerator burntDoraSequence()
