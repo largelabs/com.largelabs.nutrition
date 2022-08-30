@@ -50,7 +50,6 @@ public class KernelSpawner : MonoBehaviourBase
         {
             // register to any events if needed
 
-            ret.InitializeValues();
             livingKernels.Add(ret);
             OnSpawn?.Invoke(ret);
         }
@@ -81,7 +80,6 @@ public class KernelSpawner : MonoBehaviourBase
         {
             // register to any events if needed
 
-            ret.InitializeValues();
             livingKernels.Add(ret);
             OnSpawn?.Invoke(ret);
         }
@@ -157,6 +155,7 @@ public class KernelSpawner : MonoBehaviourBase
     #region PRIVATE API
     private void despawnDoraCob(DoraKernel i_kernel)
     {
+        i_kernel.ResetValues();
         kernelPool?.Despawn(i_kernel.transform);
         OnDespawn?.Invoke(i_kernel);
 

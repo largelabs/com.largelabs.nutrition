@@ -52,7 +52,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         isInit = true;
     }
 
-    public void InitializeValues()
+    public void ResetValues()
     {
         isBurnt = false;
         durability = 1f;
