@@ -20,12 +20,13 @@ public class DoraFlowManager : MiniGameFlow
     private DoraCellMap currentCob = null;
     private DoraCellMap previousCob = null;
 
-    Coroutine doraGameplayRoutine;
-    Coroutine burntDoraRoutine;
+    Coroutine doraGameplayRoutine = null;
+    Coroutine burntDoraRoutine = null;
 
     DoraActions inputActions = null;
 
-    #region Start?
+    #region UNITY AND CORE
+
     private void Start()
     {
         EnterMiniGame();
@@ -66,7 +67,7 @@ public class DoraFlowManager : MiniGameFlow
 
         yield return this.Wait(2.4f);
 
-        doraMover.reverseQueue();
+        doraMover.ReverseQueue();
     }
 
 
@@ -125,11 +126,13 @@ public class DoraFlowManager : MiniGameFlow
 
         doraController.SetCellMap(i_cellMap);
 
+        int totalCellCount = i_cellMap.TotalCellCount;
+
         while (true)
         {
             // gameplay stuff
 
-            if (doraController.CurrentEatenKernelCount == 132)
+            if (doraController.CurrentEatenKernelCount == totalCellCount)
             {
                 doraMover.GetNextCob();
                 this.DisposeCoroutine(ref doraGameplayRoutine);

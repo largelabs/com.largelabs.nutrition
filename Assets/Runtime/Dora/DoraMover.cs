@@ -48,7 +48,7 @@ public class DoraMover : MonoBehaviourBase
         doraCobQueue.Enqueue(i_doraCob);
     }
 
-    public void reverseQueue()
+    public void ReverseQueue()
     {
         List<Transform> holder = new List<Transform>();
         while (doraCobQueue.Count > 0)

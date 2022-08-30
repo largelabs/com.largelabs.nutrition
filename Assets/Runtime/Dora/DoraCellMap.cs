@@ -31,23 +31,6 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     private const int NB_ROWS = 12;
     private const int NB_COLUMNS = 11;
 
-    #region UNITY AND CORE
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-    }
-
-    private void Start()
-    {
-        //PopulateMap();
-        //durabilityManager.InitializeKernelDurability();
-        //RevealCells(true);
-    }
-
-    #endregion
-
     #region IDoraCellProvider
 
     public int CellMapLength0 => cellMap.GetLength(0);
@@ -90,6 +73,8 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         return ret;
     }
 
+    public int TotalCellCount => CellMapLength0 * CellMapLength1;
+
     #endregion
 
     #region PUBLIC API
@@ -102,7 +87,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     {
         PopulateMap();
         durabilityManager.InitializeKernelDurability();
-        RevealCells(true);
+        RevealCells(false);
     }
 
     public void RevealCells(bool i_animated)
