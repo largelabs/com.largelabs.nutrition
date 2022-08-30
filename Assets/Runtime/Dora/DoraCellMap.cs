@@ -13,6 +13,8 @@ public interface IDoraCellProvider
     Transform GetRowNormal(int i_index, bool i_loop);
 
     int GetKernelCount();
+
+    int TotalCellCount { get; }
 }
 
 
