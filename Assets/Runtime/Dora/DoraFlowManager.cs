@@ -10,6 +10,8 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
 
+    [SerializeField] private MinigameTimer timer = null;
+
     [Header("Extra Options")]
     [SerializeField] [Range(1, 4)] private int doraPerBatch = 4;
 
@@ -75,6 +77,8 @@ public class DoraFlowManager : MiniGameFlow
         Debug.LogError("on gameplay started");
 
         registerEvents();
+
+        timer.StartTimer();
 
         startDoraFlow();
     }
@@ -157,7 +161,11 @@ public class DoraFlowManager : MiniGameFlow
 
     private IEnumerator doraBatchSequence()
     {
+        timer.PauseTimer();
+
         yield return StartCoroutine(introRoutine());
+
+        timer.ResumeTimer();
 
         startDoraFlow();
     }
@@ -211,14 +219,18 @@ public class DoraFlowManager : MiniGameFlow
     {
         doraMover.OnGetNextCob += tryStartDoraGameplay;
         doraMover.OnQueueEmpty += getNextDoraBatch;
-        // register go to success on timer end event
+
+        timer.OnTimerEnded += goToSuccess;
+
     }
 
     private void unregisterEvents()
     {
         doraMover.OnGetNextCob -= tryStartDoraGameplay;
         doraMover.OnQueueEmpty -= getNextDoraBatch;
-        // unregister go to success from timer end event
+
+        timer.OnTimerEnded -= goToSuccess;
+
     }
 
     #endregion
