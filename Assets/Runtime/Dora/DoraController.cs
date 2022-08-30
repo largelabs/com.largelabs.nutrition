@@ -22,7 +22,7 @@ public class DoraController : MonoBehaviourBase
     void Start ()
     {
         initInputs();
-        EnableController();
+       // EnableController();
 
         if(defaultCellMap != null)
             SetCellMap(defaultCellMap);
@@ -40,6 +40,7 @@ public class DoraController : MonoBehaviourBase
     public void EnableController()
     {
         inputActions.Player.Move.Enable();
+        inputActions.Player.Eat.Enable();
     }
 
     [ExposePublicMethod]
@@ -47,6 +48,7 @@ public class DoraController : MonoBehaviourBase
     {
         this.DisposeCoroutine(ref moveRoutine);
         inputActions.Player.Move.Disable();
+        inputActions.Player.Eat.Disable();
         cellSelector.ClearSelection();
     }
 

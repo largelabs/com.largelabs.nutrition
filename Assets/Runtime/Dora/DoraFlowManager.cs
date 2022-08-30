@@ -114,6 +114,7 @@ public class DoraFlowManager : MiniGameFlow
         inputActions.Player.TestAction.Enable();
 
         doraController.SetCellMap(i_cellMap);
+        doraController.EnableController();
 
         int totalCellCount = i_cellMap.TotalCellCount;
 
@@ -127,6 +128,7 @@ public class DoraFlowManager : MiniGameFlow
             {
                 doraHUD.SetActive(false);
                 doraMover.GetNextCob();
+                doraController.DisableController();
                 this.DisposeCoroutine(ref doraGameplayRoutine);
                 yield break;
             }
