@@ -114,9 +114,11 @@ public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
         if (null == cellMap) return false;
         if (null == selectedRange) selectedRange = new Dictionary<Vector2Int, DoraCellData>(1 + maxSelectionRadius * maxSelectionRadius * 4);
 
+        i_coord = cellMap.GetLoopedCoord(i_coord, i_loopX, i_loopY);
+
         if (false == selectedRange.ContainsKey(i_coord))
         {
-            DoraCellData cell = cellMap.GetCell(i_coord, i_loopX, i_loopY);
+            DoraCellData cell = cellMap.GetCell(i_coord, false, false);
 
             if (null == cell) return false;
 
