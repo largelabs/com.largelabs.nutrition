@@ -22,7 +22,6 @@ public class DoraController : MonoBehaviourBase
     void Start ()
     {
         initInputs();
-       // EnableController();
 
         if(defaultCellMap != null)
             SetCellMap(defaultCellMap);
