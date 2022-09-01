@@ -1752,7 +1752,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6042232923704167638, guid: 3169b29dbbf6ce4438c73aa0b3b0af4e, type: 3}
       propertyPath: m_Name
-      value: DoraCellSelector
+      value: DoraController
       objectReference: {fileID: 0}
     - target: {fileID: 6042232923704167639, guid: 3169b29dbbf6ce4438c73aa0b3b0af4e, type: 3}
       propertyPath: m_RootOrder
@@ -1802,5 +1802,9 @@ PrefabInstance:
       propertyPath: scoreManager
       value: 
       objectReference: {fileID: 1086980438}
+    - target: {fileID: 7339388435544041865, guid: 3169b29dbbf6ce4438c73aa0b3b0af4e, type: 3}
+      propertyPath: moveDispatchInterval
+      value: 0.05
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3169b29dbbf6ce4438c73aa0b3b0af4e, type: 3}
