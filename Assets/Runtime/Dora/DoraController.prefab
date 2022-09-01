@@ -124,11 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279232a0cc93fed468971a23c977b68b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultCellMap: {fileID: 0}
-  cellSelector: {fileID: 2292350850536117362}
+  inputs: {fileID: 3820721587614552135}
+  cellSelector: {fileID: 4100127985216166564}
   kernelSpawner: {fileID: 0}
   scoreManager: {fileID: 0}
-  inputs: {fileID: 3820721587614552135}
 --- !u!1 &7330341008610892140
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,8 +174,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSelectionRadius: 3
   defaultSelect: {x: 5, y: 5}
-  rotationSpeed: 50
-  rowTime: 2
+  rotationSpeed: 200
+  rowTime: 1
 --- !u!1 &7485805664493078499
 GameObject:
   m_ObjectHideFlags: 0
