@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class DoraController : MonoBehaviourBase
 {
     [SerializeField] DoraCellMap defaultCellMap = null;
-    [SerializeField] DoraCellSelector cellSelector = null;
+    [SerializeField] DoraAbstractCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
     [SerializeField] DoraScoreManager scoreManager = null;
 
@@ -22,10 +22,10 @@ public class DoraController : MonoBehaviourBase
     void Start ()
     {
         initInputs();
-        EnableController();
 
         if(defaultCellMap != null)
             SetCellMap(defaultCellMap);
+
     }
 
     #endregion
@@ -40,14 +40,23 @@ public class DoraController : MonoBehaviourBase
     public void EnableController()
     {
         inputActions.Player.Move.Enable();
+        inputActions.Player.Eat.Enable();
+    }
+
+    public void StartAutoRotation()
+    {
+        cellSelector.StartAutoRotation();
     }
 
     [ExposePublicMethod]
-    public void DisableController()
+    public void DisableController(bool i_clearSelection = true)
     {
         this.DisposeCoroutine(ref moveRoutine);
         inputActions.Player.Move.Disable();
-        cellSelector.ClearSelection();
+        inputActions.Player.Eat.Disable();
+
+        if(true == i_clearSelection)
+            cellSelector.ClearSelection();
     }
 
     public void SetCellMap(DoraCellMap i_cellMap)
@@ -118,7 +127,7 @@ public class DoraController : MonoBehaviourBase
 
             Vector2Int nextSelect = currentSelect.Value;
             nextSelect.y += (int)inputValue.x;
-            nextSelect.x += (int)inputValue.y;
+            //nextSelect.x += (int)inputValue.y;
 
             cellSelector.SelectCell(nextSelect, true, true);
 
@@ -139,9 +148,13 @@ public class DoraController : MonoBehaviourBase
     private void onEatStarted(InputAction.CallbackContext obj)
     {
         if (null != eatRoutine) return;
-        inputActions.Player.Move.Disable();
+        if (null == cellSelector.CurrentOriginCell) return;
 
-        Debug.Log("pressed");
+        DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
+        if (false == cell.HasKernel) return;
+
+        inputActions.Player.Move.Disable();
+        cellSelector.StopAutoRotation();
 
         eatRoutine = StartCoroutine(dispatchEatRoutine());
     }
@@ -150,9 +163,10 @@ public class DoraController : MonoBehaviourBase
     {
         inputActions.Player.Move.Enable();
 
-        Debug.Log("released");
-
         eatKernels();
+
+        cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
+        cellSelector.StartAutoRotation();
 
         this.DisposeCoroutine(ref eatRoutine);
     } 
@@ -173,6 +187,8 @@ public class DoraController : MonoBehaviourBase
 
     private void eatKernels()
     {
+        if (null == cellSelector.CurrentOriginCell) return;
+
         Debug.LogError("Eating");
         IReadOnlyList<Vector2Int> selectedCells = cellSelector.SelectedRange;
         if (null == selectedCells) return;
