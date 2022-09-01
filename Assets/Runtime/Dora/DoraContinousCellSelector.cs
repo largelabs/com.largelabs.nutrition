@@ -12,9 +12,12 @@ public class DoraContinousCellSelector : DoraAbstractCellSelector, IRangeSelecti
         rotateCob(i_nextRowNormal, Time.deltaTime * rotationSpeed, out dot);
         if (true == isDotProductAligned(dot))
         {
-            Vector2Int nextCell = CurrentOriginCell.Value;
-            nextCell.x = i_nextRowIndex;
-            SelectCell(nextCell, true, true);
+            if(null != CurrentOriginCell)
+            {
+                Vector2Int nextCell = CurrentOriginCell.Value;
+                nextCell.x = i_nextRowIndex;
+                SelectCell(nextCell, true, true);
+            }
         }
 
         yield return null;

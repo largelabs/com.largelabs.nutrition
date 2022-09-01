@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
@@ -17,7 +18,11 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     float durability = 1f;
     bool isSelected = false;
 
+    InterpolatorsManager interpolators = null;
+
     Material mat = null;
+    Color currentColor = Color.white;
+    Color currentRenderedColor = Color.white;
 
     #region UNITY AND CORE
 
@@ -49,6 +54,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         if (true == isInit) return;
 
+        interpolators = i_interpolators;
         gameObject.SetActive(false);
         appear.Init(i_interpolators);
         isInit = true;
@@ -58,7 +64,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         isBurnt = false;
         durability = 1f;
-        isSelected = false;
+        onDidUnselect(null);
     }
 
     public bool IsInit => isInit;
@@ -101,18 +107,16 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
             isBurnt = false;
             if (mat != null)
             {
-                Color lerpedColor = Color.Lerp(baseColor, targetColor, (1 - durability));
-
-                setKernelColor(lerpedColor);
+                currentColor = Color.Lerp(baseColor, targetColor, (1 - durability));
+                setKernelColor(currentColor);
             }
         }
     }
 
     public void BurnKernel()
     {
-        // play animation
-
-        setKernelColor(Color.black);
+        currentColor = Color.black;
+        setKernelColor(currentColor);
         isBurnt = true;
         durability = 0f;
     }
@@ -151,7 +155,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         isSelected = true;
 
         transform.localScale = MathConstants.VECTOR_3_ONE * 1.2f;
-        setKernelColor(Color.red);
+        setKernelColor(Color.red * currentColor);
     }
 
     public void Unselect()
@@ -159,14 +163,34 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         if (false == isSelected) return;
         isSelected = false;
 
-        transform.localScale = MathConstants.VECTOR_3_ONE;
-        setKernelColor(baseColor);
+        ITypedAnimator<Color> colorInterpolator = interpolators.Animate(currentRenderedColor, currentColor, 0.15f, new AnimationMode(AnimationType.Ease_In_Out), true, 0f, onDidUnselect);
+        animateColorRoutine = StartCoroutine(animateColor(colorInterpolator));
 
+        transform.localScale = MathConstants.VECTOR_3_ONE;
     }
 
     #endregion
 
     #region PRIVATE
+
+    Coroutine animateColorRoutine = null;
+
+    IEnumerator animateColor(ITypedAnimator<Color> i_interpolator)
+    {
+        while(true == i_interpolator.IsAnimating)
+        {
+            setKernelColor(i_interpolator.Current);
+            yield return null;
+        }
+    } 
+
+    void onDidUnselect(ITypedAnimator<Color> i_interpolator)
+    {
+        this.DisposeCoroutine(ref animateColorRoutine);
+
+        transform.localScale = MathConstants.VECTOR_3_ONE;
+        setKernelColor(currentColor);
+    }
 
     private void setKernelColor(Color i_color)
     {
@@ -179,6 +203,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
             if (mat == null) return;
         }
+
+        currentRenderedColor = i_color;
 
         mat.SetColor(baseColorId, i_color);
         mat.SetColor(firstShadeColorId, i_color);

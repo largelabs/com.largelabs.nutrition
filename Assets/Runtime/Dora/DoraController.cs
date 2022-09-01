@@ -32,6 +32,8 @@ public class DoraController : MonoBehaviourBase
 
     #region PUBLIC API
 
+    public IRangeSelectionProvider SelectionProvider => cellSelector;
+
     public IDoraCellProvider CurrentCellProvider => cellMap;
 
     public int CurrentEatenKernelCount => currentEatenKernelCount;

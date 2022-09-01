@@ -9,33 +9,26 @@ public class UIDoraSelectionCursor : MonoBehaviourBase
     [SerializeField] Image cursorImage = null;
     [SerializeField] RectTransform cursorRect = null;
     [SerializeField] DoraController controller = null;
-    [SerializeField] DoraAbstractCellSelector selector = null;
 
     Vector3[] extentPointsBuffer = null;
-    
 
     #region UNITY AND CORE
 
-    protected override void Awake()
-    {
-        base.Awake();
-
-    }
-
     private void Update()
     {
-        DoraCellData cell = null; 
-        
-        if(null != selector.CurrentOriginCell)
+        if (null == controller.SelectionProvider) return;
+        Vector2Int? currentCell = controller.SelectionProvider.CurrentOriginCell;
+
+        if (null != currentCell)
         {
-            cell = controller.CurrentCellProvider.GetCell(selector.CurrentOriginCell.Value, false, false);
+            DoraCellData cell = controller.CurrentCellProvider.GetCell(currentCell.Value, false, false);
             cursorImage.enabled = false == cell.HasKernel;
             updateCursorPosition(cell);
             updateCursorSize(cell);
         }
         else
         {
-          //  cursorImage.enabled = false;
+            cursorImage.enabled = false;
         }
     }
 
