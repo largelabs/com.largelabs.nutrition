@@ -115,6 +115,7 @@ public class DoraFlowManager : MiniGameFlow
 
         doraController.SetCellMap(i_cellMap);
         doraController.EnableController();
+        doraController.StartAutoRotation();
 
         int totalCellCount = i_cellMap.TotalCellCount;
 

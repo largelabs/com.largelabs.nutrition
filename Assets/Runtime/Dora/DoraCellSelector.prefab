@@ -46,9 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4872edbaec8bf374ca4379b90f8e8afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  continuousRotation: 0
   maxSelectionRadius: 3
   defaultSelect: {x: 5, y: 5}
   rotationSpeed: 200
+  rowTime: 0.5
 --- !u!114 &7116091729950579671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +65,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultCellMap: {fileID: 0}
   cellSelector: {fileID: 1094097989904634779}
+  kernelSpawner: {fileID: 0}
+  scoreManager: {fileID: 0}
 --- !u!114 &1702596465289171625
 MonoBehaviour:
   m_ObjectHideFlags: 0
