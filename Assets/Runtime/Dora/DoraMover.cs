@@ -11,6 +11,9 @@ public class DoraMover : MonoBehaviourBase
     [SerializeField] private AnimationCurve playMoveCurve = null;
     [SerializeField] private AnimationCurve doneMoveCurve = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
+    [SerializeField] private GameObject charcoalGroup = null;
+ 
+    [Header("Camera")]
     [SerializeField] private PanCamera panCamera = null;
     [SerializeField] private float panDownTime = 0.2f;
     [SerializeField] private float panUpTime = 0.5f;
@@ -30,6 +33,8 @@ public class DoraMover : MonoBehaviourBase
         if (nextCobRoutine == null)
         {
             Transform nextCob = null;
+
+            enableOffScreenCobKernels(true);
 
             if (doraCobQueue != null && doraCobQueue.Count > 0)
                 nextCob = doraCobQueue.Dequeue();
@@ -91,6 +96,8 @@ public class DoraMover : MonoBehaviourBase
             yield return StartCoroutine(animateToTransform(i_nextCob, playAnchor, panUpTime,
                                             playMoveCurve, null));
 
+            enableOffScreenCobKernels(false);
+
             DoraCellMap cellMap = i_nextCob.GetComponent<DoraCellMap>();
             OnGetNextCob?.Invoke(cellMap);
         }
@@ -102,6 +109,20 @@ public class DoraMover : MonoBehaviourBase
         currentCob = i_nextCob;          
 
         this.DisposeCoroutine(ref nextCobRoutine);
+    }
+
+    private void enableOffScreenCobKernels(bool i_enable)
+    {
+        DoraCellMap currDora = null;
+        foreach (Transform dora in doraCobQueue)
+        {
+            currDora = dora.GetComponent<DoraCellMap>();
+
+            if (currDora != null)
+                currDora.EnableRenderers(i_enable);
+        }
+
+        charcoalGroup.SetActive(i_enable);
     }
 
     IEnumerator animateToTransform(Transform i_nextCob, Transform i_target, float i_time, AnimationCurve i_curve, Action<ITypedAnimator<Vector3>> i_onAnimationEnded)

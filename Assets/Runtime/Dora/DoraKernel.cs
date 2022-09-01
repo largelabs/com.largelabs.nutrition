@@ -24,7 +24,9 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     protected override void Awake()
     {
         base.Awake();
-        mat = kernelRnd.material;
+
+        if(kernelRnd != null)
+            mat = kernelRnd.material;
     }
 
     private void OnDisable()
@@ -117,6 +119,12 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public Bounds RendererBounds => kernelRnd.bounds;
 
+    public void EnableRenderer(bool i_enable)
+    {
+        if (kernelRnd != null)
+            kernelRnd.enabled = i_enable;
+    }
+
     #endregion
 
     #region IAppear
@@ -162,7 +170,15 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     private void setKernelColor(Color i_color)
     {
-        if (mat == null) return;
+        if (kernelRnd == null || kernelRnd.enabled == false) return;
+
+        if (mat == null)
+        {
+            if (kernelRnd != null)
+                mat = kernelRnd.material;
+
+            if (mat == null) return;
+        }
 
         mat.SetColor(baseColorId, i_color);
         mat.SetColor(firstShadeColorId, i_color);
