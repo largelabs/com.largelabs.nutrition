@@ -782,7 +782,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 17
+  far clip plane: 18
   field of view: 10.4
   orthographic: 1
   orthographic size: 5.4
@@ -1560,6 +1560,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1438161864665498978, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 1438161866131678822, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
       propertyPath: m_Name
       value: Dora_Decor
@@ -1578,7 +1582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1438161866131678823, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1438161866131678823, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
       propertyPath: m_LocalRotation.w

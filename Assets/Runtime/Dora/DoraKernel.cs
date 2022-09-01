@@ -1,52 +1,26 @@
-using System.Collections;
 using UnityEngine;
 
 public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 {
     [SerializeField] DoraKernelAppear appear = null;
     [SerializeField] MeshRenderer kernelRnd = null;
-    [SerializeField] Color baseColor = Color.white;
-    [SerializeField] Color targetColor = Color.white;
-    [SerializeField] Color burntColor = Color.black;
 
-    private static readonly int baseColorId = Shader.PropertyToID("_BaseColor");
-    private static readonly int firstShadeColorId = Shader.PropertyToID("_1st_ShadeColor");
-    private static readonly int secondShadeColorId = Shader.PropertyToID("_2nd_ShadeColor");
+    [Header("Selected materials")]
+    [SerializeField] Material kernelMat0Selected = null;
+    [SerializeField] Material kernelMat1Selected = null;
+    [SerializeField] Material kernelMat2Selected = null;
+    [SerializeField] Material kernelMatBurntSelected = null;
+
+    [Header("Unselected materials")]
+    [SerializeField] Material kernelMat0 = null;
+    [SerializeField] Material kernelMat1 = null;
+    [SerializeField] Material kernelMat2 = null;
+    [SerializeField] Material kernelMatBurnt = null;
 
     bool isInit = false;
     bool isBurnt = false;
     float durability = 1f;
     bool isSelected = false;
-
-    InterpolatorsManager interpolators = null;
-
-    Material mat = null;
-    Color currentColor = Color.white;
-    Color currentRenderedColor = Color.white;
-
-    #region UNITY AND CORE
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        if(kernelRnd != null)
-            mat = kernelRnd.material;
-    }
-
-    private void OnDisable()
-    {
-        if (mat != null)
-            mat.SetColor(baseColorId, baseColor);
-    }
-
-    private void OnDestroy()
-    {
-        if (mat != null)
-            mat.SetColor(baseColorId, baseColor);
-    }
-
-    #endregion
 
     #region PUBLIC API
 
@@ -54,7 +28,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         if (true == isInit) return;
 
-        interpolators = i_interpolators;
         gameObject.SetActive(false);
         appear.Init(i_interpolators);
         isInit = true;
@@ -64,7 +37,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         isBurnt = false;
         durability = 1f;
-        onDidUnselect(null);
+        Unselect();
+        swapMaterials(durability, isSelected);
     }
 
     public bool IsInit => isInit;
@@ -105,20 +79,15 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         else
         {
             isBurnt = false;
-            if (mat != null)
-            {
-                currentColor = Color.Lerp(baseColor, targetColor, (1 - durability));
-                setKernelColor(currentColor);
-            }
+            swapMaterials(durability, isSelected);
         }
     }
 
     public void BurnKernel()
     {
-        currentColor = Color.black;
-        setKernelColor(currentColor);
         isBurnt = true;
         durability = 0f;
+        swapMaterials(durability, isSelected);
     }
 
     public Bounds RendererBounds => kernelRnd.bounds;
@@ -153,63 +122,30 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         if (true == isSelected) return;
         isSelected = true;
-
         transform.localScale = MathConstants.VECTOR_3_ONE * 1.2f;
-        setKernelColor(Color.red * currentColor);
+        swapMaterials(durability, isSelected);
     }
 
     public void Unselect()
     {
         if (false == isSelected) return;
         isSelected = false;
-
-        ITypedAnimator<Color> colorInterpolator = interpolators.Animate(currentRenderedColor, currentColor, 0.15f, new AnimationMode(AnimationType.Ease_In_Out), true, 0f, onDidUnselect);
-        animateColorRoutine = StartCoroutine(animateColor(colorInterpolator));
-
         transform.localScale = MathConstants.VECTOR_3_ONE;
+        swapMaterials(durability, isSelected);
     }
 
     #endregion
 
     #region PRIVATE
 
-    Coroutine animateColorRoutine = null;
-
-    IEnumerator animateColor(ITypedAnimator<Color> i_interpolator)
+    void swapMaterials(float i_durability, bool i_isSelected)
     {
-        while(true == i_interpolator.IsAnimating)
-        {
-            setKernelColor(i_interpolator.Current);
-            yield return null;
-        }
-    } 
-
-    void onDidUnselect(ITypedAnimator<Color> i_interpolator)
-    {
-        this.DisposeCoroutine(ref animateColorRoutine);
-
-        transform.localScale = MathConstants.VECTOR_3_ONE;
-        setKernelColor(currentColor);
+        if (i_durability == 0f) kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
+        else if (i_durability > 0f && i_durability < 0.25f) kernelRnd.material = i_isSelected ? kernelMat2Selected : kernelMat2;
+        else if (i_durability > 0.25f && i_durability < 0.5f) kernelRnd.material = i_isSelected ? kernelMat1Selected : kernelMat1;
+        else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;
     }
 
-    private void setKernelColor(Color i_color)
-    {
-        if (kernelRnd == null || kernelRnd.enabled == false) return;
-
-        if (mat == null)
-        {
-            if (kernelRnd != null)
-                mat = kernelRnd.material;
-
-            if (mat == null) return;
-        }
-
-        currentRenderedColor = i_color;
-
-        mat.SetColor(baseColorId, i_color);
-        mat.SetColor(firstShadeColorId, i_color);
-        mat.SetColor(secondShadeColorId, i_color);
-    }
 
     #endregion
 }
