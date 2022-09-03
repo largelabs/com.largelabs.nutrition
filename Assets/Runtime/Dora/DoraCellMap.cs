@@ -13,6 +13,8 @@ public interface IDoraCellProvider
     Transform GetRowNormal(int i_index, bool i_loop);
 
     int GetKernelCount();
+
+    int TotalCellCount { get; }
 }
 
 
@@ -24,6 +26,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     [SerializeField] DoraDurabilityManager durabilityManager = null;
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] DoraData doraData = null;
+    [SerializeField] MeshRenderer cobRnd = null;
 
     DoraCellData[,] cellMap = null;
     DoraCellFactory cellFactory = null;
@@ -31,22 +34,13 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     private const int NB_ROWS = 12;
     private const int NB_COLUMNS = 11;
 
-    #region UNITY AND CORE
-
-    protected override void Awake()
+    private void Update()
     {
-        base.Awake();
+        Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
+        foreach (DoraCellData doraCell in cellMap)
+            doraCell.EnableKernelRenderer(GeometryUtility.TestPlanesAABB(frustumPlanes, doraCell.CellBounds));
     }
-
-    private void Start()
-    {
-        //PopulateMap();
-        //durabilityManager.InitializeKernelDurability();
-        //RevealCells(true);
-    }
-
-    #endregion
 
     #region IDoraCellProvider
 
@@ -90,6 +84,8 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         return ret;
     }
 
+    public int TotalCellCount => CellMapLength0 * CellMapLength1;
+
     #endregion
 
     #region PUBLIC API
@@ -102,7 +98,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     {
         PopulateMap();
         durabilityManager.InitializeKernelDurability();
-        RevealCells(true);
+        RevealCells(false);
     }
 
     public void RevealCells(bool i_animated)
@@ -171,6 +167,24 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         }
     }
 
+    public void EnableRenderers(bool i_enable)
+    {
+        if (cellMap != null)
+        {
+            int length0 = CellMapLength0;
+            int length1 = CellMapLength1;
+
+            for (int i = 0; i < length0; i++)
+            {
+                for (int j = 0; j < length1; j++)
+                {
+                    cellMap[i, j].EnableKernelRenderer(i_enable);
+                }
+            }
+        }
+
+        cobRnd.enabled = i_enable;
+    }
     #endregion
 
     #region PRIVATE

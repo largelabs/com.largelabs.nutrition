@@ -585,6 +585,7 @@ MonoBehaviour:
   durabilityManager: {fileID: 8300991783027058464}
   interpolators: {fileID: 6891196076344109177}
   doraData: {fileID: 11400000, guid: 022361e63e3149142b800cf71d7a402e, type: 2}
+  cobRnd: {fileID: 2973852796973183393}
 --- !u!114 &6891196076344109177
 MonoBehaviour:
   m_ObjectHideFlags: 0

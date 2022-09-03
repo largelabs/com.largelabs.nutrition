@@ -1,19 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class DoraController : MonoBehaviourBase
 {
-    [SerializeField] DoraCellMap defaultCellMap = null;
-    [SerializeField] DoraCellSelector cellSelector = null;
+    [SerializeField] DoraInputs inputs = null;
+    [SerializeField] DoraAbstractCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
     [SerializeField] DoraScoreManager scoreManager = null;
 
-    DoraActions inputActions = null;
     DoraCellMap cellMap = null;
-    Coroutine moveRoutine = null;
-    Coroutine eatRoutine = null;
 
     private int currentEatenKernelCount = 0;
 
@@ -21,16 +16,14 @@ public class DoraController : MonoBehaviourBase
 
     void Start ()
     {
-        initInputs();
-        EnableController();
-
-        if(defaultCellMap != null)
-            SetCellMap(defaultCellMap);
+        listenToInputs();
     }
 
     #endregion
 
     #region PUBLIC API
+
+    public IRangeSelectionProvider SelectionProvider => cellSelector;
 
     public IDoraCellProvider CurrentCellProvider => cellMap;
 
@@ -39,15 +32,21 @@ public class DoraController : MonoBehaviourBase
     [ExposePublicMethod]
     public void EnableController()
     {
-        inputActions.Player.Move.Enable();
+        inputs.EnableInputs();
+    }
+
+    public void StartAutoRotation()
+    {
+        cellSelector.StartAutoRotation();
     }
 
     [ExposePublicMethod]
-    public void DisableController()
+    public void DisableController(bool i_clearSelection = true)
     {
-        this.DisposeCoroutine(ref moveRoutine);
-        inputActions.Player.Move.Disable();
-        cellSelector.ClearSelection();
+        inputs.DisableInputs();
+
+        if (true == i_clearSelection)
+            cellSelector.ClearSelection();
     }
 
     public void SetCellMap(DoraCellMap i_cellMap)
@@ -65,114 +64,84 @@ public class DoraController : MonoBehaviourBase
         currentEatenKernelCount = 0;
     }
 
-    
-
     #endregion
 
     #region PRIVATE
 
-    IEnumerator dispatchEatRoutine()
+    private void move(Vector2 i_move)
     {
-        while (true)
+        Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
+        if (null == currentSelect) return;
+
+        Vector2Int nextSelect = currentSelect.Value;
+        nextSelect.y += (int)i_move.x;
+
+        cellSelector.SelectCell(nextSelect, true, true);
+    }
+
+    void listenToInputs()
+    {
+        inputs.OnMoveStarted += onMoveStarted;
+        inputs.OnMove += onMove;
+        inputs.OnMoveReleased += onMoveReleased;
+
+        inputs.OnEatStarted += onEatStarted;
+        inputs.OnEat += onEat;
+        inputs.OnEatReleased += onEatReleased;
+    }
+
+    int selectedRadius = 0;
+
+    private void onEatStarted()
+    {
+        DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
+        if (false == cell.HasKernel) return;
+
+        cellSelector.StopAutoRotation();
+        selectedRadius = 0;
+
+    }
+
+    private void onEat()
+    {
+        Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
+        if (null == currentSelect) return;
+
+        if (selectedRadius <= cellSelector.MaxSelectionRadius)
         {
-            Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
-            if (null == currentSelect)
-            {
-                this.DisposeCoroutine(ref eatRoutine);
-                yield break;
-            }
-
-            int selectRadius = 0;
-
-            while (true == inputActions.Player.Eat.IsPressed())
-            {
-                if(selectRadius <= cellSelector.MaxSelectionRadius)
-                {
-                    cellSelector.SelectRange(cellSelector.CurrentOriginCell.Value, selectRadius, true, false, false);
-                    yield return this.Wait(0.25f);
-                    selectRadius++;
-                }
-                else
-                {
-                    yield return null;
-                }
-
-            }
-
-            yield return null;
+            cellSelector.SelectRange(currentSelect.Value, selectedRadius, true, false, false);
+            selectedRadius++;
         }
     }
 
-    IEnumerator dispatchMoveRoutine()
+    private void onEatReleased()
     {
-        while (true)
-        {
-            Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
-            if (null == currentSelect)
-            {
-                this.DisposeCoroutine(ref moveRoutine);
-                yield break;
-            }
-
-            Vector2 inputValue = inputActions.Player.Move.ReadValue<Vector2>();
-
-            Vector2Int nextSelect = currentSelect.Value;
-            nextSelect.y += (int)inputValue.x;
-            nextSelect.x += (int)inputValue.y;
-
-            cellSelector.SelectCell(nextSelect, true, true);
-
-            yield return this.Wait(0.2f);
-        }
-    }
-
-    void initInputs()
-    {
-        if (null == inputActions) inputActions = new DoraActions();
-        inputActions.Player.Move.started += onMoveStarted;
-        inputActions.Player.Move.canceled += onMoveCanceled;
-
-        inputActions.Player.Eat.started += onEatStarted;
-        inputActions.Player.Eat.canceled += onEatCanceled;
-    }
-
-    private void onEatStarted(InputAction.CallbackContext obj)
-    {
-        if (null != eatRoutine) return;
-        inputActions.Player.Move.Disable();
-
-        Debug.Log("pressed");
-
-        eatRoutine = StartCoroutine(dispatchEatRoutine());
-    }
-
-    private void onEatCanceled(InputAction.CallbackContext obj)
-    {
-        inputActions.Player.Move.Enable();
-
-        Debug.Log("released");
-
         eatKernels();
 
-        this.DisposeCoroutine(ref eatRoutine);
+        cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
+        cellSelector.StartAutoRotation();
+
+        selectedRadius = 0;
     } 
 
-    private void onMoveStarted(InputAction.CallbackContext obj)
+    private void onMoveStarted(Vector2 i_move)
     {
-        if (null != moveRoutine) return;
-        inputActions.Player.Eat.Disable();
-        moveRoutine = StartCoroutine(dispatchMoveRoutine());
+        move(i_move);
     }
 
-    private void onMoveCanceled(InputAction.CallbackContext obj)
+    private void onMove(Vector2 i_move)
     {
-        inputActions.Player.Eat.Enable();
-        inputActions.Player.TestAction.Enable();
-        this.DisposeCoroutine(ref moveRoutine);
+        move(i_move);
+    }
+
+    private void onMoveReleased(Vector2 i_move)
+    {
     }
 
     private void eatKernels()
     {
+        if (null == cellSelector.CurrentOriginCell) return;
+
         Debug.LogError("Eating");
         IReadOnlyList<Vector2Int> selectedCells = cellSelector.SelectedRange;
         if (null == selectedCells) return;
@@ -195,6 +164,8 @@ public class DoraController : MonoBehaviourBase
             }
         }
 
+        Debug.LogError(eatenKernels);
+
         scoreManager.AddScore(eatenKernels - burntKenrelsCount);
         scoreManager.RemoveScore(burntKenrelsCount);
 
@@ -202,6 +173,4 @@ public class DoraController : MonoBehaviourBase
     }
 
     #endregion
-
-
 }

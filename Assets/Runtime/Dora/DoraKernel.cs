@@ -4,42 +4,23 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 {
     [SerializeField] DoraKernelAppear appear = null;
     [SerializeField] MeshRenderer kernelRnd = null;
-    [SerializeField] Color baseColor = Color.white;
-    [SerializeField] Color targetColor = Color.white;
-    [SerializeField] Color burntColor = Color.black;
 
-    private static readonly int baseColorId = Shader.PropertyToID("_BaseColor");
-    private static readonly int firstShadeColorId = Shader.PropertyToID("_1st_ShadeColor");
-    private static readonly int secondShadeColorId = Shader.PropertyToID("_2nd_ShadeColor");
+    [Header("Selected materials")]
+    [SerializeField] Material kernelMat0Selected = null;
+    [SerializeField] Material kernelMat1Selected = null;
+    [SerializeField] Material kernelMat2Selected = null;
+    [SerializeField] Material kernelMatBurntSelected = null;
+
+    [Header("Unselected materials")]
+    [SerializeField] Material kernelMat0 = null;
+    [SerializeField] Material kernelMat1 = null;
+    [SerializeField] Material kernelMat2 = null;
+    [SerializeField] Material kernelMatBurnt = null;
 
     bool isInit = false;
     bool isBurnt = false;
     float durability = 1f;
     bool isSelected = false;
-
-    Material mat = null;
-
-    #region UNITY AND CORE
-
-    protected override void Awake()
-    {
-        base.Awake();
-        mat = kernelRnd.material;
-    }
-
-    private void OnDisable()
-    {
-        if (mat != null)
-            mat.SetColor(baseColorId, baseColor);
-    }
-
-    private void OnDestroy()
-    {
-        if (mat != null)
-            mat.SetColor(baseColorId, baseColor);
-    }
-
-    #endregion
 
     #region PUBLIC API
 
@@ -56,7 +37,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         isBurnt = false;
         durability = 1f;
-        isSelected = false;
+        Unselect();
+        swapMaterials(durability, isSelected);
     }
 
     public bool IsInit => isInit;
@@ -97,25 +79,24 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         else
         {
             isBurnt = false;
-            if (mat != null)
-            {
-                Color lerpedColor = Color.Lerp(baseColor, targetColor, (1 - durability));
-
-                setKernelColor(lerpedColor);
-            }
+            swapMaterials(durability, isSelected);
         }
     }
 
     public void BurnKernel()
     {
-        // play animation
-
-        setKernelColor(Color.black);
         isBurnt = true;
         durability = 0f;
+        swapMaterials(durability, isSelected);
     }
 
     public Bounds RendererBounds => kernelRnd.bounds;
+
+    public void EnableRenderer(bool i_enable)
+    {
+        if (kernelRnd != null)
+            kernelRnd.enabled = i_enable;
+    }
 
     #endregion
 
@@ -141,33 +122,30 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         if (true == isSelected) return;
         isSelected = true;
-
         transform.localScale = MathConstants.VECTOR_3_ONE * 1.2f;
-        setKernelColor(Color.red);
+        swapMaterials(durability, isSelected);
     }
 
     public void Unselect()
     {
         if (false == isSelected) return;
         isSelected = false;
-
         transform.localScale = MathConstants.VECTOR_3_ONE;
-        setKernelColor(baseColor);
-
+        swapMaterials(durability, isSelected);
     }
 
     #endregion
 
     #region PRIVATE
 
-    private void setKernelColor(Color i_color)
+    void swapMaterials(float i_durability, bool i_isSelected)
     {
-        if (mat == null) return;
-
-        mat.SetColor(baseColorId, i_color);
-        mat.SetColor(firstShadeColorId, i_color);
-        mat.SetColor(secondShadeColorId, i_color);
+        if (i_durability == 0f) kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
+        else if (i_durability > 0f && i_durability < 0.25f) kernelRnd.material = i_isSelected ? kernelMat2Selected : kernelMat2;
+        else if (i_durability > 0.25f && i_durability < 0.5f) kernelRnd.material = i_isSelected ? kernelMat1Selected : kernelMat1;
+        else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;
     }
+
 
     #endregion
 }

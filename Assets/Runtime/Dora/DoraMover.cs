@@ -11,6 +11,13 @@ public class DoraMover : MonoBehaviourBase
     [SerializeField] private AnimationCurve playMoveCurve = null;
     [SerializeField] private AnimationCurve doneMoveCurve = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
+    [SerializeField] private GameObject charcoalGroup = null;
+ 
+    [Header("Camera")]
+    [SerializeField] private PanCamera panCamera = null;
+    [SerializeField] private float panDownTime = 0.2f;
+    [SerializeField] private float panUpTime = 0.5f;
+    [SerializeField] private float exitTime = 0.2f;
 
     private Queue<Transform> doraCobQueue = null;
     private Transform currentCob = null;
@@ -26,6 +33,8 @@ public class DoraMover : MonoBehaviourBase
         if (nextCobRoutine == null)
         {
             Transform nextCob = null;
+
+            enableOffScreenCobKernels(true);
 
             if (doraCobQueue != null && doraCobQueue.Count > 0)
                 nextCob = doraCobQueue.Dequeue();
@@ -48,7 +57,7 @@ public class DoraMover : MonoBehaviourBase
         doraCobQueue.Enqueue(i_doraCob);
     }
 
-    public void reverseQueue()
+    public void ReverseQueue()
     {
         List<Transform> holder = new List<Transform>();
         while (doraCobQueue.Count > 0)
@@ -69,9 +78,13 @@ public class DoraMover : MonoBehaviourBase
         if (currentCob != null)
         {
             // could possibly do smth different if cob is burnt
-            yield return StartCoroutine(animateToPosition(currentCob, doneAnchor.position, 1f,
+            yield return StartCoroutine(animateToTransform(currentCob, doneAnchor, exitTime,
                                             playMoveCurve, onMoveToDone));
+
         }
+
+        panCamera.PanCameraDown(panDownTime);
+        yield return this.Wait(panDownTime + 0.2f);
 
         if (i_nextCob != null)
         {
@@ -79,8 +92,11 @@ public class DoraMover : MonoBehaviourBase
             if (dorabilityManager != null)
                 dorabilityManager.DeactivateDurabilityUpdate();
 
-            yield return StartCoroutine(animateToPosition(i_nextCob, playAnchor.position, 1f,
+            panCamera.PanCameraUp(panUpTime);
+            yield return StartCoroutine(animateToTransform(i_nextCob, playAnchor, panUpTime,
                                             playMoveCurve, null));
+
+            enableOffScreenCobKernels(false);
 
             DoraCellMap cellMap = i_nextCob.GetComponent<DoraCellMap>();
             OnGetNextCob?.Invoke(cellMap);
@@ -95,14 +111,33 @@ public class DoraMover : MonoBehaviourBase
         this.DisposeCoroutine(ref nextCobRoutine);
     }
 
-    IEnumerator animateToPosition(Transform i_nextCob, Vector3 i_target, float i_time, AnimationCurve i_curve, Action<ITypedAnimator<Vector3>> i_onAnimationEnded)
+    private void enableOffScreenCobKernels(bool i_enable)
+    {
+        DoraCellMap currDora = null;
+        foreach (Transform dora in doraCobQueue)
+        {
+            currDora = dora.GetComponent<DoraCellMap>();
+
+            if (currDora != null)
+                currDora.EnableRenderers(i_enable);
+        }
+
+        charcoalGroup.SetActive(i_enable);
+    }
+
+    IEnumerator animateToTransform(Transform i_nextCob, Transform i_target, float i_time, AnimationCurve i_curve, Action<ITypedAnimator<Vector3>> i_onAnimationEnded)
     {
         AnimationMode mode = new AnimationMode(i_curve);
-        ITypedAnimator<Vector3> posInterpolator = interpolatorManager.Animate(i_nextCob.position, i_target, i_time, mode, false, 0f, i_onAnimationEnded);
+        ITypedAnimator<Vector3> posInterpolator = interpolatorManager.Animate(i_nextCob.position, i_target.position, i_time, mode, false, 0f, i_onAnimationEnded);
+        Vector3 targetScale = new Vector3(i_target.localScale.x / i_nextCob.lossyScale.x,
+                                            i_target.localScale.y / i_nextCob.lossyScale.y,
+                                            i_target.localScale.z / i_nextCob.lossyScale.z);
+        ITypedAnimator<Vector3> scaleInterpolator = interpolatorManager.Animate(i_nextCob.localScale, targetScale, i_time, mode, false, 0f, null);
 
         while (true == posInterpolator.IsActive)
         {
             i_nextCob.position = posInterpolator.Current;
+            i_nextCob.localScale = scaleInterpolator.Current;
             yield return null;
         }
     }
@@ -120,5 +155,6 @@ public class DoraMover : MonoBehaviourBase
         if(cellMap != null)
             doraSpawner.DespawnDoraCob(cellMap);
     }
+
     #endregion
 }

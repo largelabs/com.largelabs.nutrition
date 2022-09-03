@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -84,9 +83,5 @@ public class DoraPlacer : MonoBehaviourBase
 
         return currCob;
     }
-    #endregion
-
-    #region PRIVATE API
-
     #endregion
 }

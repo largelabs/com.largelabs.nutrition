@@ -9,6 +9,7 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraPlacer doraPlacer = null;
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
+    [SerializeField] private GameObject doraHUD = null;
 
     [SerializeField] private MinigameTimer timer = null;
 
@@ -22,12 +23,13 @@ public class DoraFlowManager : MiniGameFlow
     private DoraCellMap currentCob = null;
     private DoraCellMap previousCob = null;
 
-    Coroutine doraGameplayRoutine;
-    Coroutine burntDoraRoutine;
+    Coroutine doraGameplayRoutine = null;
+    Coroutine burntDoraRoutine = null;
 
     DoraActions inputActions = null;
 
-    #region Start?
+    #region UNITY AND CORE
+
     private void Start()
     {
         EnterMiniGame();
@@ -36,41 +38,14 @@ public class DoraFlowManager : MiniGameFlow
     #endregion
 
     #region GameFlow
+
     protected override IEnumerator introRoutine()
     {
         Debug.LogError("intro");
         yield return this.Wait(1.0f);
 
-        DoraCellMap currCob = null;
-        int length = Mathf.Clamp(doraPerBatch, 1, 4);
-        for (int i = 0; i < length; i++)
-        {
-            currCob = doraPlacer.SpawnDoraAtAnchor(doraPositions[i]);
-            currCob.InitializeDoraCob();
-            yield return this.Wait(1.0f);
-        }
-        //currCob = doraPlacer.SpawnDoraAtAnchor(DoraPlacer.DoraPositions.BackLeft);
-        //currCob.InitializeDoraCob();
-        //yield return this.Wait(1.0f);
-
-        //currCob = doraPlacer.SpawnDoraAtAnchor(DoraPlacer.DoraPositions.BackRight);
-        //currCob.InitializeDoraCob();
-        //yield return this.Wait(1.0f);
-
-        //currCob = doraPlacer.SpawnDoraAtAnchor(DoraPlacer.DoraPositions.FrontLeft);
-        //currCob.InitializeDoraCob();
-        //yield return this.Wait(1.0f);
-
-        //currCob = doraPlacer.SpawnDoraAtAnchor(DoraPlacer.DoraPositions.FrontRight);
-        //currCob.InitializeDoraCob();
-        //yield return this.Wait(3.4f);
-
-
-        yield return this.Wait(2.4f);
-
-        doraMover.reverseQueue();
+        yield return StartCoroutine(bringNewBatch());
     }
-
 
     protected override void onGameplayStarted()
     {
@@ -105,7 +80,22 @@ public class DoraFlowManager : MiniGameFlow
     }
     #endregion
 
-    #region private
+    #region PRIVATE
+    IEnumerator bringNewBatch()
+    {
+        DoraCellMap currCob = null;
+        int length = Mathf.Clamp(doraPerBatch, 1, 4);
+        for (int i = 0; i < length; i++)
+        {
+            currCob = doraPlacer.SpawnDoraAtAnchor(doraPositions[i]);
+            currCob.InitializeDoraCob();
+            yield return this.Wait(1.0f);
+        }
+
+        doraMover.ReverseQueue();
+    }
+
+
     private IEnumerator simulatedFlow()
     {
         doraMover.GetNextCob();
@@ -128,27 +118,29 @@ public class DoraFlowManager : MiniGameFlow
         inputActions.Player.TestAction.Enable();
 
         doraController.SetCellMap(i_cellMap);
+        doraController.EnableController();
+        doraController.StartAutoRotation();
+
+        int totalCellCount = i_cellMap.TotalCellCount;
+
+        doraHUD.SetActive(true);
 
         while (true)
         {
             // gameplay stuff
 
-            if (doraController.CurrentEatenKernelCount == 132)
+            if (doraController.CurrentEatenKernelCount == totalCellCount)
             {
+                doraHUD.SetActive(false);
                 doraMover.GetNextCob();
+                doraController.DisableController();
                 this.DisposeCoroutine(ref doraGameplayRoutine);
                 yield break;
             }
-
-            if (inputActions.Player.TestAction.WasPressedThisFrame())
-            {
-                doraMover.GetNextCob();
-                this.DisposeCoroutine(ref doraGameplayRoutine);
-                yield break;
-            }
-
             yield return null;
         }
+
+
     }
 
     private IEnumerator burntDoraSequence()
@@ -161,9 +153,10 @@ public class DoraFlowManager : MiniGameFlow
 
     private IEnumerator doraBatchSequence()
     {
+
         timer.PauseTimer();
 
-        yield return StartCoroutine(introRoutine());
+        yield return StartCoroutine(bringNewBatch());
 
         timer.ResumeTimer();
 

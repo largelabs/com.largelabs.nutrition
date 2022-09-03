@@ -131,8 +131,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
                 }
             }
 
-            Debug.LogError("burnt: " + burntKernels);
-            Debug.LogError("total: " + totalKernels);
+           // Debug.LogError("burnt: " + burntKernels);
+           // Debug.LogError("total: " + totalKernels);
 
             if (totalKernels > 0)
             {
