@@ -9,7 +9,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     [SerializeField] Collider kernelCollider = null;
 
     [SerializeField] AnimationCurve selectScaleCurve = null;
-    [SerializeField] float selectScaleMultiplier = 2f;
+    [SerializeField] Vector3 selectedScale = MathConstants.VECTOR_3_ONE;
     [SerializeField] float selectAnimationSpeed = 1f;
     [SerializeField] AnimationCurve unselectScaleCurve = null;
     [SerializeField] float unselectAnimationSpeed = 1f;
@@ -17,13 +17,11 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     [Header("Selected materials")]
     [SerializeField] Material kernelMat0Selected = null;
     [SerializeField] Material kernelMat1Selected = null;
-    [SerializeField] Material kernelMat2Selected = null;
     [SerializeField] Material kernelMatBurntSelected = null;
 
     [Header("Unselected materials")]
     [SerializeField] Material kernelMat0 = null;
     [SerializeField] Material kernelMat1 = null;
-    [SerializeField] Material kernelMat2 = null;
     [SerializeField] Material kernelMatBurnt = null;
 
     bool isInit = false;
@@ -158,11 +156,11 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         swapMaterials(durability, isSelected);
 
         if (true == i_animated)
-            startScaleAnimation(MathConstants.VECTOR_3_ONE * selectScaleMultiplier, selectScaleCurve, selectAnimationSpeed);
+            startScaleAnimation(selectedScale, selectScaleCurve, selectAnimationSpeed);
         else
         {
             this.DisposeCoroutine(ref updateScaleRoutine);
-            transform.localScale = MathConstants.VECTOR_3_ONE * selectScaleMultiplier;
+            transform.localScale = selectedScale;
         }
 
         if(true == isBurnt)
@@ -211,10 +209,13 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     void swapMaterials(float i_durability, bool i_isSelected)
     {
-        if (i_durability == 0f) kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
-        else if (i_durability > 0f && i_durability < 0.25f) kernelRnd.material = i_isSelected ? kernelMat2Selected : kernelMat2;
-        else if (i_durability > 0.25f && i_durability < 0.5f) kernelRnd.material = i_isSelected ? kernelMat1Selected : kernelMat1;
-        else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;
+        if (true == isBurnt) 
+            kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
+        else
+        {
+            if (i_durability < 0.5f) kernelRnd.material = i_isSelected ? kernelMat1Selected : kernelMat1;
+            else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;
+        }
     }
 
 

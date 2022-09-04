@@ -148,7 +148,7 @@ Material:
     - _1st_ShadeColor_Feather: 0.0001
     - _1st_ShadeColor_Step: 0.689
     - _2nd_ShadeColor_Feather: 0.0001
-    - _2nd_ShadeColor_Step: 0.725
+    - _2nd_ShadeColor_Step: 1
     - _ARSampler_AlphaOn: 0
     - _AR_OffsetU: 0
     - _AR_OffsetV: 0.3
@@ -178,7 +178,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HighColor_Power: 0.241
+    - _HighColor_Power: 0
     - _Inverse_Clipping: 0
     - _Inverse_MatcapMask: 0
     - _Inverse_Z_Axis_BLD: 1
@@ -196,10 +196,10 @@ Material:
     - _Is_LightColor_AR: 1
     - _Is_LightColor_Ap_RimLight: 0
     - _Is_LightColor_Base: 1
-    - _Is_LightColor_HighColor: 1
+    - _Is_LightColor_HighColor: 0
     - _Is_LightColor_MatCap: 0
     - _Is_LightColor_Outline: 0
-    - _Is_LightColor_RimLight: 1
+    - _Is_LightColor_RimLight: 0
     - _Is_NormalMapForMatCap: 0
     - _Is_NormalMapToBase: 0
     - _Is_NormalMapToHighColor: 0
@@ -208,7 +208,7 @@ Material:
     - _Is_OutlineTex: 0
     - _Is_PingPong_Base: 0
     - _Is_SpecularToHighColor: 0
-    - _Is_UseTweakHighColorOnShadow: 1
+    - _Is_UseTweakHighColorOnShadow: 0
     - _Is_UseTweakMatCapOnShadow: 0
     - _Is_ViewCoord_Scroll: 0
     - _Is_ViewShift: 0
@@ -224,7 +224,7 @@ Material:
     - _Offset_Z: 0
     - _Outline_Width: 25
     - _Parallax: 0.02
-    - _RimLight: 1
+    - _RimLight: 0
     - _RimLight_FeatherOff: 0
     - _RimLight_InsideMask: 0.276
     - _RimLight_Power: 0.669
@@ -236,7 +236,7 @@ Material:
     - _Scroll_EmissiveU: 0
     - _Scroll_EmissiveV: 0
     - _Set_SystemShadowsToBase: 0
-    - _ShadeColor_Step: 0.725
+    - _ShadeColor_Step: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -260,7 +260,7 @@ Material:
     - _UVSec: 0
     - _Unlit_Intensity: 0
     - _Use_1stAs2nd: 1
-    - _Use_BaseAs1st: 1
+    - _Use_BaseAs1st: 0
     - _ZOverDrawMode: 0
     - _ZWrite: 1
     - _ZWriteMode: 1
@@ -271,12 +271,12 @@ Material:
     - _utsVersionY: 7
     - _utsVersionZ: 5
     m_Colors:
-    - _1st_ShadeColor: {r: 0.2735849, g: 0.22387984, b: 0.05549128, a: 1}
-    - _2nd_ShadeColor: {r: 0.24528301, g: 0.16823077, b: 0.010412954, a: 1}
+    - _1st_ShadeColor: {r: 1, g: 0, b: 0.87176275, a: 1}
+    - _2nd_ShadeColor: {r: 0.24705882, g: 0.17081593, b: 0.06666668, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.2735849, g: 0.2110849, b: 0, a: 1}
-    - _Color: {r: 0.2735849, g: 0.2110849, b: 0, a: 1}
+    - _BaseColor: {r: 0.31132078, g: 0.20921147, b: 0.09251513, a: 1}
+    - _Color: {r: 0.31132078, g: 0.20921147, b: 0.09251513, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}

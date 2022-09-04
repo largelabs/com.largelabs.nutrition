@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4512173, g: 0.49995136, b: 0.5682685, a: 1}
+  m_IndirectSpecularColor: {r: 0.45142168, g: 0.5008108, b: 0.5717553, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1513,10 +1513,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1438161864665498978, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1
-      objectReference: {fileID: 0}
     - target: {fileID: 1438161866131678822, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
       propertyPath: m_Name
       value: Dora_Decor

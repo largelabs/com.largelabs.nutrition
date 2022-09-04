@@ -178,7 +178,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HighColor_Power: 0.241
+    - _HighColor_Power: 0
     - _Inverse_Clipping: 0
     - _Inverse_MatcapMask: 0
     - _Inverse_Z_Axis_BLD: 1
@@ -271,12 +271,12 @@ Material:
     - _utsVersionY: 7
     - _utsVersionZ: 5
     m_Colors:
-    - _1st_ShadeColor: {r: 0.27450982, g: 0.05490196, b: 0.07033654, a: 1}
-    - _2nd_ShadeColor: {r: 0.24705882, g: 0.011764705, b: 0.042080328, a: 1}
+    - _1st_ShadeColor: {r: 0.5754717, g: 0.13300997, b: 0.16461447, a: 1}
+    - _2nd_ShadeColor: {r: 0.4528302, g: 0.023495909, b: 0.08074042, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.27450982, g: 0, b: 0.0071805883, a: 1}
-    - _Color: {r: 0.27450982, g: 0, b: 0.0071805883, a: 1}
+    - _BaseColor: {r: 0.5754717, g: 0, b: 0.01644215, a: 1}
+    - _Color: {r: 0.5754717, g: 0, b: 0.01644215, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}
