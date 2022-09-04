@@ -6,9 +6,10 @@ public class DoraDurabilityManager : MonoBehaviourBase
 {
     public enum Distribution
     {
-        Normal,
-        Uniform,
-        ChiSquare
+        DenseMiddle,
+        DenseEdges,
+        Sparse,
+        Uniform
     }
 
     [SerializeField] private DoraCellMap cellMap = null;
@@ -44,7 +45,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
     [ExposePublicMethod]
     public bool InitializeKernelDurability(bool i_canSpawnSuper, out bool o_superKernelSpawned)
     {
-        int superKernelsSpawned = 0;
         o_superKernelSpawned = false;
 
         if (batchData == null)
@@ -67,6 +67,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
 
         float rng = 0f;
 
+        int totalBurnable = 0;
+
         DoraCellData currCellData = null;
 
         for (int i = 0; i < length0; i++)
@@ -76,7 +78,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
                 currCellData = cellMap.GetCell(new Vector2Int(i, j), false, false);
                 rng = UnityEngine.Random.Range(minDurability, maxDurability);
 
-                currCellData.SetBurnable(KernelIsBurnable());
+                if (currCellData.SetBurnable(KernelIsBurnable(j, length1 - 1, totalBurnable)))
+                    totalBurnable++;
 
                 currCellData.SetDurability(rng);
                 currCellData.UpdateColor();
@@ -84,25 +87,32 @@ public class DoraDurabilityManager : MonoBehaviourBase
         }
 
         if (i_canSpawnSuper)
-        {
-            int length = batchData.MaxSuperKernelsPerCob;
-            for (int i = 0; i < length; i++)
-            {
-                currCellData = cellMap.GetCell(getRandomCell(length0, length1), false, false);
-
-                currCellData.SetSuper(true);
-                superKernelsSpawned++;
-            }
-        }
+            o_superKernelSpawned = setSuperKernels(length0, length1);
 
         burntPercentage = 0.0f;
-        if (superKernelsSpawned > 0)
-            o_superKernelSpawned = true;
 
         return true;
     }
 
-    private Vector2Int getRandomCell(int i_length0, int i_length1)
+    private bool setSuperKernels(int i_length0, int i_length1)
+    {
+        DoraCellData currCellData = null;
+
+        int superKernelsSpawned = 0;
+        int length = batchData.MaxSuperKernelsPerCob;
+
+        for (int i = 0; i < length; i++)
+        {
+            currCellData = cellMap.GetCell(getRandomCellIdx(i_length0, i_length1), false, false);
+
+            currCellData.SetSuper(true);
+            superKernelsSpawned++;
+        }
+
+        return (superKernelsSpawned > 0);
+    }
+
+    private Vector2Int getRandomCellIdx(int i_length0, int i_length1)
     {
         Vector2Int ret = new Vector2Int(0, 0);
 
@@ -112,9 +122,35 @@ public class DoraDurabilityManager : MonoBehaviourBase
         return ret;
     }
 
-    private bool KernelIsBurnable()
+    private bool KernelIsBurnable(int i_columnIdx, int i_maxColumnIdx, int i_totalBurnable)
     {
-        throw new NotImplementedException();
+        if (i_totalBurnable >= batchData.MaxBurntPercentage * cellMap.TotalCellCount)
+            return false;
+
+        Distribution distro = batchData.DistributionStyle;
+
+        if (distro == Distribution.Uniform)
+        {
+            // completely random
+            // use max chance
+        }
+        else if (distro == Distribution.DenseMiddle)
+        {
+            // lerp chance to be max at center and lower towards the edges
+        }
+        else if (distro == Distribution.DenseEdges)
+        {
+            // lerp chance to be max at edges and lower towards the center
+        }
+        else if (distro == Distribution.Sparse)
+        {
+            // max chance by default and decrease chance for each adjacent burnable kernel;
+        }
+        else
+        {
+            Debug.LogError("Invalid distribution style!");
+            return false;
+        }
     }
 
     [ExposePublicMethod]
