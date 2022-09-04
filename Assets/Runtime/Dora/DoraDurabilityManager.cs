@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class DoraDurabilityManager : MonoBehaviourBase
 {
+    public enum Distribution
+    {
+        Normal,
+        Uniform,
+        ChiSquare
+    }
+
     [SerializeField] private DoraCellMap cellMap = null;
     [SerializeField] [Range(0.0f, 1.0f)] private float burnThreshold = 0.3f;
+
+    private DoraBatchData batchData = null;
 
     private float burntPercentage = 0.0f;
     public Action OnPassBurnThreshold = null;
@@ -27,14 +36,23 @@ public class DoraDurabilityManager : MonoBehaviourBase
     public float BurnThreshold => burnThreshold;
     public bool IsPastBurnThreshold => (burntPercentage > burnThreshold);
 
-    public void InitKernels()
+    public void SetBatchData(DoraBatchData i_doraBatchData)
     {
-        InitializeKernelDurability();
+        batchData = i_doraBatchData;
     }
 
     [ExposePublicMethod]
-    public bool InitializeKernelDurability()
+    public bool InitializeKernelDurability(bool i_canSpawnSuper, out bool o_superKernelSpawned)
     {
+        int superKernelsSpawned = 0;
+        o_superKernelSpawned = false;
+
+        if (batchData == null)
+        {
+            Debug.LogError("No batch data provided!");
+            return false;
+        }
+
         if (cellMap == null)
         {
             Debug.LogError("cell map unavailable");
@@ -57,13 +75,46 @@ public class DoraDurabilityManager : MonoBehaviourBase
             {
                 currCellData = cellMap.GetCell(new Vector2Int(i, j), false, false);
                 rng = UnityEngine.Random.Range(minDurability, maxDurability);
+
+                currCellData.SetBurnable(KernelIsBurnable());
+
                 currCellData.SetDurability(rng);
                 currCellData.UpdateColor();
             }
         }
 
+        if (i_canSpawnSuper)
+        {
+            int length = batchData.MaxSuperKernelsPerCob;
+            for (int i = 0; i < length; i++)
+            {
+                currCellData = cellMap.GetCell(getRandomCell(length0, length1), false, false);
+
+                currCellData.SetSuper(true);
+                superKernelsSpawned++;
+            }
+        }
+
         burntPercentage = 0.0f;
+        if (superKernelsSpawned > 0)
+            o_superKernelSpawned = true;
+
         return true;
+    }
+
+    private Vector2Int getRandomCell(int i_length0, int i_length1)
+    {
+        Vector2Int ret = new Vector2Int(0, 0);
+
+        ret.x = UnityEngine.Random.Range(0, i_length0);
+        ret.y = UnityEngine.Random.Range(0, i_length1);
+
+        return ret;
+    }
+
+    private bool KernelIsBurnable()
+    {
+        throw new NotImplementedException();
     }
 
     [ExposePublicMethod]

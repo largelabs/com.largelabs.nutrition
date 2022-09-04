@@ -22,8 +22,10 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     float durability = 1f;
     bool isSelected = false;
 
-    #region PUBLIC API
+    bool isBurnable = false;
+    bool isSuper = false;
 
+    #region PUBLIC API
     public void Init(InterpolatorsManager i_interpolators)
     {
         if (true == isInit) return;
@@ -46,6 +48,18 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     public float Durability => durability;
 
     public bool IsBurnt => isBurnt;
+    public bool IsBurnable => isBurnable;
+    public bool IsSuper => isSuper;
+
+    public void SetBurnable(bool i_burnable)
+    {
+        isBurnable = i_burnable;
+    }
+
+    public void SetSuper(bool i_super)
+    {
+        isSuper = i_super;
+    }
 
     public void SetDurability(float i_durability)
     {
@@ -73,7 +87,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         if (durability == 0f)
         {
-            if(isBurnt == false)
+            if(isBurnable && isBurnt == false)
                 BurnKernel();
         }
         else

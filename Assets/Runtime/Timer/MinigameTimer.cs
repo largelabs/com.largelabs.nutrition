@@ -78,6 +78,16 @@ public class MinigameTimer : MonoBehaviourBase
         return TimeSpan.FromSeconds(timeSeconds).ToString("ss\\.ff");
     }
 
+    public void SetTimer(float i_time)
+    {
+        // TODO
+    }
+
+    public void AddTime(float i_timeBonus)
+    {
+        // TODO
+    }
+
     #endregion
 
     #region PRIVATE API

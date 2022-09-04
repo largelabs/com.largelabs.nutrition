@@ -10,11 +10,14 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
     [SerializeField] private GameObject doraHUD = null;
-
     [SerializeField] private MinigameTimer timer = null;
+    [SerializeField] private DoraScoreManager scoreManager = null;
 
-    [Header("Extra Options")]
-    [SerializeField] [Range(1, 4)] private int doraPerBatch = 4;
+    [Header("Options")]
+    [SerializeField] private DoraGameData doraGameData = null;
+    [SerializeField] private List<DoraBatchData> doraBatchData = null;
+
+    DoraBatchData currentDoraBatch = null;
 
     private List<DoraPlacer.DoraPositions> doraPositions = new List<DoraPlacer.DoraPositions>
                 { DoraPlacer.DoraPositions.BackLeft, DoraPlacer.DoraPositions.BackRight,
@@ -53,6 +56,7 @@ public class DoraFlowManager : MiniGameFlow
 
         registerEvents();
 
+        timer.SetTimer(doraGameData.BaseTimer);
         timer.StartTimer();
 
         startDoraFlow();
@@ -83,18 +87,40 @@ public class DoraFlowManager : MiniGameFlow
     #region PRIVATE
     IEnumerator bringNewBatch()
     {
+        // Maybe change way of choosing batch?
+        currentDoraBatch = doraBatchData[UnityEngine.Random.Range(0, doraBatchData.Count)];
+
         DoraCellMap currCob = null;
-        int length = Mathf.Clamp(doraPerBatch, 1, 4);
+        int length = Mathf.Clamp(currentDoraBatch.DoraInBatch, 1, 4);
+        bool superKernelSpawned;
+        int superKernelCobsSpawned = 0;
+
+        float superKernelChance = currentDoraBatch.SuperKernelChance;
+
         for (int i = 0; i < length; i++)
         {
             currCob = doraPlacer.SpawnDoraAtAnchor(doraPositions[i]);
-            currCob.InitializeDoraCob();
+            currCob.InitializeDoraCob(currentDoraBatch, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
+
+            if (superKernelSpawned)
+                superKernelCobsSpawned++;
             yield return this.Wait(1.0f);
         }
 
         doraMover.ReverseQueue();
     }
 
+    private bool canSpawnSuper(int i_superKernelCobsSpawned, ref float i_superKernelChance)
+    {
+        if (i_superKernelCobsSpawned < currentDoraBatch.MaxSuperKernelsPerBatch)
+        {
+            if (UnityEngine.Random.Range(0f, 1f) < i_superKernelChance)
+                return true;
+        }
+
+        i_superKernelChance += currentDoraBatch.SuperKernelChanceIncrease;
+        return false;
+    }
 
     private IEnumerator simulatedFlow()
     {
@@ -153,8 +179,12 @@ public class DoraFlowManager : MiniGameFlow
 
     private IEnumerator doraBatchSequence()
     {
-
         timer.PauseTimer();
+
+        scoreManager.AddScore(currentDoraBatch.BatchFinishScoreBonus);
+
+        // maybe animate time increase
+        timer.AddTime(currentDoraBatch.BatchFinishTimeBonus);
 
         yield return StartCoroutine(bringNewBatch());
 

@@ -86,10 +86,46 @@ public class DoraCellData : ISelectable
             return null;
     }
 
+    public bool? KernelIsSuper()
+    {
+        if (HasKernel)
+            return kernel.IsSuper;
+        else
+            return null;
+    }
+
+    public bool? KernelIsBurnable()
+    {
+        if (HasKernel)
+            return kernel.IsBurnable;
+        else
+            return null;
+    }
+
     public bool SetDurability(float i_durability)
     {
         if (HasKernel)
             kernel.SetDurability(i_durability);
+        else
+            return false;
+
+        return true;
+    } 
+    
+    public bool SetSuper(bool i_super)
+    {
+        if (HasKernel)
+            kernel.SetSuper(i_super);
+        else
+            return false;
+
+        return true;
+    }
+    
+    public bool SetBurnable(bool i_burnable)
+    {
+        if (HasKernel)
+            kernel.SetBurnable(i_burnable);
         else
             return false;
 

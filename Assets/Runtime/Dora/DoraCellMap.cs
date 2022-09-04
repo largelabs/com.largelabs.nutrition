@@ -25,11 +25,12 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     [SerializeField] KernelSpawner kernelSpawner = null;
     [SerializeField] DoraDurabilityManager durabilityManager = null;
     [SerializeField] InterpolatorsManager interpolators = null;
-    [SerializeField] DoraData doraData = null;
     [SerializeField] MeshRenderer cobRnd = null;
 
     DoraCellData[,] cellMap = null;
     DoraCellFactory cellFactory = null;
+
+    private DoraData doraData = null;
  
     private const int NB_ROWS = 12;
     private const int NB_COLUMNS = 11;
@@ -94,10 +95,12 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     public bool IsPastBurnThreshold => durabilityManager.IsPastBurnThreshold;
     public DoraData DoraData => doraData;
 
-    public void InitializeDoraCob()
+    public void InitializeDoraCob(DoraBatchData i_parentBatch, bool i_canSpawnSuper, out bool o_superKernelSpawned)
     {
+        fetchData(i_parentBatch);
+
         PopulateMap();
-        durabilityManager.InitializeKernelDurability();
+        durabilityManager.InitializeKernelDurability(i_canSpawnSuper, out o_superKernelSpawned);
         RevealCells(false);
     }
 
@@ -188,6 +191,11 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     #endregion
 
     #region PRIVATE
+    private void fetchData(DoraBatchData i_parentBatch)
+    {
+        doraData = i_parentBatch.AssignedDoraData;
+        durabilityManager.SetBatchData(i_parentBatch);
+    }
 
     IEnumerator revealCellsAnimated(int i_startRow, int i_endRow)
     {

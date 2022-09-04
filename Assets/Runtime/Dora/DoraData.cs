@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DoraData", menuName = "ScriptableObjects/DoraData", order = 1)]
+[CreateAssetMenu(fileName = "DoraData", menuName = "ScriptableObjects/Dora/DoraData", order = 1)]
 public class DoraData : ScriptableObject
 {
     [Tooltip("The maximum possible value of the initial durability of each kernel")]
