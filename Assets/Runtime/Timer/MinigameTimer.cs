@@ -74,8 +74,17 @@ public class MinigameTimer : MonoBehaviourBase
 
     public string DisplayTimer()
     {
+        float tSec = timeSeconds;
+        int tMin = 0;
 
-        return TimeSpan.FromSeconds(timeSeconds).ToString("ss\\.ff");
+        while (tSec >= 60f)
+        {
+            tSec -= 60f;
+            tMin++;
+        }
+
+        return TimeSpan.FromMinutes(tMin).ToString("mm\\:") +
+            TimeSpan.FromSeconds(tSec).ToString("ss\\.ff");
     }
 
     public void SetTimer(float i_time)

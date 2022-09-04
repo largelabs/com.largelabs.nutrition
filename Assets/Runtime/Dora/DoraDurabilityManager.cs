@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DoraDurabilityManager : MonoBehaviourBase
@@ -19,6 +20,17 @@ public class DoraDurabilityManager : MonoBehaviourBase
 
     private float burntPercentage = 0.0f;
     public Action OnPassBurnThreshold = null;
+
+    List<Vector2Int> directions = new List<Vector2Int>
+            {   Vector2Int.down,
+                Vector2Int.left,
+                Vector2Int.right,
+                Vector2Int.up,
+                Vector2Int.up + Vector2Int.right,
+                Vector2Int.up + Vector2Int.left,
+                Vector2Int.down + Vector2Int.right,
+                Vector2Int.down + Vector2Int.left
+            };
 
     Coroutine updateDurabilityRoutine = null;
 
@@ -78,7 +90,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
                 currCellData = cellMap.GetCell(new Vector2Int(i, j), false, false);
                 rng = UnityEngine.Random.Range(minDurability, maxDurability);
 
-                if (currCellData.SetBurnable(KernelIsBurnable(j, length1 - 1, totalBurnable)))
+                if (currCellData.SetBurnable(KernelIsBurnable(i, j, length1 - 1, totalBurnable)))
                     totalBurnable++;
 
                 currCellData.SetDurability(rng);
@@ -122,35 +134,57 @@ public class DoraDurabilityManager : MonoBehaviourBase
         return ret;
     }
 
-    private bool KernelIsBurnable(int i_columnIdx, int i_maxColumnIdx, int i_totalBurnable)
+    private bool KernelIsBurnable(int i_rowIdx, int i_columnIdx, int i_maxColumnIdx, int i_totalBurnable)
     {
-        if (i_totalBurnable >= batchData.MaxBurntPercentage * cellMap.TotalCellCount)
+        float maxBurn = batchData.MaxBurntPercentage;
+        if (i_totalBurnable >= maxBurn * cellMap.TotalCellCount)
             return false;
 
         Distribution distro = batchData.DistributionStyle;
 
+        int halfwayIdx = i_maxColumnIdx / 2;
+        int maxDiff = halfwayIdx;
+        int minDiff = 0;
+        int diff = Mathf.Abs(halfwayIdx - i_columnIdx);
+        float indexDistribution = (diff - minDiff) / (maxDiff - minDiff);
+        float calculatedChance = 0f;
+
         if (distro == Distribution.Uniform)
         {
             // completely random
-            // use max chance
+            calculatedChance = maxBurn;
         }
         else if (distro == Distribution.DenseMiddle)
         {
             // lerp chance to be max at center and lower towards the edges
+            calculatedChance = (1 - indexDistribution) * maxBurn;
         }
         else if (distro == Distribution.DenseEdges)
         {
             // lerp chance to be max at edges and lower towards the center
+            calculatedChance = indexDistribution * maxBurn;
+
         }
         else if (distro == Distribution.Sparse)
         {
             // max chance by default and decrease chance for each adjacent burnable kernel;
+            calculatedChance = maxBurn;
+            float chanceReduction = maxBurn / directions.Count;
+            Vector2Int baseCoord = new Vector2Int(i_rowIdx, i_columnIdx);
+            foreach (Vector2Int direction in directions)
+            {
+                bool? kernelBurnable = cellMap.GetCell(baseCoord + direction, false, false).KernelIsBurnable();
+                if(kernelBurnable != null && kernelBurnable.Value == true)
+                    calculatedChance -= chanceReduction;
+            }
         }
         else
         {
             Debug.LogError("Invalid distribution style!");
             return false;
         }
+
+        return (UnityEngine.Random.Range(0f, 1f) < calculatedChance);
     }
 
     [ExposePublicMethod]

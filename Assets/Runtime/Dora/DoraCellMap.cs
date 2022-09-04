@@ -176,9 +176,9 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 
         cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cells, NB_ROWS, NB_COLUMNS);
 
-        for(int i = 0; i < 12; i++)
+        for(int i = 0; i < NB_ROWS; i++)
         {
-            for(int j = 0; j < 11; j++)
+            for(int j = 0; j < NB_COLUMNS; j++)
             {
                 currData = cellMap[i, j];
                 currData.SetCoords(new Vector2Int(i, j));

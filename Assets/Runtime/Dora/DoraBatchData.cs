@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DoraData", menuName = "ScriptableObjects/Dora/DoraBatchData", order = 1)]
+[CreateAssetMenu(fileName = "DoraBatchData", menuName = "ScriptableObjects/Dora/DoraBatchData", order = 1)]
 public class DoraBatchData : ScriptableObject
 {
     [Header("Base Settings")]

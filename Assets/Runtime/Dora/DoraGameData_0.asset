@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8692e10c00a6a2b48a9b34f3dbf80297, type: 3}
-  m_Name: DoraData_0
+  m_Script: {fileID: 11500000, guid: a1192ebe00688754e99999922dad4ed2, type: 3}
+  m_Name: DoraGameData_0
   m_EditorClassIdentifier: 
-  maxInitialDurability: 1
-  minInitialDurability: 0.5
-  durabilityLossInterval: 0.1
-  durabilityFullLossTime: 40
+  goodKernelScore: 50
+  burntKernelScore: -25
+  baseTimer: 120

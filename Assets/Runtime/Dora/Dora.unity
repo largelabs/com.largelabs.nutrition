@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4512173, g: 0.49995136, b: 0.5682685, a: 1}
+  m_IndirectSpecularColor: {r: 0.45121753, g: 0.49995196, b: 0.56826925, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -423,6 +423,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2973852795684463437, guid: 82a781693b83c3d40869fbb09f3cc93a, type: 3}
   m_PrefabInstance: {fileID: 255970884}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1011493658 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2279689704041974045, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+  m_PrefabInstance: {fileID: 593554268475064629}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f860294dea8fb774fa27f148c3f23742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1021364481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -775,7 +786,10 @@ MonoBehaviour:
   doraSpawner: {fileID: 434497014}
   doraHUD: {fileID: 387603560207528527}
   timer: {fileID: 1399062376}
-  doraPerBatch: 2
+  scoreManager: {fileID: 1011493658}
+  doraGameData: {fileID: 11400000, guid: ddd58610ae9a4c14b98a7d1e0033138c, type: 2}
+  doraBatchData:
+  - {fileID: 11400000, guid: d113a39f2cab6454e85378fcf0256c19, type: 2}
 --- !u!114 &1399062376
 MonoBehaviour:
   m_ObjectHideFlags: 0
