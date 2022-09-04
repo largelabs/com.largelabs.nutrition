@@ -1,3 +1,4 @@
+using PathologicalGames;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
     [SerializeField] private GameObject doraHUD = null;
-
+    [SerializeField] private SpawnPool vfxPool = null;
     [SerializeField] private MinigameTimer timer = null;
 
     [Header("Extra Options")]
@@ -88,7 +89,7 @@ public class DoraFlowManager : MiniGameFlow
         for (int i = 0; i < length; i++)
         {
             currCob = doraPlacer.SpawnDoraAtAnchor(doraPositions[i]);
-            currCob.InitializeDoraCob();
+            currCob.InitializeDoraCob(vfxPool);
             yield return this.Wait(1.0f);
         }
 

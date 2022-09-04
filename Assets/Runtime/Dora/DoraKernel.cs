@@ -1,3 +1,4 @@
+using PathologicalGames;
 using System.Collections;
 using UnityEngine;
 
@@ -12,8 +13,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     [SerializeField] float selectAnimationSpeed = 1f;
     [SerializeField] AnimationCurve unselectScaleCurve = null;
     [SerializeField] float unselectAnimationSpeed = 1f;
-
-
 
     [Header("Selected materials")]
     [SerializeField] Material kernelMat0Selected = null;
@@ -32,14 +31,19 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     float durability = 1f;
     bool isSelected = false;
     InterpolatorsManager interpolators = null;
+    SpawnPool vfxPool = null;
+
+
+    private static readonly string BURNT_SELECT_VFX_PREFAB = "VFX_Select_Smoke";
 
     #region PUBLIC API
 
-    public void Init(InterpolatorsManager i_interpolators)
+    public void Init(InterpolatorsManager i_interpolators, SpawnPool i_vfxPool)
     {
         if (true == isInit) return;
 
         interpolators = i_interpolators;
+        vfxPool = i_vfxPool;
         gameObject.SetActive(false);
         appear.Init(i_interpolators);
         isInit = true;
@@ -160,6 +164,19 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
             this.DisposeCoroutine(ref updateScaleRoutine);
             transform.localScale = MathConstants.VECTOR_3_ONE * selectScaleMultiplier;
         }
+
+        if(true == isBurnt)
+        {
+            Transform vfxTr = vfxPool.Spawn(BURNT_SELECT_VFX_PREFAB);
+            vfxTr.SetParent(transform);
+            vfxTr.localScale = MathConstants.VECTOR_3_ONE;
+            vfxTr.localPosition = new Vector3(0f, 0f, 0.5f);
+
+            vfxTr.SetParent(null);
+            float scaleValue = Mathf.Max(vfxTr.localScale.x, vfxTr.localScale.y);
+            vfxTr.localScale = MathConstants.VECTOR_3_ONE * scaleValue;
+            vfxTr.SetParent(transform);
+        }
     }
 
     public void Unselect(bool i_animated)
@@ -176,6 +193,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
             this.DisposeCoroutine(ref updateScaleRoutine);
             transform.localScale = MathConstants.VECTOR_3_ONE;
         }
+
     }
 
     #endregion

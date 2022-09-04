@@ -420,7 +420,7 @@ MonoBehaviour:
   scoreManager: {fileID: 2279689704041974045}
   minLocalX: -6.5
   maxLocalX: 5
-  raycastSourceMoveSpeed: 20
+  raycastSourceMoveSpeed: 15
   raycastSource: {fileID: 1314212347534363070}
 --- !u!1 &8060975908451102762
 GameObject:

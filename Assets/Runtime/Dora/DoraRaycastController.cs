@@ -50,7 +50,10 @@ public class DoraRaycastController : DoraController
             DoraCellData cellData = cellMap.GetCell(null != raycastSource ? raycastSource.HitGo : null);
 
             if (null != cellData)
-                cellSelector.SelectCell(cellData.Coords, false, true);
+            {
+                bool clearSelection = null != cellSelector.CurrentOriginCell && cellSelector.CurrentOriginCell.Value != cellData.Coords;
+                cellSelector.SelectCell(cellData.Coords, false, clearSelection);
+            }
             else
                 cellSelector.ClearSelection();
 

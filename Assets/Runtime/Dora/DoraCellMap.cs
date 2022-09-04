@@ -1,3 +1,4 @@
+using PathologicalGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -111,9 +112,9 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     public bool IsPastBurnThreshold => durabilityManager.IsPastBurnThreshold;
     public DoraData DoraData => doraData;
 
-    public void InitializeDoraCob()
+    public void InitializeDoraCob(SpawnPool i_vfxPool)
     {
-        PopulateMap();
+        PopulateMap(i_vfxPool);
         durabilityManager.InitializeKernelDurability();
         RevealCells(false);
     }
@@ -142,7 +143,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         }
     }
 
-    public void PopulateMap()
+    public void PopulateMap(SpawnPool i_vfxPool)
     {
         if (kernelSpawner == null)
         {
@@ -163,7 +164,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         {
             currentKernel = kernelSpawner.SpawnDoraKernelAtAnchor(anchors[i]);
             if (currentKernel != null)
-                cells[i] = cellFactory.MakeCell(currentKernel);
+                cells[i] = cellFactory.MakeCell(currentKernel, i_vfxPool);
             else
             {
                 Debug.LogError("Factory could not create cell! Returning...");
