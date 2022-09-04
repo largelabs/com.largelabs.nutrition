@@ -63,10 +63,16 @@ public class DoraCellData : ISelectable
         if (null != kernel) kernel.gameObject.name = i_name;
     }
 
-    public void EnableKernelLogic(bool i_enable)
+    public void EnableKernelRenderer(bool i_enable)
     {
         if (kernel != null)
-            kernel.EnableLogic(i_enable);
+            kernel.EnableRenderer(i_enable);
+    }
+
+    public void EnableKernelCollider(bool i_enable)
+    {
+        if (kernel != null)
+            kernel.EnableCollider(i_enable);
     }
 
     #region Durability

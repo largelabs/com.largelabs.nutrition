@@ -106,11 +106,15 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public Bounds RendererBounds => kernelRnd.bounds;
 
-    public void EnableLogic(bool i_enable)
+    public void EnableRenderer(bool i_enable)
     {
         if (kernelRnd != null)
             kernelRnd.enabled = i_enable;
 
+    }
+
+    public void EnableCollider(bool i_enable)
+    {
         if (null != kernelCollider)
             kernelCollider.enabled = i_enable;
     }

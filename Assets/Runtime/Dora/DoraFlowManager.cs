@@ -13,6 +13,8 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private GameObject doraHUD = null;
     [SerializeField] private SpawnPool vfxPool = null;
     [SerializeField] private MinigameTimer timer = null;
+    [SerializeField] private BoxCollider cullingBounds = null;
+    [SerializeField] private BoxCollider selectionBounds = null;
 
     [Header("Extra Options")]
     [SerializeField] [Range(1, 4)] private int doraPerBatch = 4;
@@ -89,7 +91,7 @@ public class DoraFlowManager : MiniGameFlow
         for (int i = 0; i < length; i++)
         {
             currCob = doraPlacer.SpawnDoraAtAnchor(doraPositions[i]);
-            currCob.InitializeDoraCob(vfxPool);
+            currCob.InitializeDoraCob(vfxPool, cullingBounds, selectionBounds);
             yield return this.Wait(1.0f);
         }
 

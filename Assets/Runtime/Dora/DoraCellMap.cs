@@ -36,16 +36,25 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     DoraCellData[,] cellMap = null;
     Dictionary<GameObject, DoraCellData> cellsByGo = null;
     DoraCellFactory cellFactory = null;
- 
+    BoxCollider cullingBounds = null;
+    BoxCollider selectionBounds = null;
+
+
     private const int NB_ROWS = 12;
     private const int NB_COLUMNS = 11;
 
     private void Update()
     {
-        Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+        /* Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+
+         foreach (DoraCellData doraCell in cellMap)
+             doraCell.EnableKernelLogic(GeometryUtility.TestPlanesAABB(frustumPlanes, doraCell.CellBounds)); */
 
         foreach (DoraCellData doraCell in cellMap)
-            doraCell.EnableKernelLogic(GeometryUtility.TestPlanesAABB(frustumPlanes, doraCell.CellBounds));
+        {
+            doraCell.EnableKernelRenderer(cullingBounds.bounds.Intersects(doraCell.CellBounds));
+            doraCell.EnableKernelCollider(selectionBounds.bounds.Intersects(doraCell.CellBounds));
+        }
     }
 
     #region IDoraCellProvider
@@ -112,8 +121,10 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     public bool IsPastBurnThreshold => durabilityManager.IsPastBurnThreshold;
     public DoraData DoraData => doraData;
 
-    public void InitializeDoraCob(SpawnPool i_vfxPool)
+    public void InitializeDoraCob(SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds)
     {
+        cullingBounds = i_cullingBounds;
+        selectionBounds = i_selectionBounds;
         PopulateMap(i_vfxPool);
         durabilityManager.InitializeKernelDurability();
         RevealCells(false);
@@ -197,7 +208,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
             {
                 for (int j = 0; j < length1; j++)
                 {
-                    cellMap[i, j].EnableKernelLogic(i_enable);
+                    cellMap[i, j].EnableKernelRenderer(i_enable);
                 }
             }
         }
