@@ -44,7 +44,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
         foreach (DoraCellData doraCell in cellMap)
-            doraCell.EnableKernelRenderer(GeometryUtility.TestPlanesAABB(frustumPlanes, doraCell.CellBounds));
+            doraCell.EnableKernelLogic(GeometryUtility.TestPlanesAABB(frustumPlanes, doraCell.CellBounds));
     }
 
     #region IDoraCellProvider
@@ -196,7 +196,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
             {
                 for (int j = 0; j < length1; j++)
                 {
-                    cellMap[i, j].EnableKernelRenderer(i_enable);
+                    cellMap[i, j].EnableKernelLogic(i_enable);
                 }
             }
         }

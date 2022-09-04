@@ -4,6 +4,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 {
     [SerializeField] DoraKernelAppear appear = null;
     [SerializeField] MeshRenderer kernelRnd = null;
+    [SerializeField] Collider kernelCollider = null;
 
     [Header("Selected materials")]
     [SerializeField] Material kernelMat0Selected = null;
@@ -92,10 +93,13 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public Bounds RendererBounds => kernelRnd.bounds;
 
-    public void EnableRenderer(bool i_enable)
+    public void EnableLogic(bool i_enable)
     {
         if (kernelRnd != null)
             kernelRnd.enabled = i_enable;
+
+        if (null != kernelCollider)
+            kernelCollider.enabled = i_enable;
     }
 
     #endregion

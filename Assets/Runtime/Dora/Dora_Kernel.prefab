@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4745930742670657316}
   - component: {fileID: 3224803383649992173}
   - component: {fileID: 3796340161787313619}
-  - component: {fileID: 4968762187767718915}
+  - component: {fileID: 6813202012377233558}
   m_Layer: 0
   m_Name: Dora_Kernel
   m_TagString: Untagged
@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   appear: {fileID: 3224803383649992173}
   kernelRnd: {fileID: 40511290784818256}
+  kernelCollider: {fileID: 6813202012377233558}
   kernelMat0Selected: {fileID: 2100000, guid: e0e0c70f9e2d3ed4c9865c6c92296451, type: 2}
   kernelMat1Selected: {fileID: 2100000, guid: ed38e1db5ba5b6440b30b4c2aa02e327, type: 2}
   kernelMat2Selected: {fileID: 2100000, guid: fffdbe39dae3aa047a5f518e38c6680a, type: 2}
@@ -194,8 +195,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &4968762187767718915
-SphereCollider:
+--- !u!136 &6813202012377233558
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -204,6 +205,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.42
-  m_Center: {x: -0.000004544854, y: -0.008724414, z: -0.0068147182}
+  m_Radius: 0.21
+  m_Height: 0.78
+  m_Direction: 0
+  m_Center: {x: -0.000004544854, y: -0.008724414, z: 0.17}
