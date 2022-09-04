@@ -39,7 +39,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
     protected override void Awake()
     {
         base.Awake();
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+        UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
     }
 
     #endregion
@@ -90,8 +90,13 @@ public class DoraDurabilityManager : MonoBehaviourBase
                 currCellData = cellMap.GetCell(new Vector2Int(i, j), false, false);
                 rng = UnityEngine.Random.Range(minDurability, maxDurability);
 
-                if (currCellData.SetBurnable(KernelIsBurnable(i, j, length1 - 1, totalBurnable)))
+                if (KernelIsBurnable(i, j, length1 - 1, totalBurnable))
+                {
+                    currCellData.SetBurnable(true);
                     totalBurnable++;
+                }
+                else
+                    currCellData.SetBurnable(false);
 
                 currCellData.SetDurability(rng);
                 currCellData.UpdateColor();
@@ -243,7 +248,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
                     if (durability != null)
                     {
                         totalKernels++;
-                        if (durability.Value == 0f)
+                        if (durability.Value == 0f && currCellData.KernelIsBurnable().Value == true)
                             burntKernels++;
                     }
 
@@ -258,6 +263,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
             if (totalKernels > 0)
             {
                 burntPercentage = (burntKernels / (float)totalKernels);
+                Debug.LogError("Burn percentage: " + burntPercentage);
                 if (IsPastBurnThreshold)
                 {
                     OnPassBurnThreshold?.Invoke();
