@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 40511290784818256}
   - component: {fileID: 4745930742670657316}
   - component: {fileID: 3224803383649992173}
+  - component: {fileID: 3796340161787313619}
+  - component: {fileID: 6813202012377233558}
   m_Layer: 0
   m_Name: Dora_Kernel
   m_TagString: Untagged
@@ -99,6 +101,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   appear: {fileID: 3224803383649992173}
   kernelRnd: {fileID: 40511290784818256}
+  kernelCollider: {fileID: 6813202012377233558}
+  selectScaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.54851437
+      value: 1.7797545
+      inSlope: 0.84957075
+      outSlope: 0.84957075
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  selectScaleMultiplier: 1.5
+  selectAnimationSpeed: 2
+  unselectScaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  unselectAnimationSpeed: 5
   kernelMat0Selected: {fileID: 2100000, guid: e0e0c70f9e2d3ed4c9865c6c92296451, type: 2}
   kernelMat1Selected: {fileID: 2100000, guid: ed38e1db5ba5b6440b30b4c2aa02e327, type: 2}
   kernelMat2Selected: {fileID: 2100000, guid: fffdbe39dae3aa047a5f518e38c6680a, type: 2}
@@ -176,3 +239,33 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!54 &3796340161787313619
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426721250731948442}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &6813202012377233558
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426721250731948442}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.21
+  m_Height: 0.78
+  m_Direction: 0
+  m_Center: {x: -0.000004544854, y: -0.008724414, z: 0.17}

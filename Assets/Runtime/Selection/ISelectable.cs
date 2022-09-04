@@ -1,9 +1,9 @@
 ﻿
 public interface ISelectable
 {
-    void Select();
+    void Select(bool i_animated);
 
-    void Unselect();
+    void Unselect(bool i_animated);
 
     bool IsSelected { get; }
 }

@@ -1,9 +1,19 @@
+using System.Collections;
 using UnityEngine;
 
 public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 {
     [SerializeField] DoraKernelAppear appear = null;
     [SerializeField] MeshRenderer kernelRnd = null;
+    [SerializeField] Collider kernelCollider = null;
+
+    [SerializeField] AnimationCurve selectScaleCurve = null;
+    [SerializeField] float selectScaleMultiplier = 2f;
+    [SerializeField] float selectAnimationSpeed = 1f;
+    [SerializeField] AnimationCurve unselectScaleCurve = null;
+    [SerializeField] float unselectAnimationSpeed = 1f;
+
+
 
     [Header("Selected materials")]
     [SerializeField] Material kernelMat0Selected = null;
@@ -21,6 +31,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     bool isBurnt = false;
     float durability = 1f;
     bool isSelected = false;
+    InterpolatorsManager interpolators = null;
 
     bool isBurnable = false;
     bool isSuper = false;
@@ -30,6 +41,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         if (true == isInit) return;
 
+        interpolators = i_interpolators;
         gameObject.SetActive(false);
         appear.Init(i_interpolators);
         isInit = true;
@@ -39,7 +51,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         isBurnt = false;
         durability = 1f;
-        Unselect();
+        Unselect(false);
         swapMaterials(durability, isSelected);
     }
 
@@ -106,10 +118,13 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public Bounds RendererBounds => kernelRnd.bounds;
 
-    public void EnableRenderer(bool i_enable)
+    public void EnableLogic(bool i_enable)
     {
         if (kernelRnd != null)
             kernelRnd.enabled = i_enable;
+
+        if (null != kernelCollider)
+            kernelCollider.enabled = i_enable;
     }
 
     #endregion
@@ -128,29 +143,67 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     #endregion
 
+    Coroutine updateScaleRoutine = null;
+
+    IEnumerator updateScale(ITypedAnimator<Vector3> i_interpolator)
+    {
+        while(true == i_interpolator.IsAnimating)
+        {
+            transform.localScale = i_interpolator.Current;
+            yield return null;
+        }
+
+        this.DisposeCoroutine(ref updateScaleRoutine);
+    }
+
     #region ISelectable
 
     public bool IsSelected => isSelected;
 
-    public void Select()
+    public void Select(bool i_animated)
     {
         if (true == isSelected) return;
         isSelected = true;
-        transform.localScale = MathConstants.VECTOR_3_ONE * 1.2f;
+
         swapMaterials(durability, isSelected);
+
+        if (true == i_animated)
+            startScaleAnimation(MathConstants.VECTOR_3_ONE * selectScaleMultiplier, selectScaleCurve, selectAnimationSpeed);
+        else
+        {
+            this.DisposeCoroutine(ref updateScaleRoutine);
+            transform.localScale = MathConstants.VECTOR_3_ONE * selectScaleMultiplier;
+        }
     }
 
-    public void Unselect()
+    public void Unselect(bool i_animated)
     {
         if (false == isSelected) return;
         isSelected = false;
-        transform.localScale = MathConstants.VECTOR_3_ONE;
+
         swapMaterials(durability, isSelected);
+
+        if (true == i_animated)
+            startScaleAnimation(MathConstants.VECTOR_3_ONE, unselectScaleCurve, unselectAnimationSpeed);
+        else
+        {
+            this.DisposeCoroutine(ref updateScaleRoutine);
+            transform.localScale = MathConstants.VECTOR_3_ONE;
+        }
     }
 
     #endregion
 
     #region PRIVATE
+
+    void startScaleAnimation(Vector3 i_target, AnimationCurve i_animationCurve, float i_animationSpeed)
+    {
+        this.DisposeCoroutine(ref updateScaleRoutine);
+        float animationTime = Mathf.Abs(transform.localScale.x - i_target.x) / i_animationSpeed;
+        ITypedAnimator<Vector3> scaleInterpolator = interpolators.Animate(transform.localScale, i_target, animationTime, new AnimationMode(i_animationCurve), false, 0f, null);
+
+        updateScaleRoutine = StartCoroutine(updateScale(scaleInterpolator));
+    }
 
     void swapMaterials(float i_durability, bool i_isSelected)
     {

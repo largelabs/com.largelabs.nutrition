@@ -12,17 +12,17 @@ public class DoraCellData : ISelectable
 
     public bool IsSelected => isSelected;
 
-    public void Select()
+    public void Select(bool i_animated)
     {
         if (true == isSelected) return;
-        if (null != kernel) kernel.Select();
+        if (null != kernel) kernel.Select(i_animated);
         isSelected = true;
     }
 
-    public void Unselect()
+    public void Unselect(bool i_animated)
     {
         if (false == isSelected) return;
-        if (null != kernel) kernel.Unselect();
+        if (null != kernel) kernel.Unselect(i_animated);
         isSelected = false;
     }
 
@@ -63,10 +63,10 @@ public class DoraCellData : ISelectable
         if (null != kernel) kernel.gameObject.name = i_name;
     }
 
-    public void EnableKernelRenderer(bool i_enable)
+    public void EnableKernelLogic(bool i_enable)
     {
         if (kernel != null)
-            kernel.EnableRenderer(i_enable);
+            kernel.EnableLogic(i_enable);
     }
 
     #region Durability

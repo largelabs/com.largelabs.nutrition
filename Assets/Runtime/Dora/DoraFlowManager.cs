@@ -165,8 +165,6 @@ public class DoraFlowManager : MiniGameFlow
             }
             yield return null;
         }
-
-
     }
 
     private IEnumerator burntDoraSequence()
