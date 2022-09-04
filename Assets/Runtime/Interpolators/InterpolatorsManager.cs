@@ -23,7 +23,7 @@ public class InterpolatorsManager : MonoBehaviourBase
 
         FloatAnimator fl = floatAnimationPool.GetItem();
         fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
-        Coroutine coroutine = StartCoroutine(Interpolat(fl));
+        Coroutine coroutine = StartCoroutine(interpolate(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
@@ -33,7 +33,7 @@ public class InterpolatorsManager : MonoBehaviourBase
 
         V2Animator fl = v2AnimationPool.GetItem();
         fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
-        Coroutine coroutine = StartCoroutine(Interpolat(fl));
+        Coroutine coroutine = StartCoroutine(interpolate(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
@@ -43,7 +43,7 @@ public class InterpolatorsManager : MonoBehaviourBase
 
         V3Animator fl = v3AnimationPool.GetItem();
         fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
-        Coroutine coroutine = StartCoroutine(Interpolat(fl));
+        Coroutine coroutine = StartCoroutine(interpolate(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
@@ -53,7 +53,7 @@ public class InterpolatorsManager : MonoBehaviourBase
 
         ColorAnimator fl = colorAnimationPool.GetItem();
         fl.setUpAnimator(i_start, i_target, i_time, i_interpolationMode.Curve, i_clamped, i_delay, i_onAnimationEnded);
-        Coroutine coroutine = StartCoroutine(Interpolat(fl));
+        Coroutine coroutine = StartCoroutine(interpolate(fl));
         animators.Add(fl, coroutine);
         return fl;
     }
@@ -84,7 +84,7 @@ public class InterpolatorsManager : MonoBehaviourBase
         colorAnimationPool.ResetAll();
     }
 
-    IEnumerator Interpolat<T>(Animator<T> i_animator)
+    IEnumerator interpolate<T>(Animator<T> i_animator)
     {
         i_animator.Activate();
         float timer = 0f;

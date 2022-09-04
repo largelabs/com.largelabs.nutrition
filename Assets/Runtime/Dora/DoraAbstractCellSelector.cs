@@ -105,7 +105,7 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
         if (null == selectedRange) return;
 
         foreach (KeyValuePair<Vector2Int, DoraCellData> pair in selectedRange)
-            pair.Value.Unselect();
+            pair.Value.Unselect(true);
 
         selectedRange.Clear();
     }
@@ -145,7 +145,7 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
             if (null == cell) return false;
 
             selectedRange.Add(i_coord, cell);
-            cell.Select();
+            cell.Select(true);
 
             if (true == i_updateNormal)
                 updateRowIndex(cell.Coords.x);
