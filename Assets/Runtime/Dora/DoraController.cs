@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class DoraController : MonoBehaviourBase
 {
+    [SerializeField] bool forceSelectionOnEat = true;
     [SerializeField] DoraInputs inputs = null;
-    [SerializeField] DoraAbstractCellSelector cellSelector = null;
+    [SerializeField] protected DoraAbstractCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
     [SerializeField] DoraScoreManager scoreManager = null;
 
-    DoraCellMap cellMap = null;
+    protected DoraCellMap cellMap = null;
 
     private int currentEatenKernelCount = 0;
 
@@ -35,9 +36,14 @@ public class DoraController : MonoBehaviourBase
         inputs.EnableInputs();
     }
 
-    public void StartAutoRotation()
+    public virtual void StartAutoRotation()
     {
         cellSelector.StartAutoRotation();
+    }
+
+    public virtual void StopAutoRotation()
+    {
+        cellSelector.StopAutoRotation();
     }
 
     [ExposePublicMethod]
@@ -68,7 +74,7 @@ public class DoraController : MonoBehaviourBase
 
     #region PRIVATE
 
-    private void move(Vector2 i_move)
+    protected virtual void move(Vector2 i_move)
     {
         Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
         if (null == currentSelect) return;
@@ -94,10 +100,11 @@ public class DoraController : MonoBehaviourBase
 
     private void onEatStarted()
     {
+        if (null == cellSelector.CurrentOriginCell) return;
         DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
         if (false == cell.HasKernel) return;
 
-        cellSelector.StopAutoRotation();
+        StopAutoRotation();
         selectedRadius = 0;
 
     }
@@ -118,8 +125,10 @@ public class DoraController : MonoBehaviourBase
     {
         eatKernels();
 
-        cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
-        cellSelector.StartAutoRotation();
+        if(null != cellSelector.CurrentOriginCell && true == forceSelectionOnEat)
+            cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
+
+        StartAutoRotation();
 
         selectedRadius = 0;
     } 

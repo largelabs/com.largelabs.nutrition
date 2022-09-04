@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface IDoraCellProvider
@@ -14,6 +15,8 @@ public interface IDoraCellProvider
 
     int GetKernelCount();
 
+    DoraCellData[] AllCells { get; }
+
     int TotalCellCount { get; }
 }
 
@@ -28,7 +31,9 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     [SerializeField] DoraData doraData = null;
     [SerializeField] MeshRenderer cobRnd = null;
 
+    DoraCellData[] cells = null;
     DoraCellData[,] cellMap = null;
+    Dictionary<GameObject, DoraCellData> cellsByGo = null;
     DoraCellFactory cellFactory = null;
  
     private const int NB_ROWS = 12;
@@ -44,8 +49,20 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 
     #region IDoraCellProvider
 
+    public DoraCellData[] AllCells => cells;
+
     public int CellMapLength0 => cellMap.GetLength(0);
     public int CellMapLength1 => cellMap.GetLength(1);
+
+    public DoraCellData GetCell(GameObject i_go)
+    {
+        if (null == i_go) return null;
+        if (null == cellsByGo) return null;
+        DoraCellData ret = null;
+        cellsByGo.TryGetValue(i_go, out ret);
+
+        return ret;
+    }
 
     public DoraCellData GetCell(Vector2Int i_coord, bool i_loopX, bool i_loopY)
     {
@@ -133,10 +150,10 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
             return;
         }
 
-
         int count = anchors.Length;
 
-        DoraCellData[] cellBuffer = new DoraCellData[count];
+        cells = new DoraCellData[count];
+        cellsByGo = new Dictionary<GameObject, DoraCellData>(count);
         DoraCellData currData = null;
 
         if (null == cellFactory) cellFactory = new DoraCellFactory(interpolators);
@@ -146,7 +163,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         {
             currentKernel = kernelSpawner.SpawnDoraKernelAtAnchor(anchors[i]);
             if (currentKernel != null)
-                cellBuffer[i] = cellFactory.MakeCell(currentKernel);
+                cells[i] = cellFactory.MakeCell(currentKernel);
             else
             {
                 Debug.LogError("Factory could not create cell! Returning...");
@@ -154,7 +171,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
             }
         }
 
-        cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cellBuffer, NB_ROWS, NB_COLUMNS);
+        cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cells, NB_ROWS, NB_COLUMNS);
 
         for(int i = 0; i < 12; i++)
         {
@@ -163,6 +180,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
                 currData = cellMap[i, j];
                 currData.SetCoords(new Vector2Int(i, j));
                 currData.SetKernelName(i + "," + j);
+                cellsByGo.Add(currData.Kernel.gameObject, currData);
             }
         }
     }

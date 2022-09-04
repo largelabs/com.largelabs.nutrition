@@ -16,6 +16,7 @@ public interface IRangeSelectionProvider
 
 public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelectionProvider
 {
+    [SerializeField] bool autoUpdateYSelection = true;
     [SerializeField] int maxSelectionRadius = 3;
     [SerializeField] Vector2Int defaultSelect = new Vector2Int(5, 5);
 
@@ -113,7 +114,7 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
 
     #region PROTECTED API
 
-    protected abstract IEnumerator updateRotation(Transform i_nextRowNormal, int i_nextRowIndex);
+    protected abstract IEnumerator updateRotation(Transform i_nextRowNormal, int i_nextRowIndex, bool i_autoUpdateSelection);
 
     protected void rotateCob(Transform i_rowNormal, float i_amount, out float i_dot)
     {
@@ -208,7 +209,7 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
     {
         while (true)
         {
-            yield return StartCoroutine(updateRotation(nextRowNormal, nextRowIndex));
+            yield return StartCoroutine(updateRotation(nextRowNormal, nextRowIndex, autoUpdateYSelection));
         }
     }
 

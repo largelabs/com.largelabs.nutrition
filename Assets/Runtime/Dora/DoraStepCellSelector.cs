@@ -9,14 +9,14 @@ public class DoraStepCellSelector : DoraAbstractCellSelector, IRangeSelectionPro
 
     Coroutine rotateToNextStepRoutine = null;
 
-    protected override IEnumerator updateRotation(Transform i_nextRowNormal, int i_nextRowIndex)
+    protected override IEnumerator updateRotation(Transform i_nextRowNormal, int i_nextRowIndex, bool i_autoUpdateSelection)
     {
-        rotateToNextStepRoutine = StartCoroutine(rotateToNextStep(i_nextRowNormal, i_nextRowIndex));
+        rotateToNextStepRoutine = StartCoroutine(rotateToNextStep(i_nextRowNormal, i_nextRowIndex, i_autoUpdateSelection));
         while (null != rotateToNextStepRoutine) yield return null;
         yield return this.Wait(rowTime);
     }
 
-    IEnumerator rotateToNextStep(Transform i_nextRowNormal, int i_nextRowIndex)
+    IEnumerator rotateToNextStep(Transform i_nextRowNormal, int i_nextRowIndex, bool i_autoUpdateSelection)
     {
         while (true)
         {
@@ -24,9 +24,12 @@ public class DoraStepCellSelector : DoraAbstractCellSelector, IRangeSelectionPro
             rotateCob(i_nextRowNormal, Time.deltaTime * rotationSpeed, out dot);
             if (true == isDotProductAligned(dot))
             {
-                Vector2Int nextCell = CurrentOriginCell.Value;
-                nextCell.x = i_nextRowIndex;
-                SelectCell(nextCell, true, true);
+                if(true == i_autoUpdateSelection && null != CurrentOriginCell)
+                {
+                    Vector2Int nextCell = CurrentOriginCell.Value;
+                    nextCell.x = i_nextRowIndex;
+                    SelectCell(nextCell, true, true);
+                }
 
                 this.DisposeCoroutine(ref rotateToNextStepRoutine);
                 yield break;
