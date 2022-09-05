@@ -28,6 +28,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     bool isBurnt = false;
     float durability = 1f;
     bool isSelected = false;
+    bool isMarkedforSelection = false;
     InterpolatorsManager interpolators = null;
     SpawnPool vfxPool = null;
 
@@ -198,6 +199,39 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     }
 
+    public void MarkForSelection(bool i_animated)
+    {
+        if (true == isMarkedforSelection) return;
+
+        blinkRoutine = StartCoroutine(blink());
+
+        isMarkedforSelection = true;
+    }
+
+    Coroutine blinkRoutine = null;
+
+    IEnumerator blink()
+    {
+        while(true)
+        {
+            swapMaterials(durability, true);
+            yield return this.Wait(0.1f);
+            swapMaterials(durability, false);
+            yield return this.Wait(0.1f);
+        }
+    }
+
+    public void UnmarkForSelection(bool i_animated)
+    {
+        if (false == isMarkedforSelection) return;
+        isMarkedforSelection = false;
+
+        this.DisposeCoroutine(ref blinkRoutine);
+
+        swapMaterials(durability, isSelected);
+
+    }
+
     #endregion
 
     #region PRIVATE
@@ -205,7 +239,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     void startScaleAnimation(Vector3 i_target, AnimationCurve i_animationCurve, float i_animationSpeed)
     {
         this.DisposeCoroutine(ref updateScaleRoutine);
-        float animationTime = Mathf.Abs(transform.localScale.x - i_target.x) / i_animationSpeed;
+        float animationTime = Mathf.Abs(transform.localScale.z - i_target.z) / i_animationSpeed;
         ITypedAnimator<Vector3> scaleInterpolator = interpolators.Animate(transform.localScale, i_target, animationTime, new AnimationMode(i_animationCurve), false, 0f, null);
 
         updateScaleRoutine = StartCoroutine(updateScale(scaleInterpolator));

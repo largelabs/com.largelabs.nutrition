@@ -53,6 +53,8 @@ public class DoraRaycastController : DoraController
             {
                 bool clearSelection = null != cellSelector.CurrentOriginCell && cellSelector.CurrentOriginCell.Value != cellData.Coords;
                 cellSelector.SelectCell(cellData.Coords, false, clearSelection);
+               // cellSelector.SelectRange(cellData.Coords, 0, true, false, clearSelection);
+               // cellSelector.MarkRange(cellData.Coords, 1, true, false, clearSelection);
             }
             else
                 cellSelector.ClearSelection();
