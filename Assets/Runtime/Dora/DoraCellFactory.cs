@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PathologicalGames;
+using UnityEngine;
 
 public class DoraCellFactory
 {
@@ -9,9 +10,9 @@ public class DoraCellFactory
         interpolators = i_interpolators;
     }
 
-    public DoraCellData MakeCell(DoraKernel i_kernel)
+    public DoraCellData MakeCell(DoraKernel i_kernel, SpawnPool i_vfxPool)
     {
-        i_kernel.Init(interpolators);
+        i_kernel.Init(interpolators, i_vfxPool);
         i_kernel.Disappear(false);
 
         DoraCellData cellData = new DoraCellData();

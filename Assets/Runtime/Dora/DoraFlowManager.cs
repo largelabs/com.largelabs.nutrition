@@ -1,3 +1,4 @@
+using PathologicalGames;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,8 +11,11 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
     [SerializeField] private GameObject doraHUD = null;
-    [SerializeField] private MinigameTimer timer = null;
     [SerializeField] private DoraScoreManager scoreManager = null;
+    [SerializeField] private SpawnPool vfxPool = null;
+    [SerializeField] private MinigameTimer timer = null;
+    [SerializeField] private BoxCollider cullingBounds = null;
+    [SerializeField] private BoxCollider selectionBounds = null;
 
     [Header("Options")]
     [SerializeField] private DoraGameData doraGameData = null;
@@ -100,7 +104,7 @@ public class DoraFlowManager : MiniGameFlow
         for (int i = 0; i < length; i++)
         {
             currCob = doraPlacer.SpawnDoraAtAnchor(doraPositions[i]);
-            currCob.InitializeDoraCob(currentDoraBatch, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
+            currCob.InitializeDoraCob(vfxPool, cullingBounds, selectionBounds, currentDoraBatch, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
 
             if (superKernelSpawned)
                 superKernelCobsSpawned++;

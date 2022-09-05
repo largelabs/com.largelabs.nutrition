@@ -116,6 +116,11 @@ public class DoraController : MonoBehaviourBase
 
         if (selectedRadius <= cellSelector.MaxSelectionRadius)
         {
+            if(selectedRadius < cellSelector.MaxSelectionRadius)
+            {
+                cellSelector.MarkRange(currentSelect.Value, selectedRadius + 1, true, false, false);
+            }
+
             cellSelector.SelectRange(currentSelect.Value, selectedRadius, true, false, false);
             selectedRadius++;
         }

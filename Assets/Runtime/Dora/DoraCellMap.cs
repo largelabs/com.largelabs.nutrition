@@ -1,3 +1,4 @@
+using PathologicalGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,15 +38,25 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 
     private DoraData doraData = null;
  
+    BoxCollider cullingBounds = null;
+    BoxCollider selectionBounds = null;
+
+
     private const int NB_ROWS = 12;
     private const int NB_COLUMNS = 11;
 
     private void Update()
     {
-        Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+        /* Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+
+         foreach (DoraCellData doraCell in cellMap)
+             doraCell.EnableKernelLogic(GeometryUtility.TestPlanesAABB(frustumPlanes, doraCell.CellBounds)); */
 
         foreach (DoraCellData doraCell in cellMap)
-            doraCell.EnableKernelLogic(GeometryUtility.TestPlanesAABB(frustumPlanes, doraCell.CellBounds));
+        {
+            doraCell.EnableKernelRenderer(cullingBounds.bounds.Intersects(doraCell.CellBounds));
+            doraCell.EnableKernelCollider(selectionBounds.bounds.Intersects(doraCell.CellBounds));
+        }
     }
 
     #region IDoraCellProvider
@@ -112,11 +123,12 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     public bool IsPastBurnThreshold => durabilityManager.IsPastBurnThreshold;
     public DoraData DoraData => doraData;
 
-    public void InitializeDoraCob(DoraBatchData i_parentBatch, bool i_canSpawnSuper, out bool o_superKernelSpawned)
+    public void InitializeDoraCob(SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds, DoraBatchData i_parentBatch, bool i_canSpawnSuper, out bool o_superKernelSpawned)
     {
         fetchData(i_parentBatch);
-
-        PopulateMap();
+        cullingBounds = i_cullingBounds;
+        selectionBounds = i_selectionBounds;
+        PopulateMap(i_vfxPool);
         durabilityManager.InitializeKernelDurability(i_canSpawnSuper, out o_superKernelSpawned);
         RevealCells(false);
     }
@@ -145,7 +157,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         }
     }
 
-    public void PopulateMap()
+    public void PopulateMap(SpawnPool i_vfxPool)
     {
         if (kernelSpawner == null)
         {
@@ -166,7 +178,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         {
             currentKernel = kernelSpawner.SpawnDoraKernelAtAnchor(anchors[i]);
             if (currentKernel != null)
-                cells[i] = cellFactory.MakeCell(currentKernel);
+                cells[i] = cellFactory.MakeCell(currentKernel, i_vfxPool);
             else
             {
                 Debug.LogError("Factory could not create cell! Returning...");
@@ -199,7 +211,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
             {
                 for (int j = 0; j < length1; j++)
                 {
-                    cellMap[i, j].EnableKernelLogic(i_enable);
+                    cellMap[i, j].EnableKernelRenderer(i_enable);
                 }
             }
         }

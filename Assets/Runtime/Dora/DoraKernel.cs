@@ -1,3 +1,4 @@
+using PathologicalGames;
 using System.Collections;
 using UnityEngine;
 
@@ -8,24 +9,20 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     [SerializeField] Collider kernelCollider = null;
 
     [SerializeField] AnimationCurve selectScaleCurve = null;
-    [SerializeField] float selectScaleMultiplier = 2f;
+    [SerializeField] Vector3 selectedScale = MathConstants.VECTOR_3_ONE;
     [SerializeField] float selectAnimationSpeed = 1f;
     [SerializeField] AnimationCurve unselectScaleCurve = null;
     [SerializeField] float unselectAnimationSpeed = 1f;
 
-
-
     [Header("Selected materials")]
     [SerializeField] Material kernelMat0Selected = null;
     [SerializeField] Material kernelMat1Selected = null;
-    [SerializeField] Material kernelMat2Selected = null;
     [SerializeField] Material kernelMatBurntSelected = null;
     [SerializeField] Material kernelMatSuperSelected = null;
 
     [Header("Unselected materials")]
     [SerializeField] Material kernelMat0 = null;
     [SerializeField] Material kernelMat1 = null;
-    [SerializeField] Material kernelMat2 = null;
     [SerializeField] Material kernelMatBurnt = null;
     [SerializeField] Material kernelMatSuper = null;
 
@@ -33,17 +30,23 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     bool isBurnt = false;
     float durability = 1f;
     bool isSelected = false;
+    bool isMarkedforSelection = false;
     InterpolatorsManager interpolators = null;
+    SpawnPool vfxPool = null;
+
+
+    private static readonly string BURNT_SELECT_VFX_PREFAB = "VFX_Select_Smoke";
 
     bool isBurnable = false;
     bool isSuper = false;
 
     #region PUBLIC API
-    public void Init(InterpolatorsManager i_interpolators)
+    public void Init(InterpolatorsManager i_interpolators, SpawnPool i_vfxPool)
     {
         if (true == isInit) return;
 
         interpolators = i_interpolators;
+        vfxPool = i_vfxPool;
         gameObject.SetActive(false);
         appear.Init(i_interpolators);
         isInit = true;
@@ -121,11 +124,15 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public Bounds RendererBounds => kernelRnd.bounds;
 
-    public void EnableLogic(bool i_enable)
+    public void EnableRenderer(bool i_enable)
     {
         if (kernelRnd != null)
             kernelRnd.enabled = i_enable;
 
+    }
+
+    public void EnableCollider(bool i_enable)
+    {
         if (null != kernelCollider)
             kernelCollider.enabled = i_enable;
     }
@@ -171,11 +178,24 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         swapMaterials(durability, isSelected);
 
         if (true == i_animated)
-            startScaleAnimation(MathConstants.VECTOR_3_ONE * selectScaleMultiplier, selectScaleCurve, selectAnimationSpeed);
+            startScaleAnimation(selectedScale, selectScaleCurve, selectAnimationSpeed);
         else
         {
             this.DisposeCoroutine(ref updateScaleRoutine);
-            transform.localScale = MathConstants.VECTOR_3_ONE * selectScaleMultiplier;
+            transform.localScale = selectedScale;
+        }
+
+        if(true == isBurnt)
+        {
+            Transform vfxTr = vfxPool.Spawn(BURNT_SELECT_VFX_PREFAB);
+            vfxTr.SetParent(transform);
+            vfxTr.localScale = MathConstants.VECTOR_3_ONE;
+            vfxTr.localPosition = new Vector3(0f, 0f, 0.5f);
+
+            vfxTr.SetParent(null);
+            float scaleValue = Mathf.Max(vfxTr.localScale.x, vfxTr.localScale.y);
+            vfxTr.localScale = MathConstants.VECTOR_3_ONE * scaleValue;
+            vfxTr.SetParent(transform);
         }
     }
 
@@ -193,6 +213,40 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
             this.DisposeCoroutine(ref updateScaleRoutine);
             transform.localScale = MathConstants.VECTOR_3_ONE;
         }
+
+    }
+
+    public void MarkForSelection(bool i_animated)
+    {
+        if (true == isMarkedforSelection) return;
+
+        blinkRoutine = StartCoroutine(blink());
+
+        isMarkedforSelection = true;
+    }
+
+    Coroutine blinkRoutine = null;
+
+    IEnumerator blink()
+    {
+        while(true)
+        {
+            swapMaterials(durability, true);
+            yield return this.Wait(0.1f);
+            swapMaterials(durability, false);
+            yield return this.Wait(0.1f);
+        }
+    }
+
+    public void UnmarkForSelection(bool i_animated)
+    {
+        if (false == isMarkedforSelection) return;
+        isMarkedforSelection = false;
+
+        this.DisposeCoroutine(ref blinkRoutine);
+
+        swapMaterials(durability, isSelected);
+
     }
 
     #endregion
@@ -202,7 +256,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     void startScaleAnimation(Vector3 i_target, AnimationCurve i_animationCurve, float i_animationSpeed)
     {
         this.DisposeCoroutine(ref updateScaleRoutine);
-        float animationTime = Mathf.Abs(transform.localScale.x - i_target.x) / i_animationSpeed;
+        float animationTime = Mathf.Abs(transform.localScale.z - i_target.z) / i_animationSpeed;
         ITypedAnimator<Vector3> scaleInterpolator = interpolators.Animate(transform.localScale, i_target, animationTime, new AnimationMode(i_animationCurve), false, 0f, null);
 
         updateScaleRoutine = StartCoroutine(updateScale(scaleInterpolator));
@@ -212,9 +266,11 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         if(isSuper) kernelRnd.material = i_isSelected ? kernelMatSuperSelected : kernelMatSuper;
         else if (isBurnt) kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
-        else if (i_durability >= 0f && i_durability < 0.25f) kernelRnd.material = i_isSelected ? kernelMat2Selected : kernelMat2;
-        else if (i_durability > 0.25f && i_durability < 0.5f) kernelRnd.material = i_isSelected ? kernelMat1Selected : kernelMat1;
-        else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;
+        else
+        {
+            if (i_durability < 0.5f) kernelRnd.material = i_isSelected ? kernelMat1Selected : kernelMat1;
+            else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;
+        } 
     }
 
 

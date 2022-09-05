@@ -69,6 +69,8 @@ public class DoraInputs : MonoBehaviourBase
 
     private IEnumerator dispatchEat()
     {
+        yield return eatDispatchInterval <= 0f ? null : this.Wait(eatDispatchInterval);
+
         while (true)
         {
             OnEat?.Invoke();

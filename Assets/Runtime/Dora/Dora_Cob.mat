@@ -194,12 +194,12 @@ Material:
     - _Is_LightColor_1st_Shade: 1
     - _Is_LightColor_2nd_Shade: 1
     - _Is_LightColor_AR: 1
-    - _Is_LightColor_Ap_RimLight: 1
+    - _Is_LightColor_Ap_RimLight: 0
     - _Is_LightColor_Base: 1
-    - _Is_LightColor_HighColor: 1
-    - _Is_LightColor_MatCap: 1
-    - _Is_LightColor_Outline: 1
-    - _Is_LightColor_RimLight: 1
+    - _Is_LightColor_HighColor: 0
+    - _Is_LightColor_MatCap: 0
+    - _Is_LightColor_Outline: 0
+    - _Is_LightColor_RimLight: 0
     - _Is_NormalMapForMatCap: 0
     - _Is_NormalMapToBase: 0
     - _Is_NormalMapToHighColor: 0
@@ -224,7 +224,7 @@ Material:
     - _Offset_Z: 0
     - _Outline_Width: 16
     - _Parallax: 0.02
-    - _RimLight: 1
+    - _RimLight: 0
     - _RimLight_FeatherOff: 0
     - _RimLight_InsideMask: 0.0001
     - _RimLight_Power: 0.156
@@ -271,12 +271,12 @@ Material:
     - _utsVersionY: 7
     - _utsVersionZ: 5
     m_Colors:
-    - _1st_ShadeColor: {r: 0.3679245, g: 0.26641935, b: 0.17875579, a: 1}
-    - _2nd_ShadeColor: {r: 0.3584906, g: 0.21540333, b: 0.10653258, a: 1}
+    - _1st_ShadeColor: {r: 0.7735849, g: 0.57254696, b: 0.33205768, a: 1}
+    - _2nd_ShadeColor: {r: 0.6981132, g: 0.49031287, b: 0.32600567, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0.38679248, g: 0.29794312, b: 0.22441262, a: 1}
-    - _Color: {r: 0.38679248, g: 0.29794312, b: 0.22441262, a: 1}
+    - _BaseColor: {r: 0.7924528, g: 0.6214151, b: 0.39248842, a: 1}
+    - _Color: {r: 0.7924528, g: 0.6214151, b: 0.39248842, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}

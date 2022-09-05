@@ -178,7 +178,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HighColor_Power: 0.241
+    - _HighColor_Power: 0
     - _Inverse_Clipping: 0
     - _Inverse_MatcapMask: 0
     - _Inverse_Z_Axis_BLD: 1
@@ -196,10 +196,10 @@ Material:
     - _Is_LightColor_AR: 1
     - _Is_LightColor_Ap_RimLight: 0
     - _Is_LightColor_Base: 1
-    - _Is_LightColor_HighColor: 1
+    - _Is_LightColor_HighColor: 0
     - _Is_LightColor_MatCap: 0
     - _Is_LightColor_Outline: 0
-    - _Is_LightColor_RimLight: 1
+    - _Is_LightColor_RimLight: 0
     - _Is_NormalMapForMatCap: 0
     - _Is_NormalMapToBase: 0
     - _Is_NormalMapToHighColor: 0
@@ -208,7 +208,7 @@ Material:
     - _Is_OutlineTex: 0
     - _Is_PingPong_Base: 0
     - _Is_SpecularToHighColor: 0
-    - _Is_UseTweakHighColorOnShadow: 1
+    - _Is_UseTweakHighColorOnShadow: 0
     - _Is_UseTweakMatCapOnShadow: 0
     - _Is_ViewCoord_Scroll: 0
     - _Is_ViewShift: 0
@@ -226,7 +226,7 @@ Material:
     - _Parallax: 0.02
     - _RimLight: 1
     - _RimLight_FeatherOff: 0
-    - _RimLight_InsideMask: 0.276
+    - _RimLight_InsideMask: 0.8
     - _RimLight_Power: 0.669
     - _Rotate_EmissiveUV: 0
     - _Rotate_MatCapUV: 0
@@ -271,18 +271,18 @@ Material:
     - _utsVersionY: 7
     - _utsVersionZ: 5
     m_Colors:
-    - _1st_ShadeColor: {r: 1, g: 0.6674369, b: 0.15686274, a: 1}
-    - _2nd_ShadeColor: {r: 0.99215686, g: 0.48190692, b: 0, a: 1}
+    - _1st_ShadeColor: {r: 1, g: 0.67090297, b: 0.15686274, a: 1}
+    - _2nd_ShadeColor: {r: 0.99215686, g: 0.44149193, b: 0, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1, g: 0.6792472, b: 0.09019607, a: 1}
-    - _Color: {r: 1, g: 0.6792472, b: 0.09019607, a: 1}
+    - _BaseColor: {r: 1, g: 0.6709845, b: 0.09019607, a: 1}
+    - _Color: {r: 1, g: 0.6709845, b: 0.09019607, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}
     - _HighColor: {r: 0.990566, g: 0.14929694, b: 0.06074228, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _Outline_Color: {r: 0.8207547, g: 0.43878344, b: 0.12001601, a: 1}
-    - _RimLightColor: {r: 1, g: 0.2962904, b: 0.23113209, a: 1}
+    - _RimLightColor: {r: 0.6886792, g: 0.43435255, b: 0.18516374, a: 1}
     - _ViewShift: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

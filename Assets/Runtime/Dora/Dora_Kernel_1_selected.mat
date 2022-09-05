@@ -10,12 +10,11 @@ Material:
   m_Name: Dora_Kernel_1_selected
   m_Shader: {fileID: 4800000, guid: 9baf30ce95c751649b14d96da3a4b4d5, type: 3}
   m_ValidKeywords:
-  - _DISABLE_OUTLINE
   - _EMISSIVE_SIMPLE
   - _IS_ANGELRING_OFF
   - _IS_CLIPPING_OFF
   - _IS_OUTLINE_CLIPPING_NO
-  - _OUTLINE_POS
+  - _OUTLINE_NML
   m_InvalidKeywords:
   - _
   m_LightmapFlags: 4
@@ -25,8 +24,7 @@ Material:
   stringTagMap:
     IgnoreProjection: False
     RenderType: Opaque
-  disabledShaderPasses:
-  - ALWAYS
+  disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -178,7 +176,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HighColor_Power: 0.241
+    - _HighColor_Power: 0
     - _Inverse_Clipping: 0
     - _Inverse_MatcapMask: 0
     - _Inverse_Z_Axis_BLD: 1
@@ -217,7 +215,7 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _Nearest_Distance: -1.76
-    - _OUTLINE: 1
+    - _OUTLINE: 0
     - _OcclusionStrength: 1
     - _Offset_X_Axis_BLD: -0.05
     - _Offset_Y_Axis_BLD: 0.09
@@ -271,12 +269,12 @@ Material:
     - _utsVersionY: 7
     - _utsVersionZ: 5
     m_Colors:
-    - _1st_ShadeColor: {r: 1, g: 0.15686274, b: 0.16989885, a: 1}
-    - _2nd_ShadeColor: {r: 0.99215686, g: 0.05093396, b: 0, a: 1}
+    - _1st_ShadeColor: {r: 1, g: 0.30840686, b: 0.15686274, a: 1}
+    - _2nd_ShadeColor: {r: 0.99215686, g: 0.11721409, b: 0, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 1, g: 0.11902395, b: 0.09019607, a: 1}
-    - _Color: {r: 1, g: 0.11902395, b: 0.09019607, a: 1}
+    - _BaseColor: {r: 1, g: 0.3332501, b: 0.09019607, a: 1}
+    - _Color: {r: 1, g: 0.3332501, b: 0.09019607, a: 1}
     - _ColorShift: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Emissive_Color: {r: 0, g: 0, b: 0, a: 1}
