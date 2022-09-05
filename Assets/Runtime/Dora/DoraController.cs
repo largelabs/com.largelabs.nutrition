@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class DoraController : MonoBehaviourBase
 {
+    [SerializeField] protected bool useRangeMarking = false;
     [SerializeField] bool forceSelectionOnEat = true;
     [SerializeField] DoraInputs inputs = null;
     [SerializeField] protected DoraAbstractCellSelector cellSelector = null;
@@ -11,7 +12,7 @@ public class DoraController : MonoBehaviourBase
 
     protected DoraCellMap cellMap = null;
 
-    private int currentEatenKernelCount = 0;
+    private int unburntEatenCount = 0;
     int selectedRadius = 0;
 
     #region UNITY AND CORE
@@ -31,7 +32,7 @@ public class DoraController : MonoBehaviourBase
 
     public IDoraCellProvider CurrentCellProvider => cellMap;
 
-    public int CurrentEatenKernelCount => currentEatenKernelCount;
+    public int UnburntEatenCount => unburntEatenCount;
 
     [ExposePublicMethod]
     public void EnableController()
@@ -70,7 +71,7 @@ public class DoraController : MonoBehaviourBase
         else
             Debug.LogError("No kernel spawner attached to the provided cell map!");
 
-        currentEatenKernelCount = 0;
+        unburntEatenCount = 0;
     }
 
     #endregion
@@ -117,7 +118,7 @@ public class DoraController : MonoBehaviourBase
 
         if (selectedRadius <= cellSelector.MaxSelectionRadius)
         {
-            if(selectedRadius < cellSelector.MaxSelectionRadius)
+            if(useRangeMarking && selectedRadius < cellSelector.MaxSelectionRadius)
             {
                 cellSelector.MarkRange(currentSelect.Value, selectedRadius + 1, true, false, false);
             }
@@ -184,7 +185,7 @@ public class DoraController : MonoBehaviourBase
         scoreManager.AddScore(eatenKernels - burntKenrelsCount);
         scoreManager.RemoveScore(burntKenrelsCount);
 
-        currentEatenKernelCount += eatenKernels;
+        unburntEatenCount += eatenKernels - burntKenrelsCount;
     }
 
     #endregion

@@ -1,5 +1,4 @@
 using PathologicalGames;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,13 +10,17 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
     [SerializeField] private GameObject doraHUD = null;
+    [SerializeField] private DoraScoreManager scoreManager = null;
     [SerializeField] private SpawnPool vfxPool = null;
     [SerializeField] private MinigameTimer timer = null;
     [SerializeField] private BoxCollider cullingBounds = null;
     [SerializeField] private BoxCollider selectionBounds = null;
 
-    [Header("Extra Options")]
-    [SerializeField] [Range(1, 4)] private int doraPerBatch = 4;
+    [Header("Options")]
+    [SerializeField] private DoraGameData doraGameData = null;
+    [SerializeField] private List<DoraBatchData> doraBatchData = null;
+
+    DoraBatchData currentDoraBatch = null;
 
     private List<DoraPlacer.DoraPositions> doraPositions = new List<DoraPlacer.DoraPositions>
                 { DoraPlacer.DoraPositions.BackLeft, DoraPlacer.DoraPositions.BackRight,
@@ -56,6 +59,7 @@ public class DoraFlowManager : MiniGameFlow
 
         registerEvents();
 
+        timer.SetTimer(doraGameData.BaseTimer);
         timer.StartTimer();
 
         startDoraFlow();
@@ -86,18 +90,40 @@ public class DoraFlowManager : MiniGameFlow
     #region PRIVATE
     IEnumerator bringNewBatch()
     {
+        // Maybe change way of choosing batch?
+        currentDoraBatch = doraBatchData[UnityEngine.Random.Range(0, doraBatchData.Count)];
+
         DoraCellMap currCob = null;
-        int length = Mathf.Clamp(doraPerBatch, 1, 4);
+        int length = Mathf.Clamp(currentDoraBatch.DoraInBatch, 1, 4);
+        bool superKernelSpawned;
+        int superKernelCobsSpawned = 0;
+
+        float superKernelChance = currentDoraBatch.SuperKernelChance;
+
         for (int i = 0; i < length; i++)
         {
             currCob = doraPlacer.SpawnDoraAtAnchor(doraPositions[i]);
-            currCob.InitializeDoraCob(vfxPool, cullingBounds, selectionBounds);
+            currCob.InitializeDoraCob(vfxPool, cullingBounds, selectionBounds, currentDoraBatch, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
+
+            if (superKernelSpawned)
+                superKernelCobsSpawned++;
             yield return this.Wait(1.0f);
         }
 
         doraMover.ReverseQueue();
     }
 
+    private bool canSpawnSuper(int i_superKernelCobsSpawned, ref float i_superKernelChance)
+    {
+        if (i_superKernelCobsSpawned < currentDoraBatch.MaxSuperKernelsPerBatch)
+        {
+            if (UnityEngine.Random.Range(0f, 1f) < i_superKernelChance)
+                return true;
+        }
+
+        i_superKernelChance += currentDoraBatch.SuperKernelChanceIncrease;
+        return false;
+    }
 
     private IEnumerator simulatedFlow()
     {
@@ -126,15 +152,20 @@ public class DoraFlowManager : MiniGameFlow
 
         int totalCellCount = i_cellMap.TotalCellCount;
 
-        doraHUD.SetActive(true);
+        DoraDurabilityManager dorabilityManager = i_cellMap.GetComponent<DoraDurabilityManager>();
+
+        if (dorabilityManager == null)
+        {
+            Debug.LogError("No durability manager available on current cob! Breaking...");
+            yield break;
+        }
 
         while (true)
         {
             // gameplay stuff
 
-            if (doraController.CurrentEatenKernelCount == totalCellCount)
+            if (doraController.UnburntEatenCount == dorabilityManager.UnburntKernels)
             {
-                doraHUD.SetActive(false);
                 doraMover.GetNextCob();
                 doraController.DisableController();
                 this.DisposeCoroutine(ref doraGameplayRoutine);
@@ -142,8 +173,6 @@ public class DoraFlowManager : MiniGameFlow
             }
             yield return null;
         }
-
-
     }
 
     private IEnumerator burntDoraSequence()
@@ -156,8 +185,12 @@ public class DoraFlowManager : MiniGameFlow
 
     private IEnumerator doraBatchSequence()
     {
-
         timer.PauseTimer();
+
+        scoreManager.AddScore(currentDoraBatch.BatchFinishScoreBonus);
+
+        // maybe animate time increase
+        timer.AddTime(currentDoraBatch.BatchFinishTimeBonus);
 
         yield return StartCoroutine(bringNewBatch());
 

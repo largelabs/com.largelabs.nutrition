@@ -18,11 +18,13 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     [SerializeField] Material kernelMat0Selected = null;
     [SerializeField] Material kernelMat1Selected = null;
     [SerializeField] Material kernelMatBurntSelected = null;
+    [SerializeField] Material kernelMatSuperSelected = null;
 
     [Header("Unselected materials")]
     [SerializeField] Material kernelMat0 = null;
     [SerializeField] Material kernelMat1 = null;
     [SerializeField] Material kernelMatBurnt = null;
+    [SerializeField] Material kernelMatSuper = null;
 
     bool isInit = false;
     bool isBurnt = false;
@@ -35,8 +37,10 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     private static readonly string BURNT_SELECT_VFX_PREFAB = "VFX_Select_Smoke";
 
-    #region PUBLIC API
+    bool isBurnable = false;
+    bool isSuper = false;
 
+    #region PUBLIC API
     public void Init(InterpolatorsManager i_interpolators, SpawnPool i_vfxPool)
     {
         if (true == isInit) return;
@@ -61,6 +65,18 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     public float Durability => durability;
 
     public bool IsBurnt => isBurnt;
+    public bool IsBurnable => isBurnable;
+    public bool IsSuper => isSuper;
+
+    public void SetBurnable(bool i_burnable)
+    {
+        isBurnable = i_burnable;
+    }
+
+    public void SetSuper(bool i_super)
+    {
+        isSuper = i_super;
+    }
 
     public void SetDurability(float i_durability)
     {
@@ -86,9 +102,10 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public void UpdateColor()
     {
+        // make super kernel unburnable + no durability decrease
         if (durability == 0f)
         {
-            if(isBurnt == false)
+            if(isBurnable && isBurnt == false)
                 BurnKernel();
         }
         else
@@ -247,13 +264,13 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     void swapMaterials(float i_durability, bool i_isSelected)
     {
-        if (true == isBurnt) 
-            kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
+        if(isSuper) kernelRnd.material = i_isSelected ? kernelMatSuperSelected : kernelMatSuper;
+        else if (isBurnt) kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
         else
         {
             if (i_durability < 0.5f) kernelRnd.material = i_isSelected ? kernelMat1Selected : kernelMat1;
             else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;
-        }
+        } 
     }
 
 

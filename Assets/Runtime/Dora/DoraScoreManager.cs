@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DoraScoreManager : MonoBehaviourBase
 {
-    [SerializeField] int kernelPostiveScore = 10;
-    [SerializeField] int kernelNegativeScore = 15;
+    [SerializeField] DoraGameData doraGameData = null;
     [SerializeField] float increaseOfMultiplier = 0.1f;
 
     int score = 0;
@@ -14,22 +13,27 @@ public class DoraScoreManager : MonoBehaviourBase
 
     public void AddScore(int i_numberOfKernels)
     {
-        if (i_numberOfKernels == 1) addToScore(kernelPostiveScore);
+        if (i_numberOfKernels == 1) addToScore(doraGameData.GoodKernelScore);
         else
         {
             float multiplier = 1 + (i_numberOfKernels * increaseOfMultiplier);
-            float scoreToAdd = kernelPostiveScore * multiplier * i_numberOfKernels;
+            float scoreToAdd = doraGameData.GoodKernelScore * multiplier * i_numberOfKernels;
             addToScore((int)scoreToAdd);
         }
+    }
+    
+    public void AddValueScore(int i_score)
+    {
+        addToScore(i_score);
     }
 
     public void RemoveScore(int i_numberOfBurntKernels)
     {
-        if (i_numberOfBurntKernels == 1) removeFromScore(kernelPostiveScore);
+        if (i_numberOfBurntKernels == 1) removeFromScore(doraGameData.BurntKernelScore);
         else
         {
             float multiplier = 1 + (i_numberOfBurntKernels * increaseOfMultiplier);
-            float scoreToRemove = kernelPostiveScore * multiplier * i_numberOfBurntKernels;
+            float scoreToRemove = doraGameData.BurntKernelScore * multiplier * i_numberOfBurntKernels;
             removeFromScore((int)scoreToRemove);
         }
     }

@@ -96,6 +96,8 @@ public class DoraMover : MonoBehaviourBase
             yield return StartCoroutine(animateToTransform(i_nextCob, playAnchor, panUpTime,
                                             playMoveCurve, null));
 
+            i_nextCob.transform.position = new Vector3(playAnchor.position.x, playAnchor.position.y, 0);
+
             enableOffScreenCobKernels(false);
 
             DoraCellMap cellMap = i_nextCob.GetComponent<DoraCellMap>();

@@ -29,13 +29,15 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     [SerializeField] KernelSpawner kernelSpawner = null;
     [SerializeField] DoraDurabilityManager durabilityManager = null;
     [SerializeField] InterpolatorsManager interpolators = null;
-    [SerializeField] DoraData doraData = null;
     [SerializeField] MeshRenderer cobRnd = null;
 
     DoraCellData[] cells = null;
     DoraCellData[,] cellMap = null;
     Dictionary<GameObject, DoraCellData> cellsByGo = null;
     DoraCellFactory cellFactory = null;
+
+    private DoraData doraData = null;
+ 
     BoxCollider cullingBounds = null;
     BoxCollider selectionBounds = null;
 
@@ -121,12 +123,13 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     public bool IsPastBurnThreshold => durabilityManager.IsPastBurnThreshold;
     public DoraData DoraData => doraData;
 
-    public void InitializeDoraCob(SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds)
+    public void InitializeDoraCob(SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds, DoraBatchData i_parentBatch, bool i_canSpawnSuper, out bool o_superKernelSpawned)
     {
+        fetchData(i_parentBatch);
         cullingBounds = i_cullingBounds;
         selectionBounds = i_selectionBounds;
         PopulateMap(i_vfxPool);
-        durabilityManager.InitializeKernelDurability();
+        durabilityManager.InitializeKernelDurability(i_canSpawnSuper, out o_superKernelSpawned);
         RevealCells(false);
     }
 
@@ -185,9 +188,9 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 
         cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cells, NB_ROWS, NB_COLUMNS);
 
-        for(int i = 0; i < 12; i++)
+        for(int i = 0; i < NB_ROWS; i++)
         {
-            for(int j = 0; j < 11; j++)
+            for(int j = 0; j < NB_COLUMNS; j++)
             {
                 currData = cellMap[i, j];
                 currData.SetCoords(new Vector2Int(i, j));
@@ -218,6 +221,11 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     #endregion
 
     #region PRIVATE
+    private void fetchData(DoraBatchData i_parentBatch)
+    {
+        doraData = i_parentBatch.AssignedDoraData;
+        durabilityManager.SetBatchData(i_parentBatch);
+    }
 
     IEnumerator revealCellsAnimated(int i_startRow, int i_endRow)
     {
