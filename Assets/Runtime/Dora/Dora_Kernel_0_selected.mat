@@ -10,6 +10,7 @@ Material:
   m_Name: Dora_Kernel_0_selected
   m_Shader: {fileID: 4800000, guid: 9baf30ce95c751649b14d96da3a4b4d5, type: 3}
   m_ValidKeywords:
+  - _DISABLE_OUTLINE
   - _EMISSIVE_SIMPLE
   - _IS_ANGELRING_OFF
   - _IS_CLIPPING_OFF
@@ -24,7 +25,8 @@ Material:
   stringTagMap:
     IgnoreProjection: False
     RenderType: Opaque
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - ALWAYS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -214,13 +216,13 @@ Material:
     - _MatCap: 0
     - _Metallic: 0
     - _Mode: 0
-    - _Nearest_Distance: -1.76
+    - _Nearest_Distance: -4.42
     - _OUTLINE: 0
     - _OcclusionStrength: 1
     - _Offset_X_Axis_BLD: -0.05
     - _Offset_Y_Axis_BLD: 0.09
     - _Offset_Z: 0
-    - _Outline_Width: 25
+    - _Outline_Width: 10
     - _Parallax: 0.02
     - _RimLight: 1
     - _RimLight_FeatherOff: 0

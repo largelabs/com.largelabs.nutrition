@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class DoraController : MonoBehaviourBase
 {
+    [SerializeField] protected bool useRangeMarking = false;
     [SerializeField] bool forceSelectionOnEat = true;
     [SerializeField] DoraInputs inputs = null;
     [SerializeField] protected DoraAbstractCellSelector cellSelector = null;
@@ -12,6 +13,7 @@ public class DoraController : MonoBehaviourBase
     protected DoraCellMap cellMap = null;
 
     private int unburntEatenCount = 0;
+    int selectedRadius = 0;
 
     #region UNITY AND CORE
 
@@ -23,6 +25,8 @@ public class DoraController : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+
+    public int CurrentSelectionRadius => selectedRadius;
 
     public IRangeSelectionProvider SelectionProvider => cellSelector;
 
@@ -96,8 +100,6 @@ public class DoraController : MonoBehaviourBase
         inputs.OnEatReleased += onEatReleased;
     }
 
-    int selectedRadius = 0;
-
     private void onEatStarted()
     {
         if (null == cellSelector.CurrentOriginCell) return;
@@ -116,7 +118,7 @@ public class DoraController : MonoBehaviourBase
 
         if (selectedRadius <= cellSelector.MaxSelectionRadius)
         {
-            if(selectedRadius < cellSelector.MaxSelectionRadius)
+            if(useRangeMarking && selectedRadius < cellSelector.MaxSelectionRadius)
             {
                 cellSelector.MarkRange(currentSelect.Value, selectedRadius + 1, true, false, false);
             }
