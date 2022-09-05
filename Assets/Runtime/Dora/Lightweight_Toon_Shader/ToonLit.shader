@@ -6,8 +6,7 @@ Shader "Largelabs/ToonLit" {
 
 	SubShader {
 		Tags { "RenderType"="Opaque" }
-		LOD 200
-		
+	
 		
 CGPROGRAM
 
@@ -15,15 +14,10 @@ CGPROGRAM
 
 sampler2D _Ramp;
 
-#pragma lighting ToonRamp exclude_path:prepass
 inline half4 LightingToonRamp (SurfaceOutput s, half3 lightDir, half atten)
 {
-	#ifndef USING_DIRECTIONAL_LIGHT
-	lightDir = normalize(lightDir);
-	#endif
-	
-	half d = dot (s.Normal, lightDir)*0.5 + 0.5;
-	half3 ramp = tex2D (_Ramp, float2(d,d)).rgb;
+	half d = dot(s.Normal, lightDir) * 0.5 + 0.5;
+	half3 ramp = tex2D (_Ramp, half2(d,d)).rgb;
 	
 	half4 c;
 	c.rgb = s.Albedo * _LightColor0.rgb * ramp * (atten * 2);
@@ -32,10 +26,10 @@ inline half4 LightingToonRamp (SurfaceOutput s, half3 lightDir, half atten)
 }
 
 
-uniform float4 _Color;
+uniform fixed4 _Color;
 
 struct Input {
-	float2 uv_MainTex : TEXCOORD0;
+	half2 uv_MainTex : TEXCOORD0;
 };
 
 void surf (Input IN, inout SurfaceOutput o) {
