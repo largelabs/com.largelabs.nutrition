@@ -14,7 +14,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
     }
 
     [SerializeField] private DoraCellMap cellMap = null;
-    [SerializeField] [Range(0.0f, 1.0f)] private float burnThreshold = 0.3f;
 
     private int unburntKernels = 0;
     private int burntKernels = 0;
@@ -23,7 +22,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
     private DoraBatchData batchData = null;
 
     private float burntPercentage = 0.0f;
-    public Action OnPassBurnThreshold = null;
 
     List<Vector2Int> directions = new List<Vector2Int>
             {   Vector2Int.down,
@@ -54,8 +52,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
     public int TotalKernels => totalKernels;
 
     public float BurntPercentage => burntPercentage;
-    public float BurnThreshold => burnThreshold;
-    public bool IsPastBurnThreshold => (burntPercentage > burnThreshold);
 
     public void SetBatchData(DoraBatchData i_doraBatchData)
     {
@@ -284,11 +280,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
             {
                 burntPercentage = (burntKernels / (float)totalKernels);
                 Debug.LogError("Burn percentage: " + burntPercentage);
-                if (IsPastBurnThreshold)
-                {
-                    OnPassBurnThreshold?.Invoke();
-                    Debug.LogError("Burn Threshold: " + burnThreshold + " passed!");
-                }
             }
 
             yield return this.Wait(durabilityLossInterval);

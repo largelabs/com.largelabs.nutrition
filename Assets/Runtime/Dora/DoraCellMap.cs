@@ -119,8 +119,6 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 
     #region PUBLIC API
     public float BurntPercentage => durabilityManager.BurntPercentage;
-    public float BurnThreshold => durabilityManager.BurnThreshold;
-    public bool IsPastBurnThreshold => durabilityManager.IsPastBurnThreshold;
     public DoraData DoraData => doraData;
 
     public void InitializeDoraCob(SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds, DoraBatchData i_parentBatch, bool i_canSpawnSuper, out bool o_superKernelSpawned)

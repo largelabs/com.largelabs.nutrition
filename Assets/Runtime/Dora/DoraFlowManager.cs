@@ -126,21 +126,6 @@ public class DoraFlowManager : MiniGameFlow
         return false;
     }
 
-    private IEnumerator simulatedFlow()
-    {
-        doraMover.GetNextCob();
-        yield return this.Wait(5f);
-
-        doraMover.GetNextCob();
-        yield return this.Wait(5f);
-
-        doraMover.GetNextCob();
-        yield return this.Wait(5f); ;
-
-        doraMover.GetNextCob();
-        yield return this.Wait(5f);
-    }
-
     private IEnumerator doraGameplay(DoraCellMap i_cellMap)
     {
         if (null == inputActions) inputActions = new DoraActions();
@@ -227,22 +212,11 @@ public class DoraFlowManager : MiniGameFlow
 
     private void tryStartDoraGameplay(DoraCellMap i_cellMap)
     {
-        if (i_cellMap.IsPastBurnThreshold)
-        {
-            if (burntDoraRoutine == null)
-                burntDoraRoutine = StartCoroutine(burntDoraSequence());
-            else
-                Debug.LogError("The burnt dora sequence already active; " +
-                                "there is an issue with the game's flow!");
-        }
+        if (doraGameplayRoutine == null)
+            doraGameplayRoutine = StartCoroutine(doraGameplay(i_cellMap));
         else
-        {
-            if (doraGameplayRoutine == null)
-                doraGameplayRoutine = StartCoroutine(doraGameplay(i_cellMap));
-            else
-                Debug.LogError("The dora gameplay sequence is already active; " +
-                                "there is an issue with the game's flow!");
-        }
+            Debug.LogError("The dora gameplay sequence is already active; " +
+                            "there is an issue with the game's flow!");
     }
 
     private void registerEvents()
