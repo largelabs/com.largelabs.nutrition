@@ -20,12 +20,14 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     [SerializeField] Material kernelMat1Selected = null;
     [SerializeField] Material kernelMat2Selected = null;
     [SerializeField] Material kernelMatBurntSelected = null;
+    [SerializeField] Material kernelMatSuperSelected = null;
 
     [Header("Unselected materials")]
     [SerializeField] Material kernelMat0 = null;
     [SerializeField] Material kernelMat1 = null;
     [SerializeField] Material kernelMat2 = null;
     [SerializeField] Material kernelMatBurnt = null;
+    [SerializeField] Material kernelMatSuper = null;
 
     bool isInit = false;
     bool isBurnt = false;
@@ -97,6 +99,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public void UpdateColor()
     {
+        // make super kernel unburnable + no durability decrease
         if (durability == 0f)
         {
             if(isBurnable && isBurnt == false)
@@ -207,7 +210,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     void swapMaterials(float i_durability, bool i_isSelected)
     {
-        if (i_durability == 0f) kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
+        if(isSuper) kernelRnd.material = i_isSelected ? kernelMatSuperSelected : kernelMatSuper;
+        else if (i_durability == 0f) kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
         else if (i_durability > 0f && i_durability < 0.25f) kernelRnd.material = i_isSelected ? kernelMat2Selected : kernelMat2;
         else if (i_durability > 0.25f && i_durability < 0.5f) kernelRnd.material = i_isSelected ? kernelMat1Selected : kernelMat1;
         else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;

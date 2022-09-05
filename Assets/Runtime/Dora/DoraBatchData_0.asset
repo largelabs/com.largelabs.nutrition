@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: DoraBatchData_0
   m_EditorClassIdentifier: 
   assignedDoraData: {fileID: 11400000, guid: 022361e63e3149142b800cf71d7a402e, type: 2}
-  doraInBatch: 2
+  doraInBatch: 4
   maxBurntPercentage: 0.25
-  distributionStyle: 3
+  distributionStyle: 2
   batchFinishScoreBonus: 10
   batchFinishTimeBonus: 10
   superKernelChance: 0.15

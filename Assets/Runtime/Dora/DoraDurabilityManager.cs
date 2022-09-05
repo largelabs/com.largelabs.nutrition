@@ -7,8 +7,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
 {
     public enum Distribution
     {
-        DenseMiddle,
-        DenseEdges,
+        CenterFocused,
+        EdgeFocused,
         Sparse,
         Uniform
     }
@@ -121,8 +121,11 @@ public class DoraDurabilityManager : MonoBehaviourBase
         for (int i = 0; i < length; i++)
         {
             currCellData = cellMap.GetCell(getRandomCellIdx(i_length0, i_length1), false, false);
-
             currCellData.SetSuper(true);
+            currCellData.SetBurnable(false);
+            currCellData.SetDurability(1f);
+            currCellData.UpdateColor();
+
             superKernelsSpawned++;
         }
 
@@ -151,30 +154,31 @@ public class DoraDurabilityManager : MonoBehaviourBase
         int maxDiff = halfwayIdx;
         int minDiff = 0;
         int diff = Mathf.Abs(halfwayIdx - i_columnIdx);
-        float indexDistribution = (diff - minDiff) / (maxDiff - minDiff);
+        float indexDistribution = (float)(diff - minDiff) / (maxDiff - minDiff);
         float calculatedChance = 0f;
+        float multipliedChance = 0.65f;
 
         if (distro == Distribution.Uniform)
         {
             // completely random
             calculatedChance = maxBurn;
         }
-        else if (distro == Distribution.DenseMiddle)
+        else if (distro == Distribution.CenterFocused)
         {
             // lerp chance to be max at center and lower towards the edges
-            calculatedChance = (1 - indexDistribution) * maxBurn;
+            calculatedChance = (1 - indexDistribution) * multipliedChance;
         }
-        else if (distro == Distribution.DenseEdges)
+        else if (distro == Distribution.EdgeFocused)
         {
             // lerp chance to be max at edges and lower towards the center
-            calculatedChance = indexDistribution * maxBurn;
+            calculatedChance = indexDistribution * multipliedChance;
 
         }
         else if (distro == Distribution.Sparse)
         {
             // max chance by default and decrease chance for each adjacent burnable kernel;
-            calculatedChance = maxBurn;
-            float chanceReduction = maxBurn / directions.Count;
+            calculatedChance = multipliedChance;
+            float chanceReduction = calculatedChance / 2;
             Vector2Int baseCoord = new Vector2Int(i_rowIdx, i_columnIdx);
             foreach (Vector2Int direction in directions)
             {
@@ -189,7 +193,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
             return false;
         }
 
-        return (UnityEngine.Random.Range(0f, 1f) < calculatedChance);
+        return (UnityEngine.Random.Range(0f, 1f) <= calculatedChance);
     }
 
     [ExposePublicMethod]
@@ -252,8 +256,11 @@ public class DoraDurabilityManager : MonoBehaviourBase
                             burntKernels++;
                     }
 
-                    currCellData.DecreaseDurability(durabilityLossPerInterval);
-                    currCellData.UpdateColor();
+                    if (currCellData.KernelIsSuper().Value == false)
+                    {
+                        currCellData.DecreaseDurability(durabilityLossPerInterval);
+                        currCellData.UpdateColor();
+                    }
                 }
             }
 

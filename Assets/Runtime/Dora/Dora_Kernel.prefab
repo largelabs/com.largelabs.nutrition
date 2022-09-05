@@ -166,10 +166,12 @@ MonoBehaviour:
   kernelMat1Selected: {fileID: 2100000, guid: ed38e1db5ba5b6440b30b4c2aa02e327, type: 2}
   kernelMat2Selected: {fileID: 2100000, guid: fffdbe39dae3aa047a5f518e38c6680a, type: 2}
   kernelMatBurntSelected: {fileID: 2100000, guid: 947d36c90a2218e4e83f43863b3a2084, type: 2}
+  kernelMatSuperSelected: {fileID: 2100000, guid: 958f2d90c3079d84293572a2df9a3795, type: 2}
   kernelMat0: {fileID: 2100000, guid: 27cb244ab0940c3448bb1b5c52597eb7, type: 2}
   kernelMat1: {fileID: 2100000, guid: 7be623a8a92d85e469e6b16015e8620a, type: 2}
   kernelMat2: {fileID: 2100000, guid: bc387347544934a48a70e84db4062381, type: 2}
   kernelMatBurnt: {fileID: 2100000, guid: 1077699acc27f6946806fcc62cc25915, type: 2}
+  kernelMatSuper: {fileID: 2100000, guid: ecf53fba01c3b7746b226a8621145008, type: 2}
 --- !u!114 &3224803383649992173
 MonoBehaviour:
   m_ObjectHideFlags: 0
