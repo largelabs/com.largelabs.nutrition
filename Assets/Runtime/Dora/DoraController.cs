@@ -12,6 +12,7 @@ public class DoraController : MonoBehaviourBase
     protected DoraCellMap cellMap = null;
 
     private int currentEatenKernelCount = 0;
+    int selectedRadius = 0;
 
     #region UNITY AND CORE
 
@@ -23,6 +24,8 @@ public class DoraController : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+
+    public int CurrentSelectionRadius => selectedRadius;
 
     public IRangeSelectionProvider SelectionProvider => cellSelector;
 
@@ -95,8 +98,6 @@ public class DoraController : MonoBehaviourBase
         inputs.OnEat += onEat;
         inputs.OnEatReleased += onEatReleased;
     }
-
-    int selectedRadius = 0;
 
     private void onEatStarted()
     {

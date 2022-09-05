@@ -2,13 +2,32 @@ using UnityEngine;
 
 public class UIDoraRaycastPointer : MonoBehaviourBase
 {
+    [SerializeField] DoraInputs inputs = null;
+    [SerializeField] GameObject selectionFeedbackGo = null;
+
     [SerializeField] DoraSelectionRaycastSource source = null;
     [SerializeField] RectTransform canvasRect = null;
     [SerializeField] RectTransform cursorRect = null;
 
+    private void Start()
+    {
+        inputs.OnEatStarted += onEatStarted;
+        inputs.OnEatReleased += onEatReleased;
+    }
+
     private void LateUpdate()
     {
         updateCursorPosition();
+    }
+
+    void onEatStarted()
+    {
+        selectionFeedbackGo.SetActive(true);
+    }
+
+    void onEatReleased()
+    {
+        selectionFeedbackGo.SetActive(false);
     }
 
     void updateCursorPosition()
