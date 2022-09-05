@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: dora_bg_atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 6322bce4212dc3b46ab2fef92a49194d, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: f4a6eb00351972148bc05405ee8bdef9, type: 3}
+  - {fileID: 21300000, guid: f03910d09ff95e849ac2c65d7d6d7937, type: 3}
+  - {fileID: 21300000, guid: 8e9e3462aeac29e4aa7a807cfbd3cba3, type: 3}
+  - {fileID: 21300000, guid: 5f07e7c25eec9104c869c78553ac7523, type: 3}
+  - {fileID: 21300000, guid: 7c385c33acc3d3247a07bddfd219bd71, type: 3}
+  - {fileID: 21300000, guid: 5e5307958fdc73e42a874c2b71694b1f, type: 3}
+  - {fileID: 21300000, guid: cefaf2a5ea831d644a85290dfe808ded, type: 3}
+  - {fileID: 21300000, guid: b03e6aa5874e29642819f9f391fba8e3, type: 3}
+  - {fileID: 21300000, guid: e08af00834396604cb47d2cfca65b9ac, type: 3}
+  - {fileID: 21300000, guid: eca994396d3396948a2d3fb290e67cf9, type: 3}
+  - {fileID: 21300000, guid: 0821e6a94327336449b49d12613a88d0, type: 3}
+  - {fileID: 21300000, guid: 76900ad9ddca44b4f98e08c691f240fb, type: 3}
+  - {fileID: 21300000, guid: 76b766aa4930deb4d89a167095b5b1b9, type: 3}
+  - {fileID: 21300000, guid: b26949ac3a3eeb24e82cdb404bd60495, type: 3}
+  - {fileID: 21300000, guid: b3dacfbc3c2ea1b48b1f5502ceb724c2, type: 3}
+  - {fileID: 21300000, guid: 7c961a3d3857a364b8a4c3c9b659e99c, type: 3}
+  - {fileID: 21300000, guid: 2a4ae4cea4969d54189763234deb7f25, type: 3}
+  - {fileID: 21300000, guid: 2c947afe7d026eb46b5d05d3db5bcf3c, type: 3}
+  - {fileID: 21300000, guid: cabf82cf9a715124a920510db8574467, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Ground
+  - Cloud02
+  - Cloud06
+  - Horizon_clouds
+  - Corn_pile
+  - Grill_down
+  - Cloud01
+  - Cloud03
+  - Corn_tower
+  - Trash_up
+  - Trash_shadow
+  - Grill_up
+  - Cloud05
+  - Render_target
+  - Sea
+  - Sky
+  - Buildings
+  - Trash_down
+  - Cloud04
+  m_RenderDataMap: {}
+  m_Tag: dora_bg_atlas
+  m_IsVariant: 0
