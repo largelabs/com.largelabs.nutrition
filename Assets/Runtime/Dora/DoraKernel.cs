@@ -211,8 +211,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     void swapMaterials(float i_durability, bool i_isSelected)
     {
         if(isSuper) kernelRnd.material = i_isSelected ? kernelMatSuperSelected : kernelMatSuper;
-        else if (i_durability == 0f) kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
-        else if (i_durability > 0f && i_durability < 0.25f) kernelRnd.material = i_isSelected ? kernelMat2Selected : kernelMat2;
+        else if (isBurnt) kernelRnd.material = i_isSelected ? kernelMatBurntSelected : kernelMatBurnt;
+        else if (i_durability >= 0f && i_durability < 0.25f) kernelRnd.material = i_isSelected ? kernelMat2Selected : kernelMat2;
         else if (i_durability > 0.25f && i_durability < 0.5f) kernelRnd.material = i_isSelected ? kernelMat1Selected : kernelMat1;
         else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;
     }

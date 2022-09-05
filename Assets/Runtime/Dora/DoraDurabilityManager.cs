@@ -16,6 +16,10 @@ public class DoraDurabilityManager : MonoBehaviourBase
     [SerializeField] private DoraCellMap cellMap = null;
     [SerializeField] [Range(0.0f, 1.0f)] private float burnThreshold = 0.3f;
 
+    private int unburntKernels = 0;
+    private int burntKernels = 0;
+    private int totalKernels = 0;
+
     private DoraBatchData batchData = null;
 
     private float burntPercentage = 0.0f;
@@ -45,6 +49,10 @@ public class DoraDurabilityManager : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+    public int UnburntKernels => unburntKernels;
+    public int BurntKernels => burntKernels;
+    public int TotalKernels => totalKernels;
+
     public float BurntPercentage => burntPercentage;
     public float BurnThreshold => burnThreshold;
     public bool IsPastBurnThreshold => (burntPercentage > burnThreshold);
@@ -240,8 +248,10 @@ public class DoraDurabilityManager : MonoBehaviourBase
 
         while (true)
         {
-            int totalKernels = 0;
-            int burntKernels = 0;
+            totalKernels = 0;
+            burntKernels = 0;
+            unburntKernels = 0;
+            bool? isSuper = null;
 
             for (int i = 0; i < length0; i++)
             {
@@ -252,11 +262,14 @@ public class DoraDurabilityManager : MonoBehaviourBase
                     if (durability != null)
                     {
                         totalKernels++;
-                        if (durability.Value == 0f && currCellData.KernelIsBurnable().Value == true)
+                        if (currCellData.KernelIsBurnt().Value == true)
                             burntKernels++;
+                        else
+                            unburntKernels++;
                     }
 
-                    if (currCellData.KernelIsSuper().Value == false)
+                    isSuper = currCellData.KernelIsSuper().Value;
+                    if (isSuper != null && isSuper.Value == false)
                     {
                         currCellData.DecreaseDurability(durabilityLossPerInterval);
                         currCellData.UpdateColor();

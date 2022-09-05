@@ -11,7 +11,7 @@ public class DoraController : MonoBehaviourBase
 
     protected DoraCellMap cellMap = null;
 
-    private int currentEatenKernelCount = 0;
+    private int unburntEatenCount = 0;
 
     #region UNITY AND CORE
 
@@ -28,7 +28,7 @@ public class DoraController : MonoBehaviourBase
 
     public IDoraCellProvider CurrentCellProvider => cellMap;
 
-    public int CurrentEatenKernelCount => currentEatenKernelCount;
+    public int UnburntEatenCount => unburntEatenCount;
 
     [ExposePublicMethod]
     public void EnableController()
@@ -67,7 +67,7 @@ public class DoraController : MonoBehaviourBase
         else
             Debug.LogError("No kernel spawner attached to the provided cell map!");
 
-        currentEatenKernelCount = 0;
+        unburntEatenCount = 0;
     }
 
     #endregion
@@ -178,7 +178,7 @@ public class DoraController : MonoBehaviourBase
         scoreManager.AddScore(eatenKernels - burntKenrelsCount);
         scoreManager.RemoveScore(burntKenrelsCount);
 
-        currentEatenKernelCount += eatenKernels;
+        unburntEatenCount += eatenKernels - burntKenrelsCount;
     }
 
     #endregion

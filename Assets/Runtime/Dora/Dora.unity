@@ -502,17 +502,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82a781693b83c3d40869fbb09f3cc93a, type: 3}
---- !u!114 &1086980438 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1086980438, guid: 3169b29dbbf6ce4438c73aa0b3b0af4e, type: 3}
-  m_PrefabInstance: {fileID: 6042232923459987882}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f860294dea8fb774fa27f148c3f23742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1185110095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1411,17 +1400,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9113963768067449863, guid: 2b6d3c54dc34dd644ae149dd526f779b, type: 3}
   m_PrefabInstance: {fileID: 2109395912}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2137005651 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7116091729950579671, guid: 3169b29dbbf6ce4438c73aa0b3b0af4e, type: 3}
-  m_PrefabInstance: {fileID: 6042232923459987882}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 279232a0cc93fed468971a23c977b68b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2137005654 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6042232923704167639, guid: 3169b29dbbf6ce4438c73aa0b3b0af4e, type: 3}
@@ -1487,14 +1465,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoraRaycastController
       objectReference: {fileID: 0}
-    - target: {fileID: 6622236087329536799, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7709553225775361054, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: scoreManager
-      value: 
-      objectReference: {fileID: 1086980438}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
 --- !u!1001 &1438161865624782112
@@ -1561,10 +1531,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1845468277162561719, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
-      propertyPath: controller
-      value: 
-      objectReference: {fileID: 2137005651}
     - target: {fileID: 2489217776206881801, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
       propertyPath: timer
       value: 

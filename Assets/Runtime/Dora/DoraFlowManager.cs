@@ -149,15 +149,20 @@ public class DoraFlowManager : MiniGameFlow
 
         int totalCellCount = i_cellMap.TotalCellCount;
 
-        doraHUD.SetActive(true);
+        DoraDurabilityManager dorabilityManager = i_cellMap.GetComponent<DoraDurabilityManager>();
+
+        if (dorabilityManager == null)
+        {
+            Debug.LogError("No durability manager available on current cob! Breaking...");
+            yield break;
+        }
 
         while (true)
         {
             // gameplay stuff
 
-            if (doraController.CurrentEatenKernelCount == totalCellCount)
+            if (doraController.UnburntEatenCount == dorabilityManager.UnburntKernels)
             {
-                doraHUD.SetActive(false);
                 doraMover.GetNextCob();
                 doraController.DisableController();
                 this.DisposeCoroutine(ref doraGameplayRoutine);

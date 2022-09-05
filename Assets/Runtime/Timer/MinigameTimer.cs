@@ -89,12 +89,12 @@ public class MinigameTimer : MonoBehaviourBase
 
     public void SetTimer(float i_time)
     {
-        // TODO
+        timeSeconds = i_time;
     }
 
     public void AddTime(float i_timeBonus)
     {
-        // TODO
+        timeSeconds += i_timeBonus;
     }
 
     #endregion
