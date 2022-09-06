@@ -109,8 +109,6 @@ public class DoraFlowManager : MiniGameFlow
                 superKernelCobsSpawned++;
             yield return this.Wait(1.0f);
         }
-
-        doraMover.ReverseQueue();
     }
 
     private bool canSpawnSuper(int i_superKernelCobsSpawned, ref float i_superKernelChance)
@@ -172,7 +170,8 @@ public class DoraFlowManager : MiniGameFlow
     {
         timer.PauseTimer();
 
-        scoreManager.AddScore(currentDoraBatch.BatchFinishScoreBonus);
+        scoreManager.AddScoreByValue(currentDoraBatch.BatchFinishScoreBonus, 
+            ScorePopupSpawner.PopupType.Super, Vector3.zero, 1f, 0.5f, 10f);
 
         // maybe animate time increase
         timer.AddTime(currentDoraBatch.BatchFinishTimeBonus);

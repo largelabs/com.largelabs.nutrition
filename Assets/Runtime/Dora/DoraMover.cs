@@ -19,7 +19,7 @@ public class DoraMover : MonoBehaviourBase
     [SerializeField] private float panUpTime = 0.5f;
     [SerializeField] private float exitTime = 0.2f;
 
-    private Queue<Transform> doraCobQueue = null;
+    private Stack<Transform> doraCobStack = null;
     private Transform currentCob = null;
 
     Coroutine nextCobRoutine = null;
@@ -36,8 +36,8 @@ public class DoraMover : MonoBehaviourBase
 
             enableOffScreenCobKernels(true);
 
-            if (doraCobQueue != null && doraCobQueue.Count > 0)
-                nextCob = doraCobQueue.Dequeue();
+            if (doraCobStack != null && doraCobStack.Count > 0)
+                nextCob = doraCobStack.Pop();
 
             nextCobRoutine = StartCoroutine(getNextCob(nextCob));
         }
@@ -51,23 +51,10 @@ public class DoraMover : MonoBehaviourBase
             return;
         }
 
-        if (doraCobQueue == null)
-            doraCobQueue = new Queue<Transform>();
+        if (doraCobStack == null)
+            doraCobStack = new Stack<Transform>();
 
-        doraCobQueue.Enqueue(i_doraCob);
-    }
-
-    public void ReverseQueue()
-    {
-        List<Transform> holder = new List<Transform>();
-        while (doraCobQueue.Count > 0)
-            holder.Add(doraCobQueue.Dequeue());
-
-        int length = holder.Count;
-        for (int i = length-1; i >= 0; i--)
-        {
-            doraCobQueue.Enqueue(holder[i]);
-        }
+        doraCobStack.Push(i_doraCob);
     }
     #endregion
 
@@ -116,7 +103,7 @@ public class DoraMover : MonoBehaviourBase
     private void enableOffScreenCobKernels(bool i_enable)
     {
         DoraCellMap currDora = null;
-        foreach (Transform dora in doraCobQueue)
+        foreach (Transform dora in doraCobStack)
         {
             currDora = dora.GetComponent<DoraCellMap>();
 

@@ -12,6 +12,8 @@ public class UIFloatingScore : MonoBehaviour
     Vector2 screenOffset;
     float animTime = 0f;
 
+    public Action<UIFloatingScore> OnAnimationEnded = null;
+
     Coroutine AnimationRoutine = null;
 
     private void Awake()
@@ -29,6 +31,18 @@ public class UIFloatingScore : MonoBehaviour
             scoreText.color = new Color(temp.r, temp.g, temp.b, i_alpha);
         }
     }
+    
+    public void SetColor(Color i_color)
+    {
+        if (scoreText != null)
+            scoreText.color = i_color;
+    }
+    
+    public void SetColorNoAlpha(Color i_color)
+    {
+        if (scoreText != null)
+            scoreText.color = new Color(i_color.r, i_color.g, i_color.b, scoreText.color.a);
+    }
 
     public void Animate(Vector3 i_worldPosition, 
                         float i_animTime,
@@ -37,8 +51,7 @@ public class UIFloatingScore : MonoBehaviour
                         float i_yOffset,
                         RectTransform i_canvasRect, 
                         Camera i_camera,
-                        AnimationCurve i_curve, 
-                        Action<ITypedAnimator<float>> i_onAnimationEnded,
+                        AnimationCurve i_curve,
                         InterpolatorsManager i_interpolatorManager
                         )
     {
@@ -47,7 +60,7 @@ public class UIFloatingScore : MonoBehaviour
             AnimationRoutine = StartCoroutine
                 ( animateScoreRoutine(i_worldPosition, i_animTime, i_alphaTime,
                                         i_score, i_yOffset, i_canvasRect, i_camera,
-                                        i_curve, i_onAnimationEnded, i_interpolatorManager) );
+                                        i_curve, i_interpolatorManager) );
         }
     }
 
@@ -62,7 +75,6 @@ public class UIFloatingScore : MonoBehaviour
                                             RectTransform i_canvasRect,
                                             Camera i_camera,
                                             AnimationCurve i_curve,
-                                            Action<ITypedAnimator<float>> i_onAnimationEnded,
                                             InterpolatorsManager i_interpolatorManager
                                             )
     {
@@ -82,8 +94,8 @@ public class UIFloatingScore : MonoBehaviour
 
         scoreText.text += i_score.ToString();
 
-        ITypedAnimator<float> yInterpolator = i_interpolatorManager.Animate(thisRectTransform.position.y, thisRectTransform.position.y + i_yOffset, i_animTime, mode, false, 0f, i_onAnimationEnded);
-        ITypedAnimator<float> alphaInterpolator = i_interpolatorManager.Animate(0f, 1f, i_alphaTime, mode, false, 0f, i_onAnimationEnded);
+        ITypedAnimator<float> yInterpolator = i_interpolatorManager.Animate(thisRectTransform.position.y, thisRectTransform.position.y + i_yOffset, i_animTime, mode, false, 0f, null);
+        ITypedAnimator<float> alphaInterpolator = i_interpolatorManager.Animate(0f, 1f, i_alphaTime, mode, false, 0f, null);
 
         while (yInterpolator.IsActive || alphaInterpolator.IsActive)
         {
@@ -91,6 +103,8 @@ public class UIFloatingScore : MonoBehaviour
             SetAlpha(alphaInterpolator.Current);
             yield return null;
         }
+
+        OnAnimationEnded?.Invoke(this);
     }
 
     private void updatePosition(float i_pos)

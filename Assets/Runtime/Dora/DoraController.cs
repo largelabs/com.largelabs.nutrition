@@ -8,7 +8,12 @@ public class DoraController : MonoBehaviourBase
     [SerializeField] DoraInputs inputs = null;
     [SerializeField] protected DoraAbstractCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
+
+    [Header("Score")]
     [SerializeField] DoraScoreManager scoreManager = null;
+    [SerializeField] float animationTime = 0.5f;
+    [SerializeField] float animationOffset = 10f;
+    [SerializeField] float alphaTime = 0.2f;
 
     protected DoraCellMap cellMap = null;
 
@@ -167,6 +172,9 @@ public class DoraController : MonoBehaviourBase
 
         int count = selectedCells.Count;
 
+        // assuming that kernels are added to selection range from the center and outwards
+        Queue<DoraKernel> selectedKernels = new Queue<DoraKernel>();
+
         for (int i = 0 ; i < count; i++)
         {
             DoraCellData cell = cellMap.GetCell(selectedCells[i], false, false);
@@ -177,13 +185,11 @@ public class DoraController : MonoBehaviourBase
                 kernelSpawner.DespawnKernel(cell.Kernel);
                 cell.Reset();
                 eatenKernels++;
+                selectedKernels.Enqueue(cell.Kernel);
             }
         }
 
-        Debug.LogError(eatenKernels);
-
-        scoreManager.AddScore(eatenKernels - burntKenrelsCount);
-        scoreManager.RemoveScore(burntKenrelsCount);
+        scoreManager.AddScoreByKernels(selectedKernels, animationTime, alphaTime, animationOffset);
 
         unburntEatenCount += eatenKernels - burntKenrelsCount;
     }
