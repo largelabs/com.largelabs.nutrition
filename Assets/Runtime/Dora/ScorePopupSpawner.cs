@@ -18,6 +18,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
     [Header("Color")]
     [SerializeField] private Color positiveColor = Color.white;
     [SerializeField] private Color negativeColor = Color.white;
+    [SerializeField] private Color superColor = Color.white;
 
     [Header("Pooling")]
     [SerializeField] private SpawnPool scorePool = null;
@@ -81,7 +82,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
     [ExposePublicMethod]
     public void PlayScoreCenter(PopupType i_popupType, int i_score)
     {
-        PlayScore(i_popupType, Vector3.zero, 0.5f, 0.2f, i_score, 20f);
+        PlayScore(i_popupType, mainCam.transform.position, 1.0f, 0.5f, i_score, 20f);
     }
     #endregion
 
@@ -109,10 +110,12 @@ public class ScorePopupSpawner : MonoBehaviourBase
     
     private Color getColor(PopupType i_popupType)
     {
-        if (i_popupType == PopupType.Positive || i_popupType == PopupType.Super)
+        if (i_popupType == PopupType.Positive)
             return positiveColor;
         else if (i_popupType == PopupType.Negative)
             return negativeColor;
+        else if (i_popupType == PopupType.Super)
+            return superColor;
         else
         {
             Debug.LogError("Invalid Popup Type!");

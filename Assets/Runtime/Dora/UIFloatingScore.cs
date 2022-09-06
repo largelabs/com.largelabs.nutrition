@@ -58,7 +58,7 @@ public class UIFloatingScore : MonoBehaviour
         if (AnimationRoutine == null)
         {
             AnimationRoutine = StartCoroutine
-                ( animateScoreRoutine(i_worldPosition, i_animTime, i_alphaTime,
+                ( animateScorePopup(i_worldPosition, i_animTime, i_alphaTime,
                                         i_score, i_yOffset, i_canvasRect, i_camera,
                                         i_curve, i_interpolatorManager) );
         }
@@ -67,7 +67,7 @@ public class UIFloatingScore : MonoBehaviour
     #endregion
 
     #region PRIVATE API
-    private IEnumerator animateScoreRoutine(Vector3 i_worldPosition,
+    private IEnumerator animateScorePopup(Vector3 i_worldPosition,
                                             float i_animTime,
                                             float i_alphaTime,
                                             int i_score,
@@ -87,11 +87,9 @@ public class UIFloatingScore : MonoBehaviour
 
         thisRectTransform.localPosition = newPos - screenOffset;
 
-        if (i_score >= 0)
-            scoreText.text = "+";
-        else
-            scoreText.text = "-";
-
+        scoreText.text = "";
+        if (i_score > 0)
+            scoreText.text += "+";
         scoreText.text += i_score.ToString();
 
         ITypedAnimator<float> yInterpolator = i_interpolatorManager.Animate(thisRectTransform.position.y, thisRectTransform.position.y + i_yOffset, i_animTime, mode, false, 0f, null);
@@ -105,6 +103,7 @@ public class UIFloatingScore : MonoBehaviour
         }
 
         OnAnimationEnded?.Invoke(this);
+        this.DisposeCoroutine(ref AnimationRoutine);
     }
 
     private void updatePosition(float i_pos)
