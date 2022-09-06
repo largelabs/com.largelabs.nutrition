@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45141983, g: 0.500628, b: 0.5707952, a: 1}
+  m_IndirectSpecularColor: {r: 0.45142025, g: 0.50062823, b: 0.5707962, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -904,17 +904,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82a781693b83c3d40869fbb09f3cc93a, type: 3}
---- !u!114 &1494651140 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1321245591330809177, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-  m_PrefabInstance: {fileID: 417055885261860209}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f860294dea8fb774fa27f148c3f23742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1621967394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1454,10 +1443,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 387603560207528527}
     - target: {fileID: 417055886123930134, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: scoreManager
-      value: 
-      objectReference: {fileID: 1494651140}
-    - target: {fileID: 417055886123930134, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: cullingBounds
       value: 
       objectReference: {fileID: 849373013}
@@ -1518,10 +1503,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1438161865716525992, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
-      propertyPath: m_Shadows.m_Type
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1438161866131678822, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
       propertyPath: m_Name
       value: Dora_Decor
@@ -1572,6 +1553,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
+--- !u!4 &1438161865624782113 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1438161866131678823, guid: 487b018d16f262d45be5973a14aa8280, type: 3}
+  m_PrefabInstance: {fileID: 1438161865624782112}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2489217777548913729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1583,6 +1569,14 @@ PrefabInstance:
       propertyPath: timer
       value: 
       objectReference: {fileID: 1399062376}
+    - target: {fileID: 2489217776581094088, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
+      propertyPath: mainCam
+      value: 
+      objectReference: {fileID: 1232865153}
+    - target: {fileID: 2489217776581094088, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
+      propertyPath: defaultWorldPosition
+      value: 
+      objectReference: {fileID: 1438161865624782113}
     - target: {fileID: 2876235570545909258, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
       propertyPath: m_Pivot.x
       value: 0

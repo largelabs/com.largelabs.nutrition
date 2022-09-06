@@ -91,11 +91,20 @@ public class ScorePopupSpawner : MonoBehaviourBase
         if (audioPlayer == null) return;
 
         if (i_popupType == PopupType.Positive)
-            audioPlayer.PlayOneShot(positiveSound);
+        {
+            if(positiveSound != null)
+                audioPlayer.PlayOneShot(positiveSound);
+        }
         else if (i_popupType == PopupType.Negative)
-            audioPlayer.PlayOneShot(negativeSound);
+        {
+            if(negativeSound != null)
+                audioPlayer.PlayOneShot(negativeSound);
+        }
         else if (i_popupType == PopupType.Super)
-            audioPlayer.PlayOneShot(superSound);
+        {
+            if(superSound != null)
+                audioPlayer.PlayOneShot(superSound);
+        }
     }
     
     private Color getColor(PopupType i_popupType)
@@ -140,7 +149,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
                 popup.SetAlpha(0);
 
                 if (livingPopups == null) livingPopups = new HashSet<UIFloatingScore>();
-                popup.SetColorNoAlpha(getColor(i_popupType);
+                popup.SetColorNoAlpha(getColor(i_popupType));
                 popup.OnAnimationEnded += despawnScorePopup;
                 livingPopups.Add(popup);
 
