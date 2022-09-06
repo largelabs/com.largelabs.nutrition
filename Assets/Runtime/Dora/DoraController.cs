@@ -174,6 +174,7 @@ public class DoraController : MonoBehaviourBase
 
         // assuming that kernels are added to selection range from the center and outwards
         Queue<DoraKernel> selectedKernels = new Queue<DoraKernel>();
+        HashSet<DoraCellData> cellsToCleanup = new HashSet<DoraCellData>();
 
         for (int i = 0 ; i < count; i++)
         {
@@ -182,14 +183,19 @@ public class DoraController : MonoBehaviourBase
             if (cell.HasKernel)
             {
                 if (true == cell.KernelIsBurnt()) burntKenrelsCount++;
-                kernelSpawner.DespawnKernel(cell.Kernel);
-                cell.Reset();
                 eatenKernels++;
                 selectedKernels.Enqueue(cell.Kernel);
+                cellsToCleanup.Add(cell);
             }
         }
 
         scoreManager.AddScoreByKernels(selectedKernels, animationTime, alphaTime, animationOffset);
+
+        foreach (DoraCellData cell in cellsToCleanup)
+        {
+            kernelSpawner.DespawnKernel(cell.Kernel);
+            cell.Reset();
+        }
 
         unburntEatenCount += eatenKernels - burntKenrelsCount;
     }

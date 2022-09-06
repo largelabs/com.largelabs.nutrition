@@ -10,7 +10,6 @@ public class UIFloatingScore : MonoBehaviour
     RectTransform thisRectTransform = null;
     Text scoreText = null;
     Vector2 screenOffset;
-    float animTime = 0f;
 
     public Action<UIFloatingScore> OnAnimationEnded = null;
 
@@ -26,8 +25,7 @@ public class UIFloatingScore : MonoBehaviour
     {
         if (scoreText != null)
         {
-            Color temp = Color.white;
-            temp = scoreText.color;
+            Color temp = scoreText.color;
             scoreText.color = new Color(temp.r, temp.g, temp.b, i_alpha);
         }
     }
@@ -92,14 +90,25 @@ public class UIFloatingScore : MonoBehaviour
             scoreText.text += "+";
         scoreText.text += i_score.ToString();
 
-        ITypedAnimator<float> yInterpolator = i_interpolatorManager.Animate(thisRectTransform.position.y, thisRectTransform.position.y + i_yOffset, i_animTime, mode, false, 0f, null);
-        ITypedAnimator<float> alphaInterpolator = i_interpolatorManager.Animate(0f, 1f, i_alphaTime, mode, false, 0f, null);
+        ITypedAnimator<float> yInterpolator = i_interpolatorManager.Animate(thisRectTransform.position.y, thisRectTransform.position.y + i_yOffset, i_animTime, mode, true, 0f, null);
+        ITypedAnimator<float> alphaInterpolator = i_interpolatorManager.Animate(0f, 1f, i_alphaTime, mode, true, 0f, null);
 
-        while (yInterpolator.IsActive || alphaInterpolator.IsActive)
+        // try is animating
+        // try separating the two
+        // try using the bigger time
+        float currTime = 0f;
+        float targetTime = i_animTime > i_alphaTime ? i_animTime : i_alphaTime;
+        while (currTime < targetTime)
         {
-            updatePosition(yInterpolator.Current);
-            SetAlpha(alphaInterpolator.Current);
+            if(yInterpolator.IsAnimating)
+                updatePosition(yInterpolator.Current);
+
+            //SetAlpha(1f);
+            if(alphaInterpolator.IsAnimating)
+                SetAlpha(alphaInterpolator.Current);
             yield return null;
+
+            currTime += Time.deltaTime;
         }
 
         OnAnimationEnded?.Invoke(this);

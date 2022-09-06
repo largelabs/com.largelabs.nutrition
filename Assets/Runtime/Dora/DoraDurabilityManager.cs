@@ -279,7 +279,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
             if (totalKernels > 0)
             {
                 burntPercentage = (burntKernels / (float)totalKernels);
-                Debug.LogError("Burn percentage: " + burntPercentage);
+                //Debug.LogError("Burn percentage: " + burntPercentage);
             }
 
             yield return this.Wait(durabilityLossInterval);

@@ -41,6 +41,8 @@ public class ScorePopupSpawner : MonoBehaviourBase
     private static readonly string BONUS_SCORE = "Bonus_Score";
     private static readonly string SUPER_BONUS_SCORE = "Super_Bonus_Score";
 
+    private int counter = 0;
+
     protected override void Awake()
     {
         base.Awake();
@@ -142,6 +144,8 @@ public class ScorePopupSpawner : MonoBehaviourBase
                                 )
     {
         Transform tr = getPopupPrefab(i_popupType);
+        counter++;
+        Debug.LogError("spawned: " + tr.gameObject + " score spawned: " + counter);
 
         if (tr != null)
         {
@@ -166,6 +170,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
     private void despawnScorePopup(UIFloatingScore i_popup)
     {
         if (i_popup == null) return;
+        Debug.LogError("despawned: " + i_popup.gameObject);
         i_popup.SetAlpha(0);
 
         i_popup.OnAnimationEnded -= despawnScorePopup;

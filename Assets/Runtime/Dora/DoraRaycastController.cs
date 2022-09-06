@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DoraRaycastController : DoraController
 {
+    [Header("Raycast Controller Settings")]
     [SerializeField] float minLocalX = -6.5f;
     [SerializeField] float maxLocalX = 5f;
     [SerializeField] float raycastSourceMoveSpeed = 200f;

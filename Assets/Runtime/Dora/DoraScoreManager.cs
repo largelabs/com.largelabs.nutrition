@@ -10,6 +10,16 @@ public class DoraScoreManager : MonoBehaviourBase
 
     int score = 0;
 
+    float goodBaseScore = 0f;
+    float burntBaseScore = 0f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        goodBaseScore = doraGameData.GoodKernelScore;
+        burntBaseScore = doraGameData.BurntKernelScore;
+    }
+
     #region PUBLIC API
 
     public void AddScore(int i_numberOfKernels)
@@ -53,12 +63,37 @@ public class DoraScoreManager : MonoBehaviourBase
                                   float i_yoffset
                                   )
     {
+        if (i_eatenKernels == null || i_eatenKernels.Count == 0)
+        {
+            Debug.LogError("Invalid eaten kernel queue! Returning...");
+            return;
+        }
+
         int scoreToAdd = 0;
         ScorePopupSpawner.PopupType popupType = ScorePopupSpawner.PopupType.Positive;
-        Vector3 worldPos = Vector3.zero;
-        // get position from first kernel (which should be center)
-        // multiplier increases in each loop (after each kernel in the stack)
 
+        if (i_eatenKernels.Count > 13) popupType = ScorePopupSpawner.PopupType.Super;
+
+        DoraKernel currKernel = null;
+
+        // get position from first kernel (which should be center)
+        currKernel = i_eatenKernels.Dequeue();
+        if(currKernel.IsBurnt) popupType = ScorePopupSpawner.PopupType.Positive;
+        Vector3 worldPos = currKernel.transform.position;
+
+        float multiplier = 1f;
+        scoreToAdd += getKernelScore(currKernel, multiplier);
+
+        // multiplier increases in each loop (after each kernel in the stack)
+        while (i_eatenKernels.TryDequeue(out currKernel))
+        {
+            if (currKernel.IsBurnt) popupType = ScorePopupSpawner.PopupType.Positive;
+            multiplier += 1f;
+            scoreToAdd += getKernelScore(currKernel, multiplier);
+        }
+
+        if (scoreToAdd < 0)
+            popupType = ScorePopupSpawner.PopupType.Negative;
 
         scorePopupSpawner.PlayScore(popupType, worldPos, i_animTime, i_alphaTime, scoreToAdd, i_yoffset);
         addToScore(scoreToAdd);
@@ -67,6 +102,10 @@ public class DoraScoreManager : MonoBehaviourBase
 
 
     #region PRIVATE API
+    private int getKernelScore(DoraKernel i_kernel, float i_multiplier)
+    {
+        return Mathf.CeilToInt(( i_kernel.IsBurnt? burntBaseScore:goodBaseScore ) * i_multiplier);
+    }
 
     void addToScore(int i_score)
     {
