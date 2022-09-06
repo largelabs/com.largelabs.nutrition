@@ -1437,18 +1437,6 @@ PrefabInstance:
       propertyPath: scorePopupSpawner
       value: 
       objectReference: {fileID: 2098353562}
-    - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: alphaTime
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: animationTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: animationOffset
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 6652452769625150235, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: panCamera
       value: 
@@ -1533,29 +1521,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1232865153}
     - target: {fileID: 2489217776581094088, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
-      propertyPath: superColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2489217776581094088, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
-      propertyPath: superColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2489217776581094088, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
-      propertyPath: superColor.r
-      value: 0.7504206
-      objectReference: {fileID: 0}
-    - target: {fileID: 2489217776581094088, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
       propertyPath: defaultWorldPosition
       value: 
       objectReference: {fileID: 1438161865624782113}
-    - target: {fileID: 2489217777251269129, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
-      propertyPath: _perPrefabPoolOptions.Array.data[0].prefab
-      value: 
-      objectReference: {fileID: 1835971450104439899, guid: d8843b73817bcda41975471639157e28, type: 3}
-    - target: {fileID: 2489217777251269129, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
-      propertyPath: _perPrefabPoolOptions.Array.data[1].prefab
-      value: 
-      objectReference: {fileID: 7555123097283460386, guid: 977584ebce0a1c64f91fac28ac5f2ae9, type: 3}
     - target: {fileID: 2876235570545909258, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
       propertyPath: m_Pivot.x
       value: 0

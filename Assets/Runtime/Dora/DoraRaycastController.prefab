@@ -434,6 +434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doraGameData: {fileID: 11400000, guid: ddd58610ae9a4c14b98a7d1e0033138c, type: 2}
   increaseOfMultiplier: 0.1
+  scorePopupSpawner: {fileID: 0}
 --- !u!1 &5651637763097233603
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,11 +531,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f644cd7762b784abeb719671f10aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useRangeMarking: 0
   forceSelectionOnEat: 0
   inputs: {fileID: 4411650203299129230}
   cellSelector: {fileID: 1723940233189729211}
   kernelSpawner: {fileID: 0}
   scoreManager: {fileID: 2279689704041974045}
+  animationTime: 1
+  animationOffset: 20
+  alphaTime: 0.5
   minLocalX: -6.5
   maxLocalX: 5
   raycastSourceMoveSpeed: 15
