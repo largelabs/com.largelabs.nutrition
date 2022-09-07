@@ -57,7 +57,7 @@ public class DoraScoreManager : MonoBehaviourBase
     }
 
 
-    public void AddScoreByKernels(Queue<DoraKernel> i_eatenKernels,
+    public void AddScoreByKernels(IReadOnlyList<HashSet<DoraKernel>> i_eatenKernels,
                                   float i_animTime,
                                   float i_alphaTime,
                                   float i_yoffset
@@ -65,38 +65,58 @@ public class DoraScoreManager : MonoBehaviourBase
     {
         if (i_eatenKernels == null || i_eatenKernels.Count == 0)
         {
-            Debug.LogError("Invalid eaten kernel queue! Returning...");
+            Debug.LogError("Invalid eaten kernel collection! Returning...");
             return;
         }
 
+        //ScorePopupSpawner.PopupType popupType = ScorePopupSpawner.PopupType.Positive;
+
+        //if (i_eatenKernels.Count > 13) popupType = ScorePopupSpawner.PopupType.Super;
+
+        //if (i_eatenKernels[0].Count > 1)
+        //{
+        //    Debug.LogError("More than one origin cell! Returning...");
+        //    return;
+        //}
+
+        //handle origin kernel alone to get world pos
+        //foreach (DoraKernel kernel in i_eatenKernels[0])
+        //    currKernel = kernel;
+        //if (currKernel.IsBurnt) popupType = ScorePopupSpawner.PopupType.Positive;
+        //Vector3 worldPos = currKernel.transform.position;
+
+        //scoreToAdd = getKernelScore(currKernel, multiplier);
+        //scoreManagerKernels.Add(new ScoreManagerKernel(scoreToAdd, currKernel.Status));
+        //totalScoreToAdd += scoreToAdd;
+
+        // multiplier increases in each loop (after each selection step in the list)
+        Vector3 originWorldPos = Vector3.zero;
         int scoreToAdd = 0;
-        ScorePopupSpawner.PopupType popupType = ScorePopupSpawner.PopupType.Positive;
-
-        if (i_eatenKernels.Count > 13) popupType = ScorePopupSpawner.PopupType.Super;
-
-        DoraKernel currKernel = null;
-
-        // get position from first kernel (which should be center)
-        currKernel = i_eatenKernels.Dequeue();
-        if(currKernel.IsBurnt) popupType = ScorePopupSpawner.PopupType.Positive;
-        Vector3 worldPos = currKernel.transform.position;
-
+        int totalScoreToAdd = 0;
         float multiplier = 1f;
-        scoreToAdd += getKernelScore(currKernel, multiplier);
-
-        // multiplier increases in each loop (after each kernel in the stack)
-        while (i_eatenKernels.TryDequeue(out currKernel))
+        List<ScoreManagerKernel> scoreManagerKernels = new List<ScoreManagerKernel>();
+        HashSet<DoraKernel> currSet = null;
+        int length = i_eatenKernels.Count;
+        for (int i = 0; i < length; i++)
         {
-            if (currKernel.IsBurnt) popupType = ScorePopupSpawner.PopupType.Positive;
-            multiplier += 1f;
-            scoreToAdd += getKernelScore(currKernel, multiplier);
+            currSet = i_eatenKernels[i];
+            foreach (DoraKernel kernel in currSet)
+            {
+                //if (kernel.IsBurnt) popupType = ScorePopupSpawner.PopupType.Positive;
+                if (i == 0)
+                    originWorldPos = kernel.transform.position;
+                scoreToAdd = getKernelScore(kernel, multiplier);
+                scoreManagerKernels.Add(new ScoreManagerKernel(scoreToAdd, kernel.Status));
+                totalScoreToAdd += scoreToAdd;
+            }
+            multiplier += 1;
         }
 
-        if (scoreToAdd < 0)
-            popupType = ScorePopupSpawner.PopupType.Negative;
+        //if (scoreToAdd < 0)
+            //popupType = ScorePopupSpawner.PopupType.Negative;
 
-        scorePopupSpawner.PlayScore(popupType, worldPos, i_animTime, i_alphaTime, scoreToAdd, i_yoffset);
-        addToScore(scoreToAdd);
+        scorePopupSpawner.PlayScore(ScorePopupSpawner.PopupType.Positive, originWorldPos, i_animTime, i_alphaTime, totalScoreToAdd, i_yoffset);
+        addToScore(totalScoreToAdd);
     }
     #endregion
 
@@ -118,4 +138,19 @@ public class DoraScoreManager : MonoBehaviourBase
     }
 
     #endregion
+}
+
+public class ScoreManagerKernel
+{
+    int scoreValue;
+    DoraKernel.KernelStatus kernelStatus;
+
+    public ScoreManagerKernel(int i_value, DoraKernel.KernelStatus i_status)
+    {
+        scoreValue = i_value;
+        kernelStatus = i_status;
+    }
+
+    public int ScoreValue => scoreValue;
+    public DoraKernel.KernelStatus KernelStatus => kernelStatus;
 }

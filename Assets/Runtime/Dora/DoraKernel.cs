@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 {
+    public enum KernelStatus
+    {
+        Super, 
+        Normal,
+        Burnt
+    }
+
     [SerializeField] DoraKernelAppear appear = null;
     [SerializeField] MeshRenderer kernelRnd = null;
     [SerializeField] Collider kernelCollider = null;
@@ -40,6 +47,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     bool isSuper = false;
 
     #region PUBLIC API
+    public KernelStatus Status => (isSuper) ? (KernelStatus.Super) : (isBurnt ? KernelStatus.Burnt : KernelStatus.Normal);
+
     public void Init(InterpolatorsManager i_interpolators, SpawnPool i_vfxPool)
     {
         if (true == isInit) return;

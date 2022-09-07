@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DoraController : MonoBehaviourBase
@@ -19,6 +20,8 @@ public class DoraController : MonoBehaviourBase
 
     private int unburntEatenCount = 0;
     int selectedRadius = 0;
+
+    Coroutine eatingRoutine = null;
 
     #region UNITY AND CORE
 
@@ -162,42 +165,66 @@ public class DoraController : MonoBehaviourBase
     private void eatKernels()
     {
         if (null == cellSelector.CurrentOriginCell) return;
-
         Debug.LogError("Eating");
-        IReadOnlyList<Vector2Int> selectedCells = cellSelector.SelectedRange;
-        if (null == selectedCells) return;
+
+        //IReadOnlyList<Vector2Int> selectedCells = cellSelector.SelectedRange;
+        //if (null == selectedCells)
+        //{
+        //    Debug.LogError("Invalid selected cells list! Returning...");
+        //    return;
+        //}
+
+        IReadOnlyList<HashSet<Vector2Int>> selectedKernelsInSteps = cellSelector.SelectedRangeInSteps;
+        if (null == selectedKernelsInSteps)
+        {
+            Debug.LogError("Invalid selected cell steps list! Returning...");
+            return;
+        }
 
         int burntKenrelsCount = 0;
         int eatenKernels = 0;
 
-        int count = selectedCells.Count;
-
-        // assuming that kernels are added to selection range from the center and outwards
-        Queue<DoraKernel> selectedKernels = new Queue<DoraKernel>();
+        List<HashSet<DoraKernel>> kernelSets = new List<HashSet<DoraKernel>>();
         HashSet<DoraCellData> cellsToCleanup = new HashSet<DoraCellData>();
-
-        for (int i = 0 ; i < count; i++)
+        foreach (HashSet<Vector2Int> cellSet in selectedKernelsInSteps)
         {
-            DoraCellData cell = cellMap.GetCell(selectedCells[i], false, false);
-
-            if (cell.HasKernel)
+            HashSet<DoraKernel> newSet = new HashSet<DoraKernel>();
+            foreach (Vector2Int coord in cellSet)
             {
-                if (true == cell.KernelIsBurnt()) burntKenrelsCount++;
-                eatenKernels++;
-                selectedKernels.Enqueue(cell.Kernel);
-                cellsToCleanup.Add(cell);
+                DoraCellData cell = cellMap.GetCell(coord, false, false);
+
+                if (cell.HasKernel)
+                {
+                    newSet.Add(cell.Kernel);
+                    if (true == cell.KernelIsBurnt()) burntKenrelsCount++;
+                    eatenKernels++;
+                    cellsToCleanup.Add(cell);
+                }
             }
+            kernelSets.Add(newSet);
         }
 
-        scoreManager.AddScoreByKernels(selectedKernels, animationTime, alphaTime, animationOffset);
+        scoreManager.AddScoreByKernels(kernelSets, animationTime, alphaTime, animationOffset);
 
-        foreach (DoraCellData cell in cellsToCleanup)
+        if (eatingRoutine == null)
+            eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, eatenKernels - burntKenrelsCount));
+    }
+
+    private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatCount)
+    {
+        //animation stuff
+
+        yield return null;
+
+        foreach (DoraCellData cell in i_cellsToCleanup)
         {
             kernelSpawner.DespawnKernel(cell.Kernel);
             cell.Reset();
         }
 
-        unburntEatenCount += eatenKernels - burntKenrelsCount;
+        unburntEatenCount += i_eatCount;
+
+        this.DisposeCoroutine(ref eatingRoutine);
     }
 
     #endregion

@@ -11,6 +11,7 @@ public interface IRangeSelectionProvider
     Vector2Int? CurrentOriginCell { get; }
 
     IReadOnlyList<Vector2Int> SelectedRange { get; }
+    IReadOnlyList<HashSet<Vector2Int>> SelectedRangeInSteps { get; }
 }
 
 public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelectionProvider
@@ -21,6 +22,7 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
 
     DoraCellMap cellMap = null;
     Dictionary<Vector2Int, DoraCellData> selectedRange = null;    
+    List<HashSet<Vector2Int>> selectedRangeInSteps = null;    
     List<Vector2Int> recursiveSelectBuffer = null;
     List<Vector2Int> lastRecursiveSelect = null;
 
@@ -42,6 +44,7 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
     public Vector2Int? CurrentOriginCell => currentOriginCell;
 
     public IReadOnlyList<Vector2Int> SelectedRange => null == selectedRange ? null : selectedRange.Keys.ToList();
+    public IReadOnlyList<HashSet<Vector2Int>> SelectedRangeInSteps => selectedRangeInSteps;
 
     #endregion
 
@@ -72,7 +75,7 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
     {
         if (true == i_clearSelection) ClearSelection();
 
-        processCell(i_cell, i_loopCoords, i_loopCoords, true, true);
+        processCell(i_cell, 0, i_loopCoords, i_loopCoords, true, true);
     }
 
     [ExposePublicMethod]
@@ -82,14 +85,15 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
 
         i_radius = Mathf.Clamp(i_radius, 0, maxSelectionRadius);
 
-        processCell(i_origin, i_loopX, i_loopY, true, true);
+        processCell(i_origin, 0, i_loopX, i_loopY, true, true);
 
         if (null == lastRecursiveSelect) lastRecursiveSelect = new List<Vector2Int>();
         lastRecursiveSelect.Clear();
 
         lastRecursiveSelect.Add(i_origin);
         int currRadius = 0;
-        selectRecursive(ref lastRecursiveSelect, ref currRadius, i_radius, i_loopX, i_loopY);
+        int currStep = 1;
+        selectRecursive(ref lastRecursiveSelect, ref currRadius, ref currStep, i_radius, i_loopX, i_loopY);
     } 
 
     [ExposePublicMethod]
@@ -108,6 +112,10 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
             pair.Value.Unselect(true);
 
         selectedRange.Clear();
+
+        if (selectedRangeInSteps == null) return;
+        foreach (HashSet<Vector2Int> selectedStep in selectedRangeInSteps)
+            selectedStep.Clear();
     }
 
     #endregion
@@ -131,11 +139,19 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
 
     #region PRIVATE
 
-    bool processCell(Vector2Int i_coord, bool i_loopX, bool i_loopY, bool i_isOriginCell, bool i_updateNormal)
+    bool processCell(Vector2Int i_coord, int i_stepIdx, bool i_loopX, bool i_loopY, bool i_isOriginCell, bool i_updateNormal)
     {
         if (null == cellMap) return false;
 
         if (null == selectedRange) selectedRange = new Dictionary<Vector2Int, DoraCellData>(1 + maxSelectionRadius * maxSelectionRadius * 4);
+
+        if (selectedRangeInSteps == null)
+        {
+            selectedRangeInSteps = new List<HashSet<Vector2Int>>(maxSelectionRadius + 1);
+            int length = maxSelectionRadius + 1;
+            for (int i = 0; i < length; i++)
+                selectedRangeInSteps.Add(new HashSet<Vector2Int>());
+        }
 
         i_coord = cellMap.GetLoopedCoord(i_coord, i_loopX, i_loopY);
 
@@ -146,6 +162,9 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
             if (null == cell) return false;
 
             selectedRange.Add(i_coord, cell);
+
+            if (i_stepIdx >= 0 && i_stepIdx < selectedRangeInSteps.Count)
+                selectedRangeInSteps[i_stepIdx].Add(i_coord);
 
             cell.Select(true);
 
@@ -161,7 +180,7 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
         return false;
     }
 
-    void addToSelectionBuffer(Vector2Int i_coord, int i_offsetX, int i_offsetY, bool i_loopX, bool i_loopY)
+    void addToSelectionBuffer(Vector2Int i_coord, int i_currStep, int i_offsetX, int i_offsetY, bool i_loopX, bool i_loopY)
     {
         if (null == recursiveSelectBuffer) recursiveSelectBuffer = new List<Vector2Int>();
 
@@ -170,11 +189,11 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
         selectedCoord.x = i_coord.x + i_offsetX;
         selectedCoord.y = i_coord.y + i_offsetY;
 
-        processCell(selectedCoord, i_loopX, i_loopY, false, false);
+        processCell(selectedCoord, i_currStep, i_loopX, i_loopY, false, false);
         recursiveSelectBuffer.Add(selectedCoord);
     }
 
-    void selectRecursive(ref List<Vector2Int> i_lastRecursiveSelect, ref int i_currRadius, int i_radius, bool i_loopX, bool i_loopY)
+    void selectRecursive(ref List<Vector2Int> i_lastRecursiveSelect, ref int i_currRadius, ref int i_currStep, int i_radius, bool i_loopX, bool i_loopY)
     {
         Debug.Log(i_currRadius + "  " + i_radius);
         if (i_currRadius == i_radius) return;
@@ -184,10 +203,10 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
         for (int i = 0; i < count; i++)
         {
             Vector2Int currCoord = i_lastRecursiveSelect[i];
-            addToSelectionBuffer(currCoord, 0, -1, i_loopX, i_loopY);
-            addToSelectionBuffer(currCoord, 1, 0, i_loopX, i_loopY);
-            addToSelectionBuffer(currCoord, 0, 1, i_loopX, i_loopY);
-            addToSelectionBuffer(currCoord, -1, 0, i_loopX, i_loopY);
+            addToSelectionBuffer(currCoord, i_currStep, 0, -1, i_loopX, i_loopY);
+            addToSelectionBuffer(currCoord, i_currStep, 1, 0, i_loopX, i_loopY);
+            addToSelectionBuffer(currCoord, i_currStep, 0, 1, i_loopX, i_loopY);
+            addToSelectionBuffer(currCoord, i_currStep, -1, 0, i_loopX, i_loopY);
         }
 
         i_currRadius++;
@@ -195,7 +214,8 @@ public abstract class DoraAbstractCellSelector : MonoBehaviourBase, IRangeSelect
         i_lastRecursiveSelect.AddRange(recursiveSelectBuffer);
         recursiveSelectBuffer.Clear();
 
-        selectRecursive(ref i_lastRecursiveSelect, ref i_currRadius, i_radius, i_loopX, i_loopY);
+        i_currStep++;
+        selectRecursive(ref i_lastRecursiveSelect, ref i_currRadius, ref i_currStep, i_radius, i_loopX, i_loopY);
     }
 
     void updateRowIndex(int i_rowIndex)
