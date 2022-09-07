@@ -12,6 +12,7 @@ public class DoraController : MonoBehaviourBase
 
     [Header("Score")]
     [SerializeField] DoraScoreManager scoreManager = null;
+    [SerializeField] UIKernelManager uiKernelManager = null;
     [SerializeField] float animationTime = 0.5f;
     [SerializeField] float animationOffset = 10f;
     [SerializeField] float alphaTime = 0.2f;
@@ -140,12 +141,12 @@ public class DoraController : MonoBehaviourBase
     {
         eatKernels();
 
-        if(null != cellSelector.CurrentOriginCell && true == forceSelectionOnEat)
-            cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
+        //if(null != cellSelector.CurrentOriginCell && true == forceSelectionOnEat)
+        //    cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
 
-        StartAutoRotation();
+        //StartAutoRotation();
 
-        selectedRadius = 0;
+        //selectedRadius = 0;
     } 
 
     private void onMoveStarted(Vector2 i_move)
@@ -204,28 +205,60 @@ public class DoraController : MonoBehaviourBase
             kernelSets.Add(newSet);
         }
 
-        scoreManager.AddScoreByKernels(kernelSets, animationTime, alphaTime, animationOffset);
+        //scoreManager.AddScoreByKernels(kernelSets, animationTime, alphaTime, animationOffset);
 
         if (eatingRoutine == null)
-            eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, eatenKernels - burntKenrelsCount));
+            eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, eatenKernels - burntKenrelsCount, kernelSets));
     }
 
-    private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatCount)
+    private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatCount, List<HashSet<DoraKernel>> i_eatenKernels)
     {
-        //animation stuff
+        // bite animation stuff
 
         yield return null;
 
+
+        uiKernelManager.HandleKernelStack(getStackInfo(i_eatenKernels));
+
+        // cell cleanup
         foreach (DoraCellData cell in i_cellsToCleanup)
         {
             kernelSpawner.DespawnKernel(cell.Kernel);
             cell.Reset();
         }
 
+        yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
+
+        // post-sequence cleanup
         unburntEatenCount += i_eatCount;
+
+        if (null != cellSelector.CurrentOriginCell && true == forceSelectionOnEat)
+            cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
+
+        StartAutoRotation();
+
+        selectedRadius = 0;
 
         this.DisposeCoroutine(ref eatingRoutine);
     }
 
+    private List<ScoreKernelInfo> getStackInfo(List<HashSet<DoraKernel>> i_eatenKernels)
+    {
+        List<ScoreKernelInfo> scoreKernels = new List<ScoreKernelInfo>();
+        float multiplier = 1f;
+        HashSet<DoraKernel> currSet = null;
+        int length = i_eatenKernels.Count;
+        for (int i = 0; i < length; i++)
+        {
+            currSet = i_eatenKernels[i];
+            foreach (DoraKernel kernel in currSet)
+            {
+                scoreKernels.Add(new ScoreKernelInfo(multiplier, kernel.Status));
+            }
+            multiplier += 1;
+        }
+
+        return scoreKernels;
+    }
     #endregion
 }

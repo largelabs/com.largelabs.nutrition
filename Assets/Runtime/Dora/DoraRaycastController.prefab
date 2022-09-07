@@ -320,7 +320,7 @@ RectTransform:
   m_Children:
   - {fileID: 4417919342757847398}
   m_Father: {fileID: 6622236087329536798}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -388,53 +388,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1 &3582839627423280505
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3455420774003855504}
-  - component: {fileID: 2279689704041974045}
-  m_Layer: 0
-  m_Name: ScoreManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3455420774003855504
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3582839627423280505}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7394215, y: -0.46464095, z: -15.189556}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6622236087329536798}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2279689704041974045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3582839627423280505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f860294dea8fb774fa27f148c3f23742, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doraGameData: {fileID: 11400000, guid: ddd58610ae9a4c14b98a7d1e0033138c, type: 2}
-  increaseOfMultiplier: 0.1
-  scorePopupSpawner: {fileID: 0}
 --- !u!1 &5651637763097233603
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,7 +467,6 @@ Transform:
   - {fileID: 2399078351879968485}
   - {fileID: 3735511616043935770}
   - {fileID: 7277508342855777533}
-  - {fileID: 3455420774003855504}
   - {fileID: 1939134399391443057}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -536,7 +488,7 @@ MonoBehaviour:
   inputs: {fileID: 4411650203299129230}
   cellSelector: {fileID: 1723940233189729211}
   kernelSpawner: {fileID: 0}
-  scoreManager: {fileID: 2279689704041974045}
+  scoreManager: {fileID: 0}
   animationTime: 1
   animationOffset: 20
   alphaTime: 0.5

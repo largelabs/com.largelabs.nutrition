@@ -55,35 +55,53 @@ public class UIFloatingScore : MonoBehaviour
     {
         if (AnimationRoutine == null)
         {
+            getAttachedComponents();
+            screenOffset = new Vector2((float)i_canvasRect.sizeDelta.x / 2f, (float)i_canvasRect.sizeDelta.y / 2f);
+
+            Vector2 viewPortPos = i_camera.WorldToViewportPoint(i_worldPosition);
+            Vector2 newPos = new Vector2(viewPortPos.x * i_canvasRect.sizeDelta.x, viewPortPos.y * i_canvasRect.sizeDelta.y);
+
+            Vector2 spawnPos = newPos - screenOffset;
+
             AnimationRoutine = StartCoroutine
-                ( animateScorePopup(i_worldPosition, i_animTime, i_alphaTime,
-                                        i_score, i_yOffset, i_canvasRect, i_camera,
-                                        i_curve, i_interpolatorManager) );
+                ( animateScorePopup(spawnPos, i_animTime, i_alphaTime,
+                                    i_score, i_yOffset, i_curve, i_interpolatorManager) );
+        }
+    }
+    
+    public void Animate(Vector2 i_position, 
+                        float i_animTime,
+                        float i_alphaTime,
+                        int i_score, 
+                        float i_yOffset,
+                        AnimationCurve i_curve,
+                        InterpolatorsManager i_interpolatorManager
+                        )
+    {
+        if (AnimationRoutine == null)
+        {
+            getAttachedComponents();
+
+            AnimationRoutine = StartCoroutine
+                ( animateScorePopup(i_position, i_animTime, i_alphaTime,
+                                    i_score, i_yOffset, i_curve, i_interpolatorManager) );
         }
     }
 
     #endregion
 
     #region PRIVATE API
-    private IEnumerator animateScorePopup(Vector3 i_worldPosition,
+    private IEnumerator animateScorePopup(Vector2 i_position,
                                             float i_animTime,
                                             float i_alphaTime,
                                             int i_score,
                                             float i_yOffset,
-                                            RectTransform i_canvasRect,
-                                            Camera i_camera,
                                             AnimationCurve i_curve,
                                             InterpolatorsManager i_interpolatorManager
                                             )
     {
-        getAttachedComponents();
-        screenOffset = new Vector2((float)i_canvasRect.sizeDelta.x / 2f, (float)i_canvasRect.sizeDelta.y / 2f);
         AnimationMode mode = new AnimationMode(i_curve);
-
-        Vector2 viewPortPos = i_camera.WorldToViewportPoint(i_worldPosition);
-        Vector2 newPos = new Vector2(viewPortPos.x * i_canvasRect.sizeDelta.x, viewPortPos.y * i_canvasRect.sizeDelta.y);
-
-        thisRectTransform.localPosition = newPos - screenOffset;
+        thisRectTransform.localPosition = i_position;
 
         scoreText.text = "";
         if (i_score > 0)
