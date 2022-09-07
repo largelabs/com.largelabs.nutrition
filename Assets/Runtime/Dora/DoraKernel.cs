@@ -30,10 +30,9 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     bool isBurnt = false;
     float durability = 1f;
     bool isSelected = false;
-    bool isMarkedforSelection = false;
     InterpolatorsManager interpolators = null;
     SpawnPool vfxPool = null;
-
+    Coroutine updateScaleRoutine = null;
 
     private static readonly string BURNT_SELECT_VFX_PREFAB = "VFX_Select_Smoke";
 
@@ -61,9 +60,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     }
 
     public bool IsInit => isInit;
-
     public float Durability => durability;
-
     public bool IsBurnt => isBurnt;
     public bool IsBurnable => isBurnable;
     public bool IsSuper => isSuper;
@@ -153,8 +150,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     #endregion
 
-    Coroutine updateScaleRoutine = null;
-
     IEnumerator updateScale(ITypedAnimator<Vector3> i_interpolator)
     {
         while(true == i_interpolator.IsAnimating)
@@ -216,39 +211,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     }
 
-    public void MarkForSelection(bool i_animated)
-    {
-        if (true == isMarkedforSelection) return;
-
-        blinkRoutine = StartCoroutine(blink());
-
-        isMarkedforSelection = true;
-    }
-
-    Coroutine blinkRoutine = null;
-
-    IEnumerator blink()
-    {
-        while(true)
-        {
-            swapMaterials(durability, true);
-            yield return this.Wait(0.1f);
-            swapMaterials(durability, false);
-            yield return this.Wait(0.1f);
-        }
-    }
-
-    public void UnmarkForSelection(bool i_animated)
-    {
-        if (false == isMarkedforSelection) return;
-        isMarkedforSelection = false;
-
-        this.DisposeCoroutine(ref blinkRoutine);
-
-        swapMaterials(durability, isSelected);
-
-    }
-
     #endregion
 
     #region PRIVATE
@@ -273,6 +235,46 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         } 
     }
 
+
+    #endregion
+
+
+    #region MARKING
+
+  /*  bool isMarkedforSelection = false;
+
+    public void MarkForSelection(bool i_animated)
+    {
+        if (true == isMarkedforSelection) return;
+
+        blinkRoutine = StartCoroutine(blink());
+
+        isMarkedforSelection = true;
+    }
+
+    Coroutine blinkRoutine = null;
+
+    IEnumerator blink()
+    {
+        while (true)
+        {
+            swapMaterials(durability, true);
+            yield return this.Wait(0.1f);
+            swapMaterials(durability, false);
+            yield return this.Wait(0.1f);
+        }
+    }
+
+    public void UnmarkForSelection(bool i_animated)
+    {
+        if (false == isMarkedforSelection) return;
+        isMarkedforSelection = false;
+
+        this.DisposeCoroutine(ref blinkRoutine);
+
+        swapMaterials(durability, isSelected);
+
+    }*/
 
     #endregion
 }

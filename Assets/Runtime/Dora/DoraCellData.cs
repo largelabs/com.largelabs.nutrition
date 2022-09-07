@@ -7,8 +7,6 @@ public class DoraCellData : ISelectable
     DoraKernel kernel = null;
     Vector2Int coords;
     bool isSelected = false;
-    bool isMarkedforSelection = false;
-
 
     #region ISelectable
 
@@ -19,7 +17,7 @@ public class DoraCellData : ISelectable
         if (true == isSelected) return;
         if (null != kernel)
         {
-            UnmarkForSelection(i_animated);
+           // UnmarkForSelection(i_animated);
             kernel.Select(i_animated);
         }
         isSelected = true;
@@ -30,21 +28,6 @@ public class DoraCellData : ISelectable
         if (false == isSelected) return;
         if (null != kernel) kernel.Unselect(i_animated);
         isSelected = false;
-    }
-
-    public void MarkForSelection(bool i_animated)
-    {
-        if (true == isSelected) return;
-        if (true == isMarkedforSelection) return;
-        if (null != kernel) kernel.MarkForSelection(i_animated);
-        isMarkedforSelection = true;
-    }
-
-    public void UnmarkForSelection(bool i_animated)
-    {
-        if (false == isMarkedforSelection) return;
-        if (null != kernel) kernel.UnmarkForSelection(i_animated);
-        isMarkedforSelection = false;
     }
 
     #endregion
@@ -58,7 +41,7 @@ public class DoraCellData : ISelectable
     public void Reset()
     {
         Unselect(false);
-        UnmarkForSelection(false);
+        //UnmarkForSelection(false);
         kernel = null;
     }
 
@@ -210,6 +193,29 @@ public class DoraCellData : ISelectable
 
         return true;
     }
+
+    #endregion
+
+
+    #region MARKING
+
+   /* bool isMarkedforSelection = false;
+
+
+    public void MarkForSelection(bool i_animated)
+    {
+        if (true == isSelected) return;
+        if (true == isMarkedforSelection) return;
+        if (null != kernel) kernel.MarkForSelection(i_animated);
+        isMarkedforSelection = true;
+    }
+
+    public void UnmarkForSelection(bool i_animated)
+    {
+        if (false == isMarkedforSelection) return;
+        if (null != kernel) kernel.UnmarkForSelection(i_animated);
+        isMarkedforSelection = false;
+    }*/
 
     #endregion
 }
