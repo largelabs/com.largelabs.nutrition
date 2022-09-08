@@ -6,7 +6,7 @@ public class DoraScoreManager : MonoBehaviourBase
 {
     [SerializeField] DoraGameData doraGameData = null;
     [SerializeField] float increaseOfMultiplier = 0.1f;
-    [SerializeField] private ScorePopupSpawner scorePopupSpawner = null;
+    [SerializeField] private PopupSpawner scorePopupSpawner = null;
     [SerializeField] private Text scoreText = null;
 
     int score = 0;
@@ -48,26 +48,26 @@ public class DoraScoreManager : MonoBehaviourBase
     }
 
     public void AddScoreByValue(int i_score,
-                                ScorePopupSpawner.PopupType i_popupType,
+                                PopupSpawner.PopupType i_popupType,
                                 Vector3 i_worldPos,
                                 float i_animTime,
                                 float i_alphaTime,
                                 float i_yoffset
                                 )
     {
-        scorePopupSpawner.PlayScore(i_popupType, i_worldPos, i_animTime, i_alphaTime, i_score, i_yoffset);
+        scorePopupSpawner.PlayPopup(i_popupType, i_worldPos, i_animTime, i_alphaTime, i_score, false, i_yoffset);
         addToScore(i_score);
     }
     
     public void AddScoreByValue(int i_score,
-                                ScorePopupSpawner.PopupType i_popupType,
+                                PopupSpawner.PopupType i_popupType,
                                 RectTransform i_anchor,
                                 float i_animTime,
                                 float i_alphaTime,
                                 float i_yoffset
                                 )
     {
-        scorePopupSpawner.PlayScoreWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, i_yoffset);
+        scorePopupSpawner.PlayPopupWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, false, i_yoffset);
         addToScore(i_score);
     } 
     
@@ -80,8 +80,8 @@ public class DoraScoreManager : MonoBehaviourBase
                                 )
     {
         int scoreToAdd = getKernelScoreByStatus(i_status, i_multiplier);
-        scorePopupSpawner.PlayScoreWithAnchor(getPopupType(i_status), i_anchor, i_animTime, i_alphaTime,
-                                    scoreToAdd, i_yoffset);
+        scorePopupSpawner.PlayPopupWithAnchor(getPopupType(i_status), i_anchor, i_animTime, i_alphaTime,
+                                    scoreToAdd, false, i_yoffset);
         addToScore(scoreToAdd);
     }
     
@@ -94,8 +94,8 @@ public class DoraScoreManager : MonoBehaviourBase
                                 )
     {
         int scoreToAdd = getKernelScoreByStatus(i_status, i_multiplier);
-        scorePopupSpawner.PlayScore(getPopupType(i_status), i_worldPos, i_animTime, i_alphaTime,
-                                    scoreToAdd, i_yoffset);
+        scorePopupSpawner.PlayPopup(getPopupType(i_status), i_worldPos, i_animTime, i_alphaTime,
+                                    scoreToAdd, false, i_yoffset);
         addToScore(scoreToAdd);
     }
 
@@ -167,18 +167,18 @@ public class DoraScoreManager : MonoBehaviourBase
 
 
     #region PRIVATE API
-    private ScorePopupSpawner.PopupType getPopupType(DoraKernel.KernelStatus i_status)
+    private PopupSpawner.PopupType getPopupType(DoraKernel.KernelStatus i_status)
     {
         if (i_status == DoraKernel.KernelStatus.Super)
-            return ScorePopupSpawner.PopupType.Super;
+            return PopupSpawner.PopupType.Super;
         else if (i_status == DoraKernel.KernelStatus.Normal)
-            return ScorePopupSpawner.PopupType.Positive;
+            return PopupSpawner.PopupType.Positive;
         else if (i_status == DoraKernel.KernelStatus.Burnt)
-            return ScorePopupSpawner.PopupType.Negative;
+            return PopupSpawner.PopupType.Negative;
         else
         {
             Debug.LogError("invalid kernel status");
-            return ScorePopupSpawner.PopupType.Positive;
+            return PopupSpawner.PopupType.Positive;
         }
     }
 

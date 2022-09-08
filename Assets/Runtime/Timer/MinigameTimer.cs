@@ -6,6 +6,8 @@ using UnityEngine;
 public class MinigameTimer : MonoBehaviourBase
 {
     [SerializeField] [Range(1, 500)] private float timeSeconds = 200f;
+    [SerializeField] PopupSpawner popupSpawner = null;
+    [SerializeField] RectTransform anchorTime = null;
 
     enum TimerStatus { Running, Paused, Ended, None };
     TimerStatus timerStatus = TimerStatus.None;
@@ -95,6 +97,7 @@ public class MinigameTimer : MonoBehaviourBase
     public void AddTime(float i_timeBonus)
     {
         timeSeconds += i_timeBonus;
+        popupSpawner.PlayPopupWithAnchor(PopupSpawner.PopupType.Positive, anchorTime, 0.5f, 0.25f, Mathf.CeilToInt(i_timeBonus), true, 10f);
     }
 
     #endregion

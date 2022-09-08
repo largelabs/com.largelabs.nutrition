@@ -925,6 +925,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2973852795684463437, guid: 82a781693b83c3d40869fbb09f3cc93a, type: 3}
   m_PrefabInstance: {fileID: 1185110095}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &1684094575 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8458347766993939028, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
+  m_PrefabInstance: {fileID: 2489217777548913729}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1831504464 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2973852795684463437, guid: 82a781693b83c3d40869fbb09f3cc93a, type: 3}
@@ -1448,6 +1453,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 417055886123930137, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: anchorTime
+      value: 
+      objectReference: {fileID: 1684094575}
+    - target: {fileID: 417055886123930137, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: popupSpawner
+      value: 
+      objectReference: {fileID: 2098353562}
     - target: {fileID: 1321245591330809177, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: scorePopupSpawner
       value: 

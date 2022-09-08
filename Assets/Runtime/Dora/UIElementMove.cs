@@ -21,7 +21,7 @@ public class UIElementMove : MonoBehaviourBase
                                     InterpolatorsManager i_interps, AnimationCurve i_curve,
                                     Action<ITypedAnimator<Vector3>> i_callback)
     {
-        Debug.LogError("try starting movement");
+        //Debug.LogError("try starting movement");
 
         if (i_interps == null)
         {
@@ -31,7 +31,7 @@ public class UIElementMove : MonoBehaviourBase
 
         if (movementRoutine == null)
         {
-            Debug.LogError("starting movement");
+            //Debug.LogError("starting movement");
             movementRoutine = StartCoroutine(movementSequence(i_target, i_time, i_interps, i_curve, i_callback));
         }
     }

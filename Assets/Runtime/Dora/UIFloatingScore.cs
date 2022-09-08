@@ -45,7 +45,8 @@ public class UIFloatingScore : MonoBehaviour
     public void Animate(Vector3 i_worldPosition, 
                         float i_animTime,
                         float i_alphaTime,
-                        int i_score, 
+                        int i_score,
+                        bool i_isSeconds,
                         float i_yOffset,
                         RectTransform i_canvasRect, 
                         Camera i_camera,
@@ -65,14 +66,15 @@ public class UIFloatingScore : MonoBehaviour
 
             AnimationRoutine = StartCoroutine
                 ( animateScorePopup(spawnPos, i_animTime, i_alphaTime,
-                                    i_score, i_yOffset, i_curve, i_interpolatorManager) );
+                                    i_score, i_isSeconds, i_yOffset, i_curve, i_interpolatorManager) );
         }
     }
     
     public void AnimateWithAnchor(RectTransform i_anchor, 
                         float i_animTime,
                         float i_alphaTime,
-                        int i_score, 
+                        int i_score,
+                        bool i_isSeconds,
                         float i_yOffset,
                         AnimationCurve i_curve,
                         InterpolatorsManager i_interpolatorManager
@@ -87,7 +89,7 @@ public class UIFloatingScore : MonoBehaviour
 
             AnimationRoutine = StartCoroutine
                 ( animateScorePopup(Vector2.zero, i_animTime, i_alphaTime,
-                                    i_score, i_yOffset, i_curve, i_interpolatorManager) );
+                                    i_score, i_isSeconds, i_yOffset, i_curve, i_interpolatorManager) );
         }
     }
 
@@ -98,6 +100,7 @@ public class UIFloatingScore : MonoBehaviour
                                             float i_animTime,
                                             float i_alphaTime,
                                             int i_score,
+                                            bool i_isSeconds,
                                             float i_yOffset,
                                             AnimationCurve i_curve,
                                             InterpolatorsManager i_interpolatorManager
@@ -110,6 +113,8 @@ public class UIFloatingScore : MonoBehaviour
         if (i_score > 0)
             scoreText.text += "+";
         scoreText.text += i_score.ToString();
+        if (i_isSeconds)
+            scoreText.text += "s";
 
         ITypedAnimator<float> yInterpolator = i_interpolatorManager.Animate(thisRectTransform.position.y, thisRectTransform.position.y + i_yOffset, i_animTime, mode, true, 0f, null);
         ITypedAnimator<float> alphaInterpolator = i_interpolatorManager.Animate(0f, 1f, i_alphaTime, mode, true, 0f, null);

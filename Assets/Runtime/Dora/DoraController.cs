@@ -226,7 +226,7 @@ public class DoraController : MonoBehaviourBase
             cell.Reset();
         }
 
-        Debug.LogError("going to wait: " + i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
+        //Debug.LogError("going to wait: " + i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
         yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
 
         // post-sequence cleanup

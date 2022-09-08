@@ -3,7 +3,7 @@ using UnityEngine;
 using PathologicalGames;
 using UnityEngine.UI;
 
-public class ScorePopupSpawner : MonoBehaviourBase
+public class PopupSpawner : MonoBehaviourBase
 {
     public enum PopupType
     {
@@ -66,37 +66,39 @@ public class ScorePopupSpawner : MonoBehaviourBase
     }
 
     #region PUBLIC API
-    public void PlayScore(PopupType i_popupType,
+    public void PlayPopup(PopupType i_popupType,
                           Vector3? i_worldPosition,
                           float i_animTime,
                           float i_alphaTime,
                           int i_score,
+                          bool i_isSeconds,
                           float i_yOffset)
     {
         playSound(i_popupType);
 
         if (i_worldPosition == null)
-            spawnScorePopup(i_popupType, defaultWorldPosition.position, i_animTime, i_alphaTime, i_score, i_yOffset);
+            spawnScorePopup(i_popupType, defaultWorldPosition.position, i_animTime, i_alphaTime, i_score, i_isSeconds, i_yOffset);
         else
-            spawnScorePopup(i_popupType, i_worldPosition.Value, i_animTime, i_alphaTime, i_score, i_yOffset);
+            spawnScorePopup(i_popupType, i_worldPosition.Value, i_animTime, i_alphaTime, i_score, i_isSeconds, i_yOffset);
     }
     
-    public void PlayScoreWithAnchor(PopupType i_popupType,
+    public void PlayPopupWithAnchor(PopupType i_popupType,
                           RectTransform i_anchor,
                           float i_animTime,
                           float i_alphaTime,
                           int i_score,
+                          bool i_isSeconds,
                           float i_yOffset)
     {
         playSound(i_popupType);
 
-        spawnScorePopupWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, i_yOffset);
+        spawnScorePopupWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, i_isSeconds, i_yOffset);
     }
 
     [ExposePublicMethod]
-    public void PlayScoreCenter(PopupType i_popupType, int i_score)
+    public void PlayPopupCenter(PopupType i_popupType, int i_score, bool i_isSeconds)
     {
-        PlayScore(i_popupType, mainCam.transform.position, 1.0f, 0.5f, i_score, 20f);
+        PlayPopup(i_popupType, mainCam.transform.position, 1.0f, 0.5f, i_score, i_isSeconds, 20f);
     }
     #endregion
 
@@ -152,6 +154,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
                                  float i_animTime,
                                  float i_alphaTime,
                                  int i_score,
+                                 bool i_isSeconds,
                                  float i_yOffset
                                 )
     {
@@ -173,7 +176,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
                 livingPopups.Add(popup);
 
                 popup.Animate(i_worldPosition, i_animTime, i_alphaTime,
-                                        i_score, i_yOffset, parentCanvasRectTransform, mainCam,
+                                        i_score, i_isSeconds, i_yOffset, parentCanvasRectTransform, mainCam,
                                         animCurve, interpolatorManager);
             }
         }
@@ -184,6 +187,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
                                             float i_animTime,
                                             float i_alphaTime,
                                             int i_score,
+                                            bool i_isSeconds,
                                             float i_yOffset)
     {
         Transform tr = getPopupPrefab(i_popupType);
@@ -204,7 +208,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
                 livingPopups.Add(popup);
 
                 popup.AnimateWithAnchor(i_anchor, i_animTime, i_alphaTime,
-                                        i_score, i_yOffset, animCurve, interpolatorManager);
+                                        i_score, i_isSeconds, i_yOffset, animCurve, interpolatorManager);
             }
         }
     }
