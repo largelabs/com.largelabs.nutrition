@@ -10,6 +10,16 @@ public class UIElementAlpha : MonoBehaviourBase
     Image thisImage = null;
     Coroutine alphaLerpRoutine = null;
 
+    private void OnDisable()
+    {
+        this.DisposeCoroutine(ref alphaLerpRoutine);
+    }
+
+    private void OnDestroy()
+    {
+        this.DisposeCoroutine(ref alphaLerpRoutine);
+    }
+
     public void lerpAlpha(float i_initial, float i_target, float i_time,
                             InterpolatorsManager i_interps, AnimationCurve i_curve,
                             Action<ITypedAnimator<float>> i_callback)

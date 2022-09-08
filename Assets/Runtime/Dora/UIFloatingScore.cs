@@ -69,7 +69,7 @@ public class UIFloatingScore : MonoBehaviour
         }
     }
     
-    public void Animate(Vector2 i_position, 
+    public void AnimateWithAnchor(RectTransform i_anchor, 
                         float i_animTime,
                         float i_alphaTime,
                         int i_score, 
@@ -82,8 +82,11 @@ public class UIFloatingScore : MonoBehaviour
         {
             getAttachedComponents();
 
+            thisRectTransform.parent = i_anchor;
+            thisRectTransform.localScale = Vector3.one;
+
             AnimationRoutine = StartCoroutine
-                ( animateScorePopup(i_position, i_animTime, i_alphaTime,
+                ( animateScorePopup(Vector2.zero, i_animTime, i_alphaTime,
                                     i_score, i_yOffset, i_curve, i_interpolatorManager) );
         }
     }

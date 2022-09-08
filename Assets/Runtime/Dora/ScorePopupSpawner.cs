@@ -80,6 +80,18 @@ public class ScorePopupSpawner : MonoBehaviourBase
         else
             spawnScorePopup(i_popupType, i_worldPosition.Value, i_animTime, i_alphaTime, i_score, i_yOffset);
     }
+    
+    public void PlayScoreWithAnchor(PopupType i_popupType,
+                          RectTransform i_anchor,
+                          float i_animTime,
+                          float i_alphaTime,
+                          int i_score,
+                          float i_yOffset)
+    {
+        playSound(i_popupType);
+
+        spawnScorePopupWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, i_yOffset);
+    }
 
     [ExposePublicMethod]
     public void PlayScoreCenter(PopupType i_popupType, int i_score)
@@ -163,6 +175,36 @@ public class ScorePopupSpawner : MonoBehaviourBase
                 popup.Animate(i_worldPosition, i_animTime, i_alphaTime,
                                         i_score, i_yOffset, parentCanvasRectTransform, mainCam,
                                         animCurve, interpolatorManager);
+            }
+        }
+    } 
+    
+    private void spawnScorePopupWithAnchor(PopupType i_popupType,
+                                            RectTransform i_anchor,
+                                            float i_animTime,
+                                            float i_alphaTime,
+                                            int i_score,
+                                            float i_yOffset)
+    {
+        Transform tr = getPopupPrefab(i_popupType);
+        counter++;
+        //Debug.LogError("spawned: " + tr.gameObject + " score spawned: " + counter);
+
+        if (tr != null)
+        {
+            UIFloatingScore popup = tr.GetComponent<UIFloatingScore>();
+
+            if (popup != null)
+            {
+                popup.SetAlpha(0);
+
+                if (livingPopups == null) livingPopups = new HashSet<UIFloatingScore>();
+                popup.SetColorNoAlpha(getColor(i_popupType));
+                popup.OnAnimationEnded += despawnScorePopup;
+                livingPopups.Add(popup);
+
+                popup.AnimateWithAnchor(i_anchor, i_animTime, i_alphaTime,
+                                        i_score, i_yOffset, animCurve, interpolatorManager);
             }
         }
     }

@@ -61,11 +61,12 @@ public class UIKernelManager : MonoBehaviourBase
             currKernelInfo = i_eatenKernels[i];
             //some animation stuff
             yield return StartCoroutine(uiKernelMovementSequence(uiKernels[i], timePerUIKernel / 2));
+
             scoreManager.AddScoreByStatus(currKernelInfo.KernelStatus,
                                           currKernelInfo.ScoreMultiplier,
-                                          anchorStart.position,
-                                          1.0f, 0.01f, 20f);
-            yield return StartCoroutine(scoreUpdateSequence(timePerUIKernel / 2));
+                                          anchorEnd,
+                                          timePerUIKernel / 2, 0.01f, 10f);
+            yield return this.Wait(timePerUIKernel / 2);
         }
 
         Debug.LogError("done with kernel stack");
@@ -76,21 +77,21 @@ public class UIKernelManager : MonoBehaviourBase
     private IEnumerator uiKernelMovementSequence(RectTransform i_uiKernel, float i_timeAvailable)
     {
         UIElementMove elementMove = i_uiKernel.GetComponent<UIElementMove>();
+        Debug.LogError("try element move");
+
         if (elementMove != null)
+        {
+            Debug.LogError("element move");
             elementMove.moveToRectTransform(anchorEnd, i_timeAvailable, interpolatorsManager, animCurve, null);
+        }
         yield return this.Wait(i_timeAvailable/2f);
 
         UIElementAlpha elementAlpha = i_uiKernel.GetComponent<UIElementAlpha>();
         if (elementAlpha != null)
-            elementAlpha.lerpAlpha(1f, 0f, i_timeAvailable, interpolatorsManager, animCurve, null);
+            elementAlpha.lerpAlpha(1f, 0f, i_timeAvailable / 2f, interpolatorsManager, animCurve, null);
         yield return this.Wait(i_timeAvailable / 2f);
 
         uiKernelSpawner.DespawnKernel(i_uiKernel);
     } 
-    
-    private IEnumerator scoreUpdateSequence(float i_timeAvailable)
-    {
-        // call scorepopup with random pos anchored below score
-        yield return this.Wait(i_timeAvailable);
-    }
+  
 }

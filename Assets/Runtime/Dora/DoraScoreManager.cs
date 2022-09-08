@@ -57,7 +57,33 @@ public class DoraScoreManager : MonoBehaviourBase
     {
         scorePopupSpawner.PlayScore(i_popupType, i_worldPos, i_animTime, i_alphaTime, i_score, i_yoffset);
         addToScore(i_score);
+    }
+    
+    public void AddScoreByValue(int i_score,
+                                ScorePopupSpawner.PopupType i_popupType,
+                                RectTransform i_anchor,
+                                float i_animTime,
+                                float i_alphaTime,
+                                float i_yoffset
+                                )
+    {
+        scorePopupSpawner.PlayScoreWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, i_yoffset);
+        addToScore(i_score);
     } 
+    
+    public void AddScoreByStatus(DoraKernel.KernelStatus i_status,
+                                float i_multiplier,
+                                RectTransform i_anchor,
+                                float i_animTime,
+                                float i_alphaTime,
+                                float i_yoffset
+                                )
+    {
+        int scoreToAdd = getKernelScoreByStatus(i_status, i_multiplier);
+        scorePopupSpawner.PlayScoreWithAnchor(getPopupType(i_status), i_anchor, i_animTime, i_alphaTime,
+                                    scoreToAdd, i_yoffset);
+        addToScore(scoreToAdd);
+    }
     
     public void AddScoreByStatus(DoraKernel.KernelStatus i_status,
                                 float i_multiplier,
