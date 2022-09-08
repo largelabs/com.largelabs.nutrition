@@ -293,7 +293,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doraGameData: {fileID: 11400000, guid: ddd58610ae9a4c14b98a7d1e0033138c, type: 2}
-  uiKernelManager: {fileID: 0}
   increaseOfMultiplier: 0.1
   scorePopupSpawner: {fileID: 2489217776581094088}
   scoreText: {fileID: 403770588768959256}
@@ -308,6 +307,7 @@ GameObject:
   - component: {fileID: 5934169197247801700}
   - component: {fileID: 4234226275115802266}
   - component: {fileID: 8822587559633261856}
+  - component: {fileID: 53253103559449339}
   m_Layer: 5
   m_Name: UIKernels
   m_TagString: Untagged
@@ -352,6 +352,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreManager: {fileID: 6759059315987928090}
   uiKernelSpawner: {fileID: 8822587559633261856}
+  interpolatorsManager: {fileID: 53253103559449339}
+  animCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   anchorStart: {fileID: 1994196937037469772}
   anchorEnd: {fileID: 596398543401453828}
   timePerUIKernel: 0.2
@@ -369,6 +394,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiKernelPool: {fileID: 3906184734937755362}
+--- !u!114 &53253103559449339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4211106437344657246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxConcurrentFloat: -1
+  maxConcurrentV2: -1
+  maxConcurrentV3: -1
+  maxConcurrentColor: -1
 --- !u!1 &5959915132065800804
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,7 +490,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 000000500
+  m_Text: 000000000
 --- !u!1 &7326542589528811068
 GameObject:
   m_ObjectHideFlags: 0

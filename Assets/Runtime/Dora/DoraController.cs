@@ -217,7 +217,6 @@ public class DoraController : MonoBehaviourBase
 
         yield return null;
 
-
         uiKernelManager.HandleKernelStack(getStackInfo(i_eatenKernels));
 
         // cell cleanup
@@ -227,6 +226,7 @@ public class DoraController : MonoBehaviourBase
             cell.Reset();
         }
 
+        Debug.LogError("going to wait: " + i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
         yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
 
         // post-sequence cleanup

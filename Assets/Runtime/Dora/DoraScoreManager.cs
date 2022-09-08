@@ -5,7 +5,6 @@ using UnityEngine;
 public class DoraScoreManager : MonoBehaviourBase
 {
     [SerializeField] DoraGameData doraGameData = null;
-    [SerializeField] UIKernelManager uiKernelManager = null;
     [SerializeField] float increaseOfMultiplier = 0.1f;
     [SerializeField] private ScorePopupSpawner scorePopupSpawner = null;
     [SerializeField] private Text scoreText = null;

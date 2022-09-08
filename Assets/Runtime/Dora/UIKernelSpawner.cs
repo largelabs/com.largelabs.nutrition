@@ -1,6 +1,7 @@
 using PathologicalGames;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIKernelSpawner : MonoBehaviourBase
 {
@@ -24,7 +25,7 @@ public class UIKernelSpawner : MonoBehaviourBase
     public IReadOnlyList<RectTransform> LivingKernels => livingKernels;
 
     [ExposePublicMethod]
-    public RectTransform SpawnUIKernelAtAnchor(RectTransform i_anchor, float i_xOffset)
+    public RectTransform SpawnUIKernelAtAnchor(RectTransform i_anchor, float i_xOffset, bool i_isBurnt)
     {
         if (uiKernelPool == null)
         {
@@ -33,7 +34,7 @@ public class UIKernelSpawner : MonoBehaviourBase
         }
 
 
-        Transform tr = uiKernelPool.Spawn(UIKERNEL);
+        Transform tr = i_isBurnt? uiKernelPool.Spawn(UIKERNELBURNT):uiKernelPool.Spawn(UIKERNEL);
         tr.SetParent(i_anchor);
         tr.localPosition = new Vector3(i_xOffset, 0, 0);
         tr.localRotation = MathConstants.QUATERNION_IDENTITY;
@@ -52,7 +53,7 @@ public class UIKernelSpawner : MonoBehaviourBase
     } 
     
     [ExposePublicMethod]
-    public List<RectTransform> SpawnUIKernelsStartingFromAnchor(RectTransform i_anchor, int i_spawnCount, float i_xOffset)
+    public List<RectTransform> SpawnUIKernelsStartingFromAnchor(RectTransform i_anchor, int i_spawnCount, float i_xOffset, bool i_isBurnt)
     {
         if (uiKernelPool == null)
         {
@@ -64,7 +65,7 @@ public class UIKernelSpawner : MonoBehaviourBase
 
         for (int i = 0; i < i_spawnCount; i++)
         {
-            ret.Add(SpawnUIKernelAtAnchor(i_anchor, i_xOffset * i));
+            ret.Add(SpawnUIKernelAtAnchor(i_anchor, i_xOffset * i, i_isBurnt));
         }
 
         return ret;
@@ -101,6 +102,12 @@ public class UIKernelSpawner : MonoBehaviourBase
     #region PRIVATE API
     private void despawnDoraCob(RectTransform i_uiKernel)
     {
+        Image kernelImage = i_uiKernel.GetComponent<Image>();
+        if (kernelImage != null)
+        {
+            Color temp = kernelImage.color;
+            kernelImage.color = new Color(temp.r, temp.g, temp.b, 1f);
+        }
         uiKernelPool?.Despawn(i_uiKernel);
     }
 

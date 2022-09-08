@@ -145,7 +145,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
     {
         Transform tr = getPopupPrefab(i_popupType);
         counter++;
-        Debug.LogError("spawned: " + tr.gameObject + " score spawned: " + counter);
+        //Debug.LogError("spawned: " + tr.gameObject + " score spawned: " + counter);
 
         if (tr != null)
         {
@@ -170,7 +170,7 @@ public class ScorePopupSpawner : MonoBehaviourBase
     private void despawnScorePopup(UIFloatingScore i_popup)
     {
         if (i_popup == null) return;
-        Debug.LogError("despawned: " + i_popup.gameObject);
+        //Debug.LogError("despawned: " + i_popup.gameObject);
         i_popup.SetAlpha(0);
 
         i_popup.OnAnimationEnded -= despawnScorePopup;
