@@ -133,9 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 754570}
   - component: {fileID: 754569}
-  - component: {fileID: 754568}
   - component: {fileID: 754567}
   - component: {fileID: 754571}
+  - component: {fileID: 754572}
   m_Layer: 0
   m_Name: test
   m_TagString: Untagged
@@ -159,46 +159,6 @@ MonoBehaviour:
   maxConcurrentV2: -1
   maxConcurrentV3: -1
   maxConcurrentColor: -1
---- !u!114 &754568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 754566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d478e521d15cc94a9210d0f4cd217be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rnd: {fileID: 754569}
-  baseColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  targetColor: {r: 1, g: 0, b: 1, a: 1}
-  interpolatorsManager: {fileID: 754567}
-  singleLerpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!212 &754569
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -306,6 +266,28 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &754572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e1ab0253c25ff641bb0549fefcbd952, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  targetColor: {r: 1, g: 0.8950032, b: 0, a: 1}
+  interpolatorsManager: {fileID: 754567}
+  singleLerpCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rnd: {fileID: 754569}
 --- !u!1 &67125875
 GameObject:
   m_ObjectHideFlags: 0
@@ -1624,6 +1606,14 @@ PrefabInstance:
       propertyPath: cullingBounds
       value: 
       objectReference: {fileID: 849373013}
+    - target: {fileID: 417055886123930134, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: timerTextColor
+      value: 
+      objectReference: {fileID: 2489217777548913732}
+    - target: {fileID: 417055886123930134, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: timerTextScale
+      value: 
+      objectReference: {fileID: 2489217777548913731}
     - target: {fileID: 417055886123930135, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1874,5 +1864,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f860294dea8fb774fa27f148c3f23742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2489217777548913731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6668182753663502661, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
+  m_PrefabInstance: {fileID: 2489217777548913729}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc064576dabf0d6468a610dd30be1a2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2489217777548913732 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 974048595345388922, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
+  m_PrefabInstance: {fileID: 2489217777548913729}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 201071d8850f5f94a8ae34a465eff522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

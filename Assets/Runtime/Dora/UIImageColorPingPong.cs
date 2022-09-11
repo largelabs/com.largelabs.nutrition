@@ -2,18 +2,18 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UITextPingPong : ColorPingPong
+public class UIImageColorPingPong : ColorPingPongBase
 {
-    [SerializeField] private Text thisText = null;
+    [SerializeField] private Image thisImg = null;
 
     public override void StartPingPong(float i_singleLerpTime,
-                                       Color? i_baseColor,
-                                       Color? i_targetColor,
-                                       int i_numberOfLerps,
-                                       bool i_resetColorOnFinish)
+                                      Color? i_baseColor,
+                                      Color? i_targetColor,
+                                      int i_numberOfLerps,
+                                      bool i_resetColorOnFinish)
     {
         base.StartPingPong(i_singleLerpTime, i_baseColor, i_targetColor, i_numberOfLerps, i_resetColorOnFinish);
-        originalColor = thisText.color;
+        originalColor = thisImg.color;
     }
 
     [ExposePublicMethod]
@@ -21,8 +21,8 @@ public class UITextPingPong : ColorPingPong
     {
         base.StopPingPong();
 
-        if (resetColorOnFinish) 
-            thisText.color = originalColor;
+        if (resetColorOnFinish)
+            thisImg.color = originalColor;
     }
 
     protected override IEnumerator pingPongSequence(float i_singleLerpTime,
@@ -40,7 +40,7 @@ public class UITextPingPong : ColorPingPong
 
         while (colorInterpolator.IsActive)
         {
-            thisText.color = colorInterpolator.Current;
+            thisImg.color = colorInterpolator.Current;
             yield return null;
         }
 
@@ -49,6 +49,6 @@ public class UITextPingPong : ColorPingPong
         if (remainingLerps != 0)
             pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, color_1, color_0, remainingLerps));
         else if (resetColorOnFinish)
-            thisText.color = originalColor;
+            thisImg.color = originalColor;
     }
 }

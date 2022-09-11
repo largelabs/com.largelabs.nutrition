@@ -1,19 +1,24 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UIImagePingPong : ColorPingPong
+public class SpriteColorPingPong : ColorPingPongBase
 {
-    [SerializeField] private Image thisImg = null;
+    [SerializeField] private SpriteRenderer rnd = null;
 
+    private void OnDestroy()
+    {
+        StopPingPong();
+    }
+
+    #region PUBLIC API
     public override void StartPingPong(float i_singleLerpTime,
-                                      Color? i_baseColor,
-                                      Color? i_targetColor,
-                                      int i_numberOfLerps,
-                                      bool i_resetColorOnFinish)
+                                       Color? i_baseColor,
+                                       Color? i_targetColor,
+                                       int i_numberOfLerps,
+                                       bool i_resetColorOnFinish)
     {
         base.StartPingPong(i_singleLerpTime, i_baseColor, i_targetColor, i_numberOfLerps, i_resetColorOnFinish);
-        originalColor = thisImg.color;
+        originalColor = rnd.color;
     }
 
     [ExposePublicMethod]
@@ -22,13 +27,15 @@ public class UIImagePingPong : ColorPingPong
         base.StopPingPong();
 
         if (resetColorOnFinish)
-            thisImg.color = originalColor;
+            rnd.color = originalColor;
     }
+    #endregion
 
+    #region PRIVATE 
     protected override IEnumerator pingPongSequence(float i_singleLerpTime,
-                                     Color? i_baseColor,
-                                     Color? i_targetColor,
-                                     int i_numberOfLerps)
+                                                    Color? i_baseColor,
+                                                    Color? i_targetColor,
+                                                    int i_numberOfLerps)
     {
         int remainingLerps = Mathf.Clamp(i_numberOfLerps - 1, -1, int.MaxValue);
         AnimationMode mode = new AnimationMode(singleLerpCurve);
@@ -40,7 +47,7 @@ public class UIImagePingPong : ColorPingPong
 
         while (colorInterpolator.IsActive)
         {
-            thisImg.color = colorInterpolator.Current;
+            rnd.color = colorInterpolator.Current;
             yield return null;
         }
 
@@ -49,6 +56,7 @@ public class UIImagePingPong : ColorPingPong
         if (remainingLerps != 0)
             pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, color_1, color_0, remainingLerps));
         else if (resetColorOnFinish)
-            thisImg.color = originalColor;
+            rnd.color = originalColor;
     }
+    #endregion
 }
