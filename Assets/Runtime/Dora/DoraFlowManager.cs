@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DoraFlowManager : MiniGameFlow
 {
-    [SerializeField] private DoraController doraController = null;
+    [SerializeField] private DoraAbstractController doraController = null;
     [SerializeField] private DoraPlacer doraPlacer = null;
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;

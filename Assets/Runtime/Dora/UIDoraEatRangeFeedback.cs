@@ -6,7 +6,7 @@ public class UIDoraEatRangeFeedback : MonoBehaviour
     [SerializeField] Image cursorImage = null;
     [SerializeField] AnimationCurve alphaCurve = null;
     [SerializeField] InterpolatorsManager interpolators = null;
-    [SerializeField] DoraController controller = null;
+    [SerializeField] DoraAbstractController controller = null;
 
     ITypedAnimator<Vector3> scaleInterpolator = null;
     ITypedAnimator<float> alphaInterpolator = null;

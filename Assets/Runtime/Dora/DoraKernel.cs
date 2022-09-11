@@ -246,44 +246,4 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
 
     #endregion
-
-
-    #region MARKING
-
-  /*  bool isMarkedforSelection = false;
-
-    public void MarkForSelection(bool i_animated)
-    {
-        if (true == isMarkedforSelection) return;
-
-        blinkRoutine = StartCoroutine(blink());
-
-        isMarkedforSelection = true;
-    }
-
-    Coroutine blinkRoutine = null;
-
-    IEnumerator blink()
-    {
-        while (true)
-        {
-            swapMaterials(durability, true);
-            yield return this.Wait(0.1f);
-            swapMaterials(durability, false);
-            yield return this.Wait(0.1f);
-        }
-    }
-
-    public void UnmarkForSelection(bool i_animated)
-    {
-        if (false == isMarkedforSelection) return;
-        isMarkedforSelection = false;
-
-        this.DisposeCoroutine(ref blinkRoutine);
-
-        swapMaterials(durability, isSelected);
-
-    }*/
-
-    #endregion
 }

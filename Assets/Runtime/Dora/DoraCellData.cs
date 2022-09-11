@@ -1,12 +1,27 @@
-﻿// NEEDS TO BE POOLED
-using UnityEngine;
+﻿using UnityEngine;
 
-public class DoraCellData : ISelectable
+public class DoraCellData : ISelectable, IPoolable
 {
     Transform anchor = null;
     DoraKernel kernel = null;
     Vector2Int coords;
     bool isSelected = false;
+
+    #region IPoolable
+
+    public void Dispose()
+    {
+        Reset();
+    }
+
+    public void Reset()
+    {
+        Unselect(false);
+        kernel = null;
+        anchor = null;
+    }
+
+    #endregion
 
     #region ISelectable
 
@@ -15,11 +30,7 @@ public class DoraCellData : ISelectable
     public void Select(bool i_animated)
     {
         if (true == isSelected) return;
-        if (null != kernel)
-        {
-           // UnmarkForSelection(i_animated);
-            kernel.Select(i_animated);
-        }
+        if (null != kernel) kernel.Select(i_animated);
         isSelected = true;
     }
 
@@ -38,18 +49,7 @@ public class DoraCellData : ISelectable
         anchor = i_anchor;
     }
 
-    public void Reset()
-    {
-        Unselect(false);
-        //UnmarkForSelection(false);
-        kernel = null;
-    }
-
     public Vector2Int Coords => coords;
-
-    public int X => coords.x;
-
-    public int Y => coords.y;
 
     public Transform Anchor => anchor;
 
@@ -57,7 +57,11 @@ public class DoraCellData : ISelectable
 
     public DoraKernel Kernel => kernel;
 
-    public Bounds CellBounds => null != kernel ? kernel.RendererBounds : new Bounds(anchor.position, new Vector3(0.25f, 0.25f, 0.25f));
+    public Bounds GetCellBounds()
+    {
+        if (null != kernel) return kernel.RendererBounds;
+        return new Bounds();
+    }
 
     public void SetCoords(Vector2Int i_coords)
     {
@@ -193,29 +197,6 @@ public class DoraCellData : ISelectable
 
         return true;
     }
-
-    #endregion
-
-
-    #region MARKING
-
-   /* bool isMarkedforSelection = false;
-
-
-    public void MarkForSelection(bool i_animated)
-    {
-        if (true == isSelected) return;
-        if (true == isMarkedforSelection) return;
-        if (null != kernel) kernel.MarkForSelection(i_animated);
-        isMarkedforSelection = true;
-    }
-
-    public void UnmarkForSelection(bool i_animated)
-    {
-        if (false == isMarkedforSelection) return;
-        if (null != kernel) kernel.UnmarkForSelection(i_animated);
-        isMarkedforSelection = false;
-    }*/
 
     #endregion
 }

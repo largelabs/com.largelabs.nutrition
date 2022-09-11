@@ -8,7 +8,7 @@ public class UIDoraSelectionCursor : MonoBehaviourBase
     [SerializeField] RectTransform canvasRect = null;
     [SerializeField] Image cursorImage = null;
     [SerializeField] RectTransform cursorRect = null;
-    [SerializeField] DoraController controller = null;
+    [SerializeField] DoraAbstractController controller = null;
 
     Vector3[] extentPointsBuffer = null;
 
@@ -42,7 +42,7 @@ public class UIDoraSelectionCursor : MonoBehaviourBase
 
         Vector2 resultAnchoredPosition = cursorRect.anchoredPosition;
 
-        Vector2 viewportPosition = Camera.main.WorldToViewportPoint(i_cell.CellBounds.center);
+        Vector2 viewportPosition = Camera.main.WorldToViewportPoint(i_cell.GetCellBounds().center);
         Vector2 canvasPos = new Vector2(
         ((viewportPosition.x * canvasRect.sizeDelta.x) - (canvasRect.sizeDelta.x * 0.5f)),
         ((viewportPosition.y * canvasRect.sizeDelta.y) - (canvasRect.sizeDelta.y * 0.5f)));
@@ -57,7 +57,7 @@ public class UIDoraSelectionCursor : MonoBehaviourBase
     {
         if (null == i_cell) return;
 
-        Rect uiRect = getUIBoundingBoxRect(canvasRect, i_cell.CellBounds, ref extentPointsBuffer);
+        Rect uiRect = getUIBoundingBoxRect(canvasRect, i_cell.GetCellBounds(), ref extentPointsBuffer);
 
         float size = Mathf.Max(uiRect.size.x, uiRect.size.y);
         cursorRect.sizeDelta = new Vector2(size, size);
