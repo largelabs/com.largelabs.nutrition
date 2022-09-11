@@ -9,6 +9,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] DoraInputs inputs = null;
     [SerializeField] protected DoraCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
+    [SerializeField] DoraFrenzyController frenzyController = null;
+    [SerializeField] float rotationSpeed = 50f;
 
     [Header("Score")]
     [SerializeField] DoraScoreManager scoreManager = null;
@@ -51,6 +53,11 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         inputs.EnableInputs();
     }
 
+    public void EnableMoveControls()
+    {
+        inputs.EnableMoveInputs();
+    }
+
     [ExposePublicMethod]
     public void DisableController(bool i_clearSelection = true)
     {
@@ -60,8 +67,14 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             cellSelector.ClearSelection();
     }
 
+    public void DisableMoveControls()
+    {
+        inputs.DisableMoveInputs();
+    }
+
     public virtual void StartAutoRotation()
     {
+        autoRotator?.SetRotationSpeedX(rotationSpeed);
         autoRotator?.StartAutoRotation();
     }
 
@@ -197,10 +210,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
                     eatenKernels++;
                     cellsToCleanup.Add(cell);
 
-                    if(true == cell.KernelIsSuper())
-                    {
-                        // Start Frenzy Mode
-                    }
+                    if (true == cell.KernelIsSuper())
+                        startFrenzyMode();
                 }
             }
             kernelSets.Add(newSet);
@@ -240,6 +251,20 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         selectedRadius = 0;
 
         this.DisposeCoroutine(ref eatingRoutine);
+    }
+
+    private IEnumerator startFrenzyMode()
+    {
+        Debug.LogError("Start Frenzy Mode");
+
+        DisableMoveControls();
+
+        frenzyController.PlayFrenzyMode(autoRotator);
+        yield return frenzyController.PlayFrenzyMode(autoRotator);
+
+        EnableMoveControls();
+
+        autoRotator.SetRotationSpeedX(rotationSpeed);
     }
 
     private List<ScoreKernelInfo> getStackInfo(List<HashSet<DoraKernel>> i_eatenKernels)

@@ -38,6 +38,10 @@ public class DoraInputs : MonoBehaviourBase
         inputActions.Player.Move.Enable();
         inputActions.Player.Eat.Enable();
     }
+    public void EnableMoveInputs()
+    {
+        inputActions.Player.Move.Enable();
+    }
 
     public void DisableInputs()
     {
@@ -46,6 +50,12 @@ public class DoraInputs : MonoBehaviourBase
 
         this.DisposeCoroutine(ref moveRoutine);
         this.DisposeCoroutine(ref eatRoutine);
+    }
+    public void DisableMoveInputs()
+    {
+        inputActions.Player.Move.Disable();
+
+        this.DisposeCoroutine(ref moveRoutine);
     }
 
     #endregion

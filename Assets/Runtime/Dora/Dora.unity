@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45142025, g: 0.50062823, b: 0.5707962, a: 1}
+  m_IndirectSpecularColor: {r: 0.45141983, g: 0.500628, b: 0.5707952, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -807,6 +807,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82a781693b83c3d40869fbb09f3cc93a, type: 3}
+--- !u!1 &1191869683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6202579059819927387, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+  m_PrefabInstance: {fileID: 417055885261860209}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1191869684 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+  m_PrefabInstance: {fileID: 417055885261860209}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191869683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f644cd7762b784abeb719671f10aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1191869686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191869683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf22708612a569345b1de623c251f179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 100
+  cursorAutoMoveTime: 1
+  frenzyTime: 8
+  raycastController: {fileID: 1191869684}
 --- !u!1 &1232865151
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,6 +1149,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82a781693b83c3d40869fbb09f3cc93a, type: 3}
+--- !u!114 &1625501768 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8758711578730594997, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+  m_PrefabInstance: {fileID: 417055885261860209}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1658593892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2973852795684463437, guid: 82a781693b83c3d40869fbb09f3cc93a, type: 3}
@@ -1675,9 +1718,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2489217777548913730}
     - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: interpolators
+      value: 
+      objectReference: {fileID: 1625501768}
+    - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: uiKernelManager
       value: 
       objectReference: {fileID: 1266575452}
+    - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: frenzyController
+      value: 
+      objectReference: {fileID: 1191869686}
     - target: {fileID: 6652452769625150235, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: panCamera
       value: 
