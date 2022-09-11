@@ -13,13 +13,21 @@ public class ColorPingPong : MonoBehaviourBase
     protected ITypedAnimator<Color> colorInterpolator = null;
     protected Coroutine pingPongRoutine = null;
     protected Color originalColor = Color.white;
+    protected bool resetColorOnFinish = true;
+
+    private void OnDestroy()
+    {
+        StopPingPong();
+    }
 
     #region PUBLIC API
     public virtual void StartPingPong(float i_singleLerpTime, 
                                       Color? i_baseColor, 
                                       Color? i_targetColor,
-                                      int i_numberOfLerps)
+                                      int i_numberOfLerps,
+                                      bool i_resetColorOnFinish)
     {
+        resetColorOnFinish = i_resetColorOnFinish;
         originalColor = rnd.color;
         if (pingPongRoutine == null)
             pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, i_baseColor, i_targetColor, i_numberOfLerps));
@@ -37,7 +45,9 @@ public class ColorPingPong : MonoBehaviourBase
     public virtual void StopPingPong()
     {
         this.DisposeCoroutine(ref pingPongRoutine);
-        rnd.color = originalColor;
+
+        if(resetColorOnFinish)
+            rnd.color = originalColor;
     }
 
     [ExposePublicMethod]
@@ -79,7 +89,7 @@ public class ColorPingPong : MonoBehaviourBase
 
         if (remainingLerps != 0)
             pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, color_1, color_0, remainingLerps));
-        else
+        else if(resetColorOnFinish)
             rnd.color = originalColor;
     }
     #endregion

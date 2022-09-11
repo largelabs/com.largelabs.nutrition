@@ -7,20 +7,22 @@ public class UITextPingPong : ColorPingPong
     [SerializeField] private Text thisText = null;
 
     public override void StartPingPong(float i_singleLerpTime,
-                                  Color? i_baseColor,
-                                  Color? i_targetColor,
-                                  int i_numberOfLerps)
+                                       Color? i_baseColor,
+                                       Color? i_targetColor,
+                                       int i_numberOfLerps,
+                                       bool i_resetColorOnFinish)
     {
+        base.StartPingPong(i_singleLerpTime, i_baseColor, i_targetColor, i_numberOfLerps, i_resetColorOnFinish);
         originalColor = thisText.color;
-        if (pingPongRoutine == null)
-            pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, i_baseColor, i_targetColor, i_numberOfLerps));
     }
 
     [ExposePublicMethod]
     public override void StopPingPong()
     {
-        this.DisposeCoroutine(ref pingPongRoutine);
-        thisText.color = originalColor;
+        base.StopPingPong();
+
+        if (resetColorOnFinish) 
+            thisText.color = originalColor;
     }
 
     protected override IEnumerator pingPongSequence(float i_singleLerpTime,
@@ -46,7 +48,7 @@ public class UITextPingPong : ColorPingPong
 
         if (remainingLerps != 0)
             pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, color_1, color_0, remainingLerps));
-        else
+        else if (resetColorOnFinish)
             thisText.color = originalColor;
     }
 }

@@ -9,18 +9,20 @@ public class UIImagePingPong : ColorPingPong
     public override void StartPingPong(float i_singleLerpTime,
                                       Color? i_baseColor,
                                       Color? i_targetColor,
-                                      int i_numberOfLerps)
+                                      int i_numberOfLerps,
+                                      bool i_resetColorOnFinish)
     {
+        base.StartPingPong(i_singleLerpTime, i_baseColor, i_targetColor, i_numberOfLerps, i_resetColorOnFinish);
         originalColor = thisImg.color;
-        if (pingPongRoutine == null)
-            pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, i_baseColor, i_targetColor, i_numberOfLerps));
     }
 
     [ExposePublicMethod]
     public override void StopPingPong()
     {
-        this.DisposeCoroutine(ref pingPongRoutine);
-        thisImg.color = originalColor;
+        base.StopPingPong();
+
+        if (resetColorOnFinish)
+            thisImg.color = originalColor;
     }
 
     protected override IEnumerator pingPongSequence(float i_singleLerpTime,
@@ -46,7 +48,7 @@ public class UIImagePingPong : ColorPingPong
 
         if (remainingLerps != 0)
             pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, color_1, color_0, remainingLerps));
-        else
+        else if (resetColorOnFinish)
             thisImg.color = originalColor;
     }
 }
