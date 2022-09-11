@@ -412,8 +412,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreManager: {fileID: 2860149975273147005}
   uiKernelSpawner: {fileID: 3495590306925383}
-  scoreText: {fileID: 159974330804617863}
-  scoreColorPong: {fileID: 3327874369086341324}
+  scoreTextScale: {fileID: 159974330804617863}
+  scoreTextColorPong: {fileID: 3327874369086341324}
   interpolatorsManager: {fileID: 8845486343768753308}
   animCurve:
     serializedVersion: 2

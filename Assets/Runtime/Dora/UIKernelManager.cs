@@ -8,8 +8,6 @@ public class UIKernelManager : MonoBehaviourBase
     [SerializeField] UIKernelSpawner uiKernelSpawner = null;
 
     [Header("Sequencing")]
-    [SerializeField] private LocalScalePingPong scoreText = null;
-    [SerializeField] private UITextColorPingPong scoreColorPong = null;
     [SerializeField] private InterpolatorsManager interpolatorsManager = null;
     [SerializeField] private AnimationCurve animCurve = null;
     [SerializeField] private RectTransform anchorStart = null;

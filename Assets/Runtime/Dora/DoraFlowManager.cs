@@ -174,12 +174,13 @@ public class DoraFlowManager : MiniGameFlow
         timer.PauseTimer();
 
         scoreManager.AddScoreByValue(currentDoraBatch.BatchFinishScoreBonus, 
-            PopupSpawner.PopupType.Super, Vector3.zero, 1f, 0.5f, 10f);
+            PopupSpawner.PopupType.Super, Vector3.zero, 1.0f, 0.5f, 10f);
 
         // maybe animate time increase
         timer.AddTime(currentDoraBatch.BatchFinishTimeBonus);
-        timerTextColor.StartPingPong(0.1f, 2);
-        timerTextScale.StartPingPong(0.1f, 2);
+        timerTextColor.StartPingPong(0.25f, 2);
+        timerTextScale.StartPingPong(0.25f, 2);
+        yield return this.Wait(1.0f);
 
         yield return StartCoroutine(bringNewBatch());
 
