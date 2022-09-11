@@ -123,13 +123,13 @@ public class DoraFlowManager : MiniGameFlow
         return false;
     }
 
-    private IEnumerator doraGameplay(DoraCellMap i_cellMap)
+    private IEnumerator doraGameplay(DoraCellMap i_cellMap, AutoRotator i_autoRotate)
     {
         if (null == inputActions) inputActions = new DoraActions();
 
         inputActions.Player.TestAction.Enable();
 
-        doraController.SetCellMap(i_cellMap);
+        doraController.SetDoraComponents(i_cellMap, i_autoRotate);
         doraController.EnableController();
         doraController.StartAutoRotation();
 
@@ -208,10 +208,10 @@ public class DoraFlowManager : MiniGameFlow
         doraMover.GetNextCob();
     }
 
-    private void tryStartDoraGameplay(DoraCellMap i_cellMap)
+    private void tryStartDoraGameplay(DoraCellMap i_cellMap, AutoRotator i_autoRotate)
     {
         if (doraGameplayRoutine == null)
-            doraGameplayRoutine = StartCoroutine(doraGameplay(i_cellMap));
+            doraGameplayRoutine = StartCoroutine(doraGameplay(i_cellMap, i_autoRotate));
         else
             Debug.LogError("The dora gameplay sequence is already active; " +
                             "there is an issue with the game's flow!");

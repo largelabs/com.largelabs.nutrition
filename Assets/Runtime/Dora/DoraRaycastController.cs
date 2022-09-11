@@ -34,9 +34,7 @@ public class DoraRaycastController : DoraController
     {
         Vector3 pos = raycastSource.transform.localPosition;
         pos.x += Time.deltaTime * raycastSourceMoveSpeed * (-i_move.x);
-
         pos.x = Mathf.Clamp(pos.x, minLocalX, maxLocalX);
-
         raycastSource.transform.localPosition = pos;
     }
 
@@ -54,8 +52,6 @@ public class DoraRaycastController : DoraController
             {
                 bool clearSelection = null != cellSelector.CurrentOriginCell && cellSelector.CurrentOriginCell.Value != cellData.Coords;
                 cellSelector.SelectCell(cellData.Coords, false, clearSelection);
-               // cellSelector.SelectRange(cellData.Coords, 0, true, false, clearSelection);
-               // cellSelector.MarkRange(cellData.Coords, 1, true, false, clearSelection);
             }
             else
                 cellSelector.ClearSelection();

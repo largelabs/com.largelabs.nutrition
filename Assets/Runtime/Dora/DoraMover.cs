@@ -23,7 +23,7 @@ public class DoraMover : MonoBehaviourBase
     private Transform currentCob = null;
 
     Coroutine nextCobRoutine = null;
-    public Action<DoraCellMap> OnGetNextCob = null;
+    public Action<DoraCellMap, AutoRotator> OnGetNextCob = null;
     public Action OnQueueEmpty = null;
 
     #region PUBLIC API
@@ -88,7 +88,8 @@ public class DoraMover : MonoBehaviourBase
             enableOffScreenCobKernels(false);
 
             DoraCellMap cellMap = i_nextCob.GetComponent<DoraCellMap>();
-            OnGetNextCob?.Invoke(cellMap);
+            AutoRotator rotator = i_nextCob.GetComponent<AutoRotator>();
+            OnGetNextCob?.Invoke(cellMap, rotator);
         }
         else
         {
