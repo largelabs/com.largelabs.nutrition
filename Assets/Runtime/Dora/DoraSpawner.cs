@@ -156,6 +156,7 @@ public class DoraSpawner : MonoBehaviourBase
     private void despawnDoraCob(DoraCellMap i_doraCob)
     {
         //Debug.LogError("DESPAWNED: " + i_doraCob.gameObject);
+        i_doraCob.ReleaseDoraCob();
         doraCobPool?.Despawn(i_doraCob.transform);
         OnDespawn?.Invoke(i_doraCob);
 

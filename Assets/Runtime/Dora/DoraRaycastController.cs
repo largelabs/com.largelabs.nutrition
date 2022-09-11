@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class DoraRaycastController : DoraController
+public class DoraRaycastController : DoraAbstractController
 {
     [Header("Raycast Controller Settings")]
     [SerializeField] float minLocalX = -6.5f;

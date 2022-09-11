@@ -3,25 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDoraCellProvider
-{
-    int CellMapLength0 { get; }
-    int CellMapLength1 { get; }
-
-    DoraCellData GetCell(Vector2Int i_coord, bool i_loopX, bool i_loopY);
-
-    Vector2Int GetLoopedCoord(Vector2Int i_coord, bool i_loopX, bool i_loopY);
-
-    Transform GetRowNormal(int i_index, bool i_loop);
-
-    int GetKernelCount();
-
-    DoraCellData[] AllCells { get; }
-
-    int TotalCellCount { get; }
-}
-
-
 public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 {
     [SerializeField] Transform[] anchors = null;
@@ -31,31 +12,30 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] MeshRenderer cobRnd = null;
 
+    DoraCellFactory cellFactory = null;
+
+    // Collections
     DoraCellData[] cells = null;
     DoraCellData[,] cellMap = null;
     Dictionary<GameObject, DoraCellData> cellsByGo = null;
-    DoraCellFactory cellFactory = null;
 
     private DoraData doraData = null;
  
     BoxCollider cullingBounds = null;
     BoxCollider selectionBounds = null;
 
-
     private const int NB_ROWS = 12;
     private const int NB_COLUMNS = 11;
 
     private void Update()
     {
-        /* Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
-
-         foreach (DoraCellData doraCell in cellMap)
-             doraCell.EnableKernelLogic(GeometryUtility.TestPlanesAABB(frustumPlanes, doraCell.CellBounds)); */
-
         foreach (DoraCellData doraCell in cellMap)
         {
-            doraCell.EnableKernelRenderer(cullingBounds.bounds.Intersects(doraCell.CellBounds));
-            doraCell.EnableKernelCollider(selectionBounds.bounds.Intersects(doraCell.CellBounds));
+            if(true == doraCell.HasKernel)
+            {
+                doraCell.EnableKernelRenderer(cullingBounds.bounds.Intersects(doraCell.GetCellBounds()));
+                doraCell.EnableKernelCollider(selectionBounds.bounds.Intersects(doraCell.GetCellBounds()));
+            }
         }
     }
 
@@ -126,9 +106,25 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         fetchData(i_parentBatch);
         cullingBounds = i_cullingBounds;
         selectionBounds = i_selectionBounds;
-        PopulateMap(i_vfxPool);
+        populateMap(i_vfxPool);
         durabilityManager.InitializeKernelDurability(i_canSpawnSuper, out o_superKernelSpawned);
         RevealCells(false);
+    }
+
+    public void ReleaseDoraCob()
+    {
+        for (int i = 0; i < NB_ROWS; i++)
+        {
+            for (int j = 0; j < NB_COLUMNS; j++)
+            {
+                cellFactory.ReleaseCell(cellMap[i, j], kernelSpawner);
+            }
+        }
+
+        cells = null;
+        cellMap = null;
+        if (null != cellsByGo) cellsByGo.Clear();
+        cellsByGo = null;
     }
 
     public void RevealCells(bool i_animated)
@@ -155,49 +151,6 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
         }
     }
 
-    public void PopulateMap(SpawnPool i_vfxPool)
-    {
-        if (kernelSpawner == null)
-        {
-            Debug.LogError("Kernel spawner is null...Cannot populate map!");
-            return;
-        }
-
-        int count = anchors.Length;
-
-        cells = new DoraCellData[count];
-        cellsByGo = new Dictionary<GameObject, DoraCellData>(count);
-        DoraCellData currData = null;
-
-        if (null == cellFactory) cellFactory = new DoraCellFactory(interpolators);
-
-        DoraKernel currentKernel = null;
-        for (int i = 0; i < count; i++)
-        {
-            currentKernel = kernelSpawner.SpawnDoraKernelAtAnchor(anchors[i]);
-            if (currentKernel != null)
-                cells[i] = cellFactory.MakeCell(currentKernel, i_vfxPool);
-            else
-            {
-                Debug.LogError("Factory could not create cell! Returning...");
-                return;
-            }
-        }
-
-        cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cells, NB_ROWS, NB_COLUMNS);
-
-        for(int i = 0; i < NB_ROWS; i++)
-        {
-            for(int j = 0; j < NB_COLUMNS; j++)
-            {
-                currData = cellMap[i, j];
-                currData.SetCoords(new Vector2Int(i, j));
-                currData.SetKernelName(i + "," + j);
-                cellsByGo.Add(currData.Kernel.gameObject, currData);
-            }
-        }
-    }
-
     public void EnableRenderers(bool i_enable)
     {
         if (cellMap != null)
@@ -219,6 +172,42 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     #endregion
 
     #region PRIVATE
+
+    public void populateMap(SpawnPool i_vfxPool)
+    {
+        if (kernelSpawner == null)
+        {
+            Debug.LogError("Kernel spawner is null...Cannot populate map!");
+            return;
+        }
+
+        int count = anchors.Length;
+
+        cells = new DoraCellData[count];
+        cellsByGo = new Dictionary<GameObject, DoraCellData>(count);
+
+        if (null == cellFactory) cellFactory = new DoraCellFactory(interpolators);
+
+        for (int i = 0; i < count; i++)
+        {
+            cells[i] = cellFactory.MakeCell(i_vfxPool, kernelSpawner, anchors[i]);
+        }
+
+        cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cells, NB_ROWS, NB_COLUMNS);
+        DoraCellData currData = null;
+
+        for (int i = 0; i < NB_ROWS; i++)
+        {
+            for (int j = 0; j < NB_COLUMNS; j++)
+            {
+                currData = cellMap[i, j];
+                currData.SetCoords(new Vector2Int(i, j));
+                currData.SetKernelName(i + "," + j);
+                cellsByGo.Add(currData.Kernel.gameObject, currData);
+            }
+        }
+    }
+
     private void fetchData(DoraBatchData i_parentBatch)
     {
         doraData = i_parentBatch.AssignedDoraData;
@@ -266,5 +255,4 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     }
 
     #endregion
-
 }

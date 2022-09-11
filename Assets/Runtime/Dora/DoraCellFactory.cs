@@ -3,21 +3,38 @@ using UnityEngine;
 
 public class DoraCellFactory
 {
-    InterpolatorsManager interpolators = null;
+    private InterpolatorsManager interpolators = null;
+    private ManagedPool<DoraCellData> cellPool = null;
 
     public DoraCellFactory(InterpolatorsManager i_interpolators)
     {
         interpolators = i_interpolators;
+        cellPool = new ManagedPool<DoraCellData>(-1);
     }
 
-    public DoraCellData MakeCell(DoraKernel i_kernel, SpawnPool i_vfxPool)
+    public DoraCellData MakeCell(SpawnPool i_vfxPool, KernelSpawner i_kernelSpawner, Transform i_anchor)
     {
-        i_kernel.Init(interpolators, i_vfxPool);
-        i_kernel.Disappear(false);
+        DoraKernel kernel = i_kernelSpawner.SpawnDoraKernelAtAnchor(i_anchor);
 
-        DoraCellData cellData = new DoraCellData();
-        cellData.Init(i_kernel, i_kernel.transform.parent);
+        kernel.Init(interpolators, i_vfxPool);
+        kernel.Disappear(false);
+
+        DoraCellData cellData = cellPool.GetItem();
+        cellData.Init(kernel, i_anchor);
 
         return cellData;
+    }
+
+    public void ReleaseCell(DoraCellData i_cell, KernelSpawner i_kernelSpawner)
+    {
+        if (null == i_cell) return;
+
+        if(true == i_cell.HasKernel)
+        {
+            i_kernelSpawner?.DespawnKernel(i_cell.Kernel);
+        }
+
+        cellPool.ResetItem(i_cell);
+
     }
 }
