@@ -196,6 +196,11 @@ public abstract class DoraAbstractController : MonoBehaviourBase
                     if (true == cell.KernelIsBurnt()) burntKenrelsCount++;
                     eatenKernels++;
                     cellsToCleanup.Add(cell);
+
+                    if(true == cell.KernelIsSuper())
+                    {
+                        // Start Frenzy Mode
+                    }
                 }
             }
             kernelSets.Add(newSet);
