@@ -84,7 +84,7 @@ public class UIFloatingScore : MonoBehaviour
         {
             getAttachedComponents();
 
-            thisRectTransform.parent = i_anchor;
+            thisRectTransform.SetParent(i_anchor);
             thisRectTransform.localScale = Vector3.one;
 
             AnimationRoutine = StartCoroutine
