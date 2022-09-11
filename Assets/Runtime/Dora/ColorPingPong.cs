@@ -2,55 +2,72 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorPingPong : MonoBehaviour
+public class ColorPingPong : MonoBehaviourBase
 {
     [SerializeField] private SpriteRenderer rnd = null;
-    [SerializeField] private Color baseColor = Color.yellow;
-    [SerializeField] private Color targetColor = Color.magenta;
-    [SerializeField] private InterpolatorsManager interpolatorsManager = null;
-    [SerializeField] private AnimationCurve singleLerpCurve = null;
+    [SerializeField] protected Color baseColor = Color.yellow;
+    [SerializeField] protected Color targetColor = Color.magenta;
+    [SerializeField] protected InterpolatorsManager interpolatorsManager = null;
+    [SerializeField] protected AnimationCurve singleLerpCurve = null;
 
-    bool isPaused = false;
-    Coroutine pingPongRoutine = null;
+    protected ITypedAnimator<Color> colorInterpolator = null;
+    protected Coroutine pingPongRoutine = null;
+    protected Color originalColor = Color.white;
 
     #region PUBLIC API
-    public void StartPingPong(float i_singleLerpTime, 
-                              Color? i_baseColor, 
-                              Color? i_targetColor,
-                              int i_numberOfLerps)
+    public virtual void StartPingPong(float i_singleLerpTime, 
+                                      Color? i_baseColor, 
+                                      Color? i_targetColor,
+                                      int i_numberOfLerps)
     {
+        originalColor = rnd.color;
         if (pingPongRoutine == null)
             pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, i_baseColor, i_targetColor, i_numberOfLerps));
     }
+    
+    [ExposePublicMethod]
+    public void StartPingPong(float i_singleLerpTime,
+                              int i_numberOfLerps)
+    {
+        if (pingPongRoutine == null)
+            pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, null, null, i_numberOfLerps));
+    }
 
-    public void StopPingPong()
+    [ExposePublicMethod]
+    public virtual void StopPingPong()
     {
         this.DisposeCoroutine(ref pingPongRoutine);
+        rnd.color = originalColor;
     }
 
+    [ExposePublicMethod]
     public void PausePingPong()
     {
-
+        if (colorInterpolator != null)
+            colorInterpolator.Pause();
     }
 
+    [ExposePublicMethod]
     public void ResumePingPong()
     {
-
+        if (colorInterpolator != null)
+            colorInterpolator.Resume();
     }
     #endregion
 
     #region PRIVATE 
-    private IEnumerator pingPongSequence(float i_singleLerpTime, 
+    protected virtual IEnumerator pingPongSequence(float i_singleLerpTime, 
                                          Color? i_baseColor, 
                                          Color? i_targetColor,
                                          int i_numberOfLerps)
     {
+        int remainingLerps = Mathf.Clamp(i_numberOfLerps - 1, -1, int.MaxValue);
         AnimationMode mode = new AnimationMode(singleLerpCurve);
 
         Color color_0 = i_baseColor != null ? i_baseColor.Value : baseColor;
         Color color_1 = i_targetColor != null ? i_targetColor.Value : targetColor;
 
-        ITypedAnimator<Color> colorInterpolator = interpolatorsManager.Animate(color_0, color_1, i_singleLerpTime, mode, true, 0f, null);
+        colorInterpolator = interpolatorsManager.Animate(color_0, color_1, i_singleLerpTime, mode, true, 0f, null);
 
         while (colorInterpolator.IsActive)
         {
@@ -59,6 +76,11 @@ public class ColorPingPong : MonoBehaviour
         }
 
         this.DisposeCoroutine(ref pingPongRoutine);
+
+        if (remainingLerps != 0)
+            pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, color_1, color_0, remainingLerps));
+        else
+            rnd.color = originalColor;
     }
     #endregion
 }
