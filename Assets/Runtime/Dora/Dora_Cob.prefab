@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 5121594635215016961}
   - component: {fileID: 6891196076344109177}
   - component: {fileID: 8300991783027058464}
+  - component: {fileID: 1793842816334117041}
   m_Layer: 0
   m_Name: Dora_Cob
   m_TagString: Untagged
@@ -584,7 +585,6 @@ MonoBehaviour:
   kernelSpawner: {fileID: 4942314497940810940}
   durabilityManager: {fileID: 8300991783027058464}
   interpolators: {fileID: 6891196076344109177}
-  doraData: {fileID: 11400000, guid: 022361e63e3149142b800cf71d7a402e, type: 2}
   cobRnd: {fileID: 2973852796973183393}
 --- !u!114 &6891196076344109177
 MonoBehaviour:
@@ -615,7 +615,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellMap: {fileID: 5121594635215016961}
-  burnThreshold: 0.3
+--- !u!114 &1793842816334117041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2973852795684463434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72efbb28bb567274ca6c4c063a54254f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: {x: 50, y: 0, z: 0}
 --- !u!1 &2973852795687102239
 GameObject:
   m_ObjectHideFlags: 0

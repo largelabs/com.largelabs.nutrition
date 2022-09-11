@@ -7,7 +7,7 @@ public class DoraController : MonoBehaviourBase
     [SerializeField] protected bool useRangeMarking = false;
     [SerializeField] bool forceSelectionOnEat = true;
     [SerializeField] DoraInputs inputs = null;
-    [SerializeField] protected DoraAbstractCellSelector cellSelector = null;
+    [SerializeField] protected DoraCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
 
     [Header("Score")]
@@ -17,12 +17,13 @@ public class DoraController : MonoBehaviourBase
     [SerializeField] float animationOffset = 10f;
     [SerializeField] float alphaTime = 0.2f;
 
+    AutoRotator autoRotator = null;
+    int unburntEatenCount = 0;
+    int selectedRadius = 0;
+    Coroutine eatingRoutine = null;
+
     protected DoraCellMap cellMap = null;
 
-    private int unburntEatenCount = 0;
-    int selectedRadius = 0;
-
-    Coroutine eatingRoutine = null;
 
     #region UNITY AND CORE
 
@@ -51,12 +52,12 @@ public class DoraController : MonoBehaviourBase
 
     public virtual void StartAutoRotation()
     {
-        cellSelector.StartAutoRotation();
+        autoRotator?.StartAutoRotation();
     }
 
     public virtual void StopAutoRotation()
     {
-        cellSelector.StopAutoRotation();
+        autoRotator?.StopAutoRotation();
     }
 
     [ExposePublicMethod]
@@ -68,8 +69,9 @@ public class DoraController : MonoBehaviourBase
             cellSelector.ClearSelection();
     }
 
-    public void SetCellMap(DoraCellMap i_cellMap)
+    public void SetDoraComponents(DoraCellMap i_cellMap, AutoRotator i_autoRotator)
     {
+        autoRotator = i_autoRotator;
         cellMap = i_cellMap;
         if (null == cellMap) DisableController();
         cellSelector.SetCellMap(cellMap);
