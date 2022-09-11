@@ -19,6 +19,7 @@ public class ParticleEffectAutoDespawn : MonoBehaviour
 
 	public void Despawn()
 	{
+		StopAllCoroutines();
 		pool.Despawn(transform);
 		transform.SetParent(pool.transform);
 	}

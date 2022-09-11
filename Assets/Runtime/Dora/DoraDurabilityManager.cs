@@ -125,7 +125,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
         for (int i = 0; i < length; i++)
         {
             currCellData = cellMap.GetCell(getRandomCellIdx(i_length0, i_length1), false, false);
-            currCellData.SetSuper(true);
+            currCellData.SetSuper();
             currCellData.SetBurnable(false);
             currCellData.SetDurability(1f);
             currCellData.UpdateColor();
@@ -186,7 +186,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
             Vector2Int baseCoord = new Vector2Int(i_rowIdx, i_columnIdx);
             foreach (Vector2Int direction in directions)
             {
-                bool? kernelBurnable = cellMap.GetCell(baseCoord + direction, false, false).KernelIsBurnable();
+                bool? kernelBurnable = cellMap.GetCell(baseCoord + direction, false, false).IsKernelBurnable;
                 if(kernelBurnable != null && kernelBurnable.Value == true)
                     calculatedChance -= chanceReduction;
             }
@@ -258,13 +258,13 @@ public class DoraDurabilityManager : MonoBehaviourBase
                     if (durability != null)
                     {
                         totalKernels++;
-                        if (currCellData.KernelIsBurnt().Value == true)
+                        if (currCellData.KernelStatus == KernelStatus.Burnt)
                             burntKernels++;
                         else
                             unburntKernels++;
                     }
 
-                    isSuper = currCellData.KernelIsSuper().Value;
+                    isSuper = currCellData.KernelStatus == KernelStatus.Super;
                     if (isSuper != null && isSuper.Value == false)
                     {
                         currCellData.DecreaseDurability(durabilityLossPerInterval);

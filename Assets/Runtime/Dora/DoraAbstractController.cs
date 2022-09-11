@@ -165,7 +165,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
                 if (cell.HasKernel)
                 {
                     newSet.Add(cell.Kernel);
-                    if (true == cell.KernelIsBurnt()) burntKenrelsCount++;
+                    if (cell.KernelStatus == KernelStatus.Burnt) burntKenrelsCount++;
                     eatenKernels++;
                     cellsToCleanup.Add(cell);
                 }

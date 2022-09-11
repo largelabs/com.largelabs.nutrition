@@ -54,7 +54,7 @@ public class UIKernelManager : MonoBehaviourBase
         {
             // add each uikernel to a list and use it to play the animations in the next loop
             uiKernels.Add(uiKernelSpawner.SpawnUIKernelAtAnchor(anchorStart, xOffsetPerUIKernel * i, 
-                            i_eatenKernels[i].KernelStatus == DoraKernel.KernelStatus.Burnt));
+                            i_eatenKernels[i].KernelStatus == KernelStatus.Burnt));
         }
 
         for (int i = 0; i < length; i++)

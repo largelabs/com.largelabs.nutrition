@@ -94,30 +94,9 @@ public class DoraCellData : ISelectable, IPoolable
             return null;
     }
 
-    public bool? KernelIsBurnt()
-    {
-        if (HasKernel)
-            return kernel.IsBurnt;
-        else
-            return null;
-    }
+    public KernelStatus? KernelStatus => HasKernel ? kernel.Status : null;
 
-    public bool? KernelIsSuper()
-    {
-        if (HasKernel)
-            return kernel.IsSuper;
-        else
-            return null;
-    }
-
-    public bool? KernelIsBurnable()
-    {
-        if (HasKernel)
-            return kernel.IsBurnable;
-        else
-            return null;
-    }
-
+    public bool? IsKernelBurnable => HasKernel ? kernel.IsBurnable : null; 
     public bool SetDurability(float i_durability)
     {
         if (HasKernel)
@@ -128,10 +107,10 @@ public class DoraCellData : ISelectable, IPoolable
         return true;
     } 
     
-    public bool SetSuper(bool i_super)
+    public bool SetSuper()
     {
         if (HasKernel)
-            kernel.SetSuper(i_super);
+            kernel.SetSuper();
         else
             return false;
 
@@ -158,7 +137,7 @@ public class DoraCellData : ISelectable, IPoolable
         return true;
     }
 
-    public bool IncreaseDurability(float i_durability)
+   /* public bool IncreaseDurability(float i_durability)
     {
         if (HasKernel)
             kernel.IncreaseDurability(i_durability);
@@ -166,9 +145,9 @@ public class DoraCellData : ISelectable, IPoolable
             return false;
 
         return true;
-    }
+    } */
 
-    public bool SetBurntStatus(bool i_burnt)
+   /* public bool SetBurntStatus(bool i_burnt)
     {
         if (HasKernel)
             kernel.SetBurntStatus(i_burnt);
@@ -176,7 +155,7 @@ public class DoraCellData : ISelectable, IPoolable
             return false;
 
         return true;
-    }
+    } */
 
     public bool UpdateColor()
     {
