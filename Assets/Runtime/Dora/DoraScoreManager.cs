@@ -71,7 +71,7 @@ public class DoraScoreManager : MonoBehaviourBase
         addToScore(i_score);
     } 
     
-    public void AddScoreByStatus(DoraKernel.KernelStatus i_status,
+    public void AddScoreByStatus(KernelStatus i_status,
                                 float i_multiplier,
                                 RectTransform i_anchor,
                                 float i_animTime,
@@ -85,7 +85,7 @@ public class DoraScoreManager : MonoBehaviourBase
         addToScore(scoreToAdd);
     }
     
-    public void AddScoreByStatus(DoraKernel.KernelStatus i_status,
+    public void AddScoreByStatus(KernelStatus i_status,
                                 float i_multiplier,
                                 Vector3 i_worldPos,
                                 float i_animTime,
@@ -167,13 +167,13 @@ public class DoraScoreManager : MonoBehaviourBase
 
 
     #region PRIVATE API
-    private PopupSpawner.PopupType getPopupType(DoraKernel.KernelStatus i_status)
+    private PopupSpawner.PopupType getPopupType(KernelStatus i_status)
     {
-        if (i_status == DoraKernel.KernelStatus.Super)
+        if (i_status == KernelStatus.Super)
             return PopupSpawner.PopupType.Super;
-        else if (i_status == DoraKernel.KernelStatus.Normal)
+        else if (i_status == KernelStatus.Normal)
             return PopupSpawner.PopupType.Positive;
-        else if (i_status == DoraKernel.KernelStatus.Burnt)
+        else if (i_status == KernelStatus.Burnt)
             return PopupSpawner.PopupType.Negative;
         else
         {
@@ -187,15 +187,15 @@ public class DoraScoreManager : MonoBehaviourBase
         return getKernelScoreByStatus(i_kernel.Status, i_multiplier);
     }
     
-    private int getKernelScoreByStatus(DoraKernel.KernelStatus i_status, float i_multiplier)
+    private int getKernelScoreByStatus(KernelStatus i_status, float i_multiplier)
     {
         float score = 0;
 
-        if (i_status == DoraKernel.KernelStatus.Super)
+        if (i_status == KernelStatus.Super)
             score = superBaseScore;
-        else if (i_status == DoraKernel.KernelStatus.Normal)
+        else if (i_status == KernelStatus.Normal)
             score = goodBaseScore;
-        else if (i_status == DoraKernel.KernelStatus.Burnt)
+        else if (i_status == KernelStatus.Burnt)
             score = burntBaseScore;
 
         return Mathf.CeilToInt(score * i_multiplier);
