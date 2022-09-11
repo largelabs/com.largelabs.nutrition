@@ -72,6 +72,8 @@ public class DoraFlowManager : MiniGameFlow
 
     protected override void onGameplayEnded()
     {
+        StartCoroutine(stopGameplay());
+
         unregisterEvents();
     }
 
@@ -88,6 +90,24 @@ public class DoraFlowManager : MiniGameFlow
     #endregion
 
     #region PRIVATE
+
+    private IEnumerator stopGameplay()
+    {
+        while (true)
+        {
+            if (true == doraController.IsEating())
+            {
+                Debug.LogError("STILL EATING");
+                yield return null;
+            }
+            else
+                break;
+        }
+
+        this.DisposeCoroutine(ref doraGameplayRoutine);
+        doraController.StopController();
+    }
+
     IEnumerator bringNewBatch()
     {
         // Maybe change way of choosing batch?
@@ -186,6 +206,7 @@ public class DoraFlowManager : MiniGameFlow
     private void goToSuccess()
     {
         StartCoroutine(onSuccess());
+        EndMiniGame(true);
     }
 
     private void getNextDoraBatch()

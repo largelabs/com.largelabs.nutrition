@@ -22,6 +22,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     int unburntEatenCount = 0;
     int selectedRadius = 0;
 
+    private bool didGameplayEnd = false;
+
     protected DoraCellMap cellMap = null;
 
     #region UNITY AND CORE
@@ -84,6 +86,21 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         unburntEatenCount = 0;
     }
 
+    public bool IsEating()
+    {
+        if (null == eatingRoutine) return false;
+        else return true;
+    }
+
+    public void StopController()
+    {
+        didGameplayEnd = true;
+
+        unlistenToInputs();
+        StopAutoRotation();
+        DisableController();
+    }
+
     #endregion
 
     #region PROTECTED
@@ -103,6 +120,17 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         inputs.OnEatStarted += onEatStarted;
         inputs.OnEat += onEat;
         inputs.OnEatReleased += onEatReleased;
+    }
+
+    void unlistenToInputs()
+    {
+        inputs.OnMoveStarted -= onMoveStarted;
+        inputs.OnMove -= onMove;
+        inputs.OnMoveReleased -= onMoveReleased;
+
+        inputs.OnEatStarted -= onEatStarted;
+        inputs.OnEat -= onEat;
+        inputs.OnEatReleased -= onEatReleased;
     }
 
     private void onEatStarted()
@@ -201,7 +229,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         if (null != cellSelector.CurrentOriginCell && true == forceSelectionOnEat)
             cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
 
-        StartAutoRotation();
+        if (false == didGameplayEnd)
+            StartAutoRotation();
 
         selectedRadius = 0;
 
