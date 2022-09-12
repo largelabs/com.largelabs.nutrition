@@ -144,7 +144,7 @@ public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
 
     void selectRecursive(ref List<Vector2Int> i_lastRecursiveSelect, ref int i_currRadius, ref int i_currStep, int i_radius, bool i_loopX, bool i_loopY)
     {
-        Debug.Log(i_currRadius + "  " + i_radius);
+        //Debug.Log(i_currRadius + "  " + i_radius);
         if (i_currRadius == i_radius) return;
         if (null == recursiveSelectBuffer) recursiveSelectBuffer = new List<Vector2Int>();
 

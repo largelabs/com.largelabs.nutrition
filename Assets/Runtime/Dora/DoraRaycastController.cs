@@ -16,7 +16,7 @@ public class DoraRaycastController : DoraAbstractController
 
     ITypedAnimator<Vector3> moveInterpolator = null;
     Vector3 targetPos = Vector3.zero;
-    float autoMoveTime = 1f;
+    float autoMoveSpeed = 1f;
 
     #region UNITY & CORE
 
@@ -29,9 +29,9 @@ public class DoraRaycastController : DoraAbstractController
 
     #region PUBLIC API
 
-    public override void StartAutoRotation()
+    public override void StartAutoRotation(bool i_setDefaultSpeed)
     {
-        base.StartAutoRotation();
+        base.StartAutoRotation(i_setDefaultSpeed);
         if (null == rayCastRoutine) rayCastRoutine = StartCoroutine(updateRaycast());
     }
 
@@ -41,15 +41,18 @@ public class DoraRaycastController : DoraAbstractController
         this.DisposeCoroutine(ref rayCastRoutine);
     }
 
-    public void StartAutoMove(float i_time)
+    public void StartAutoMove(float i_speed)
     {
+        Debug.LogError("Start AutoMove");
         targetPos = new Vector3(maxLocalX, raycastSource.transform.localPosition.y, raycastSource.transform.localPosition.z);
-        autoMoveTime = i_time;
+        autoMoveSpeed = i_speed;
         autoMove();
     }
 
     public void StopAutoMove()
     {
+        Debug.LogError("Stop AutoMove");
+
         moveInterpolator = null;
     }
 
@@ -72,6 +75,7 @@ public class DoraRaycastController : DoraAbstractController
 
     IEnumerator updateRaycast()
     {
+        Debug.LogError("update raycast");
         while (true)
         {
             DoraCellData cellData = cellMap.GetCell(null != raycastSource ? raycastSource.HitGo : null);
@@ -79,7 +83,11 @@ public class DoraRaycastController : DoraAbstractController
             if (null != cellData)
             {
                 bool clearSelection = null != cellSelector.CurrentOriginCell && cellSelector.CurrentOriginCell.Value != cellData.Coords;
-                cellSelector.SelectCell(cellData.Coords, false, clearSelection);
+
+                
+                if(null == frenzyRoutine) cellSelector.SelectCell(cellData.Coords, false, clearSelection);
+                else 
+                    cellSelector.SelectRange(cellData.Coords, 2, true, false, true); 
             }
             else
                 cellSelector.ClearSelection();
@@ -90,7 +98,9 @@ public class DoraRaycastController : DoraAbstractController
 
     private void autoMove()
     {
-        moveInterpolator = interpolators.Animate(raycastSource.transform.localPosition, targetPos, autoMoveTime, new AnimationMode(AnimationType.Linear), false, 0.2f, onMoveAnimationEnded);
+        //convert time to speed
+        float time = (targetPos - raycastSource.transform.localPosition).magnitude / autoMoveSpeed;
+        moveInterpolator = interpolators.Animate(raycastSource.transform.localPosition, targetPos, time, new AnimationMode(AnimationType.Linear), false, 0.2f, onMoveAnimationEnded);
     }
 
     private void onMoveAnimationEnded(ITypedAnimator<Vector3> i_interpolator)

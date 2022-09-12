@@ -20,6 +20,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] float alphaTime = 0.2f;
 
     Coroutine eatingRoutine = null;
+    protected Coroutine frenzyRoutine = null;
     AutoRotator autoRotator = null;
     int unburntEatenCount = 0;
     int selectedRadius = 0;
@@ -30,7 +31,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     #region UNITY AND CORE
 
-    void Start ()
+    void Start()
     {
         listenToInputs();
     }
@@ -72,9 +73,9 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         inputs.DisableMoveInputs();
     }
 
-    public virtual void StartAutoRotation()
+    public virtual void StartAutoRotation(bool i_setDefaultSpeed = true)
     {
-        autoRotator?.SetRotationSpeedX(rotationSpeed);
+        if (true == i_setDefaultSpeed) autoRotator?.SetRotationSpeedX(rotationSpeed);
         autoRotator?.StartAutoRotation();
     }
 
@@ -108,6 +109,9 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     public void StopController()
     {
         didGameplayEnd = true;
+
+        this.DisposeCoroutine(ref frenzyRoutine);
+        frenzyController.StopFrenzyMode();
 
         unlistenToInputs();
         StopAutoRotation();
@@ -152,7 +156,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
         if (false == cell.HasKernel) return;
 
-        StopAutoRotation();
+        if (frenzyRoutine == null) StopAutoRotation();
         selectedRadius = 0;
     }
 
@@ -171,7 +175,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     private void onEatReleased()
     {
         eatKernels();
-    } 
+    }
 
     private void onMoveStarted(Vector2 i_move) { move(i_move); }
 
@@ -182,7 +186,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     private void eatKernels()
     {
         if (null == cellSelector.CurrentOriginCell) return;
-        Debug.LogError("Eating");
+        //Debug.LogError("Eating");
 
         IReadOnlyList<HashSet<Vector2Int>> selectedKernelsInSteps = cellSelector.SelectedRangeInSteps;
         if (null == selectedKernelsInSteps)
@@ -210,8 +214,11 @@ public abstract class DoraAbstractController : MonoBehaviourBase
                     eatenKernels++;
                     cellsToCleanup.Add(cell);
 
-                    if (true == cell.KernelIsSuper())
-                        startFrenzyMode();
+                    if (cell.KernelStatus == KernelStatus.Super)
+                    {
+                        if (frenzyRoutine == null)
+                            frenzyRoutine = StartCoroutine(startFrenzyMode());
+                    }
                 }
             }
             kernelSets.Add(newSet);
@@ -224,8 +231,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatCount, List<HashSet<DoraKernel>> i_eatenKernels)
     {
         // bite animation stuff
-
-        yield return null;
+        if (frenzyRoutine == null)
+            yield return null;
 
         uiKernelManager.HandleKernelStack(getStackInfo(i_eatenKernels));
 
@@ -237,7 +244,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         }
 
         //Debug.LogError("going to wait: " + i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
-        yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
+        if(frenzyRoutine == null)
+            yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
 
         // post-sequence cleanup
         unburntEatenCount += i_eatCount;
@@ -245,7 +253,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         if (null != cellSelector.CurrentOriginCell && true == forceSelectionOnEat)
             cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
 
-        if (false == didGameplayEnd)
+        if (false == didGameplayEnd && null == frenzyRoutine)
             StartAutoRotation();
 
         selectedRadius = 0;
@@ -264,7 +272,9 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         EnableMoveControls();
 
-        autoRotator.SetRotationSpeedX(rotationSpeed);
+        StartAutoRotation();
+
+        this.DisposeCoroutine(ref frenzyRoutine);
     }
 
     private List<ScoreKernelInfo> getStackInfo(List<HashSet<DoraKernel>> i_eatenKernels)
