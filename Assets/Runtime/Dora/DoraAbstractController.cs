@@ -279,7 +279,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         this.DisposeCoroutine(ref frenzyRoutine);
     }
 
-    private List<ScoreKernelInfo> getStackInfo(List<HashSet<DoraKernel>> i_eatenKernels)
+    private Queue<ScoreKernelInfo> getStackInfo(List<HashSet<DoraKernel>> i_eatenKernels)
     {
         Queue<ScoreKernelInfo> scoreKernels = new Queue<ScoreKernelInfo>();
         float multiplier = 1f;
