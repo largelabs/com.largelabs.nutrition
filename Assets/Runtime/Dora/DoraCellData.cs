@@ -97,6 +97,7 @@ public class DoraCellData : ISelectable, IPoolable
     public KernelStatus? KernelStatus => HasKernel ? kernel.Status : null;
 
     public bool? IsKernelBurnable => HasKernel ? kernel.IsBurnable : null; 
+
     public bool SetDurability(float i_durability)
     {
         if (HasKernel)

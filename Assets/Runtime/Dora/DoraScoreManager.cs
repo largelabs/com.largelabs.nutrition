@@ -71,16 +71,15 @@ public class DoraScoreManager : MonoBehaviourBase
         addToScore(i_score);
     } 
     
-    public void AddScoreByStatus(KernelStatus i_status,
-                                float i_multiplier,
+    public void AddScoreByStatus(ScoreKernelInfo i_info,
                                 RectTransform i_anchor,
                                 float i_animTime,
                                 float i_alphaTime,
                                 float i_yoffset
                                 )
     {
-        int scoreToAdd = getKernelScoreByStatus(i_status, i_multiplier);
-        scorePopupSpawner.PlayPopupWithAnchor(getPopupType(i_status), i_anchor, i_animTime, i_alphaTime,
+        int scoreToAdd = getKernelScoreByStatus(i_info.KernelStatus, i_info.ScoreMultiplier);
+        scorePopupSpawner.PlayPopupWithAnchor(getPopupType(i_info.KernelStatus), i_anchor, i_animTime, i_alphaTime,
                                     scoreToAdd, false, i_yoffset);
         addToScore(scoreToAdd);
     }
@@ -182,11 +181,6 @@ public class DoraScoreManager : MonoBehaviourBase
         }
     }
 
-    private int getKernelScore(DoraKernel i_kernel, float i_multiplier)
-    {
-        return getKernelScoreByStatus(i_kernel.Status, i_multiplier);
-    }
-    
     private int getKernelScoreByStatus(KernelStatus i_status, float i_multiplier)
     {
         float score = 0;
@@ -204,7 +198,7 @@ public class DoraScoreManager : MonoBehaviourBase
     void addToScore(int i_score)
     {
         score += i_score;
-        scoreText.text = score.ToString();
+        scoreText.text = score.ToString("000000");
     }
 
     void removeFromScore(int i_score)

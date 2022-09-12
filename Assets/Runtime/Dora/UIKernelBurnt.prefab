@@ -96,16 +96,8 @@ PrefabInstance:
       value: UIKernelBurnt
       objectReference: {fileID: 0}
     - target: {fileID: 9018625004682134691, guid: 633b130055fcaef489f6153676a1f1c4, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9018625004682134691, guid: 633b130055fcaef489f6153676a1f1c4, type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9018625004682134691, guid: 633b130055fcaef489f6153676a1f1c4, type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f4ff2fe014cdbac41bccb3c650aa4d38, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 633b130055fcaef489f6153676a1f1c4, type: 3}

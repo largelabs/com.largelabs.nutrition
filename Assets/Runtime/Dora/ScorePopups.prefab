@@ -55,7 +55,35 @@ MonoBehaviour:
   dontReparent: 0
   _dontDestroyOnLoad: 0
   logMessages: 0
-  _perPrefabPoolOptions: []
+  _perPrefabPoolOptions:
+  - prefab: {fileID: 1835971450104439899, guid: d8843b73817bcda41975471639157e28, type: 3}
+    preloadAmount: 25
+    preloadTime: 0
+    preloadFrames: 2
+    preloadDelay: 0
+    limitInstances: 0
+    limitAmount: 100
+    limitFIFO: 0
+    cullDespawned: 0
+    cullAbove: 50
+    cullDelay: 60
+    cullMaxPerPass: 5
+    _logMessages: 0
+    spawnPool: {fileID: 0}
+  - prefab: {fileID: 7555123097283460386, guid: 977584ebce0a1c64f91fac28ac5f2ae9, type: 3}
+    preloadAmount: 1
+    preloadTime: 0
+    preloadFrames: 2
+    preloadDelay: 0
+    limitInstances: 0
+    limitAmount: 100
+    limitFIFO: 0
+    cullDespawned: 0
+    cullAbove: 50
+    cullDelay: 60
+    cullMaxPerPass: 5
+    _logMessages: 0
+    spawnPool: {fileID: 0}
   maxParticleDespawnTime: 300
 --- !u!1 &5060522196929866895
 GameObject:
@@ -109,8 +137,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultWorldPosition: {fileID: 0}
-  positiveColor: {r: 0, g: 1, b: 0.0408051, a: 1}
-  negativeColor: {r: 1, g: 0, b: 0, a: 1}
+  positiveColor: {r: 1, g: 0.80392164, b: 0.16862746, a: 1}
+  negativeColor: {r: 0.64705884, g: 0.3647059, b: 0.16078432, a: 1}
   superColor: {r: 0.7504206, g: 0, b: 1, a: 1}
   scorePool: {fileID: 5060522195720731712}
   positiveSound: {fileID: 0}
