@@ -22,6 +22,7 @@ public class HarankashIdleState : State
         Debug.Log("Entered IDLE");
         body.SetVelocityX(0f);
         body.SetVelocityY(0f);
+        controls.EnableControls();
         controls.JumpPressed += onJump;
 
         matchVisualToCollider();

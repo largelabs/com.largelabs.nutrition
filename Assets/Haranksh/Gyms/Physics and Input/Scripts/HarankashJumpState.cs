@@ -65,7 +65,9 @@ public class HarankashJumpState : MoveHorizontalAbstractState
         yield return this.Wait(0.1f);
 
         body.SetVelocityY(accelerationData.MaxVelocityY);
-        yield return this.Wait(0.3f);
+        yield return this.Wait(0.02f);
+        controls.EnableControls();
+        yield return this.Wait(0.28f);
 
         jumpLaunchFrames.Stop();
         jumpLaunchFrames.ResetAnimation();
@@ -82,7 +84,7 @@ public class HarankashJumpState : MoveHorizontalAbstractState
 
     void checkHeight()
     {
-        if (false == enabled) return;
+        if (false == enabled || launchRoutine != null) return;
 
         if (body.transform.position.y >= stopJumpY)
         {

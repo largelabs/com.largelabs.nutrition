@@ -43,6 +43,7 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     private IEnumerator landingSequence(string i_tag)
     {
         body.SetVelocityX(0);
+        body.SetVelocityY(0);
         controls.DisableControls();
 
         fallingFrames.Stop();
@@ -52,7 +53,6 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         landingFrames.Stop();
         landingFrames.ResetAnimation();
 
-        controls.EnableControls();
         if (i_tag == "Bouncy")
             setState<HarankashBounceState>();
         else
