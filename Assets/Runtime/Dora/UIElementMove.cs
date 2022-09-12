@@ -23,14 +23,14 @@ public class UIElementMove : MonoBehaviourBase
 
     #region PUBLIC API
 
-    public void MoveToRectTransform(RectTransform i_target, float i_time, 
+    public void MoveToRectTransform(RectTransform i_target, bool i_clamp, float i_time, 
                                     InterpolatorsManager i_interps, AnimationCurve i_curve,
                                     Action<ITypedAnimator<Vector3>> i_callback)
     {
-        MoveToPosition(i_target.position, i_time, i_interps, i_curve, i_callback);
+        MoveToPosition(i_target.position, i_clamp, i_time, i_interps, i_curve, i_callback);
     }
 
-    public void MoveToPosition(Vector3 i_target, float i_time,
+    public void MoveToPosition(Vector3 i_target, bool i_clamp, float i_time,
                                 InterpolatorsManager i_interps, AnimationCurve i_curve,
                                 Action<ITypedAnimator<Vector3>> i_callback)
     {
@@ -42,7 +42,7 @@ public class UIElementMove : MonoBehaviourBase
 
         if (movementRoutine == null)
         {
-            movementRoutine = StartCoroutine(movementSequence(i_target, i_time, i_interps, i_curve, i_callback));
+            movementRoutine = StartCoroutine(movementSequence(i_target, i_clamp, i_time, i_interps, i_curve, i_callback));
         }
     }
 
@@ -50,12 +50,12 @@ public class UIElementMove : MonoBehaviourBase
 
     #region PRIVATE
 
-    private IEnumerator movementSequence(Vector3 i_target, float i_time, 
+    private IEnumerator movementSequence(Vector3 i_target, bool i_clamp, float i_time, 
                                          InterpolatorsManager i_interps, AnimationCurve i_curve, 
                                          Action<ITypedAnimator<Vector3>> i_callback)
     {
         AnimationMode mode = new AnimationMode(i_curve);
-        ITypedAnimator<Vector3> posInterpolator = i_interps.Animate(transform.position, i_target, i_time, mode, true, 0f, i_callback);
+        ITypedAnimator<Vector3> posInterpolator = i_interps.Animate(transform.position, i_target, i_time, mode, i_clamp, 0f, i_callback);
 
         while (posInterpolator.IsActive)
         {
