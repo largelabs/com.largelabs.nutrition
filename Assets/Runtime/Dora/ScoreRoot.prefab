@@ -611,6 +611,7 @@ MonoBehaviour:
   anchorEnd: {fileID: 8231065868071589731}
   anchorScore: {fileID: 3810682070486520627}
   timePerUIKernel: 0.1
+  timePerUIKernelFrenzy: 0.05
   xOffsetPerUIKernel: -17.5
 --- !u!114 &3495590306925383
 MonoBehaviour:

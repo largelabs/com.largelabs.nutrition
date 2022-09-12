@@ -17,6 +17,7 @@ public class UIKernelManager : MonoBehaviourBase
     [SerializeField] private RectTransform anchorScore = null;
 
     [SerializeField] private float timePerUIKernel = 0.2f;
+    [SerializeField] private float timePerUIKernelFrenzy = 0.2f;
     [SerializeField] private float xOffsetPerUIKernel = -60.0f;
 
     RectTransform lastAnchor = null;
@@ -25,6 +26,7 @@ public class UIKernelManager : MonoBehaviourBase
 
     Queue<UIDoraKernel> uiKernelQueue = null;
     Coroutine dequeueKernelsRoutine = null;
+    bool isFrenzyActive = false;
 
     #region UNITY AND CORE
 
@@ -38,6 +40,11 @@ public class UIKernelManager : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+
+    public void ActivateFrenzy(bool i_active)
+    {
+        isFrenzyActive = i_active;
+    }
 
     public void EnqueueKernels(Queue<ScoreKernelInfo> i_kernels)
     {
@@ -81,6 +88,10 @@ public class UIKernelManager : MonoBehaviourBase
 
     #region PRIVATE
 
+    float getTimePerUIKernel()
+    {
+        return isFrenzyActive ? timePerUIKernelFrenzy : timePerUIKernel;
+    }
 
     IEnumerator scaleRoutine(Transform i_tr, ITypedAnimator<Vector3> i_scaleAnimator)
     {
@@ -93,7 +104,7 @@ public class UIKernelManager : MonoBehaviourBase
 
     IEnumerator dequeueKernels()
     {
-        yield return this.Wait(timePerUIKernel * 2f);
+        yield return this.Wait(getTimePerUIKernel() * 2f);
 
         while (uiKernelQueue.Count != 0)
         {
@@ -106,13 +117,13 @@ public class UIKernelManager : MonoBehaviourBase
 
             scoreManager.AddScoreByStatus(scoreKernelInfo,
                                            anchorScore,
-                                           timePerUIKernel * 2f, 0.1f, -100f);
+                                           getTimePerUIKernel() * 2f, 0.1f, -100f);
 
             StartCoroutine(
                 scaleRoutine(scoreManager.ScoreRect, interpolatorsManager.Animate(
                 MathConstants.VECTOR_3_ONE,
                 MathConstants.VECTOR_3_ONE * 1.075f,
-                timePerUIKernel,
+                getTimePerUIKernel(),
                 new AnimationMode(AnimationType.Bounce))));
 
 
@@ -130,27 +141,27 @@ public class UIKernelManager : MonoBehaviourBase
         i_uiKernel.transform.SetParent(anchorStart.parent);
 
         UIElementMove elementMove = i_uiKernel.GetComponent<UIElementMove>();
-        elementMove.MoveToPosition(new Vector2(anchorEnd.position.x, i_uiKernel.transform.position.y), false, timePerUIKernel, interpolatorsManager, positionCurve, null);
+        elementMove.MoveToPosition(new Vector2(anchorEnd.position.x, i_uiKernel.transform.position.y), false, getTimePerUIKernel(), interpolatorsManager, positionCurve, null);
 
         UIElementAlpha elementAlpha = i_uiKernel.GetComponent<UIElementAlpha>();
-        elementAlpha.lerpAlpha(1f, 0f, timePerUIKernel, interpolatorsManager, alphaCurve, null);
+        elementAlpha.lerpAlpha(1f, 0f, getTimePerUIKernel(), interpolatorsManager, alphaCurve, null);
 
         StartCoroutine(
             scaleRoutine(i_uiKernel.transform, interpolatorsManager.Animate(
             MathConstants.VECTOR_3_ONE,
             MathConstants.VECTOR_3_ONE * 1.8f,
-            timePerUIKernel / 2f,
+            getTimePerUIKernel() / 2f,
             new AnimationMode(AnimationType.Ease_In_Out))));
 
-        yield return this.Wait(timePerUIKernel);
+        yield return this.Wait(getTimePerUIKernel());
     }
 
     IEnumerator shitftKernelStack()
     {
         UIElementMove stackMove = anchorStart.GetComponent<UIElementMove>();
-        stackMove.MoveToPosition(anchorStart.position + MathConstants.VECTOR_3_LEFT * xOffsetPerUIKernel, true, timePerUIKernel/2f, interpolatorsManager, stackShiftCurve, null);
+        stackMove.MoveToPosition(anchorStart.position + MathConstants.VECTOR_3_LEFT * xOffsetPerUIKernel, true, getTimePerUIKernel() / 2f, interpolatorsManager, stackShiftCurve, null);
 
-        yield return this.Wait(timePerUIKernel / 2f);
+        yield return this.Wait(getTimePerUIKernel() / 2f);
 
     }
 
