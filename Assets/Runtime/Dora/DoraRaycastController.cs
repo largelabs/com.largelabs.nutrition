@@ -13,19 +13,10 @@ public class DoraRaycastController : DoraAbstractController
     [SerializeField] InterpolatorsManager interpolators = null;
 
     Coroutine rayCastRoutine = null;
+    Coroutine autoMoveRoutine = null;
 
-    ITypedAnimator<Vector3> moveInterpolator = null;
     Vector3 targetPos = Vector3.zero;
     float autoMoveSpeed = 1f;
-
-    #region UNITY & CORE
-
-    private void Update()
-    {
-        if (null != moveInterpolator && true == moveInterpolator.IsActive) raycastSource.transform.localPosition = moveInterpolator.Current;
-    }
-
-    #endregion
 
     #region PUBLIC API
 
@@ -46,14 +37,14 @@ public class DoraRaycastController : DoraAbstractController
         Debug.LogError("Start AutoMove");
         targetPos = new Vector3(maxLocalX, raycastSource.transform.localPosition.y, raycastSource.transform.localPosition.z);
         autoMoveSpeed = i_speed;
-        autoMove();
+        startAutoMove();
     }
 
     public void StopAutoMove()
     {
         Debug.LogError("Stop AutoMove");
 
-        moveInterpolator = null;
+        this.DisposeCoroutine(ref autoMoveRoutine);
     }
 
     #endregion
@@ -95,20 +86,29 @@ public class DoraRaycastController : DoraAbstractController
         }
     }
 
-    private void autoMove()
+    private void startAutoMove()
     {
         float time = (targetPos - raycastSource.transform.localPosition).magnitude / autoMoveSpeed;
-        moveInterpolator = interpolators.Animate(raycastSource.transform.localPosition, targetPos, time, new AnimationMode(AnimationType.Ease_In_Out), false, 0f, onMoveAnimationEnded);
+        ITypedAnimator<Vector3> moveInterpolator = interpolators.Animate(raycastSource.transform.localPosition, targetPos, time, new AnimationMode(AnimationType.Ease_In_Out), false, 0f);
+
+        StopAutoMove();
+
+        autoMoveRoutine = StartCoroutine(autoMove(moveInterpolator));
     }
 
-    private void onMoveAnimationEnded(ITypedAnimator<Vector3> i_interpolator)
+    private IEnumerator autoMove(ITypedAnimator<Vector3> i_moveInterpolator)
     {
+        while (true == i_moveInterpolator.IsActive)
+        {
+            raycastSource.transform.localPosition = i_moveInterpolator.Current;
+            yield return null;
+        }
+
         if (targetPos.x == minLocalX) targetPos.x = maxLocalX;
         else targetPos.x = minLocalX;
 
-        if (moveInterpolator != null) autoMove();
+        startAutoMove();
     }
-
     #endregion
 }
 

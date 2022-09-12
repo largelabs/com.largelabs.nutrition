@@ -65,8 +65,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         inputs.DisableInputs();
 
-        this.DisposeCoroutine(ref frenzyRoutine);
-        frenzyController.StopFrenzyMode();
+        stopFrenzyMode();
 
         if (true == i_clearSelection)
             cellSelector.ClearSelection();
@@ -114,8 +113,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         didGameplayEnd = true;
 
-        this.DisposeCoroutine(ref frenzyRoutine);
-        frenzyController.StopFrenzyMode();
+        stopFrenzyMode();
 
         unlistenToInputs();
         StopAutoRotation();
@@ -274,13 +272,24 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         DisableMoveControls();
 
         frenzyController.PlayFrenzyMode(autoRotator);
+
+        uiKernelManager.ActivateFrenzy(true);
+
         yield return frenzyController.PlayFrenzyMode(autoRotator);
 
         EnableMoveControls();
 
         StartAutoRotation();
 
+        stopFrenzyMode();
+    }
+
+    private void stopFrenzyMode()
+    {
         this.DisposeCoroutine(ref frenzyRoutine);
+        frenzyController.StopFrenzyMode();
+
+        uiKernelManager.ActivateFrenzy(false);
     }
 
     private Queue<ScoreKernelInfo> getStackInfo(List<HashSet<DoraKernel>> i_eatenKernels)

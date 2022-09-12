@@ -23,9 +23,6 @@ public class DoraFrenzyController : MonoBehaviourBase
         raycastController.StartAutoMove(DoraGameplayData.CursorAutoMoveSpeed);
 
         yield return this.Wait(DoraGameplayData.FrenzyTime);
-
-        raycastController.StopAutoMove();
-
     }
 
     public void StopFrenzyMode()
