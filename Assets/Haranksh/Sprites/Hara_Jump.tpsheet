@@ -1,0 +1,31 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:51312527997cf577a4fc9c8534797ceb:35c44bef22dbfcc8c7c6e26b5ac2c7bb:e11d98f0b1beea09ed21474fd25c2834$
+#
+:format=40300
+:texture=Hara_Jump.png
+:size=2048x2048
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+CJump001;1;1609;333;438; 0.5;0.5; 0;0;0;0
+CJump002;336;1609;333;438; 0.5;0.5; 0;0;0;0
+CJump003;671;1609;333;438; 0.5;0.5; 0;0;0;0
+CJump004;1006;1609;333;438; 0.5;0.5; 0;0;0;0
+CJump005;1341;1609;333;438; 0.5;0.5; 0;0;0;0
+CJump006;1676;1609;333;438; 0.5;0.5; 0;0;0;0
+CJump007;1;1169;333;438; 0.5;0.5; 0;0;0;0
+CJump008;336;1169;333;438; 0.5;0.5; 0;0;0;0
+CJump009;671;1169;333;438; 0.5;0.5; 0;0;0;0
+CJump010;1006;1169;333;438; 0.5;0.5; 0;0;0;0
+CJump011;1341;1169;333;438; 0.5;0.5; 0;0;0;0
+CJump012;1676;1169;333;438; 0.5;0.5; 0;0;0;0
+CJump013;1;729;333;438; 0.5;0.5; 0;0;0;0
+CJump014;336;729;333;438; 0.5;0.5; 0;0;0;0
+CJump015;671;729;333;438; 0.5;0.5; 0;0;0;0
+CJump016;1006;729;333;438; 0.5;0.5; 0;0;0;0
