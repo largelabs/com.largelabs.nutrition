@@ -1,7 +1,6 @@
 using PathologicalGames;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIKernelSpawner : MonoBehaviourBase
 {
@@ -10,22 +9,21 @@ public class UIKernelSpawner : MonoBehaviourBase
     private static readonly string UIKERNEL = "UIKernel";
     private static readonly string UIKERNELBURNT = "UIKernelBurnt";
 
-    private List<RectTransform> livingKernels = null;
+    private List<UIDoraKernel> livingKernels = null;
 
-    #region UNITY API
+    #region UNITY AND CORE
     protected override void Awake()
     {
         base.Awake();
-
-        livingKernels = new List<RectTransform>();
+        livingKernels = new List<UIDoraKernel>();
     }
     #endregion
 
     #region PUBLIC API
-    public IReadOnlyList<RectTransform> LivingKernels => livingKernels;
+    public IReadOnlyList<UIDoraKernel> LivingKernels => livingKernels;
 
     [ExposePublicMethod]
-    public RectTransform SpawnUIKernelAtAnchor(RectTransform i_anchor, float i_xOffset, bool i_isBurnt)
+    public UIDoraKernel SpawnUIKernelAtAnchor(RectTransform i_anchor, float i_xOffset, bool i_isBurnt)
     {
         if (uiKernelPool == null)
         {
@@ -40,7 +38,7 @@ public class UIKernelSpawner : MonoBehaviourBase
         tr.localRotation = MathConstants.QUATERNION_IDENTITY;
         tr.localScale = MathConstants.VECTOR_3_ONE;
 
-        RectTransform ret = tr.GetComponent<RectTransform>();
+        UIDoraKernel ret = tr.GetComponent<UIDoraKernel>();
 
         if (ret != null)
         {
@@ -51,35 +49,10 @@ public class UIKernelSpawner : MonoBehaviourBase
 
         return ret;
     } 
-    
-    [ExposePublicMethod]
-    public List<RectTransform> SpawnUIKernelsStartingFromAnchor(RectTransform i_anchor, int i_spawnCount, float i_xOffset, bool i_isBurnt)
+
+    public void DespawnKernel(UIDoraKernel i_uiKernel)
     {
-        if (uiKernelPool == null)
-        {
-            Debug.LogError("Dora_Kernel pool is null!");
-            return null;
-        }
-
-        List<RectTransform> ret = new List<RectTransform>();
-
-        for (int i = 0; i < i_spawnCount; i++)
-        {
-            ret.Add(SpawnUIKernelAtAnchor(i_anchor, i_xOffset * i, i_isBurnt));
-        }
-
-        return ret;
-    }
-
-    private Vector3 shiftPositionX(Vector3 i_inputPos, float i_xOffset)
-    {
-        i_inputPos.x += i_xOffset;
-        return i_inputPos;
-    }
-
-    public void DespawnKernel(RectTransform i_uiKernel)
-    {
-        despawnDoraCob(i_uiKernel);
+        despawnKernel(i_uiKernel);
         livingKernels.Remove(i_uiKernel);
     }
 
@@ -92,7 +65,7 @@ public class UIKernelSpawner : MonoBehaviourBase
         int length = livingKernels.Count;
         for (int i = 0; i < length; i++)
         {
-            despawnDoraCob(livingKernels[i]);
+            despawnKernel(livingKernels[i]);
         }
 
         livingKernels.Clear();
@@ -100,15 +73,10 @@ public class UIKernelSpawner : MonoBehaviourBase
     #endregion
 
     #region PRIVATE API
-    private void despawnDoraCob(RectTransform i_uiKernel)
+    private void despawnKernel(UIDoraKernel i_uiKernel)
     {
-        Image kernelImage = i_uiKernel.GetComponent<Image>();
-        if (kernelImage != null)
-        {
-            Color temp = kernelImage.color;
-            kernelImage.color = new Color(temp.r, temp.g, temp.b, 1f);
-        }
-        uiKernelPool?.Despawn(i_uiKernel);
+        i_uiKernel.Reset();
+        uiKernelPool?.Despawn(i_uiKernel.transform);
     }
 
     #endregion

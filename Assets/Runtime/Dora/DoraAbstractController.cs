@@ -234,7 +234,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         if (frenzyRoutine == null)
             yield return null;
 
-        uiKernelManager.HandleKernelStack(getStackInfo(i_eatenKernels));
+        uiKernelManager.EnqueueKernels(getStackInfo(i_eatenKernels));
 
         // cell cleanup
         foreach (DoraCellData cell in i_cellsToCleanup)
@@ -244,8 +244,9 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         }
 
         //Debug.LogError("going to wait: " + i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
-        if(frenzyRoutine == null)
-            yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
+
+       // if(frenzyRoutine == null)
+       //     yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
 
         // post-sequence cleanup
         unburntEatenCount += i_eatCount;
@@ -260,6 +261,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         this.DisposeCoroutine(ref eatingRoutine);
     }
+
 
     private IEnumerator startFrenzyMode()
     {
@@ -279,7 +281,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private List<ScoreKernelInfo> getStackInfo(List<HashSet<DoraKernel>> i_eatenKernels)
     {
-        List<ScoreKernelInfo> scoreKernels = new List<ScoreKernelInfo>();
+        Queue<ScoreKernelInfo> scoreKernels = new Queue<ScoreKernelInfo>();
         float multiplier = 1f;
         HashSet<DoraKernel> currSet = null;
         int length = i_eatenKernels.Count;
@@ -288,7 +290,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             currSet = i_eatenKernels[i];
             foreach (DoraKernel kernel in currSet)
             {
-                scoreKernels.Add(new ScoreKernelInfo(multiplier, kernel.Status));
+                scoreKernels.Enqueue(new ScoreKernelInfo(multiplier, kernel.Status));
             }
             multiplier += 1;
         }
