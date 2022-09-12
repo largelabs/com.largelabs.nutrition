@@ -11,6 +11,7 @@ public class DoraScoreManager : MonoBehaviourBase
 
     int score = 0;
 
+    RectTransform scoreRect = null;
     float goodBaseScore = 0f;
     float burntBaseScore = 0f;
     float superBaseScore = 0f;
@@ -18,12 +19,15 @@ public class DoraScoreManager : MonoBehaviourBase
     protected override void Awake()
     {
         base.Awake();
+        scoreRect = scoreText.rectTransform;
         goodBaseScore = doraGameData.GoodKernelScore;
         burntBaseScore = doraGameData.BurntKernelScore;
         superBaseScore = doraGameData.SuperKernelScore;
     }
 
     #region PUBLIC API
+
+    public RectTransform ScoreRect => scoreRect;
 
     public void AddScore(int i_numberOfKernels)
     {
@@ -199,6 +203,7 @@ public class DoraScoreManager : MonoBehaviourBase
     {
         score += i_score;
         scoreText.text = score.ToString("000000");
+
     }
 
     void removeFromScore(int i_score)

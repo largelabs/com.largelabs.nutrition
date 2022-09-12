@@ -494,38 +494,6 @@ PrefabInstance:
       propertyPath: scorePopupSpawner
       value: 
       objectReference: {fileID: 2489217776581094088}
-    - target: {fileID: 2893049207155586819, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2893049207155586819, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2893049207155586819, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2893049207155586819, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2951328395756798261, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2951328395756798261, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2951328395756798261, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2951328395756798261, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5439696137279010218, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
       propertyPath: m_Name
       value: ScoreRoot
