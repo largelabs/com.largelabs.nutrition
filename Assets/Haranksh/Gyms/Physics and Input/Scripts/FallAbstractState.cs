@@ -6,6 +6,7 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
 {
     [SerializeField] private SpriteFrameSwapper fallingFrames = null;
     [SerializeField] private SpriteFrameSwapper landingFrames = null;
+    [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
     [SerializeField] private float timeBeforeBounce = 0.5f;
 
     Coroutine landingRoutine = null;
@@ -13,6 +14,9 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     #region PROTECTED
     protected override void onStateEnter()
     {
+        jumpRiseFrames.Stop();
+        jumpRiseFrames.ResetAnimation();
+
         fallingFrames.Play();
         controls.EnableControls();
     }

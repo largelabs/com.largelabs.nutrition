@@ -71,6 +71,7 @@ public class HarankashJumpState : MoveHorizontalAbstractState
 
         jumpLaunchFrames.Stop();
         jumpLaunchFrames.ResetAnimation();
+
         jumpRiseFrames.Play();
 
         this.DisposeCoroutine(ref launchRoutine);

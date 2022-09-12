@@ -251,6 +251,7 @@ MonoBehaviour:
   body: {fileID: 3289514128781812916}
   fallingFrames: {fileID: 5289450926712389184}
   landingFrames: {fileID: 6511140904142859028}
+  jumpRiseFrames: {fileID: 3472372678444729562}
   timeBeforeBounce: 0.5
 --- !u!1 &3289514128146950376
 GameObject:
@@ -353,6 +354,7 @@ MonoBehaviour:
   body: {fileID: 3289514128781812916}
   fallingFrames: {fileID: 5289450926712389184}
   landingFrames: {fileID: 6511140904142859028}
+  jumpRiseFrames: {fileID: 3472372678444729562}
   timeBeforeBounce: 0.5
 --- !u!1 &3289514128781812912
 GameObject:

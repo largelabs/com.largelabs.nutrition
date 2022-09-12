@@ -55,7 +55,7 @@ public class HarankashIdleState : State
         if (jumpRoutine == null)
         {
             jumpRoutine = StartCoroutine(onJumpSequence());
-            //controls.JumpPressed -= onJump;
+            controls.JumpPressed -= onJump;
         }
     }
 
