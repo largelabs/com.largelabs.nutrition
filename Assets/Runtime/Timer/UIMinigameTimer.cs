@@ -6,18 +6,12 @@ using UnityEngine.UI;
 public class UIMinigameTimer : MonoBehaviour
 {
     [SerializeField] MinigameTimer timer = null;
-
-    Text timerTxt = null;
-
-    private void Start()
-    {
-        timerTxt = GetComponent<Text>();
-    }
+    [SerializeField] Text secondsTxt = null;
+    [SerializeField] Text minutesTxt = null;
 
     private void Update()
     {
-        timerTxt.text = timer.DisplayTimer(); 
+        minutesTxt.text = timer.GetMinutesString();
+        secondsTxt.text = timer.GetSecondsString();
     }
-
-    //OnTimePaused ==> Blink
 }

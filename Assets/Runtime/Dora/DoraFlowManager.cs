@@ -16,6 +16,7 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraScoreManager scoreManager = null;
     [SerializeField] private SpawnPool vfxPool = null;
     [SerializeField] private MinigameTimer timer = null;
+    [SerializeField] private UIMinigameTimer uiTimer = null;
     [SerializeField] private BoxCollider cullingBounds = null;
     [SerializeField] private BoxCollider selectionBounds = null;
 
@@ -198,8 +199,8 @@ public class DoraFlowManager : MiniGameFlow
 
         // maybe animate time increase
         timer.AddTime(currentDoraBatch.BatchFinishTimeBonus);
-        timerTextColor.StartPingPong(0.25f, 2);
-        timerTextScale.StartPingPong(0.25f, 2);
+       // timerTextColor.StartPingPong(0.25f, 2);
+       // timerTextScale.StartPingPong(0.25f, 2);
         yield return this.Wait(1.0f);
 
         yield return StartCoroutine(bringNewBatch());
