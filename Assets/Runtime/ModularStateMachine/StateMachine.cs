@@ -28,7 +28,7 @@ public class StateMachine : MonoBehaviourBase
         if (currentState is null)
             return;
 
-        //Debug.LogError("Current State: " + currentState);
+        Debug.LogError("Current State: " + currentState);
 
         currentState.UpdateState();
     }

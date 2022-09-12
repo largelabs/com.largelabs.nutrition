@@ -1,8 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class HarankashIdleState : State
 {
     [SerializeField] PhysicsBody2D body;
+    [SerializeField] SpriteFrameSwapper idlingFrames = null;
+    [SerializeField] SpriteFrameSwapper jumpAnticipationFrames = null;
+    [SerializeField] Transform visualObjectRoot = null;
+    [SerializeField] float visualObjectYOffset = -0.0174f;
+
+    Coroutine jumpRoutine = null;
 
     #region PROTECTED
     protected override void onStateInit()
@@ -16,6 +23,9 @@ public class HarankashIdleState : State
         body.SetVelocityX(0f);
         body.SetVelocityY(0f);
         controls.JumpPressed += onJump;
+
+        matchVisualToCollider();
+        idlingFrames.Play();
     }
 
     protected override void onStateExit()
@@ -26,8 +36,8 @@ public class HarankashIdleState : State
             Debug.LogError("NO PHYSICS IN STATES");
             return;
         }
-        
-        controls.JumpPressed -= onJump;
+
+        this.DisposeCoroutine(ref jumpRoutine);
     }
 
     protected override void onStateUpdate()
@@ -39,8 +49,33 @@ public class HarankashIdleState : State
 
     #region PRIVATE
 
-    private void onJump(){
+    private void onJump()
+    {
+        if (jumpRoutine == null)
+        {
+            jumpRoutine = StartCoroutine(onJumpSequence());
+            //controls.JumpPressed -= onJump;
+        }
+    }
+
+    private IEnumerator onJumpSequence()
+    {
+        idlingFrames.Stop();
+        idlingFrames.ResetAnimation();
+        jumpAnticipationFrames.Play();
+        yield return this.Wait(0.3f);
+        jumpAnticipationFrames.Stop();
+        jumpAnticipationFrames.ResetAnimation();
+
         setState<HarankashJumpState>();
+
+        this.DisposeCoroutine(ref jumpRoutine);
+    }
+
+    private void matchVisualToCollider()
+    {
+        Vector3 temp = visualObjectRoot.localPosition;
+        visualObjectRoot.localPosition = new Vector3(temp.x, visualObjectYOffset, temp.z);
     }
 
     void checkFall()
