@@ -75,7 +75,6 @@ public class DoraRaycastController : DoraAbstractController
 
     IEnumerator updateRaycast()
     {
-        Debug.LogError("update raycast");
         while (true)
         {
             DoraCellData cellData = cellMap.GetCell(null != raycastSource ? raycastSource.HitGo : null);
@@ -98,9 +97,8 @@ public class DoraRaycastController : DoraAbstractController
 
     private void autoMove()
     {
-        //convert time to speed
         float time = (targetPos - raycastSource.transform.localPosition).magnitude / autoMoveSpeed;
-        moveInterpolator = interpolators.Animate(raycastSource.transform.localPosition, targetPos, time, new AnimationMode(AnimationType.Linear), false, 0.2f, onMoveAnimationEnded);
+        moveInterpolator = interpolators.Animate(raycastSource.transform.localPosition, targetPos, time, new AnimationMode(AnimationType.Ease_In_Out), false, 0f, onMoveAnimationEnded);
     }
 
     private void onMoveAnimationEnded(ITypedAnimator<Vector3> i_interpolator)

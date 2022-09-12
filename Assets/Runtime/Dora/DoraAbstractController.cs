@@ -10,7 +10,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] protected DoraCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
     [SerializeField] DoraFrenzyController frenzyController = null;
-    [SerializeField] float rotationSpeed = 50f;
+    [SerializeField] DoraGameplayData DoraGameplayData = null;
 
     [Header("Score")]
     [SerializeField] DoraScoreManager scoreManager = null;
@@ -51,6 +51,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [ExposePublicMethod]
     public void EnableController()
     {
+        Debug.LogError("Enable Controller");
         inputs.EnableInputs();
     }
 
@@ -64,6 +65,9 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         inputs.DisableInputs();
 
+        this.DisposeCoroutine(ref frenzyRoutine);
+        frenzyController.StopFrenzyMode();
+
         if (true == i_clearSelection)
             cellSelector.ClearSelection();
     }
@@ -75,7 +79,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     public virtual void StartAutoRotation(bool i_setDefaultSpeed = true)
     {
-        if (true == i_setDefaultSpeed) autoRotator?.SetRotationSpeedX(rotationSpeed);
+        if (true == i_setDefaultSpeed) autoRotator?.SetRotationSpeedX(DoraGameplayData.DefaultRotationSpeed);
         autoRotator?.StartAutoRotation();
     }
 
