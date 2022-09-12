@@ -157,7 +157,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8238050652409602073}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -435,6 +435,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 478465081254781446, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 970
+      objectReference: {fileID: 0}
+    - target: {fileID: 478465081254781446, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
       propertyPath: m_SizeDelta.y
       value: 100
       objectReference: {fileID: 0}
@@ -471,6 +475,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 478465081254781446, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 478465081254781446, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -486,38 +494,6 @@ PrefabInstance:
       propertyPath: scorePopupSpawner
       value: 
       objectReference: {fileID: 2489217776581094088}
-    - target: {fileID: 2893049207155586819, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2893049207155586819, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2893049207155586819, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2893049207155586819, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2951328395756798261, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2951328395756798261, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2951328395756798261, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2951328395756798261, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5439696137279010218, guid: 71a9a9f846397bf408398ed0fcb3e2dc, type: 3}
       propertyPath: m_Name
       value: ScoreRoot

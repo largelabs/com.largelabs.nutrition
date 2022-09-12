@@ -9,7 +9,9 @@ public class UIKernelManager : MonoBehaviourBase
 
     [Header("Sequencing")]
     [SerializeField] private InterpolatorsManager interpolatorsManager = null;
-    [SerializeField] private AnimationCurve animCurve = null;
+    [SerializeField] private AnimationCurve alphaCurve = null;
+    [SerializeField] private AnimationCurve positionCurve = null;
+    [SerializeField] private AnimationCurve stackShiftCurve = null;
     [SerializeField] private RectTransform anchorStart = null;
     [SerializeField] private RectTransform anchorEnd = null;
     [SerializeField] private RectTransform anchorScore = null;
@@ -17,21 +19,153 @@ public class UIKernelManager : MonoBehaviourBase
     [SerializeField] private float timePerUIKernel = 0.2f;
     [SerializeField] private float xOffsetPerUIKernel = -60.0f;
 
-    Coroutine kernelStackRoutine = null;
     RectTransform lastAnchor = null;
+    Vector3 anchorStartInitialAnchoredPosition = MathConstants.VECTOR_3_ZERO;
     Vector3 anchorStartInitialPosition = MathConstants.VECTOR_3_ZERO;
 
-    public float TimePerUIKernel => timePerUIKernel;
+    Queue<UIDoraKernel> uiKernelQueue = null;
+    Coroutine dequeueKernelsRoutine = null;
 
     #region UNITY AND CORE
 
     protected override void Awake()
     {
         base.Awake();
-        anchorStartInitialPosition = anchorStart.anchoredPosition;
+        anchorStartInitialAnchoredPosition = anchorStart.anchoredPosition;
+        anchorStartInitialPosition = anchorStart.position;
     }
 
     #endregion
+
+    #region PUBLIC API
+
+    public void EnqueueKernels(Queue<ScoreKernelInfo> i_kernels)
+    {
+        if (null == lastAnchor)
+        {
+            lastAnchor = anchorStart;
+        }
+
+        if (null == uiKernelQueue) uiKernelQueue = new Queue<UIDoraKernel>();
+
+        while (i_kernels.Count != 0)
+        {
+            ScoreKernelInfo kernelInfo = i_kernels.Dequeue();
+            UIDoraKernel uiKernel = uiKernelSpawner.SpawnUIKernelAtAnchor(lastAnchor, xOffsetPerUIKernel, kernelInfo.KernelStatus == KernelStatus.Burnt);
+            uiKernel.SetScoreInfo(kernelInfo);
+
+            RectTransform kernelRect = lastAnchor = uiKernel.Rect;
+
+            kernelRect.SetParent(anchorStart);
+            kernelRect.SetAsFirstSibling();
+
+            Vector3 pos = kernelRect.localPosition;
+            pos.y = (i_kernels.Count % 2 == 0 ? -2.5f : 2.5f);
+            kernelRect.localPosition = pos;
+
+            uiKernelQueue.Enqueue(uiKernel);
+
+            StartCoroutine(
+                scaleRoutine(uiKernel.transform, interpolatorsManager.Animate(
+                MathConstants.VECTOR_3_ONE,
+                MathConstants.VECTOR_3_ONE * 1.5f,
+                0.5f,
+                new AnimationMode(AnimationType.Bounce))));
+
+        }
+
+        if (null == dequeueKernelsRoutine) dequeueKernelsRoutine = StartCoroutine(dequeueKernels());
+    }
+
+    #endregion
+
+    #region PRIVATE
+
+
+    IEnumerator scaleRoutine(Transform i_tr, ITypedAnimator<Vector3> i_scaleAnimator)
+    {
+        while (true == i_scaleAnimator.IsAnimating)
+        {
+            i_tr.localScale = i_scaleAnimator.Current;
+            yield return null;
+        }
+    }
+
+    IEnumerator dequeueKernels()
+    {
+        yield return this.Wait(timePerUIKernel * 2f);
+
+        while (uiKernelQueue.Count != 0)
+        {
+            UIDoraKernel uiKernel = uiKernelQueue.Dequeue();
+
+            yield return StartCoroutine(animateKernel(uiKernel));
+
+            ScoreKernelInfo scoreKernelInfo = uiKernel.ScoreInfo;
+            uiKernelSpawner.DespawnKernel(uiKernel);
+
+            scoreManager.AddScoreByStatus(scoreKernelInfo,
+                                           anchorScore,
+                                           timePerUIKernel * 2f, 0.1f, -100f);
+
+            StartCoroutine(
+                scaleRoutine(scoreManager.ScoreRect, interpolatorsManager.Animate(
+                MathConstants.VECTOR_3_ONE,
+                MathConstants.VECTOR_3_ONE * 1.075f,
+                timePerUIKernel,
+                new AnimationMode(AnimationType.Bounce))));
+
+
+            yield return StartCoroutine(shitftKernelStack());
+        }
+
+        anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;
+        lastAnchor = null;
+
+        this.DisposeCoroutine(ref dequeueKernelsRoutine);
+    }
+
+    IEnumerator animateKernel(UIDoraKernel i_uiKernel)
+    {
+        i_uiKernel.transform.SetParent(anchorStart.parent);
+
+        UIElementMove elementMove = i_uiKernel.GetComponent<UIElementMove>();
+        elementMove.MoveToPosition(new Vector2(anchorEnd.position.x, i_uiKernel.transform.position.y), false, timePerUIKernel, interpolatorsManager, positionCurve, null);
+
+        UIElementAlpha elementAlpha = i_uiKernel.GetComponent<UIElementAlpha>();
+        elementAlpha.lerpAlpha(1f, 0f, timePerUIKernel, interpolatorsManager, alphaCurve, null);
+
+        StartCoroutine(
+            scaleRoutine(i_uiKernel.transform, interpolatorsManager.Animate(
+            MathConstants.VECTOR_3_ONE,
+            MathConstants.VECTOR_3_ONE * 1.8f,
+            timePerUIKernel / 2f,
+            new AnimationMode(AnimationType.Ease_In_Out))));
+
+        yield return this.Wait(timePerUIKernel);
+    }
+
+    IEnumerator shitftKernelStack()
+    {
+        UIElementMove stackMove = anchorStart.GetComponent<UIElementMove>();
+        stackMove.MoveToPosition(anchorStart.position + MathConstants.VECTOR_3_LEFT * xOffsetPerUIKernel, true, timePerUIKernel/2f, interpolatorsManager, stackShiftCurve, null);
+
+        yield return this.Wait(timePerUIKernel / 2f);
+
+    }
+
+    #endregion
+
+
+
+
+
+
+
+
+
+
+
 
     /* [ExposePublicMethod]
      public void SpawnAtStartAnchor()
@@ -107,88 +241,5 @@ public class UIKernelManager : MonoBehaviourBase
          uiKernelSpawner.DespawnKernel(i_uiKernel);
      } */
 
-
-    Queue<UIDoraKernel> uiKernelQueue = null;
-    Coroutine dequeueKernelsRoutine = null;
-
-    IEnumerator kernelAppearRoutine(UIDoraKernel i_uiKernel, ITypedAnimator<Vector3> i_scaleAnimator)
-    {
-        while(true == i_scaleAnimator.IsAnimating)
-        {
-            i_uiKernel.transform.localScale = i_scaleAnimator.Current;
-            yield return null;
-        }
-    }
-
-    public void EnqueueKernels(Queue<ScoreKernelInfo> i_kernels)
-    {
-        if (null == lastAnchor)
-        {
-            lastAnchor = anchorStart;
-        }
-
-        if (null == uiKernelQueue) uiKernelQueue = new Queue<UIDoraKernel>();
-
-        while (i_kernels.Count != 0)
-        {
-            ScoreKernelInfo kernelInfo = i_kernels.Dequeue();
-            UIDoraKernel uiKernel = uiKernelSpawner.SpawnUIKernelAtAnchor(lastAnchor, xOffsetPerUIKernel, kernelInfo.KernelStatus == KernelStatus.Burnt);
-            uiKernel.SetScoreInfo(kernelInfo);
-
-            RectTransform kernelRect = lastAnchor = uiKernel.Rect;
-
-            kernelRect.position += MathConstants.VECTOR_3_UP * (i_kernels.Count % 2 == 0 ? -2.5f : 2.5f);
-
-            kernelRect.SetParent(anchorStart);
-            kernelRect.SetAsFirstSibling();
-
-            uiKernelQueue.Enqueue(uiKernel);
-
-            StartCoroutine(
-                kernelAppearRoutine(uiKernel, interpolatorsManager.Animate(
-                MathConstants.VECTOR_3_ONE,
-                MathConstants.VECTOR_3_ONE * 1.5f,
-                0.5f,
-                new AnimationMode(AnimationType.Bounce))));
-                
-        }
-
-        if (null == dequeueKernelsRoutine) dequeueKernelsRoutine = StartCoroutine(dequeueKernels());
-    }
-
-    IEnumerator dequeueKernels()
-    {
-        yield return this.Wait(0.5f);
-
-        while(uiKernelQueue.Count != 0)
-        {
-            UIDoraKernel uiKernel = uiKernelQueue.Dequeue();
-            uiKernel.transform.SetParent(anchorStart.parent);
-
-            UIElementMove elementMove = uiKernel.GetComponent<UIElementMove>();
-            elementMove.MoveToPosition(new Vector2(anchorEnd.position.x, uiKernel.transform.position.y), timePerUIKernel, interpolatorsManager, animCurve, null);
-
-            UIElementAlpha elementAlpha = uiKernel.GetComponent<UIElementAlpha>();
-            elementAlpha.lerpAlpha(1f, 0f, timePerUIKernel, interpolatorsManager, animCurve, null);
-
-            yield return this.Wait(timePerUIKernel);
-
-            scoreManager.AddScoreByStatus(uiKernel.ScoreInfo,
-                                           anchorScore,
-                                           timePerUIKernel*2f, 0.1f, -100f);
-
-            uiKernelSpawner.DespawnKernel(uiKernel);
-
-            UIElementMove stackMove = anchorStart.GetComponent<UIElementMove>();
-            stackMove.MoveToPosition(anchorStart.position + MathConstants.VECTOR_3_LEFT * xOffsetPerUIKernel, timePerUIKernel, interpolatorsManager, animCurve, null);
-
-            yield return this.Wait(timePerUIKernel);
-        }
-
-        anchorStart.anchoredPosition = anchorStartInitialPosition;
-        lastAnchor = null;
-
-        this.DisposeCoroutine(ref dequeueKernelsRoutine);
-    }
 
 }

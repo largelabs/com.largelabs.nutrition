@@ -111,8 +111,6 @@ public class InterpolatorsManager : MonoBehaviourBase
         }
         i_animator.UpdateAnimator(1);
         i_animator.TriggerExitCallback();
-
-        yield return null;
         animators.Remove(i_animator);
         return_to_pool(i_animator);
         i_animator.Deactivate();

@@ -32,11 +32,17 @@ public class UIKernelSpawner : MonoBehaviourBase
         }
 
 
+
         Transform tr = i_isBurnt? uiKernelPool.Spawn(UIKERNELBURNT):uiKernelPool.Spawn(UIKERNEL);
+        Transform originalParent = tr.parent;
+
+
         tr.SetParent(i_anchor);
         tr.localPosition = new Vector3(i_xOffset, 0, 0);
         tr.localRotation = MathConstants.QUATERNION_IDENTITY;
         tr.localScale = MathConstants.VECTOR_3_ONE;
+
+        tr.SetParent(originalParent);
 
         UIDoraKernel ret = tr.GetComponent<UIDoraKernel>();
 
