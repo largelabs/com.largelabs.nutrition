@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class S_fastFall : FallAbstractState
+public class HarankashFastFallState : FallAbstractState
 {
     #region PROTECTED
 

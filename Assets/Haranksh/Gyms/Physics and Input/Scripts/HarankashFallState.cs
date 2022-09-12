@@ -1,5 +1,5 @@
 
-public class S_fall : FallAbstractState
+public class HarankashFallState : FallAbstractState
 {
     #region PROTECTED
     protected override void onStateInit()
@@ -21,7 +21,7 @@ public class S_fall : FallAbstractState
 
     void goToFastFall()
     {
-        setState<S_fastFall>();
+        setState<HarankashFastFallState>();
     }
 
     #endregion

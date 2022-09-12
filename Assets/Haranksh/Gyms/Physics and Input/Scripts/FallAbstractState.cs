@@ -11,10 +11,10 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         {
             if(body.CurrentGroundTransform.gameObject.tag == "Bouncy")
             {
-                setState<S_bounce>();
+                setState<HarankashBounceState>();
                 return;
             }
-            setState<S_idle>();
+            setState<HarankashIdleState>();
             return;
         }
     }

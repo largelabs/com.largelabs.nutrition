@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013dac98f90c2144fba45bfbfbff265f, type: 3}
   m_Name: YellowPlatform
   m_EditorClassIdentifier: 
-  accX: 15
+  accX: 10
   accY: 0
   desX: 10
   desY: 0
-  maxVelX: 30
-  maxVelY: 40
+  maxVelX: 5
+  maxVelY: 7.5
   minVelX: 0
   minVelY: 0

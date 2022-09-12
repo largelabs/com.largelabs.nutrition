@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class S_idle : State
+public class HarankashIdleState : State
 {
     [SerializeField] PhysicsBody2D body;
 
@@ -40,7 +40,7 @@ public class S_idle : State
     #region PRIVATE
 
     private void onJump(){
-        setState<S_jump>();
+        setState<HarankashJumpState>();
     }
 
     void checkFall()
@@ -49,7 +49,7 @@ public class S_idle : State
 
         if (false == body.IsGrounded && body.VelocityY < -0.1f)
         {
-            setState<S_fall>();
+            setState<HarankashFallState>();
         }
     }
 

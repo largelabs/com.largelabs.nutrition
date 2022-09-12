@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class S_jump : MoveHorizontalAbstractState
+public class HarankashJumpState : MoveHorizontalAbstractState
 {
     [SerializeField][Range(1f, 30f)] protected float maxJumpHeight = 8f;
 
@@ -51,19 +51,19 @@ public class S_jump : MoveHorizontalAbstractState
 
         if (body.transform.position.y >= stopJumpY)
         {
-            setState<S_fall>();
+            setState<HarankashFallState>();
             return;
         }
         if(body.VelocityY < 0)
         {
-            setState<S_fall>();
+            setState<HarankashFallState>();
             return;
         }
     }
 
     void goToFastFall()
     {
-        setState<S_fastFall>();
+        setState<HarankashFastFallState>();
     }
 
     #endregion
