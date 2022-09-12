@@ -57,7 +57,7 @@ public class UIElementMove : MonoBehaviourBase
         AnimationMode mode = new AnimationMode(i_curve);
         ITypedAnimator<Vector3> posInterpolator = i_interps.Animate(transform.position, i_target, i_time, mode, i_clamp, 0f, i_callback);
 
-        while (posInterpolator.IsAnimating)
+        while (posInterpolator.IsActive)
         {
             transform.position = posInterpolator.Current;
             yield return null;
