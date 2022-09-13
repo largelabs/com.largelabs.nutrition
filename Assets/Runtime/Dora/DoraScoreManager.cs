@@ -137,6 +137,7 @@ public class DoraScoreManager : MonoBehaviourBase
     void addToScore(int i_score)
     {
         score += i_score;
+        score = Mathf.Clamp(score, 0, 999999);
         scoreText.text = score.ToString("000000");
 
     }

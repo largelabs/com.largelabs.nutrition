@@ -41,6 +41,8 @@ public class PopupSpawner : MonoBehaviourBase
     private static readonly string BONUS_SCORE = "Bonus_Score";
     private static readonly string SUPER_BONUS_SCORE = "Super_Bonus_Score";
     private static readonly string BONUS_TIME = "Bonus_Time";
+    private static readonly string MALUS_SCORE = "Malus_Score";
+
 
     private int counter = 0;
 
@@ -143,8 +145,10 @@ public class PopupSpawner : MonoBehaviourBase
 
     private Transform getPopupPrefab(PopupType i_popupType)
     {
-        if (i_popupType == PopupType.Positive || i_popupType == PopupType.Negative)
+        if (i_popupType == PopupType.Positive)
             return scorePool.Spawn(BONUS_SCORE);
+        else if (i_popupType == PopupType.Negative)
+            return scorePool.Spawn(MALUS_SCORE);
         else if (i_popupType == PopupType.Super)
             return scorePool.Spawn(SUPER_BONUS_SCORE);
         else if (i_popupType == PopupType.TimeBonus)
