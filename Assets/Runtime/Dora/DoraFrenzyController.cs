@@ -18,7 +18,6 @@ public class DoraFrenzyController : MonoBehaviourBase
 
         i_autoRotator.SetRotationSpeedX(DoraGameplayData.FrenzyRotationSpeed);
         raycastController.StartAutoRotation(false);
-        raycastController.StopAutoMove();
 
         raycastController.StartAutoMove(DoraGameplayData.CursorAutoMoveSpeed);
 

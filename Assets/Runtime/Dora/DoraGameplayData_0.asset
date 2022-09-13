@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultRotationSpeed: 50
   frenzyTime: 5
-  frenzyRotationSpeed: 150
-  cursorAutoMoveSpeed: 14.17
+  frenzyRotationSpeed: 200
+  cursorAutoMoveSpeed: 15

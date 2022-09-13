@@ -31,7 +31,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     #region UNITY AND CORE
 
-    void Start()
+    protected virtual void Start()
     {
         listenToInputs();
     }
@@ -188,7 +188,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     private void eatKernels()
     {
         if (null == cellSelector.CurrentOriginCell) return;
-        Debug.LogError("Eating");
+        //Debug.LogError("Eating");
 
         IReadOnlyList<HashSet<Vector2Int>> selectedKernelsInSteps = cellSelector.SelectedRangeInSteps;
         if (null == selectedKernelsInSteps)
@@ -212,6 +212,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             {
                 DoraCellData cell = cellMap.GetCell(coord, false, false);
 
+                if (cell.KernelStatus == KernelStatus.Burnt && frenzyRoutine != null)
+                    continue;
                 if (cell.HasKernel)
                 {
                     newSet.Add(cell.Kernel);
@@ -249,8 +251,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         //Debug.LogError("going to wait: " + i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
 
-       // if(frenzyRoutine == null)
-       //     yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
+        // if(frenzyRoutine == null)
+        //     yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
 
         // post-sequence cleanup
         unburntEatenCount += i_eatCount;
