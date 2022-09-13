@@ -14,6 +14,7 @@ public class DoraRaycastController : DoraAbstractController
 
     Coroutine rayCastRoutine = null;
     Coroutine autoMoveRoutine = null;
+    ITypedAnimator<Vector3> moveInterpolator = null;
 
     Vector3 targetPos = Vector3.zero;
     float autoMoveSpeed = 1f;
@@ -45,6 +46,9 @@ public class DoraRaycastController : DoraAbstractController
         Debug.LogError("Stop AutoMove");
 
         this.DisposeCoroutine(ref autoMoveRoutine);
+        interpolators.Stop(moveInterpolator);
+
+
     }
 
     #endregion
@@ -88,10 +92,13 @@ public class DoraRaycastController : DoraAbstractController
 
     private void startAutoMove()
     {
-        float time = (targetPos - raycastSource.transform.localPosition).magnitude / autoMoveSpeed;
-        ITypedAnimator<Vector3> moveInterpolator = interpolators.Animate(raycastSource.transform.localPosition, targetPos, time, new AnimationMode(AnimationType.Ease_In_Out), false, 0f);
 
         StopAutoMove();
+
+        float time = (targetPos - raycastSource.transform.localPosition).magnitude / autoMoveSpeed;
+        moveInterpolator = interpolators.Animate(raycastSource.transform.localPosition, targetPos, time, new AnimationMode(AnimationType.Ease_In_Out), false, 0f);
+
+
 
         autoMoveRoutine = StartCoroutine(autoMove(moveInterpolator));
     }

@@ -59,11 +59,13 @@ public class InterpolatorsManager : MonoBehaviourBase
     }
     public void Stop(IAnimator fl)
     {
+        if (null == fl) return;
+
         if (animators.ContainsKey(fl))
         {
-            StopCoroutine(animators[fl]);
             fl.Deactivate();
             fl.Pause();
+            StopCoroutine(animators[fl]);
             animators.Remove(fl);
             return_to_pool(fl);
         }
@@ -109,12 +111,11 @@ public class InterpolatorsManager : MonoBehaviourBase
             timer += Time.deltaTime;
             yield return null;
         }
-        i_animator.UpdateAnimator(1);
-        animators.Remove(i_animator);
-        i_animator.Deactivate();
-        return_to_pool(i_animator);
 
         i_animator.TriggerExitCallback();
+
+        Stop(i_animator);
+
     }
 
     private void return_to_pool(IAnimator fl)
