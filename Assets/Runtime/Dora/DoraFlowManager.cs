@@ -51,6 +51,7 @@ public class DoraFlowManager : MiniGameFlow
 
     protected override IEnumerator introRoutine()
     {
+        timer.SetTimer(doraGameData.BaseTimer, true);
         Debug.LogError("intro");
         yield return this.Wait(1.0f);
 
@@ -62,8 +63,6 @@ public class DoraFlowManager : MiniGameFlow
         Debug.LogError("on gameplay started");
 
         registerEvents();
-
-        timer.SetTimer(doraGameData.BaseTimer);
         timer.StartTimer();
 
         startDoraFlow();

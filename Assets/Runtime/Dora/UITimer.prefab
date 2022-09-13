@@ -167,7 +167,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.949997, y: -114}
+  m_AnchoredPosition: {x: 0, y: -94.25}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6746573435498505325
@@ -521,8 +521,9 @@ GameObject:
   - component: {fileID: 4472547927732263403}
   - component: {fileID: 4472547927732263404}
   - component: {fileID: 4472547927732263402}
+  - component: {fileID: 4510745627289387063}
   m_Layer: 5
-  m_Name: Timer
+  m_Name: UITimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -573,3 +574,23 @@ MonoBehaviour:
   timer: {fileID: 0}
   secondsTxt: {fileID: 1976019477487461443}
   minutesTxt: {fileID: 7752351570002940065}
+  popupSpawner: {fileID: 0}
+  anchorTime: {fileID: 7636067294210578359}
+  timerRoot: {fileID: 2215221273651640058}
+  interpolatorsManager: {fileID: 4510745627289387063}
+--- !u!114 &4510745627289387063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472547927732263400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxConcurrentFloat: -1
+  maxConcurrentV2: -1
+  maxConcurrentV3: -1
+  maxConcurrentColor: -1

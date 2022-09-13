@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PathologicalGames;
-using UnityEngine.UI;
 
 public class PopupSpawner : MonoBehaviourBase
 {
@@ -9,7 +8,8 @@ public class PopupSpawner : MonoBehaviourBase
     {
         Positive,
         Super,
-        Negative
+        Negative,
+        TimeBonus
     }
 
     [Header("Spawn Points")]
@@ -40,6 +40,7 @@ public class PopupSpawner : MonoBehaviourBase
 
     private static readonly string BONUS_SCORE = "Bonus_Score";
     private static readonly string SUPER_BONUS_SCORE = "Super_Bonus_Score";
+    private static readonly string BONUS_TIME = "Bonus_Time";
 
     private int counter = 0;
 
@@ -71,15 +72,15 @@ public class PopupSpawner : MonoBehaviourBase
                           float i_animTime,
                           float i_alphaTime,
                           int i_score,
-                          bool i_isSeconds,
+                          //bool i_isSeconds,
                           float i_yOffset)
     {
         playSound(i_popupType);
 
         if (i_worldPosition == null)
-            spawnScorePopup(i_popupType, defaultWorldPosition.position, i_animTime, i_alphaTime, i_score, i_isSeconds, i_yOffset);
+            spawnScorePopup(i_popupType, defaultWorldPosition.position, i_animTime, i_alphaTime, i_score/*, i_isSeconds*/, i_yOffset);
         else
-            spawnScorePopup(i_popupType, i_worldPosition.Value, i_animTime, i_alphaTime, i_score, i_isSeconds, i_yOffset);
+            spawnScorePopup(i_popupType, i_worldPosition.Value, i_animTime, i_alphaTime, i_score/*, i_isSeconds*/, i_yOffset);
     }
     
     public void PlayPopupWithAnchor(PopupType i_popupType,
@@ -87,18 +88,17 @@ public class PopupSpawner : MonoBehaviourBase
                           float i_animTime,
                           float i_alphaTime,
                           int i_score,
-                          bool i_isSeconds,
                           float i_yOffset)
     {
         playSound(i_popupType);
 
-        spawnScorePopupWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, i_isSeconds, i_yOffset);
+        spawnScorePopupWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, i_yOffset);
     }
 
     [ExposePublicMethod]
-    public void PlayPopupCenter(PopupType i_popupType, int i_score, bool i_isSeconds)
+    public void PlayPopupCenter(PopupType i_popupType, int i_score)
     {
-        PlayPopup(i_popupType, mainCam.transform.position, 1.0f, 0.5f, i_score, i_isSeconds, 20f);
+        PlayPopup(i_popupType, mainCam.transform.position, 1.0f, 0.5f, i_score, 20f);
     }
     #endregion
 
@@ -132,6 +132,8 @@ public class PopupSpawner : MonoBehaviourBase
             return negativeColor;
         else if (i_popupType == PopupType.Super)
             return superColor;
+        else if (i_popupType == PopupType.TimeBonus)
+            return positiveColor;
         else
         {
             Debug.LogError("Invalid Popup Type!");
@@ -145,6 +147,8 @@ public class PopupSpawner : MonoBehaviourBase
             return scorePool.Spawn(BONUS_SCORE);
         else if (i_popupType == PopupType.Super)
             return scorePool.Spawn(SUPER_BONUS_SCORE);
+        else if (i_popupType == PopupType.TimeBonus)
+            return scorePool.Spawn(BONUS_TIME);
         else
             return null;
     }
@@ -154,7 +158,7 @@ public class PopupSpawner : MonoBehaviourBase
                                  float i_animTime,
                                  float i_alphaTime,
                                  int i_score,
-                                 bool i_isSeconds,
+                                // bool i_isSeconds,
                                  float i_yOffset
                                 )
     {
@@ -176,7 +180,7 @@ public class PopupSpawner : MonoBehaviourBase
                 livingPopups.Add(popup);
 
                 popup.Animate(i_worldPosition, i_animTime, i_alphaTime,
-                                        i_score, i_isSeconds, i_yOffset, parentCanvasRectTransform, mainCam,
+                                        i_score/*, i_isSeconds*/, i_yOffset, parentCanvasRectTransform, mainCam,
                                         animCurve, interpolatorManager);
             }
         }
@@ -187,7 +191,6 @@ public class PopupSpawner : MonoBehaviourBase
                                             float i_animTime,
                                             float i_alphaTime,
                                             int i_score,
-                                            bool i_isSeconds,
                                             float i_yOffset)
     {
         Transform tr = getPopupPrefab(i_popupType);
@@ -208,7 +211,7 @@ public class PopupSpawner : MonoBehaviourBase
                 livingPopups.Add(popup);
 
                 popup.AnimateWithAnchor(i_anchor, i_animTime, i_alphaTime,
-                                        i_score, i_isSeconds, i_yOffset, animCurve, interpolatorManager);
+                                        i_score, i_yOffset, animCurve, interpolatorManager);
             }
         }
     }
