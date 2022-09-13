@@ -76,11 +76,8 @@ public class Animator<T> : ITypedAnimator<T>
         animationFunction = i_animationCurve;
         onAnimationEnded = i_onAnimationEnded;
     }
-    public Animator()
-    {
-        isActive = false;
-        isAnimating = false;
-    }
+    public Animator() { }
+
     public void setUpAnimator(T i_start, T i_target, float i_animTime, AnimationCurve i_animationCurve, bool i_clamped, float i_delay = 0f, Action<ITypedAnimator<T>> i_onAnimationEnded = null)
     {
         start = i_start;
@@ -126,10 +123,19 @@ public class Animator<T> : ITypedAnimator<T>
     #region IPoolable
     public void Reset()
     {
-        current = start;
+        start = default;
+        target = default;
+        clamped = true;
+        animationFunction = null;
+        onAnimationEnded = null;
+
+        current = default;
+        animationTime = 0f;
         isActive = false;
         isAnimating = false;
-    }
+        isPaused = false;
+        delay = 0f;
+}
     public void Dispose()
     {
         Reset();

@@ -445,6 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6622236087329536798}
   - component: {fileID: 3687109881843622709}
+  - component: {fileID: 5620739680228632249}
   m_Layer: 0
   m_Name: DoraRaycastController
   m_TagString: Untagged
@@ -488,6 +489,8 @@ MonoBehaviour:
   inputs: {fileID: 4411650203299129230}
   cellSelector: {fileID: 1723940233189729211}
   kernelSpawner: {fileID: 0}
+  frenzyController: {fileID: 5620739680228632249}
+  DoraGameplayData: {fileID: 11400000, guid: e2c5b74f921f5294bba6f021a37294df, type: 2}
   scoreManager: {fileID: 0}
   uiKernelManager: {fileID: 0}
   animationTime: 1
@@ -496,7 +499,23 @@ MonoBehaviour:
   minLocalX: -6.5
   maxLocalX: 5
   raycastSourceMoveSpeed: 15
+  raycastAutoMoveSpeed: 20
   raycastSource: {fileID: 1314212347534363070}
+  interpolators: {fileID: 0}
+--- !u!114 &5620739680228632249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6622236087329536799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf22708612a569345b1de623c251f179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raycastController: {fileID: 3687109881843622709}
+  DoraGameplayData: {fileID: 11400000, guid: e2c5b74f921f5294bba6f021a37294df, type: 2}
 --- !u!1 &8060975908451102762
 GameObject:
   m_ObjectHideFlags: 0

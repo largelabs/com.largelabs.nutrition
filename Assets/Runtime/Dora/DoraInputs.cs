@@ -91,7 +91,7 @@ public class DoraInputs : MonoBehaviourBase
     private void onMoveStarted(InputAction.CallbackContext obj)
     {
         disposeRoutines();
-        inputActions.Player.Eat.Disable();
+        //inputActions.Player.Eat.Disable();
         OnMoveStarted?.Invoke(obj.ReadValue<Vector2>());
         moveRoutine = StartCoroutine(dispatchMove());
     }
