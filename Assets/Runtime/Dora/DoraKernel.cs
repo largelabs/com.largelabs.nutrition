@@ -1,5 +1,4 @@
 using PathologicalGames;
-using System.Collections;
 using UnityEngine;
 
 public enum KernelStatus
@@ -11,6 +10,7 @@ public enum KernelStatus
 
 public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 {
+    [SerializeField] DoraKernelVFX kernelVFX = null;
     [SerializeField] DoraKernelAppear appear = null;
     [SerializeField] MeshRenderer kernelRnd = null;
     [SerializeField] Collider kernelCollider = null;
@@ -36,12 +36,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     bool isInit = false;
     float durability = 1f;
     bool isSelected = false;
-    InterpolatorsManager interpolators = null;
-    SpawnPool vfxPool = null;
-    Coroutine updateScaleRoutine = null;
     KernelStatus status = KernelStatus.Normal;
-
-    private static readonly string BURNT_SELECT_VFX_PREFAB = "VFX_Select_Smoke";
 
     bool canBurn = false;
 
@@ -55,10 +50,10 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         if (true == isInit) return;
 
-        interpolators = i_interpolators;
-        vfxPool = i_vfxPool;
-        gameObject.SetActive(false);
         appear.Init(i_interpolators);
+        kernelVFX.Init(i_vfxPool, i_interpolators);
+
+        gameObject.SetActive(false);
         isInit = true;
     }
 
@@ -68,13 +63,12 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         durability = 1f;
         Unselect(false);
         swapMaterials(durability, isSelected);
+        kernelVFX.ResetVFX();
     }
 
-    public bool IsInit => isInit;
-    public float Durability => durability;
-    public bool IsBurnt => status == KernelStatus.Burnt;
+    public bool CanDespawn => kernelVFX.HasLiveVFX;
 
-    public bool IsSuper => status == KernelStatus.Super;
+    public float Durability => durability;
 
     public void SetBurnable(bool i_burnable)
     {
@@ -156,17 +150,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     #endregion
 
-    IEnumerator updateScale(ITypedAnimator<Vector3> i_interpolator)
-    {
-        while(true == i_interpolator.IsAnimating)
-        {
-            transform.localScale = i_interpolator.Current;
-            yield return null;
-        }
-
-        this.DisposeCoroutine(ref updateScaleRoutine);
-    }
-
     #region ISelectable
 
     public bool IsSelected => isSelected;
@@ -178,25 +161,14 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
         swapMaterials(durability, isSelected);
 
+        if (status == KernelStatus.Burnt) kernelVFX.PlaySmokeVFX();
+
         if (true == i_animated)
-            startScaleAnimation(selectedScale, selectScaleCurve, selectAnimationSpeed);
+            kernelVFX.PlayScaleAnimation(selectedScale, selectScaleCurve, selectAnimationSpeed);
         else
         {
-            this.DisposeCoroutine(ref updateScaleRoutine);
+            kernelVFX.StopScaleAnimation();
             transform.localScale = selectedScale;
-        }
-
-        if(status == KernelStatus.Burnt)
-        {
-            Transform vfxTr = vfxPool.Spawn(BURNT_SELECT_VFX_PREFAB);
-            vfxTr.SetParent(transform);
-            vfxTr.localScale = MathConstants.VECTOR_3_ONE;
-            vfxTr.localPosition = new Vector3(0f, 0f, 0.5f);
-
-            vfxTr.SetParent(null);
-            float scaleValue = Mathf.Max(vfxTr.localScale.x, vfxTr.localScale.y);
-            vfxTr.localScale = MathConstants.VECTOR_3_ONE * scaleValue;
-            vfxTr.SetParent(transform);
         }
     }
 
@@ -208,10 +180,10 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
         swapMaterials(durability, isSelected);
 
         if (true == i_animated)
-            startScaleAnimation(MathConstants.VECTOR_3_ONE, unselectScaleCurve, unselectAnimationSpeed);
+            kernelVFX.PlayScaleAnimation(MathConstants.VECTOR_3_ONE, unselectScaleCurve, unselectAnimationSpeed);
         else
         {
-            this.DisposeCoroutine(ref updateScaleRoutine);
+            kernelVFX.StopScaleAnimation();
             transform.localScale = MathConstants.VECTOR_3_ONE;
         }
 
@@ -220,15 +192,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     #endregion
 
     #region PRIVATE
-
-    void startScaleAnimation(Vector3 i_target, AnimationCurve i_animationCurve, float i_animationSpeed)
-    {
-        this.DisposeCoroutine(ref updateScaleRoutine);
-        float animationTime = Mathf.Abs(transform.localScale.z - i_target.z) / i_animationSpeed;
-        ITypedAnimator<Vector3> scaleInterpolator = interpolators.Animate(transform.localScale, i_target, animationTime, new AnimationMode(i_animationCurve), false, 0f, null);
-
-        updateScaleRoutine = StartCoroutine(updateScale(scaleInterpolator));
-    }
 
     void swapMaterials(float i_durability, bool i_isSelected)
     {
@@ -240,7 +203,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
             else kernelRnd.material = i_isSelected ? kernelMat0Selected : kernelMat0;
         } 
     }
-
 
     #endregion
 }

@@ -1,5 +1,6 @@
 using PathologicalGames;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -128,38 +129,56 @@ public class KernelSpawner : MonoBehaviourBase
         return ret;
     }
 
-    public void DespawnKernel (DoraKernel i_kernel)
+    public void RequestKernelDespawn (DoraKernel i_kernel, bool i_immediate)
     {
-        despawnDoraCob(i_kernel);
-        livingKernels.Remove(i_kernel);
+        if (false == i_immediate)
+            StartCoroutine(waitForKernelDespawn(i_kernel));
+        else
+            despawnKernel(i_kernel);
     }
 
+
     [ExposePublicMethod]
-    public void DespawnAllKernels()
+    public void DespawnAllKernels(bool i_immediate)
     {
         if (kernelPool == null) return;
         if (livingKernels == null || livingKernels.Count < 1) return;
 
+        StopAllCoroutines();
+
         int length = livingKernels.Count;
         for (int i = 0; i < length; i++)
         {
-            despawnDoraCob(livingKernels[i]);
+            if (false == i_immediate)
+                StartCoroutine(waitForKernelDespawn(livingKernels[i]));
+            else
+                despawnKernel(livingKernels[i]);
         }
 
         livingKernels.Clear();
-
         OnDespawnAll?.Invoke();
     }
+
     #endregion
 
     #region PRIVATE API
-    private void despawnDoraCob(DoraKernel i_kernel)
+    private void despawnKernel(DoraKernel i_kernel)
     {
         i_kernel.ResetValues();
         kernelPool?.Despawn(i_kernel.transform);
         OnDespawn?.Invoke(i_kernel);
+    }
 
-        // unregister from any events if needed
+    IEnumerator waitForKernelDespawn(DoraKernel i_kernel)
+    {
+        while (false == i_kernel.CanDespawn)
+        {
+            Debug.LogError("Cannot despawn " + i_kernel.gameObject.name);
+            yield return null;
+
+        }
+        despawnKernel(i_kernel);
+        livingKernels.Remove(i_kernel);
     }
 
     #endregion

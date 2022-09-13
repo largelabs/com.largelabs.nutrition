@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8435856310404565491}
   - component: {fileID: 2034711932987601550}
   - component: {fileID: 7312661557851270908}
+  - component: {fileID: 8671647016647299558}
   m_Layer: 0
   m_Name: Super_Bonus_Score
   m_TagString: Untagged
@@ -109,3 +110,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e514551aafeb0df43aeaf045f38b4939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 0}
+  icon: {fileID: 0}
+--- !u!114 &8671647016647299558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5192467634073552543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 201071d8850f5f94a8ae34a465eff522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  targetColor: {r: 1, g: 0, b: 1, a: 1}
+  interpolatorsManager: {fileID: 0}
+  singleLerpCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  thisText: {fileID: 0}

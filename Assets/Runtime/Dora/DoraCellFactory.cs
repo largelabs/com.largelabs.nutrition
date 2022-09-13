@@ -31,7 +31,7 @@ public class DoraCellFactory
 
         if(true == i_cell.HasKernel)
         {
-            i_kernelSpawner?.DespawnKernel(i_cell.Kernel);
+            i_kernelSpawner?.RequestKernelDespawn(i_cell.Kernel, true);
         }
 
         cellPool.ResetItem(i_cell);

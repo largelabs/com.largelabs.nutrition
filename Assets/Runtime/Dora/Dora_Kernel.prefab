@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3224803383649992173}
   - component: {fileID: 3796340161787313619}
   - component: {fileID: 6813202012377233558}
+  - component: {fileID: 2605196578439670023}
   m_Layer: 0
   m_Name: Dora_Kernel
   m_TagString: Untagged
@@ -99,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ca45946aa76e2479f92a9139c26d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kernelVFX: {fileID: 2605196578439670023}
   appear: {fileID: 3224803383649992173}
   kernelRnd: {fileID: 40511290784818256}
   kernelCollider: {fileID: 6813202012377233558}
@@ -269,3 +271,15 @@ CapsuleCollider:
   m_Height: 0.9
   m_Direction: 0
   m_Center: {x: -0.000004544854, y: -0.008724414, z: 0.17}
+--- !u!114 &2605196578439670023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426721250731948442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9df9e7ca99f9546b65688c170eefb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

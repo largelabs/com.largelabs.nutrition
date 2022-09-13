@@ -11,8 +11,6 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraSpawner doraSpawner = null;
     [SerializeField] private GameObject doraHUD = null;
 
-    [SerializeField] private LocalScalePingPong timerTextScale = null;
-    [SerializeField] private UITextColorPingPong timerTextColor = null;
     [SerializeField] private DoraScoreManager scoreManager = null;
     [SerializeField] private SpawnPool vfxPool = null;
     [SerializeField] private MinigameTimer timer = null;
@@ -250,7 +248,6 @@ public class DoraFlowManager : MiniGameFlow
         doraMover.OnQueueEmpty += getNextDoraBatch;
 
         timer.OnTimerEnded += goToSuccess;
-
     }
 
     private void unregisterEvents()
@@ -259,7 +256,6 @@ public class DoraFlowManager : MiniGameFlow
         doraMover.OnQueueEmpty -= getNextDoraBatch;
 
         timer.OnTimerEnded -= goToSuccess;
-
     }
 
     #endregion
