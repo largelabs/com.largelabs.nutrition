@@ -212,8 +212,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             {
                 DoraCellData cell = cellMap.GetCell(coord, false, false);
 
-                //if(cell.KernelStatus == KernelStatus.Burnt && frenzyRoutine != null)  continue; 
-
+                if (cell.KernelStatus == KernelStatus.Burnt && frenzyRoutine != null)
+                    continue;
                 if (cell.HasKernel)
                 {
                     newSet.Add(cell.Kernel);
@@ -251,8 +251,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         //Debug.LogError("going to wait: " + i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
 
-       // if(frenzyRoutine == null)
-       //     yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
+        // if(frenzyRoutine == null)
+        //     yield return this.Wait(i_cellsToCleanup.Count * uiKernelManager.TimePerUIKernel);
 
         // post-sequence cleanup
         unburntEatenCount += i_eatCount;
