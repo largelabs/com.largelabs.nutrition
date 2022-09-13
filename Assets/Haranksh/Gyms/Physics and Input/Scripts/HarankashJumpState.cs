@@ -40,7 +40,6 @@ public class HarankashJumpState : MoveHorizontalAbstractState
     {
         controls.JumpPressed -= goToFastFall;
         jumpRiseFrames.Stop();
-        jumpRiseFrames.ResetAnimation();
         this.DisposeCoroutine(ref launchRoutine);
     }
 
@@ -62,15 +61,14 @@ public class HarankashJumpState : MoveHorizontalAbstractState
         matchVisualToCollider();
 
         jumpLaunchFrames.Play();
-        yield return this.Wait(0.1f);
+        yield return this.Wait(0.05f);
 
         body.SetVelocityY(accelerationData.MaxVelocityY);
-        yield return this.Wait(0.02f);
+        yield return this.Wait(0.07f);
         controls.EnableControls();
-        yield return this.Wait(0.28f);
+        yield return this.Wait(0.13f);
 
         jumpLaunchFrames.Stop();
-        jumpLaunchFrames.ResetAnimation();
 
         jumpRiseFrames.Play();
 

@@ -5,13 +5,17 @@ public class HarankashFallState : FallAbstractState
     protected override void onStateInit()
     {
     }
+
     protected override void onStateEnter()
     {
+        base.onStateEnter();
         //controls.JumpPressed += goToFastFall;
     }
 
     protected override void onStateExit()
     {
+        base.onStateExit();
+
         controls.JumpPressed -= goToFastFall;
     }
 

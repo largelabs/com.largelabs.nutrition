@@ -15,7 +15,6 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     protected override void onStateEnter()
     {
         jumpRiseFrames.Stop();
-        jumpRiseFrames.ResetAnimation();
 
         fallingFrames.Play();
         controls.EnableControls();
@@ -51,11 +50,9 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         controls.DisableControls();
 
         fallingFrames.Stop();
-        fallingFrames.ResetAnimation();
         landingFrames.Play();
         yield return this.Wait(timeBeforeBounce);
         landingFrames.Stop();
-        landingFrames.ResetAnimation();
 
         if (i_tag == "Bouncy")
             setState<HarankashBounceState>();

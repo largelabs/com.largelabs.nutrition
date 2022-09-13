@@ -94,8 +94,6 @@ public class PhysicsBody2D : MonoBehaviourBase, IPhysicsBody2D, IWallDetector2D,
 
         triggerWallEvents();
         triggerGroundedEvents();
-
-        Debug.LogError("grounded: " + isGrounded);
     }
 
     #endregion

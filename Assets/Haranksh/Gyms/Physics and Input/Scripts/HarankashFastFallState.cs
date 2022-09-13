@@ -10,11 +10,13 @@ public class HarankashFastFallState : FallAbstractState
 
     protected override void onStateEnter()
     {
+        base.onStateEnter();
         Debug.Log("Enter fast fall");
     }
 
     protected override void onStateExit()
     {
+        base.onStateExit();
     }
 
     #endregion

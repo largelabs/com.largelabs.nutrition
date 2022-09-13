@@ -62,11 +62,9 @@ public class HarankashIdleState : State
     private IEnumerator onJumpSequence()
     {
         idlingFrames.Stop();
-        idlingFrames.ResetAnimation();
         jumpAnticipationFrames.Play();
         yield return this.Wait(0.3f);
         jumpAnticipationFrames.Stop();
-        jumpAnticipationFrames.ResetAnimation();
 
         setState<HarankashJumpState>();
 

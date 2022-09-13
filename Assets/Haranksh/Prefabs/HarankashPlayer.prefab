@@ -47,6 +47,7 @@ MonoBehaviour:
   playOnEnable: 0
   renderer: {fileID: 3289514128824970440}
   isLooping: 0
+  resetOnLastFrame: 0
   frames:
   - frameObject: {fileID: -1904061863, guid: 311e9c3bb94e051429645200ff9948a7, type: 3}
     screenTime: 0.1
@@ -106,15 +107,16 @@ MonoBehaviour:
   playOnEnable: 0
   renderer: {fileID: 3289514128824970440}
   isLooping: 0
+  resetOnLastFrame: 0
   frames:
   - frameObject: {fileID: 907739321, guid: 311e9c3bb94e051429645200ff9948a7, type: 3}
     screenTime: 0.1
   - frameObject: {fileID: 871806816, guid: 311e9c3bb94e051429645200ff9948a7, type: 3}
-    screenTime: 0.1
+    screenTime: 0.05
   - frameObject: {fileID: -1829863071, guid: 311e9c3bb94e051429645200ff9948a7, type: 3}
-    screenTime: 0.1
+    screenTime: 0.05
   - frameObject: {fileID: -190403526, guid: 311e9c3bb94e051429645200ff9948a7, type: 3}
-    screenTime: 0.1
+    screenTime: 0.05
   loopStartIndex: 0
 --- !u!1 &3289514127598067327
 GameObject:
@@ -655,6 +657,7 @@ MonoBehaviour:
   playOnEnable: 0
   renderer: {fileID: 3289514128824970440}
   isLooping: 1
+  resetOnLastFrame: 0
   frames:
   - frameObject: {fileID: -749430727, guid: 311e9c3bb94e051429645200ff9948a7, type: 3}
     screenTime: 0.1
@@ -710,6 +713,7 @@ MonoBehaviour:
   playOnEnable: 0
   renderer: {fileID: 3289514128824970440}
   isLooping: 0
+  resetOnLastFrame: 0
   frames:
   - frameObject: {fileID: -43797664, guid: 311e9c3bb94e051429645200ff9948a7, type: 3}
     screenTime: 0.1
@@ -767,6 +771,7 @@ MonoBehaviour:
   playOnEnable: 0
   renderer: {fileID: 3289514128824970440}
   isLooping: 0
+  resetOnLastFrame: 0
   frames:
   - frameObject: {fileID: 1883098394, guid: df30a0903ef0b454198ff70c1555225d, type: 3}
     screenTime: 0.1
@@ -822,6 +827,7 @@ MonoBehaviour:
   playOnEnable: 0
   renderer: {fileID: 3289514128824970440}
   isLooping: 1
+  resetOnLastFrame: 0
   frames:
   - frameObject: {fileID: 1010266453, guid: df30a0903ef0b454198ff70c1555225d, type: 3}
     screenTime: 0.1
