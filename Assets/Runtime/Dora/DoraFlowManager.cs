@@ -149,6 +149,8 @@ public class DoraFlowManager : MiniGameFlow
 
     private IEnumerator doraGameplay(DoraCellMap i_cellMap, AutoRotator i_autoRotate)
     {
+        Debug.LogError("Dora Gameplay");
+
         if (null == inputActions) inputActions = new DoraActions();
 
         inputActions.Player.TestAction.Enable();

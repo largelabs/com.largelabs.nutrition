@@ -52,8 +52,6 @@ public class DoraRaycastController : DoraAbstractController
 
     public void StopAutoMove()
     {
-        Debug.LogError("Stop AutoMove");
-
         this.DisposeCoroutine(ref autoMoveRoutine);
         interpolators.Stop(moveInterpolator);
     }
@@ -88,7 +86,7 @@ public class DoraRaycastController : DoraAbstractController
 
                 if (null == frenzyRoutine) cellSelector.SelectCell(cellData.Coords, false, clearSelection);
                 else
-                    cellSelector.SelectRange(cellData.Coords, 1, true, false, true);
+                    cellSelector.SelectRange(cellData.Coords, 2, true, false, true);
             }
             else
                 cellSelector.ClearSelection();
@@ -100,8 +98,6 @@ public class DoraRaycastController : DoraAbstractController
     private void startAutoMove()
     {
         StopAutoMove();
-
-        Debug.LogError("Start AutoMove");
 
         float time = (targetPos - raycastSource.transform.localPosition).magnitude / autoMoveSpeed;
 

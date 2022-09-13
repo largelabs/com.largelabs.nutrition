@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: DoraBatchData_0
   m_EditorClassIdentifier: 
   assignedDoraData: {fileID: 11400000, guid: 022361e63e3149142b800cf71d7a402e, type: 2}
-  doraInBatch: 1
+  doraInBatch: 4
   maxBurntPercentage: 0.25
   distributionStyle: 3
   batchFinishScoreBonus: 50000
   batchFinishTimeBonus: 20
-  superKernelChance: 0.15
+  superKernelChance: 0.2
   superKernelChanceIncrease: 0.025
-  maxSuperKernelsPerCob: 1
-  maxSuperKernelsPerBatch: 3
+  maxSuperKernelsPerCob: 2
+  maxSuperKernelsPerBatch: 4
