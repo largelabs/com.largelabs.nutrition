@@ -31,7 +31,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     #region UNITY AND CORE
 
-    void Start()
+    protected virtual void Start()
     {
         listenToInputs();
     }
@@ -188,7 +188,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     private void eatKernels()
     {
         if (null == cellSelector.CurrentOriginCell) return;
-        Debug.LogError("Eating");
+        //Debug.LogError("Eating");
 
         IReadOnlyList<HashSet<Vector2Int>> selectedKernelsInSteps = cellSelector.SelectedRangeInSteps;
         if (null == selectedKernelsInSteps)
@@ -211,6 +211,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             foreach (Vector2Int coord in cellSet)
             {
                 DoraCellData cell = cellMap.GetCell(coord, false, false);
+
+                //if(cell.KernelStatus == KernelStatus.Burnt && frenzyRoutine != null)  continue; 
 
                 if (cell.HasKernel)
                 {

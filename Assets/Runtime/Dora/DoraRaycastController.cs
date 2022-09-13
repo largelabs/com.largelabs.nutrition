@@ -19,6 +19,15 @@ public class DoraRaycastController : DoraAbstractController
     Vector3 targetPos = Vector3.zero;
     float autoMoveSpeed = 1f;
 
+    #region UNITY & CORE
+
+    protected override void Start()
+    {
+        base.Start();
+        targetPos = new Vector3(maxLocalX, raycastSource.transform.localPosition.y, raycastSource.transform.localPosition.z);
+    }
+    #endregion
+
     #region PUBLIC API
 
     public override void StartAutoRotation(bool i_setDefaultSpeed)
@@ -35,9 +44,9 @@ public class DoraRaycastController : DoraAbstractController
 
     public void StartAutoMove(float i_speed)
     {
-        Debug.LogError("Start AutoMove");
-        targetPos = new Vector3(maxLocalX, raycastSource.transform.localPosition.y, raycastSource.transform.localPosition.z);
         autoMoveSpeed = i_speed;
+        setInterpolationTarget();
+
         startAutoMove();
     }
 
@@ -47,8 +56,6 @@ public class DoraRaycastController : DoraAbstractController
 
         this.DisposeCoroutine(ref autoMoveRoutine);
         interpolators.Stop(moveInterpolator);
-
-
     }
 
     #endregion
@@ -78,10 +85,10 @@ public class DoraRaycastController : DoraAbstractController
             {
                 bool clearSelection = null != cellSelector.CurrentOriginCell && cellSelector.CurrentOriginCell.Value != cellData.Coords;
 
-                
-                if(null == frenzyRoutine) cellSelector.SelectCell(cellData.Coords, false, clearSelection);
-                else 
-                    cellSelector.SelectRange(cellData.Coords, 2, true, false, true); 
+
+                if (null == frenzyRoutine) cellSelector.SelectCell(cellData.Coords, false, clearSelection);
+                else
+                    cellSelector.SelectRange(cellData.Coords, 1, true, false, true);
             }
             else
                 cellSelector.ClearSelection();
@@ -92,29 +99,35 @@ public class DoraRaycastController : DoraAbstractController
 
     private void startAutoMove()
     {
-
         StopAutoMove();
 
+        Debug.LogError("Start AutoMove");
+
         float time = (targetPos - raycastSource.transform.localPosition).magnitude / autoMoveSpeed;
+
         moveInterpolator = interpolators.Animate(raycastSource.transform.localPosition, targetPos, time, new AnimationMode(AnimationType.Ease_In_Out), false, 0f);
-
-
 
         autoMoveRoutine = StartCoroutine(autoMove(moveInterpolator));
     }
 
     private IEnumerator autoMove(ITypedAnimator<Vector3> i_moveInterpolator)
     {
+
         while (true == i_moveInterpolator.IsActive)
         {
             raycastSource.transform.localPosition = i_moveInterpolator.Current;
             yield return null;
         }
 
-        if (targetPos.x == minLocalX) targetPos.x = maxLocalX;
-        else targetPos.x = minLocalX;
+        setInterpolationTarget();
 
         startAutoMove();
+    }
+
+    private void setInterpolationTarget()
+    {
+        if (Mathf.Abs(raycastSource.transform.localPosition.x - minLocalX) > Mathf.Abs(raycastSource.transform.localPosition.x - maxLocalX)) targetPos.x = minLocalX;
+        else targetPos.x = maxLocalX;
     }
     #endregion
 }
