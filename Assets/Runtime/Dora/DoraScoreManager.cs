@@ -59,7 +59,7 @@ public class DoraScoreManager : MonoBehaviourBase
                                 float i_yoffset
                                 )
     {
-        scorePopupSpawner.PlayPopup(i_popupType, i_worldPos, i_animTime, i_alphaTime, i_score, false, i_yoffset);
+        scorePopupSpawner.PlayPopup(i_popupType, i_worldPos, i_animTime, i_alphaTime, i_score, i_yoffset);
         addToScore(i_score);
     }
     
@@ -71,7 +71,7 @@ public class DoraScoreManager : MonoBehaviourBase
                                 float i_yoffset
                                 )
     {
-        scorePopupSpawner.PlayPopupWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, false, i_yoffset);
+        scorePopupSpawner.PlayPopupWithAnchor(i_popupType, i_anchor, i_animTime, i_alphaTime, i_score, i_yoffset);
         addToScore(i_score);
     } 
     
@@ -84,7 +84,7 @@ public class DoraScoreManager : MonoBehaviourBase
     {
         int scoreToAdd = getKernelScoreByStatus(i_info.KernelStatus, i_info.ScoreMultiplier);
         scorePopupSpawner.PlayPopupWithAnchor(getPopupType(i_info.KernelStatus), i_anchor, i_animTime, i_alphaTime,
-                                    scoreToAdd, false, i_yoffset);
+                                    scoreToAdd, i_yoffset);
         addToScore(scoreToAdd);
     }
     
@@ -98,74 +98,9 @@ public class DoraScoreManager : MonoBehaviourBase
     {
         int scoreToAdd = getKernelScoreByStatus(i_status, i_multiplier);
         scorePopupSpawner.PlayPopup(getPopupType(i_status), i_worldPos, i_animTime, i_alphaTime,
-                                    scoreToAdd, false, i_yoffset);
+                                    scoreToAdd, i_yoffset);
         addToScore(scoreToAdd);
     }
-
-
-    //public void AddScoreByKernels(IReadOnlyList<HashSet<DoraKernel>> i_eatenKernels,
-    //                              float i_animTime,
-    //                              float i_alphaTime,
-    //                              float i_yoffset
-    //                              )
-    //{
-    //    if (i_eatenKernels == null || i_eatenKernels.Count == 0)
-    //    {
-    //        Debug.LogError("Invalid eaten kernel collection! Returning...");
-    //        return;
-    //    }
-
-    //    //ScorePopupSpawner.PopupType popupType = ScorePopupSpawner.PopupType.Positive;
-
-    //    //if (i_eatenKernels.Count > 13) popupType = ScorePopupSpawner.PopupType.Super;
-
-    //    //if (i_eatenKernels[0].Count > 1)
-    //    //{
-    //    //    Debug.LogError("More than one origin cell! Returning...");
-    //    //    return;
-    //    //}
-
-    //    //handle origin kernel alone to get world pos
-    //    //foreach (DoraKernel kernel in i_eatenKernels[0])
-    //    //    currKernel = kernel;
-    //    //if (currKernel.IsBurnt) popupType = ScorePopupSpawner.PopupType.Positive;
-    //    //Vector3 worldPos = currKernel.transform.position;
-
-    //    //scoreToAdd = getKernelScore(currKernel, multiplier);
-    //    //scoreManagerKernels.Add(new ScoreManagerKernel(scoreToAdd, currKernel.Status));
-    //    //totalScoreToAdd += scoreToAdd;
-
-    //    // multiplier increases in each loop (after each selection step in the list)
-    //    //Vector3 originWorldPos = Vector3.zero;
-    //    int scoreToAdd = 0;
-    //    int totalScoreToAdd = 0;
-    //    float multiplier = 1f;
-    //    List<ScoreManagerKernel> scoreManagerKernels = new List<ScoreManagerKernel>();
-    //    HashSet<DoraKernel> currSet = null;
-    //    int length = i_eatenKernels.Count;
-    //    for (int i = 0; i < length; i++)
-    //    {
-    //        currSet = i_eatenKernels[i];
-    //        foreach (DoraKernel kernel in currSet)
-    //        {
-    //            //if (kernel.IsBurnt) popupType = ScorePopupSpawner.PopupType.Positive;
-    //            //if (i == 0)
-    //                //originWorldPos = kernel.transform.position;
-    //            scoreToAdd = getKernelScore(kernel, multiplier);
-    //            scoreManagerKernels.Add(new ScoreManagerKernel(scoreToAdd, kernel.Status));
-    //            totalScoreToAdd += scoreToAdd;
-    //        }
-    //        multiplier += 1;
-    //    }
-
-    //    uiKernelManager.HandleKernelStack(scoreManagerKernels);
-
-    //    //if (scoreToAdd < 0)
-    //        //popupType = ScorePopupSpawner.PopupType.Negative;
-
-    //    //scorePopupSpawner.PlayScore(ScorePopupSpawner.PopupType.Positive, originWorldPos, i_animTime, i_alphaTime, totalScoreToAdd, i_yoffset);
-    //    //addToScore(totalScoreToAdd);
-    //}
     #endregion
 
 
@@ -202,6 +137,7 @@ public class DoraScoreManager : MonoBehaviourBase
     void addToScore(int i_score)
     {
         score += i_score;
+        score = Mathf.Clamp(score, 0, 999999);
         scoreText.text = score.ToString("000000");
 
     }

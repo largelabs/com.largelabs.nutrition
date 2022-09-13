@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2710860899892018801}
   - component: {fileID: 1131068220964588388}
   m_Layer: 0
-  m_Name: Bonus_Score
+  m_Name: Malus_Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 0cf3ed6c30df41a4bb34a7cd7bfc075e, type: 3}
-    m_FontSize: 60
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 5

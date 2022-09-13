@@ -237,8 +237,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4472547927732263400, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_Name
-      value: Timer
+      value: UITimer
       objectReference: {fileID: 0}
+    - target: {fileID: 4472547927732263402, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
+      propertyPath: popupSpawner
+      value: 
+      objectReference: {fileID: 2489217776581094088}
     - target: {fileID: 4472547927732263403, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -266,6 +270,10 @@ PrefabInstance:
     - target: {fileID: 4472547927732263403, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchorMin.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4472547927732263403, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4472547927732263403, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,24 +1,21 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MinigameTimer : MonoBehaviourBase
 {
     [SerializeField] [Range(1, 500)] private float timeSeconds = 200f;
-    [SerializeField] PopupSpawner popupSpawner = null;
-    [SerializeField] RectTransform anchorTime = null;
 
     enum TimerStatus { Running, Paused, Ended, None };
     TimerStatus timerStatus = TimerStatus.None;
 
-    public delegate void TimerEventDelegate();
+    public Action<TimeSpan> OnTimerStarted = null;
+    public Action OnTimerEnded = null;
+    public Action<TimeSpan> OnTimerPaused = null;
+    public Action<TimeSpan> OnTimerResumed = null;
+    public Action<float> OnAddedSeconds = null;
+    public Action<string, string> OnDisplayUpdateRequest = null;
 
-    public TimerEventDelegate OnTimerStarted = null;
-    public TimerEventDelegate OnTimerEnded = null;
-    public TimerEventDelegate OnTimerPaused = null;
-    public TimerEventDelegate OnTimerResumed = null;
-
+    TimeSpan remainingTime;
 
     #region UNITY AND CORE
 
@@ -51,7 +48,7 @@ public class MinigameTimer : MonoBehaviourBase
 
         timerStatus = TimerStatus.Running;
 
-        OnTimerStarted?.Invoke();
+        OnTimerStarted?.Invoke(remainingTime);
     }
 
     [ExposePublicMethod]
@@ -61,7 +58,7 @@ public class MinigameTimer : MonoBehaviourBase
 
         timerStatus = TimerStatus.Paused;
 
-        OnTimerPaused?.Invoke();
+        OnTimerPaused?.Invoke(remainingTime);
     }
 
     [ExposePublicMethod]
@@ -71,30 +68,34 @@ public class MinigameTimer : MonoBehaviourBase
 
         timerStatus = TimerStatus.Running;
 
-        OnTimerResumed?.Invoke();
+        OnTimerResumed?.Invoke(remainingTime);
     }
 
     public string GetMinutesString()
     {
-        TimeSpan span = TimeSpan.FromSeconds(timeSeconds);
-        return span.Minutes.ToString("00");
+        return remainingTime.Minutes.ToString("00");
     }
 
     public string GetSecondsString()
     {
-        TimeSpan span = TimeSpan.FromSeconds(timeSeconds);
-        return span.Seconds.ToString("00");
+        return remainingTime.Seconds.ToString("00");
     }
 
-    public void SetTimer(float i_time)
+    public void SetTimer(float i_time, bool i_updateDisplay)
     {
         timeSeconds = i_time;
+        remainingTime = TimeSpan.FromSeconds(timeSeconds);
+        if(true == i_updateDisplay)
+        {
+            updateDisplay();
+        }
     }
 
+    [ExposePublicMethod]
     public void AddTime(float i_timeBonus)
     {
-        timeSeconds += i_timeBonus;
-        popupSpawner.PlayPopupWithAnchor(PopupSpawner.PopupType.Positive, anchorTime, 0.5f, 0.25f, Mathf.CeilToInt(i_timeBonus), true, 10f);
+        SetTimer(timeSeconds + i_timeBonus, true);
+        OnAddedSeconds?.Invoke(i_timeBonus);
     }
 
     #endregion
@@ -105,7 +106,10 @@ public class MinigameTimer : MonoBehaviourBase
     {
         if (timerStatus != TimerStatus.Running) return;
 
-        timeSeconds -= Time.unscaledDeltaTime;
+        if (lastDisplayUpdateTime.Seconds != remainingTime.Seconds)
+            updateDisplay();
+
+        SetTimer(timeSeconds - Time.unscaledDeltaTime, false);
 
         if (timeSeconds <= 0) onTimeEnd();
     }
@@ -115,6 +119,14 @@ public class MinigameTimer : MonoBehaviourBase
         timeSeconds = 0;
         timerStatus = TimerStatus.Ended;
         OnTimerEnded?.Invoke();
+    }
+
+    TimeSpan lastDisplayUpdateTime;
+
+    void updateDisplay()
+    {
+        OnDisplayUpdateRequest?.Invoke(GetMinutesString(), GetSecondsString());
+        lastDisplayUpdateTime = remainingTime;
     }
 
     #endregion

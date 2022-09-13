@@ -3,10 +3,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(RectTransform))]
-[RequireComponent(typeof(Text))]
 public class UIFloatingScore : MonoBehaviour
-{
+{ 
+    [SerializeField] RectTransform rect = null;
+    [SerializeField] Image icon = null;
     RectTransform thisRectTransform = null;
     Text scoreText = null;
     Vector2 screenOffset;
@@ -28,6 +28,12 @@ public class UIFloatingScore : MonoBehaviour
             Color temp = scoreText.color;
             scoreText.color = new Color(temp.r, temp.g, temp.b, i_alpha);
         }
+
+        if(null != icon)
+        {
+            Color temp = icon.color;
+            icon.color = new Color(temp.r, temp.g, temp.b, i_alpha);
+        }
     }
     
     public void SetColor(Color i_color)
@@ -46,7 +52,7 @@ public class UIFloatingScore : MonoBehaviour
                         float i_animTime,
                         float i_alphaTime,
                         int i_score,
-                        bool i_isSeconds,
+                       // bool i_isSeconds,
                         float i_yOffset,
                         RectTransform i_canvasRect, 
                         Camera i_camera,
@@ -66,7 +72,7 @@ public class UIFloatingScore : MonoBehaviour
 
             AnimationRoutine = StartCoroutine
                 ( animateScorePopup(spawnPos, i_animTime, i_alphaTime,
-                                    i_score, i_isSeconds, i_yOffset, i_curve, i_interpolatorManager) );
+                                    i_score/*, i_isSeconds*/, i_yOffset, i_curve, i_interpolatorManager) );
         }
     }
     
@@ -74,7 +80,7 @@ public class UIFloatingScore : MonoBehaviour
                         float i_animTime,
                         float i_alphaTime,
                         int i_score,
-                        bool i_isSeconds,
+                        //bool i_isSeconds,
                         float i_yOffset,
                         AnimationCurve i_curve,
                         InterpolatorsManager i_interpolatorManager
@@ -89,7 +95,7 @@ public class UIFloatingScore : MonoBehaviour
 
             AnimationRoutine = StartCoroutine
                 ( animateScorePopup(Vector2.zero, i_animTime, i_alphaTime,
-                                    i_score, i_isSeconds, i_yOffset, i_curve, i_interpolatorManager) );
+                                    i_score/*, i_isSeconds*/, i_yOffset, i_curve, i_interpolatorManager) );
         }
     }
 
@@ -100,7 +106,7 @@ public class UIFloatingScore : MonoBehaviour
                                             float i_animTime,
                                             float i_alphaTime,
                                             int i_score,
-                                            bool i_isSeconds,
+                                           // bool i_isSeconds,
                                             float i_yOffset,
                                             AnimationCurve i_curve,
                                             InterpolatorsManager i_interpolatorManager
@@ -113,8 +119,8 @@ public class UIFloatingScore : MonoBehaviour
         if (i_score > 0)
             scoreText.text += "+";
         scoreText.text += i_score.ToString();
-        if (i_isSeconds)
-            scoreText.text += "s";
+       // if (i_isSeconds)
+        //    scoreText.text += "s";
 
         ITypedAnimator<float> yInterpolator = i_interpolatorManager.Animate(thisRectTransform.position.y, thisRectTransform.position.y + i_yOffset, i_animTime, mode, true, 0f, null);
         ITypedAnimator<float> alphaInterpolator = i_interpolatorManager.Animate(0f, 1f, i_alphaTime, mode, true, 0f, null);
@@ -143,18 +149,18 @@ public class UIFloatingScore : MonoBehaviour
 
     private void updatePosition(float i_pos)
     {
-        Vector2 newPos = scoreText.transform.position;
+        Vector2 newPos = thisRectTransform.position;
         newPos.y = i_pos;
-        scoreText.transform.position = newPos;
+        thisRectTransform.position = newPos;
     }
 
     private void getAttachedComponents()
     {
-        if (thisRectTransform == null)
-            thisRectTransform = GetComponent<RectTransform>();
+        if(null == thisRectTransform)
+            thisRectTransform = null == rect ? GetComponent<RectTransform>() : rect;
 
         if (scoreText == null)
-            scoreText = GetComponent<Text>();
+            scoreText = GetComponentInChildren<Text>(true);
     }
     #endregion
 }
