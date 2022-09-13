@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8692e10c00a6a2b48a9b34f3dbf80297, type: 3}
   m_Name: DoraData_0
   m_EditorClassIdentifier: 
-  maxInitialDurability: 0.01
-  minInitialDurability: 0.01
+  maxInitialDurability: 1
+  minInitialDurability: 0.4
   durabilityLossInterval: 0.1
   durabilityFullLossTime: 40
