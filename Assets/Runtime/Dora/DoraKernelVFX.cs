@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DoraKernelVFX : MonoBehaviourBase
 {
+    [SerializeField] Transform kernelTransform = null;
+
     private static readonly string BURNT_SELECT_VFX_PREFAB = "VFX_Select_Smoke";
     List<PooledDoraVFX> liveVFX = null;
     SpawnPool vfxPool = null;
@@ -44,10 +46,10 @@ public class DoraKernelVFX : MonoBehaviourBase
     public void PlayScaleAnimation(Vector3 i_target, AnimationCurve i_animationCurve, float i_animationSpeed)
     {
         StopScaleAnimation();
-        float animationTime = Mathf.Abs(transform.localScale.z - i_target.z) / i_animationSpeed;
-        ITypedAnimator<Vector3> scaleInterpolator = interpolators.Animate(transform.localScale, i_target, animationTime, new AnimationMode(i_animationCurve), false, 0f, null);
+        float animationTime = Mathf.Abs(kernelTransform.localScale.z - i_target.z) / i_animationSpeed;
+        ITypedAnimator<Vector3> scaleInterpolator = interpolators.Animate(kernelTransform.localScale, i_target, animationTime, new AnimationMode(i_animationCurve), false, 0f, null);
 
-        updateScaleRoutine = StartCoroutine(updateScale(scaleInterpolator));
+        updateScaleRoutine = StartCoroutine(updateKernelScale(scaleInterpolator));
     }
 
     public void StopScaleAnimation()
@@ -59,7 +61,7 @@ public class DoraKernelVFX : MonoBehaviourBase
     {
         Transform vfxTr = vfxPool.Spawn(BURNT_SELECT_VFX_PREFAB);
         registerVfx(vfxTr.GetComponent<PooledDoraVFX>());
-        vfxTr.SetParent(transform);
+        vfxTr.SetParent(kernelTransform);
         vfxTr.localScale = MathConstants.VECTOR_3_ONE;
         vfxTr.localPosition = new Vector3(0f, 0f, 0.5f);
 
@@ -85,11 +87,11 @@ public class DoraKernelVFX : MonoBehaviourBase
         }
     }
 
-    IEnumerator updateScale(ITypedAnimator<Vector3> i_interpolator)
+    IEnumerator updateKernelScale(ITypedAnimator<Vector3> i_interpolator)
     {
         while (true == i_interpolator.IsAnimating)
         {
-            transform.localScale = i_interpolator.Current;
+            kernelTransform.localScale = i_interpolator.Current;
             yield return null;
         }
 

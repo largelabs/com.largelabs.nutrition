@@ -52,8 +52,6 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
         appear.Init(i_interpolators);
         kernelVFX.Init(i_vfxPool, i_interpolators);
-
-        gameObject.SetActive(false);
         isInit = true;
     }
 
