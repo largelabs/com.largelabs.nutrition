@@ -11,6 +11,8 @@ public class DoraSelectionRaycastSource : MonoBehaviourBase
 
     GameObject hitGo = null;
 
+    #region UNITY AND CORE
+
     void Update()
     {
         ray = new Ray(transform.position, transform.forward);
@@ -25,5 +27,11 @@ public class DoraSelectionRaycastSource : MonoBehaviourBase
 
     }
 
+    #endregion
+
+    #region PUBLIC API
+
     public GameObject HitGo => hitGo;
+
+    #endregion
 }

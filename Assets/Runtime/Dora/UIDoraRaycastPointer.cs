@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,18 +7,16 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
     [SerializeField] DoraInputs inputs = null;
     [SerializeField] Transform selectionFeedbackTr = null;
     [SerializeField] Image cursorImage = null;
+    [SerializeField] DoraAbstractController controller = null;
+    [SerializeField] InterpolatorsManager interpolators = null;
 
     [SerializeField] DoraSelectionRaycastSource source = null;
     [SerializeField] RectTransform canvasRect = null;
     [SerializeField] RectTransform cursorRect = null;
 
-    #region UNITY AND CORE
+    Coroutine moveCursorRoutine = null;
 
-    private void Start()
-    {
-        inputs.OnEatStarted += onEatStarted;
-        inputs.OnEatReleased += onEatReleased;
-    }
+    #region UNITY AND CORE
 
     private void LateUpdate()
     {
@@ -32,6 +31,21 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
     public void EnablePointer(bool i_enable)
     {
         cursorImage.enabled = i_enable;
+
+        if(true == i_enable)
+        {
+            inputs.OnEatStarted += onEatStarted;
+            inputs.OnEatReleased += onEatReleased;
+            inputs.OnEat += recenterCursor;
+        }
+        else
+        {
+            inputs.OnEatStarted -= onEatStarted;
+            inputs.OnEatReleased -= onEatReleased;
+            inputs.OnEat -= recenterCursor;
+
+            onEatReleased();
+        }
     }
 
     #endregion
@@ -43,9 +57,28 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
         selectionFeedbackTr.gameObject.SetActive(true);
     }
 
+    void recenterCursor()
+    {
+        if(controller.CurrentSelectionRadius > 0)
+        {
+            if(null == moveCursorRoutine)
+            {
+
+
+                moveCursorRoutine = StartCoroutine(updateCursorPosition(null));
+            }
+        }
+    }
+
+    IEnumerator updateCursorPosition(ITypedAnimator<Vector3> i_interpolator)
+    {
+        yield break;
+    }
+
     void onEatReleased()
     {
         selectionFeedbackTr.gameObject.SetActive(false);
+        this.DisposeCoroutine(ref moveCursorRoutine);
     }
 
     void updateCursorPosition()
