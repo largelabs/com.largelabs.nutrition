@@ -20,7 +20,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     Dictionary<GameObject, DoraCellData> cellsByGo = null;
 
     private DoraData doraData = null;
- 
+
     BoxCollider cullingBounds = null;
     BoxCollider selectionBounds = null;
 
@@ -31,7 +31,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     {
         foreach (DoraCellData doraCell in cellMap)
         {
-            if(true == doraCell.HasKernel)
+            if (true == doraCell.HasKernel)
             {
                 doraCell.EnableKernelRenderer(cullingBounds.bounds.Intersects(doraCell.GetCellBounds()));
                 doraCell.EnableKernelCollider(selectionBounds.bounds.Intersects(doraCell.GetCellBounds()));
@@ -101,13 +101,13 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     public float BurntPercentage => durabilityManager.BurntPercentage;
     public DoraData DoraData => doraData;
 
-    public void InitializeDoraCob(SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds, DoraBatchData i_parentBatch, bool i_canSpawnSuper, out bool o_superKernelSpawned)
+    public void InitializeDoraCob(SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds, DoraBatchData i_parentBatch, int i_batchCount, bool i_canSpawnSuper, out bool o_superKernelSpawned)
     {
         fetchData(i_parentBatch);
         cullingBounds = i_cullingBounds;
         selectionBounds = i_selectionBounds;
         populateMap(i_vfxPool);
-        durabilityManager.InitializeKernelDurability(i_canSpawnSuper, out o_superKernelSpawned);
+        durabilityManager.InitializeKernelDurability(i_canSpawnSuper, i_batchCount, out o_superKernelSpawned);
         RevealCells(false);
     }
 
@@ -131,7 +131,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     {
         if (null == cellMap) return;
 
-        if(true == i_animated)
+        if (true == i_animated)
         {
             StartCoroutine(revealCellsAnimated(0, NB_ROWS / 2));
             StartCoroutine(revealCellsAnimated(NB_ROWS / 2, NB_ROWS));
