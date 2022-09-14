@@ -1337,20 +1337,19 @@ MonoBehaviour:
   harraPlatformSpawner: {fileID: 1138858152}
   possibleSpawnsPerRow:
   - {fileID: 501588302}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 656043285}
+  - {fileID: 445811805}
+  - {fileID: 1688047152}
+  - {fileID: 1644214325}
+  - {fileID: 1847676586}
+  - {fileID: 1501422678}
+  - {fileID: 575709159}
+  - {fileID: 2044804852}
+  - {fileID: 952291329}
+  - {fileID: 1453512829}
+  - {fileID: 1934259401}
+  - {fileID: 345408299}
+  - {fileID: 1013783427}
 --- !u!1 &335709542
 GameObject:
   m_ObjectHideFlags: 0
@@ -11168,6 +11167,10 @@ PrefabInstance:
     - target: {fileID: 3289514128781812915, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4489358655277992599, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: maxJumpHeight
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
