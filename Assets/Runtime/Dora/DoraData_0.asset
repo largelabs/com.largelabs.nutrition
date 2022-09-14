@@ -15,4 +15,4 @@ MonoBehaviour:
   maxInitialDurability: 1
   minInitialDurability: 0.4
   durabilityLossInterval: 0.1
-  durabilityFullLossTime: 40
+  durabilityFullLossTime: 60

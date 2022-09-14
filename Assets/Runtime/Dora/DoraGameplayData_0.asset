@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66c33727100e504ab1b732689dec56d, type: 3}
   m_Name: DoraGameplayData_0
   m_EditorClassIdentifier: 
-  defaultRotationSpeed: 50
+  defaultRotationSpeed: 60
   frenzyTime: 5
   frenzyRotationSpeed: 200
   cursorAutoMoveSpeed: 15

@@ -9,7 +9,9 @@ public class DoraBatchData : ScriptableObject
 
     [Header("Burnt Kernels")]
     [SerializeField] private float maxBurntPercentage = 0.25f;
-    [SerializeField] private DoraDurabilityManager.Distribution distributionStyle = DoraDurabilityManager.Distribution.Uniform;
+    [SerializeField] private DoraDurabilityManager.Distribution distributionStyleLvl1 = DoraDurabilityManager.Distribution.EdgeFocused;
+    [SerializeField] private DoraDurabilityManager.Distribution distributionStyleLvl2 = DoraDurabilityManager.Distribution.CenterFocused;
+    [SerializeField] private DoraDurabilityManager.Distribution distributionStyleLvl3 = DoraDurabilityManager.Distribution.Uniform;
 
     [Header("Scoring")]
     [SerializeField] private int batchFinishScoreBonus = 10;
@@ -31,7 +33,9 @@ public class DoraBatchData : ScriptableObject
     public DoraData AssignedDoraData => assignedDoraData;
 
     public float MaxBurntPercentage => maxBurntPercentage;
-    public DoraDurabilityManager.Distribution DistributionStyle => distributionStyle;
+    public DoraDurabilityManager.Distribution DistrubutionStyleLVL1 => distributionStyleLvl1;
+    public DoraDurabilityManager.Distribution DistrubutionStyleLVL2 => distributionStyleLvl2;
+    public DoraDurabilityManager.Distribution DistrubutionStyleLVL3 => distributionStyleLvl3;
 
     public int BatchFinishScoreBonus => batchFinishScoreBonus;
     public float BatchFinishTimeBonus => batchFinishTimeBonus;

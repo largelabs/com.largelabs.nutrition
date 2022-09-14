@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1192ebe00688754e99999922dad4ed2, type: 3}
   m_Name: DoraGameData_0
   m_EditorClassIdentifier: 
-  goodKernelScore: 50
-  burntKernelScore: -25
-  superKernelScore: 300
+  goodKernelScore: 10
+  burntKernelScore: -200
+  superKernelScore: 200
   baseTimer: 150
