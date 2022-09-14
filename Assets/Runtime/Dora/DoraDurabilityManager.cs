@@ -13,6 +13,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
         Uniform
     }
 
+    Distribution distro = Distribution.EdgeFocused;
+
     [SerializeField] private DoraCellMap cellMap = null;
 
     private int unburntKernels = 0;
@@ -59,7 +61,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
     }
 
     [ExposePublicMethod]
-    public bool InitializeKernelDurability(bool i_canSpawnSuper, out bool o_superKernelSpawned)
+    public bool InitializeKernelDurability(bool i_canSpawnSuper,int i_batchCount ,out bool o_superKernelSpawned)
     {
         o_superKernelSpawned = false;
 
@@ -94,7 +96,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
                 currCellData = cellMap.GetCell(new Vector2Int(i, j), false, false);
                 rng = UnityEngine.Random.Range(minDurability, maxDurability);
 
-                if (KernelIsBurnable(i, j, length1 - 1, totalBurnable))
+                if (KernelIsBurnable(i, j, length1 - 1, totalBurnable, i_batchCount))
                 {
                     currCellData.SetBurnable(true);
                     totalBurnable++;
@@ -146,13 +148,29 @@ public class DoraDurabilityManager : MonoBehaviourBase
         return ret;
     }
 
-    private bool KernelIsBurnable(int i_rowIdx, int i_columnIdx, int i_maxColumnIdx, int i_totalBurnable)
+    private Distribution getDistributionLevel(int i_batchCount)
+    {
+        if (i_batchCount <= 2)
+        {
+            return batchData.DistrubutionStyleLVL1;
+        }
+        else if (i_batchCount <= 4)
+        {
+            return batchData.DistrubutionStyleLVL2;
+        }
+        else
+        {
+            return batchData.DistrubutionStyleLVL3;
+        }
+    }
+
+    private bool KernelIsBurnable(int i_rowIdx, int i_columnIdx, int i_maxColumnIdx, int i_totalBurnable, int i_batchCount)
     {
         float maxBurn = batchData.MaxBurntPercentage;
         if (i_totalBurnable >= maxBurn * cellMap.TotalCellCount)
             return false;
 
-        Distribution distro = batchData.DistributionStyle;
+        Distribution distro = getDistributionLevel(i_batchCount);
 
         int halfwayIdx = i_maxColumnIdx / 2;
         int maxDiff = halfwayIdx;
@@ -187,7 +205,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
             foreach (Vector2Int direction in directions)
             {
                 bool? kernelBurnable = cellMap.GetCell(baseCoord + direction, false, false).IsKernelBurnable;
-                if(kernelBurnable != null && kernelBurnable.Value == true)
+                if (kernelBurnable != null && kernelBurnable.Value == true)
                     calculatedChance -= chanceReduction;
             }
         }
@@ -273,8 +291,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
                 }
             }
 
-           // Debug.LogError("burnt: " + burntKernels);
-           // Debug.LogError("total: " + totalKernels);
+            // Debug.LogError("burnt: " + burntKernels);
+            // Debug.LogError("total: " + totalKernels);
 
             if (totalKernels > 0)
             {

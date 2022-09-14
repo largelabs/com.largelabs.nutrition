@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DoraFrenzyController : MonoBehaviourBase
@@ -15,7 +14,6 @@ public class DoraFrenzyController : MonoBehaviourBase
 
     public IEnumerator PlayFrenzyMode(AutoRotator i_autoRotator)
     {
-
         i_autoRotator.SetRotationSpeedX(DoraGameplayData.FrenzyRotationSpeed);
         raycastController.StartAutoRotation(false);
 

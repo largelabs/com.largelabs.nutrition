@@ -5,6 +5,7 @@ public class DoraSelectionRaycastSource : MonoBehaviourBase
     [SerializeField] float maxLength = 5f;
     [SerializeField] DoraCellMap cellMap = null;
     [SerializeField] DoraCellSelector selector = null;
+    [SerializeField] DoraInputs inputs = null;
 
     RaycastHit hitData;
     Ray ray;

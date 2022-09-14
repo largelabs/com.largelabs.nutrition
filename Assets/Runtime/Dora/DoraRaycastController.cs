@@ -15,6 +15,7 @@ public class DoraRaycastController : DoraAbstractController
 
     Coroutine rayCastRoutine = null;
     Coroutine autoMoveRoutine = null;
+    Coroutine centerSourceRoutine = null;
     ITypedAnimator<Vector3> moveInterpolator = null;
 
     Vector3 targetPos = Vector3.zero;
@@ -74,9 +75,53 @@ public class DoraRaycastController : DoraAbstractController
         raycastSource.transform.localPosition = pos;
     }
 
+    protected override void onEatStarted()
+    {
+        base.onEatStarted();
+        this.DisposeCoroutine(ref centerSourceRoutine);
+    }
+
+    protected override void onEat()
+    {
+        if(CurrentSelectionRadius > 0)
+        {
+            if (null == frenzyRoutine && null == centerSourceRoutine)
+            {
+                DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
+                centerSourceRoutine = StartCoroutine(recenterPointer(cell.Anchor));
+            }
+        }
+        base.onEat();
+    }
+
+    protected override void onEatReleased()
+    {
+        base.onEatReleased();
+        this.DisposeCoroutine(ref centerSourceRoutine);
+    }
+
     #endregion
 
     #region PRIVATE
+
+    IEnumerator recenterPointer(Transform i_anchor)
+    {
+        ITypedAnimator<Vector3> interpolator = interpolators.Animate(
+            raycastSource.transform.position,
+            i_anchor.position,
+            0.2f,
+            new AnimationMode(AnimationType.Ease_In_Out));
+
+        while(true == interpolator.IsActive)
+        {
+            Vector2 current = interpolator.Current;
+            Vector3 pos = raycastSource.transform.position;
+            pos.x = current.x;
+            pos.y = current.y;
+            raycastSource.transform.position = pos;
+            yield return null;
+        }
+    }
 
     IEnumerator updateRaycast()
     {

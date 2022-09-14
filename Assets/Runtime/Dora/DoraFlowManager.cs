@@ -31,6 +31,8 @@ public class DoraFlowManager : MiniGameFlow
     private DoraCellMap currentCob = null;
     private DoraCellMap previousCob = null;
 
+    private int doraBatchCount = 0;
+
     Coroutine doraGameplayRoutine = null;
     Coroutine burntDoraRoutine = null;
 
@@ -114,6 +116,8 @@ public class DoraFlowManager : MiniGameFlow
         // Maybe change way of choosing batch?
         currentDoraBatch = doraBatchData[UnityEngine.Random.Range(0, doraBatchData.Count)];
 
+        doraBatchCount++;
+
         DoraCellMap currCob = null;
         int length = Mathf.Clamp(currentDoraBatch.DoraInBatch, 1, 4);
         bool superKernelSpawned;
@@ -124,7 +128,7 @@ public class DoraFlowManager : MiniGameFlow
         for (int i = 0; i < length; i++)
         {
             currCob = doraPlacer.SpawnDoraAtAnchor(doraPositions[i]);
-            currCob.InitializeDoraCob(vfxPool, cullingBounds, selectionBounds, currentDoraBatch, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
+            currCob.InitializeDoraCob(vfxPool, cullingBounds, selectionBounds, currentDoraBatch, doraBatchCount, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
 
             if (superKernelSpawned)
                 superKernelCobsSpawned++;
@@ -259,6 +263,12 @@ public class DoraFlowManager : MiniGameFlow
 
         timer.OnTimerEnded -= goToSuccess;
     }
+
+    #endregion
+
+    #region MUTABLE
+
+    public int DoraBatchCount => doraBatchCount;
 
     #endregion
 }

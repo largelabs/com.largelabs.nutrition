@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +13,7 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
     [SerializeField] RectTransform canvasRect = null;
     [SerializeField] RectTransform cursorRect = null;
 
-    Coroutine moveCursorRoutine = null;
+    [SerializeField] UIDoraBiteAnimation biteAnimation = null;
 
     #region UNITY AND CORE
 
@@ -36,15 +35,13 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
         {
             inputs.OnEatStarted += onEatStarted;
             inputs.OnEatReleased += onEatReleased;
-            inputs.OnEat += recenterCursor;
         }
         else
         {
             inputs.OnEatStarted -= onEatStarted;
             inputs.OnEatReleased -= onEatReleased;
-            inputs.OnEat -= recenterCursor;
 
-            onEatReleased();
+            selectionFeedbackTr.gameObject.SetActive(false);
         }
     }
 
@@ -57,28 +54,10 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
         selectionFeedbackTr.gameObject.SetActive(true);
     }
 
-    void recenterCursor()
-    {
-        if(controller.CurrentSelectionRadius > 0)
-        {
-            if(null == moveCursorRoutine)
-            {
-
-
-                moveCursorRoutine = StartCoroutine(updateCursorPosition(null));
-            }
-        }
-    }
-
-    IEnumerator updateCursorPosition(ITypedAnimator<Vector3> i_interpolator)
-    {
-        yield break;
-    }
-
     void onEatReleased()
     {
         selectionFeedbackTr.gameObject.SetActive(false);
-        this.DisposeCoroutine(ref moveCursorRoutine);
+        biteAnimation.Play();
     }
 
     void updateCursorPosition()

@@ -133,6 +133,33 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     protected abstract void move(Vector2 i_move);
 
+    protected virtual void onEatStarted()
+    {
+        if (null == cellSelector.CurrentOriginCell) return;
+        DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
+        if (false == cell.HasKernel) return;
+
+        if (frenzyRoutine == null) StopAutoRotation();
+        selectedRadius = 0;
+    }
+
+    protected virtual void onEat()
+    {
+        Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
+        if (null == currentSelect) return;
+
+        if (selectedRadius <= cellSelector.MaxSelectionRadius)
+        {
+            cellSelector.SelectRange(currentSelect.Value, selectedRadius, true, false, false);
+            selectedRadius++;
+        }
+    }
+
+    protected virtual void onEatReleased()
+    {
+        eatKernels();
+    }
+
     #endregion
 
     #region PRIVATE
@@ -157,33 +184,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         inputs.OnEatStarted -= onEatStarted;
         inputs.OnEat -= onEat;
         inputs.OnEatReleased -= onEatReleased;
-    }
-
-    private void onEatStarted()
-    {
-        if (null == cellSelector.CurrentOriginCell) return;
-        DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
-        if (false == cell.HasKernel) return;
-
-        if (frenzyRoutine == null) StopAutoRotation();
-        selectedRadius = 0;
-    }
-
-    private void onEat()
-    {
-        Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
-        if (null == currentSelect) return;
-
-        if (selectedRadius <= cellSelector.MaxSelectionRadius)
-        {
-            cellSelector.SelectRange(currentSelect.Value, selectedRadius, true, false, false);
-            selectedRadius++;
-        }
-    }
-
-    private void onEatReleased()
-    {
-        eatKernels();
     }
 
     private void onMoveStarted(Vector2 i_move) { move(i_move); }
