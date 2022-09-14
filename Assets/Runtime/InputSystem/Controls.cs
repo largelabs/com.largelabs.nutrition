@@ -20,24 +20,33 @@ public class Controls : MonoBehaviourBase
 
     private void OnEnable()
     {
-        inputActions.Player.HMovement.Enable();
-        inputActions.Player.Jump.Enable();
-        inputActions.Player.HMovement.performed += (InputAction.CallbackContext obj) => MoveStarted?.Invoke();
-        inputActions.Player.HMovement.canceled += (InputAction.CallbackContext obj) => MoveReleased?.Invoke(); 
-        inputActions.Player.Jump.performed += (InputAction.CallbackContext obj) => JumpPressed?.Invoke();
-        inputActions.Player.Jump.canceled += (InputAction.CallbackContext obj) => JumpReleased?.Invoke();
+        EnableControls();
     }
 
     private void OnDisable()
     {
+        DisableControls();
+    }
+
+    public void EnableControls()
+    {
+        inputActions.Player.HMovement.Enable();
+        inputActions.Player.Jump.Enable();
+        inputActions.Player.HMovement.performed += (InputAction.CallbackContext obj) => MoveStarted?.Invoke();
+        inputActions.Player.HMovement.canceled += (InputAction.CallbackContext obj) => MoveReleased?.Invoke();
+        inputActions.Player.Jump.performed += (InputAction.CallbackContext obj) => JumpPressed?.Invoke();
+        inputActions.Player.Jump.canceled += (InputAction.CallbackContext obj) => JumpReleased?.Invoke();
+    }
+
+    public void DisableControls()
+    {
         inputActions.Player.HMovement.Disable();
         inputActions.Player.Jump.Disable();
-        
     }
 
     public float MoveDirection()
     {
-        return inputActions.Player.HMovement.ReadValue<Vector2>().x;
+        return (inputActions.Player.HMovement.enabled)? inputActions.Player.HMovement.ReadValue<Vector2>().x:0f;
     }
 
     

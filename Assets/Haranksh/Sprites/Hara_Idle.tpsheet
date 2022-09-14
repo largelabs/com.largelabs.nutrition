@@ -1,0 +1,22 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:d44e8dd6cfc041ba1251da46da82273e:e6f10699eb353682dbacd57adbb9c010:a12e22ab50d3f27523ac53f493a6d360$
+#
+:format=40300
+:texture=Hara_Idle.png
+:size=1024x1024
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+CIdle001;1;750;263;273; 0.5;0.5; 0;0;0;0
+CIdle002;266;750;263;273; 0.5;0.5; 0;0;0;0
+CIdle003;531;750;263;273; 0.5;0.5; 0;0;0;0
+CIdle004;1;475;263;273; 0.5;0.5; 0;0;0;0
+CIdle005;266;475;263;273; 0.5;0.5; 0;0;0;0
+CIdle006;531;475;263;273; 0.5;0.5; 0;0;0;0
+CIdle007;1;200;263;273; 0.5;0.5; 0;0;0;0

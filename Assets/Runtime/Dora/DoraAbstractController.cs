@@ -33,6 +33,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     protected virtual void Start()
     {
+        enableControllerUI(false);
         listenToInputs();
     }
 
@@ -41,6 +42,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     #region PUBLIC API
 
     public int CurrentSelectionRadius => selectedRadius;
+
+    public int MaxSelectionRadius => null == cellSelector ? 1 : cellSelector.MaxSelectionRadius;
 
     public IRangeSelectionProvider SelectionProvider => cellSelector;
 
@@ -53,6 +56,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         Debug.LogError("Enable Controller");
         inputs.EnableInputs();
+        enableControllerUI(true);
     }
 
     public void EnableMoveControls()
@@ -64,6 +68,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     public void DisableController(bool i_clearSelection = true)
     {
         inputs.DisableInputs();
+        enableControllerUI(false);
 
         stopFrenzyMode();
 
@@ -123,6 +128,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     #endregion
 
     #region PROTECTED
+
+    protected abstract void enableControllerUI(bool i_enable);
 
     protected abstract void move(Vector2 i_move);
 
@@ -245,7 +252,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         // cell cleanup
         foreach (DoraCellData cell in i_cellsToCleanup)
         {
-            kernelSpawner.DespawnKernel(cell.Kernel);
+            kernelSpawner.RequestKernelDespawn(cell.Kernel, false);
             cell.Reset();
         }
 

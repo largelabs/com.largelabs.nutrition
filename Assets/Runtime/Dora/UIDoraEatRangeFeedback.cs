@@ -4,14 +4,23 @@ using UnityEngine.UI;
 public class UIDoraEatRangeFeedback : MonoBehaviour
 {
     [SerializeField] Image cursorImage = null;
+    [SerializeField] Image mouthImage = null;
     [SerializeField] AnimationCurve alphaCurve = null;
+    [SerializeField] AnimationCurve scaleCurve = null;
+
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] DoraAbstractController controller = null;
+    [SerializeField] float scaleMultiplier = 0.75f;
+    [SerializeField] float minAnimationTime = 0.25f;
+    [SerializeField] float maxAnimationTime = 0.5f;
+
+    [SerializeField] float minAnimationDelay = 0.2f;
+    [SerializeField] float maxAnimationDelay = 0.2f;
+
 
     ITypedAnimator<Vector3> scaleInterpolator = null;
     ITypedAnimator<float> alphaInterpolator = null;
 
-    float scaleMultiplier = 4f;
 
     private void OnEnable()
     {
@@ -23,16 +32,32 @@ public class UIDoraEatRangeFeedback : MonoBehaviour
     {
         if (null != scaleInterpolator && true == scaleInterpolator.IsActive) transform.localScale = scaleInterpolator.Current;
         if (null != alphaInterpolator && true == alphaInterpolator.IsActive) setAlpha(alphaInterpolator.Current);
-
     }
 
+    void getAnimationParameters(out float i_animTime, out float i_animDelay)
+    {
+        float t = (float)controller.CurrentSelectionRadius / (float)controller.MaxSelectionRadius;
+
+        i_animTime = Mathf.Lerp(maxAnimationTime, minAnimationTime, t);
+
+        i_animDelay = Mathf.Lerp(maxAnimationDelay, minAnimationDelay, t);
+    }
 
     void onScaleAnimationEnded(ITypedAnimator<Vector3> i_interpolator)
     {
         transform.localScale = MathConstants.VECTOR_3_ONE;
 
-        if(true == gameObject.activeSelf)
-            scaleInterpolator = interpolators.Animate(MathConstants.VECTOR_3_ONE, MathConstants.VECTOR_3_ONE * scaleMultiplier * (controller.CurrentSelectionRadius + 1), 0.5f, new AnimationMode(AnimationType.Ease_In_Out), false, 0.2f, onScaleAnimationEnded);
+        if (true == gameObject.activeSelf)
+        {
+            float animTime, animDelay = 0f;
+            getAnimationParameters(out animTime, out animDelay);
+
+            Vector3 startScale = controller.CurrentSelectionRadius == 0 ? MathConstants.VECTOR_3_ONE * scaleMultiplier : MathConstants.VECTOR_3_ONE;
+            Vector3 finalScale = controller.CurrentSelectionRadius == 0 ? MathConstants.VECTOR_3_ONE : MathConstants.VECTOR_3_ONE * scaleMultiplier * (controller.CurrentSelectionRadius + 1);
+           
+            
+            scaleInterpolator = interpolators.Animate(startScale, finalScale, animTime, new AnimationMode(scaleCurve), false, animDelay, onScaleAnimationEnded);
+        }
     }
 
     void onAlphaAnimationEnded(ITypedAnimator<float> i_interpolator)
@@ -40,14 +65,23 @@ public class UIDoraEatRangeFeedback : MonoBehaviour
         setAlpha(0f);
 
         if (true == gameObject.activeSelf)
-            alphaInterpolator = interpolators.Animate(0f, 0.5f, 0.5f, new AnimationMode(AnimationType.Bounce), false, 0.2f, onAlphaAnimationEnded);
+        {
+            float animTime, animDelay = 0f;
+            getAnimationParameters(out animTime, out animDelay);
+            alphaInterpolator = interpolators.Animate(0f, 0.5f, animTime, new AnimationMode(alphaCurve), false, animDelay, onAlphaAnimationEnded);
+        }
+
     }
 
     void setAlpha(float i_alpha)
     {
         Color col = cursorImage.color;
-        col.a = i_alpha;
+        col.a = Mathf.Clamp(i_alpha, 0f, 0.5f);
         cursorImage.color = col;
+
+        col = mouthImage.color;
+        col.a = i_alpha;
+        mouthImage.color = col;
     }
 
 }

@@ -6,7 +6,8 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 {
 	[SerializeField] private bool playOnEnable = false;
 	[SerializeField] protected TRenderer renderer;
-	[SerializeField] private bool isLooping;
+	[SerializeField] private bool isLooping = false;
+	[SerializeField] private bool resetOnLastFrame = false;
 	[SerializeField] private List<Frame<TFrame>> frames;
 	[SerializeField] private int loopStartIndex;
 
@@ -67,9 +68,9 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 	{
 		if (playback != null) return;
 
-		loopCount = 0;
+        Resume();
+        loopCount = 0;
 		playback = StartCoroutine(playbackRoutine());
-
 	}
 
 	public void Stop()
@@ -78,7 +79,8 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 
 		StopCoroutine(playback);
 		playback = null;
-	}
+        ResetAnimation();
+    }
 
 	public void Pause() => isResumed = false;
 
@@ -102,15 +104,16 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 
     private IEnumerator playbackRoutine()
     {
-
         while (true)
         {
             if (isResumed)
             {
                 currentFrame.IncrementCurrentTimeSpent(Time.deltaTime * animationSpeedMultiplier);
+                //Debug.LogError(currentFrame.FrameObject + " " + currentFrame.CurrentFrameTime);
 
                 if (currentFrame.IsFinishedPlaying)
                 {
+
                     updateCurrentFrame();
                 }
             }
@@ -134,13 +137,17 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 
     private void updateCurrentFrame()
     {
+        currentFrame.InvokeEndedPlaybackEvent();
+        currentFrame.ResetCurrentTimeSpent();
+
         if (lastFrameReached)
         {
-            Stop();
+            if (resetOnLastFrame)
+                Stop();
+            else
+                Pause();
             return;
         }
-
-        currentFrame.InvokeEndedPlaybackEvent();
 
         currentFrame = CollectionUtilities.GetNextElementInCircularList(currentFrame, frames);
 
