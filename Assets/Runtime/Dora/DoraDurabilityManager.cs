@@ -152,17 +152,14 @@ public class DoraDurabilityManager : MonoBehaviourBase
     {
         if (i_batchCount <= 2)
         {
-            Debug.LogError("Get Distribution Level: 1");
             return batchData.DistrubutionStyleLVL1;
         }
         else if (i_batchCount <= 4)
         {
-            Debug.LogError("Get Distribution Level: 2");
             return batchData.DistrubutionStyleLVL2;
         }
         else
         {
-            Debug.LogError("Get Distribution Level: 3");
             return batchData.DistrubutionStyleLVL3;
         }
     }
