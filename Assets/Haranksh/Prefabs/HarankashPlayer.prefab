@@ -300,9 +300,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controls: {fileID: 3289514129004046752}
-  accelerationData: {fileID: 11400000, guid: 0959f85632dbe4147b325f8688a4f320, type: 2}
+  accelerationData: {fileID: 11400000, guid: 24f3ed9de6b89094eb07373067eff365, type: 2}
   body: {fileID: 3289514128781812916}
-  maxJumpHeight: 1
+  maxJumpHeight: 1.25
   jumpLaunchFrames: {fileID: 7053689418511488723}
   jumpRiseFrames: {fileID: 3472372678444729562}
   visualObjectRoot: {fileID: 3289514128824970441}
@@ -656,7 +656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playOnEnable: 0
   renderer: {fileID: 3289514128824970440}
-  isLooping: 1
+  isLooping: 0
   resetOnLastFrame: 0
   frames:
   - frameObject: {fileID: -749430727, guid: 311e9c3bb94e051429645200ff9948a7, type: 3}
@@ -836,10 +836,6 @@ MonoBehaviour:
   - frameObject: {fileID: 1995275129, guid: df30a0903ef0b454198ff70c1555225d, type: 3}
     screenTime: 0.1
   - frameObject: {fileID: 1557156707, guid: df30a0903ef0b454198ff70c1555225d, type: 3}
-    screenTime: 0.1
-  - frameObject: {fileID: 1995275129, guid: df30a0903ef0b454198ff70c1555225d, type: 3}
-    screenTime: 0.1
-  - frameObject: {fileID: 2121333225, guid: df30a0903ef0b454198ff70c1555225d, type: 3}
     screenTime: 0.1
   loopStartIndex: 0
 --- !u!1001 &3916213781057408188
