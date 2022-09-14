@@ -302,7 +302,7 @@ MonoBehaviour:
   controls: {fileID: 3289514129004046752}
   accelerationData: {fileID: 11400000, guid: 24f3ed9de6b89094eb07373067eff365, type: 2}
   body: {fileID: 3289514128781812916}
-  maxJumpHeight: 2
+  maxJumpHeight: 2.5
   jumpLaunchFrames: {fileID: 7053689418511488723}
   jumpRiseFrames: {fileID: 3472372678444729562}
   visualObjectRoot: {fileID: 3289514128824970441}
