@@ -11,6 +11,7 @@ public class DoraRaycastController : DoraAbstractController
     [SerializeField] float raycastAutoMoveSpeed = 20f;
     [SerializeField] DoraSelectionRaycastSource raycastSource = null;
     [SerializeField] InterpolatorsManager interpolators = null;
+    [SerializeField] UIDoraRaycastPointer pointerUI = null;
 
     Coroutine rayCastRoutine = null;
     Coroutine autoMoveRoutine = null;
@@ -58,8 +59,12 @@ public class DoraRaycastController : DoraAbstractController
 
     #endregion
 
-
     #region PROTECTED
+
+    protected override void enableControllerUI(bool i_enable)
+    {
+        pointerUI.EnablePointer(i_enable);
+    }
 
     protected override void move(Vector2 i_move)
     {

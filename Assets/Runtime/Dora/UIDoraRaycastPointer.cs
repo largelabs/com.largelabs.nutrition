@@ -1,13 +1,17 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIDoraRaycastPointer : MonoBehaviourBase
 {
     [SerializeField] DoraInputs inputs = null;
-    [SerializeField] GameObject selectionFeedbackGo = null;
+    [SerializeField] Transform selectionFeedbackTr = null;
+    [SerializeField] Image cursorImage = null;
 
     [SerializeField] DoraSelectionRaycastSource source = null;
     [SerializeField] RectTransform canvasRect = null;
     [SerializeField] RectTransform cursorRect = null;
+
+    #region UNITY AND CORE
 
     private void Start()
     {
@@ -17,17 +21,31 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
 
     private void LateUpdate()
     {
+        selectionFeedbackTr.position = transform.position;
         updateCursorPosition();
     }
 
+    #endregion
+
+    #region PUBLIC API
+
+    public void EnablePointer(bool i_enable)
+    {
+        cursorImage.enabled = i_enable;
+    }
+
+    #endregion
+
+    #region PRIVATE
+
     void onEatStarted()
     {
-        selectionFeedbackGo.SetActive(true);
+        selectionFeedbackTr.gameObject.SetActive(true);
     }
 
     void onEatReleased()
     {
-        selectionFeedbackGo.SetActive(false);
+        selectionFeedbackTr.gameObject.SetActive(false);
     }
 
     void updateCursorPosition()
@@ -43,4 +61,7 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
 
         cursorRect.anchoredPosition = resultAnchoredPosition;
     }
+
+
+    #endregion
 }
