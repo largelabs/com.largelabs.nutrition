@@ -21,6 +21,7 @@ public class UIDoraEatRangeFeedback : MonoBehaviour
     ITypedAnimator<Vector3> scaleInterpolator = null;
     ITypedAnimator<float> alphaInterpolator = null;
 
+    #region UNITY AND CORE
 
     private void OnEnable()
     {
@@ -33,6 +34,17 @@ public class UIDoraEatRangeFeedback : MonoBehaviour
         if (null != scaleInterpolator && true == scaleInterpolator.IsActive) transform.localScale = scaleInterpolator.Current;
         if (null != alphaInterpolator && true == alphaInterpolator.IsActive) setAlpha(alphaInterpolator.Current);
     }
+
+    #endregion
+
+    #region PUBLIC API
+
+    public Vector3 GetCurrentRangeTargetScale()
+    {
+        return controller.CurrentSelectionRadius == 0 ? MathConstants.VECTOR_3_ONE : MathConstants.VECTOR_3_ONE * scaleMultiplier * (controller.CurrentSelectionRadius + 1);
+    }
+
+    #endregion
 
     void getAnimationParameters(out float i_animTime, out float i_animDelay)
     {
@@ -53,7 +65,7 @@ public class UIDoraEatRangeFeedback : MonoBehaviour
             getAnimationParameters(out animTime, out animDelay);
 
             Vector3 startScale = controller.CurrentSelectionRadius == 0 ? MathConstants.VECTOR_3_ONE * scaleMultiplier : MathConstants.VECTOR_3_ONE;
-            Vector3 finalScale = controller.CurrentSelectionRadius == 0 ? MathConstants.VECTOR_3_ONE : MathConstants.VECTOR_3_ONE * scaleMultiplier * (controller.CurrentSelectionRadius + 1);
+            Vector3 finalScale = GetCurrentRangeTargetScale();
            
             
             scaleInterpolator = interpolators.Animate(startScale, finalScale, animTime, new AnimationMode(scaleCurve), false, animDelay, onScaleAnimationEnded);

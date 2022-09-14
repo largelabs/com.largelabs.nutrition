@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +12,8 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
     [SerializeField] DoraSelectionRaycastSource source = null;
     [SerializeField] RectTransform canvasRect = null;
     [SerializeField] RectTransform cursorRect = null;
+
+    [SerializeField] UIDoraBiteAnimation biteAnimation = null;
 
     #region UNITY AND CORE
 
@@ -40,7 +41,7 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
             inputs.OnEatStarted -= onEatStarted;
             inputs.OnEatReleased -= onEatReleased;
 
-            onEatReleased();
+            selectionFeedbackTr.gameObject.SetActive(false);
         }
     }
 
@@ -56,6 +57,7 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
     void onEatReleased()
     {
         selectionFeedbackTr.gameObject.SetActive(false);
+        biteAnimation.Play();
     }
 
     void updateCursorPosition()

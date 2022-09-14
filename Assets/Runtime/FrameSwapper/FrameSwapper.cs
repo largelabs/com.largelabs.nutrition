@@ -64,6 +64,7 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 		cycleEvent = null;
 	}
 
+    [ExposePublicMethod]
 	public void Play()
 	{
 		if (playback != null) return;
@@ -73,18 +74,20 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 		playback = StartCoroutine(playbackRoutine());
 	}
 
-	public void Stop()
+    [ExposePublicMethod]
+    public void Stop()
 	{
 		if (null == playback) return;
 
-		StopCoroutine(playback);
-		playback = null;
+        this.DisposeCoroutine(ref playback);
         ResetAnimation();
     }
 
-	public void Pause() => isResumed = false;
+    [ExposePublicMethod]
+    public void Pause() => isResumed = false;
 
-	public void Resume() => isResumed = true;
+    [ExposePublicMethod]
+    public void Resume() => isResumed = true;
 
 	public void ResetAnimation() => currentFrame = frames[0];
 
@@ -142,10 +145,11 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 
         if (lastFrameReached)
         {
+            this.DisposeCoroutine(ref playback);
+
             if (resetOnLastFrame)
-                Stop();
-            else
-                Pause();
+                ResetAnimation();
+
             return;
         }
 
