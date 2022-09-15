@@ -278,6 +278,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         if (false == i_negative && (CurrentSelectionRadius == 0 || null != frenzyRoutine))
         {
+            cameraShake.SetShakeDuration(0.1f);
+            cameraShake.SetIntensity(0.05f);
             cameraShake.StartShake(true);
             playSmallBiteSFX();
             Transform biteTr = biteAnimationPool.Spawn(BITE_ANIMATION_PREFAB);
@@ -295,7 +297,13 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         while (true == biteAnimation.IsPlaying)
             yield return null;
 
-        if(false == i_negative) cameraShake.StartShake(true);
+        if(false == i_negative)
+        {
+            float tShake = (float)CurrentSelectionRadius / (float)cellSelector.MaxSelectionRadius;
+            cameraShake.SetShakeDuration(Mathf.Lerp(0.1f, 0.2f, tShake));
+            cameraShake.SetIntensity(Mathf.Lerp(0.05f, 0.2f, tShake));
+            cameraShake.StartShake(true);
+        }
     }
 
     IEnumerator playBigBiteSFX()

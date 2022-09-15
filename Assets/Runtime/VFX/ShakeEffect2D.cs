@@ -173,6 +173,11 @@ public class ShakeEffect2D : MonoBehaviourBase
         canShake = true;
     }
 
+    public void SetIntensity(float i_intensity)
+    {
+        intensity = i_intensity;
+    }
+
     public void StartShake(Vector3 i_newOrigin)
     {
         UpdateOrigin(i_newOrigin);
