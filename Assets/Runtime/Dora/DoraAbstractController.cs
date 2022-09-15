@@ -267,27 +267,25 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private IEnumerator playBiteAnimation()
     {
-
-        if (CurrentSelectionRadius == 0)
-        {
-            playSmallBiteSFX();
-
-        }
-
         if (CurrentSelectionRadius == 0 || null != frenzyRoutine)
         {
+            playSmallBiteSFX();
             Transform biteTr = biteAnimationPool.Spawn(BITE_ANIMATION_PREFAB);
             UIPooledBiteAnimation bite = biteTr.GetComponent<UIPooledBiteAnimation>();
             bite.Play(biteAnimationPool, interpolators, rangeFeedback);
             yield break;
         }
 
+        StartCoroutine(playBigBiteSFX());
 
-
-        playRandomSoundFromArray(bigBiteSFXs);
-
+        biteAnimation.Play();
         while (true == biteAnimation.IsPlaying)
             yield return null;
+    }
+
+    IEnumerator playBigBiteSFX()
+    {
+        playRandomSoundFromArray(bigBiteSFXs);
 
         while (bigBiteSFXs[0].isPlaying || bigBiteSFXs[1].isPlaying)
         {
