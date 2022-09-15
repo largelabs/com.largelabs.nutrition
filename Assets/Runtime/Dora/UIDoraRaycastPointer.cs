@@ -45,19 +45,21 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
         }
     }
 
+
     #endregion
 
     #region PRIVATE
 
     void onEatStarted()
     {
+        if (false == controller.IsSelectingKernel()) return;
+
         selectionFeedbackTr.gameObject.SetActive(true);
     }
 
     void onEatReleased()
     {
         selectionFeedbackTr.gameObject.SetActive(false);
-        biteAnimation.Play();
     }
 
     void updateCursorPosition()

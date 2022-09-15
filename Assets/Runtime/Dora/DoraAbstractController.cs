@@ -5,12 +5,12 @@ using UnityEngine;
 public abstract class DoraAbstractController : MonoBehaviourBase
 {
     [SerializeField] protected bool useRangeMarking = false;
-    [SerializeField] bool forceSelectionOnEat = true;
     [SerializeField] DoraInputs inputs = null;
     [SerializeField] protected DoraCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
     [SerializeField] DoraFrenzyController frenzyController = null;
     [SerializeField] DoraGameplayData DoraGameplayData = null;
+    [SerializeField] UIDoraBiteAnimation biteAnimation = null;
 
     [Header("Score")]
     [SerializeField] DoraScoreManager scoreManager = null;
@@ -48,6 +48,13 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     public IRangeSelectionProvider SelectionProvider => cellSelector;
 
     public IDoraCellProvider CurrentCellProvider => cellMap;
+
+    public bool IsSelectingKernel()
+    {
+        if (null == cellSelector.CurrentOriginCell) return false;
+        DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
+        return cell.HasKernel;
+    }
 
     public int UnburntEatenCount => unburntEatenCount;
 
@@ -135,9 +142,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     protected virtual void onEatStarted()
     {
-        if (null == cellSelector.CurrentOriginCell) return;
-        DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
-        if (false == cell.HasKernel) return;
+        if (false == IsSelectingKernel()) return;
 
         if (frenzyRoutine == null) StopAutoRotation();
         selectedRadius = 0;
@@ -194,7 +199,12 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private void eatKernels()
     {
+        if (null != eatingRoutine) return;
         if (null == cellSelector.CurrentOriginCell) return;
+
+        DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
+        if (false == cell.HasKernel) return;
+
         //Debug.LogError("Eating");
 
         IReadOnlyList<HashSet<Vector2Int>> selectedKernelsInSteps = cellSelector.SelectedRangeInSteps;
@@ -217,7 +227,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             HashSet<DoraKernel> newSet = new HashSet<DoraKernel>();
             foreach (Vector2Int coord in cellSet)
             {
-                DoraCellData cell = cellMap.GetCell(coord, false, false);
+                cell = cellMap.GetCell(coord, false, false);
 
                 if (cell.KernelStatus == KernelStatus.Burnt && frenzyRoutine != null)
                     continue;
@@ -239,15 +249,22 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         uiKernelManager.EnqueueKernels(getStackInfo(kernelSets));
 
-        if (eatingRoutine == null)
-            eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, eatenKernels - burntKenrelsCount, startFrenzyMode));
+        eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, eatenKernels - burntKenrelsCount, startFrenzyMode));
     }
 
     private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatCount, bool i_startFrenzy)
     {
-        // bite animation stuff
+        biteAnimation.Play();
+
         if (frenzyRoutine == null)
+        {
             yield return null;
+
+            while (true == biteAnimation.IsPlaying)
+            {
+                yield return null;
+            }
+        }
 
         // cell cleanup
         foreach (DoraCellData cell in i_cellsToCleanup)
@@ -264,11 +281,10 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         // post-sequence cleanup
         unburntEatenCount += i_eatCount;
 
-        if (null != cellSelector.CurrentOriginCell && true == forceSelectionOnEat)
-            cellSelector.SelectCell(cellSelector.CurrentOriginCell.Value, false, true);
-
         if (false == didGameplayEnd && null == frenzyRoutine)
             StartAutoRotation();
+
+        EnableMoveControls();
 
         selectedRadius = 0;
 

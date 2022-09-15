@@ -107,6 +107,7 @@ public class DoraInputs : MonoBehaviourBase
     {
         disposeRoutines();
         inputActions.Player.Move.Disable();
+        OnMoveReleased?.Invoke(MathConstants.VECTOR_2_ZERO);
         OnEatStarted?.Invoke();
         eatRoutine = StartCoroutine(dispatchEat());
     }
@@ -114,7 +115,7 @@ public class DoraInputs : MonoBehaviourBase
     private void onEatCanceled(InputAction.CallbackContext obj)
     {
         disposeRoutines();
-        inputActions.Player.Move.Enable();
+        //inputActions.Player.Move.Enable();
         OnEatReleased?.Invoke();
     }
 

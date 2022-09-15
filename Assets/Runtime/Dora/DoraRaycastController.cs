@@ -65,6 +65,7 @@ public class DoraRaycastController : DoraAbstractController
     protected override void enableControllerUI(bool i_enable)
     {
         pointerUI.EnablePointer(i_enable);
+        pointerUI.EnablePointer(i_enable);
     }
 
     protected override void move(Vector2 i_move)
@@ -83,7 +84,7 @@ public class DoraRaycastController : DoraAbstractController
 
     protected override void onEat()
     {
-        if(CurrentSelectionRadius > 0)
+        if(true/*CurrentSelectionRadius > 0*/)
         {
             if (null == frenzyRoutine && null == centerSourceRoutine)
             {
@@ -109,7 +110,7 @@ public class DoraRaycastController : DoraAbstractController
         ITypedAnimator<Vector3> interpolator = interpolators.Animate(
             raycastSource.transform.position,
             i_anchor.position,
-            0.2f,
+            0.1f,
             new AnimationMode(AnimationType.Ease_In_Out));
 
         while(true == interpolator.IsActive)

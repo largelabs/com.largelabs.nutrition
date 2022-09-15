@@ -13,7 +13,7 @@ public class UIDoraBiteAnimation : MonoBehaviour
     public void Play()
     {
         gameObject.SetActive(true);
-        transform.localScale = rangeFeedback.GetCurrentRangeTargetScale();
+        transform.localScale = rangeFeedback.GetCurrentBiteTargetScale();
         transform.position = rangeFeedback.transform.position;
 
         mouthFrameSwapper.ResetAnimation();

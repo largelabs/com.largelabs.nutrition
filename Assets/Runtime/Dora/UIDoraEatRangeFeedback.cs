@@ -11,6 +11,9 @@ public class UIDoraEatRangeFeedback : MonoBehaviour
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] DoraAbstractController controller = null;
     [SerializeField] float scaleMultiplier = 0.75f;
+    [SerializeField] float biteScaleMultiplier = 0.6f;
+
+
     [SerializeField] float minAnimationTime = 0.25f;
     [SerializeField] float maxAnimationTime = 0.5f;
 
@@ -42,6 +45,11 @@ public class UIDoraEatRangeFeedback : MonoBehaviour
     public Vector3 GetCurrentRangeTargetScale()
     {
         return controller.CurrentSelectionRadius == 0 ? MathConstants.VECTOR_3_ONE : MathConstants.VECTOR_3_ONE * scaleMultiplier * (controller.CurrentSelectionRadius + 1);
+    }
+
+    public Vector3 GetCurrentBiteTargetScale()
+    {
+        return controller.CurrentSelectionRadius == 0 ? MathConstants.VECTOR_3_ONE * 1.5f : MathConstants.VECTOR_3_ONE * biteScaleMultiplier * (controller.CurrentSelectionRadius + 1);
     }
 
     #endregion
