@@ -19,6 +19,9 @@ public class DoraMover : MonoBehaviourBase
     [SerializeField] private float panUpTime = 0.5f;
     [SerializeField] private float exitTime = 0.2f;
 
+    [Header("Camera")]
+    [SerializeField] private AudioSource MovementSFX = null;
+
     private Stack<Transform> doraCobStack = null;
     private Transform currentCob = null;
 
@@ -126,6 +129,8 @@ public class DoraMover : MonoBehaviourBase
                                             i_target.localScale.y / i_nextCob.lossyScale.y,
                                             i_target.localScale.z / i_nextCob.lossyScale.z);
         ITypedAnimator<Vector3> scaleInterpolator = interpolatorManager.Animate(i_nextCob.localScale, targetScale, i_time, mode, false, 0f, null);
+
+        MovementSFX?.Play();
 
         while (true == posInterpolator.IsActive)
         {

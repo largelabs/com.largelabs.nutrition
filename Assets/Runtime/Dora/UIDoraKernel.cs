@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class UIDoraKernel : MonoBehaviourBase
 {
     [SerializeField] Image kernelImage = null;
+    [SerializeField] AudioSource uiKernelSFX = null;
 
     ScoreKernelInfo scoreInfo = null;
 
@@ -12,6 +13,11 @@ public class UIDoraKernel : MonoBehaviourBase
     public void SetScoreInfo(ScoreKernelInfo i_scoreInfo)
     {
         scoreInfo = i_scoreInfo;
+    }
+
+    public void PlayKernelSFX()
+    {
+        uiKernelSFX.Play();
     }
 
     public ScoreKernelInfo ScoreInfo => scoreInfo;

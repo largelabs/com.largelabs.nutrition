@@ -83,6 +83,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIKernelBurnt
       objectReference: {fileID: 0}
+    - target: {fileID: 2575213516440890273, guid: 633b130055fcaef489f6153676a1f1c4, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f060c2451dcf7bc48a0790082fcdd85e, type: 3}
     - target: {fileID: 9018625004682134691, guid: 633b130055fcaef489f6153676a1f1c4, type: 3}
       propertyPath: m_Sprite
       value: 

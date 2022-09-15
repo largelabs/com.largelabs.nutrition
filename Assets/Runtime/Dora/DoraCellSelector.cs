@@ -7,9 +7,6 @@ public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
     [SerializeField] int maxSelectionRadius = 3;
     [SerializeField] float rotationSpeed = 50f;
 
-    [SerializeField] private AudioSource selectionSFX = null;
-    [SerializeField] private AudioSource rangeSelectionSFX = null;
-
     DoraCellMap cellMap = null;
     Dictionary<Vector2Int, DoraCellData> selectedRange = null;    
     List<HashSet<Vector2Int>> selectedRangeInSteps = null;    
@@ -46,10 +43,7 @@ public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
     public void SelectCell(Vector2Int i_cell, bool i_loopCoords, bool i_clearSelection)
     {
         if (true == i_clearSelection)
-        {
-            selectionSFX.Play();
             ClearSelection();
-        }
 
         processCell(i_cell, 0, i_loopCoords, i_loopCoords, true, true);
     }
@@ -58,10 +52,7 @@ public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
     public void SelectRange(Vector2Int i_origin, int i_radius, bool i_loopX, bool i_loopY, bool i_clearSelection)
     {
         if (true == i_clearSelection)
-        {
-            rangeSelectionSFX.Play();
             ClearSelection();
-        }
 
         i_radius = Mathf.Clamp(i_radius, 0, maxSelectionRadius);
 
