@@ -42,13 +42,16 @@ public class ShakeEffect2D : MonoBehaviourBase
     [SerializeField] private bool lockX = false;
     [SerializeField] private bool lockY = false;
 
-    Vector2 origin;
+    Vector3 origin;
     private float newX = 0f;
     private float newY = 0f;
+    private float newZ = 0f;
     private float firstX = 0f;
     private float firstY = 0f;
+    private float firstZ = 0f;
     private float currentOriginX = 0f;
     private float currentOriginY = 0f;
+    private float currentOriginZ = 0f;
     private float remainingTime = 0.0f;
     private float loopTimer = 0.0f;
     private bool canShake = false;
@@ -72,15 +75,18 @@ public class ShakeEffect2D : MonoBehaviourBase
         {
             origin.x = transformToShake.position.x;
             origin.y = transformToShake.position.y;
+            origin.z = transformToShake.position.z;
         }
         else
         {
             origin.x = transformToShake.localPosition.x;
             origin.y = transformToShake.localPosition.y;
+            origin.z = transformToShake.localPosition.z;
         }
 
         firstX = origin.x;
         firstY = origin.y;
+        firstZ = origin.z;
 
         remainingTime = shakeDuration;
     }
@@ -167,7 +173,7 @@ public class ShakeEffect2D : MonoBehaviourBase
         canShake = true;
     }
 
-    public void StartShake(Vector2 i_newOrigin)
+    public void StartShake(Vector3 i_newOrigin)
     {
         UpdateOrigin(i_newOrigin);
 
@@ -256,7 +262,7 @@ public class ShakeEffect2D : MonoBehaviourBase
         ResetShake();
     }
 
-    public void StopShake(Vector2 i_newOrigin)
+    public void StopShake(Vector3 i_newOrigin)
     {
         UpdateOrigin(i_newOrigin);
         PauseShake();
@@ -286,7 +292,7 @@ public class ShakeEffect2D : MonoBehaviourBase
         resetShake();
     }
 
-    public void UpdateOrigin(Vector2 i_origin)
+    public void UpdateOrigin(Vector3 i_origin)
     {
         origin = i_origin;
     }
@@ -297,6 +303,9 @@ public class ShakeEffect2D : MonoBehaviourBase
     {
         currentOriginX = (globalPosition) ? transformToShake.position.x : transformToShake.localPosition.x;
         currentOriginY = (globalPosition) ? transformToShake.position.y : transformToShake.localPosition.y;
+        currentOriginZ = (globalPosition) ? transformToShake.position.z : transformToShake.localPosition.z;
+
+        newZ = currentOriginZ;
 
         if (shakeType == ShakeType.Sin)
         {
@@ -340,7 +349,7 @@ public class ShakeEffect2D : MonoBehaviourBase
 
     private void shake()
     {
-        transformToShake.localPosition = new Vector2(newX, newY);
+        transformToShake.localPosition = new Vector3(newX, newY, newZ);
     }
 
     private void resetShake()
@@ -355,6 +364,8 @@ public class ShakeEffect2D : MonoBehaviourBase
     {
         float newX = 0f;
         float newY = 0f;
+
+        float newZ = origin.z;
 
         if (shakeDirection == ShakeDirection.Both)
         {
@@ -373,9 +384,9 @@ public class ShakeEffect2D : MonoBehaviourBase
         }
 
         if (globalPosition)
-            transformToShake.position = new Vector2(newX, newY);
+            transformToShake.position = new Vector3(newX, newY, newZ);
         else
-            transformToShake.localPosition = new Vector2(newX, newY);
+            transformToShake.localPosition = new Vector3(newX, newY, newZ);
     }
 
     #endregion
