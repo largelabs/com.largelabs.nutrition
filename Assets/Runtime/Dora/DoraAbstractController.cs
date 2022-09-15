@@ -16,7 +16,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] protected InterpolatorsManager interpolators = null;
     [SerializeField] UIDoraEatRangeFeedback rangeFeedback = null;
 
-
     [Header("Score")]
     [SerializeField] DoraScoreManager scoreManager = null;
     [SerializeField] UIKernelManager uiKernelManager = null;
@@ -29,6 +28,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] private AudioSource smallBiteSFX = null;
     [SerializeField] private AudioSource chewSFX = null;
     [SerializeField] private AudioSource[] burntKernelSFXs = null;
+    [SerializeField] private AudioSource rangeSelectionSFX = null;
 
     private static readonly string BITE_ANIMATION_PREFAB = "UIPooledBiteAnimation";
     Coroutine eatingRoutine = null;
@@ -162,6 +162,12 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         if (selectedRadius <= cellSelector.MaxSelectionRadius)
         {
+            if (selectedRadius > 0)
+            {
+               if(rangeSelectionSFX.isPlaying == false) rangeSelectionSFX?.Play();
+                rangeSelectionSFX.pitch += 0.25f;
+            }
+
             cellSelector.SelectRange(currentSelect.Value, selectedRadius, true, false, false);
             selectedRadius++;
         }
@@ -170,6 +176,9 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     protected virtual void onEatReleased()
     {
         eatKernels();
+
+        rangeSelectionSFX.pitch = 1f;
+        rangeSelectionSFX?.Stop();
     }
 
     #endregion
@@ -221,7 +230,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     }
 
     void enqueueEatenKernels(
-        IReadOnlyList<HashSet<Vector2Int>> i_selectedKernelsInSteps, 
+        IReadOnlyList<HashSet<Vector2Int>> i_selectedKernelsInSteps,
         ref HashSet<DoraCellData> i_cellsToCleanup,
         out bool i_startFrenzyMode,
         out int i_goodKernelsCount,
@@ -231,7 +240,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         int burntKernelsCount = 0;
         int eatenKernels = 0;
 
-        if(null == i_cellsToCleanup) i_cellsToCleanup = new HashSet<DoraCellData>();
+        if (null == i_cellsToCleanup) i_cellsToCleanup = new HashSet<DoraCellData>();
         List<HashSet<DoraKernel>> kernelSets = new List<HashSet<DoraKernel>>();
         DoraCellData cell = null;
 
@@ -309,7 +318,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         i_audioSources[randomSFX]?.Play();
     }
 
-    private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatenKernel,int i_burntKernels, bool i_startFrenzy)
+    private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatenKernel, int i_burntKernels, bool i_startFrenzy)
     {
         inputs.DisableInputs();
         yield return StartCoroutine(playBiteAnimation());
