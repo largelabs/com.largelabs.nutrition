@@ -15,6 +15,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] SpawnPool biteAnimationPool = null;
     [SerializeField] protected InterpolatorsManager interpolators = null;
     [SerializeField] UIDoraEatRangeFeedback rangeFeedback = null;
+    [SerializeField] ShakeEffect2D cameraShake = null;
 
     [Header("Score")]
     [SerializeField] DoraScoreManager scoreManager = null;
@@ -275,9 +276,9 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private IEnumerator playBiteAnimation(bool i_negative)
     {
-
         if (false == i_negative && (CurrentSelectionRadius == 0 || null != frenzyRoutine))
         {
+            cameraShake.StartShake(true);
             playSmallBiteSFX();
             Transform biteTr = biteAnimationPool.Spawn(BITE_ANIMATION_PREFAB);
             UIPooledBiteAnimation bite = biteTr.GetComponent<UIPooledBiteAnimation>();
@@ -293,6 +294,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         biteAnimation.Play(i_negative);
         while (true == biteAnimation.IsPlaying)
             yield return null;
+
+        if(false == i_negative) cameraShake.StartShake(true);
     }
 
     IEnumerator playBigBiteSFX()

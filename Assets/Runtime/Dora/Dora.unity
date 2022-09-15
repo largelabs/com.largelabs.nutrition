@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 1232865152}
   - component: {fileID: 1232865155}
   - component: {fileID: 1232865156}
+  - component: {fileID: 1232865157}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -548,6 +549,31 @@ MonoBehaviour:
   maxConcurrentV2: -1
   maxConcurrentV3: -1
   maxConcurrentColor: -1
+--- !u!114 &1232865157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232865151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad52890592cb2624290948816c941e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformToShake: {fileID: 1232865154}
+  activationType: 1
+  speed: 40
+  intensity: 0.05
+  shakeType: 0
+  shakeDirection: 1
+  continuousShaking: 0
+  shakeDuration: 0.1
+  loop: 0
+  waitTimeBetweenLoops: 0
+  globalPosition: 0
+  lockX: 0
+  lockY: 0
 --- !u!114 &1266575452 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4234226275115802266, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
@@ -1078,6 +1104,10 @@ PrefabInstance:
       propertyPath: chewSFX
       value: 
       objectReference: {fileID: 8356603}
+    - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: cameraShake
+      value: 
+      objectReference: {fileID: 1232865157}
     - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: scoreManager
       value: 
