@@ -338,7 +338,11 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         foreach (DoraCellData cell in i_cellsToCleanup)
         {
-            // cell.Eat();
+            if(null != cell.Kernel)
+            {
+                cell.Kernel.GetEaten();
+            }
+
             kernelSpawner.RequestKernelDespawn(cell.Kernel, false);
             cell.Reset();
         }
