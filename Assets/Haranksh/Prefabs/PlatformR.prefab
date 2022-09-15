@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3673627363928991068, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
       propertyPath: maxJumpHeight
-      value: 4
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 3673627363928991068, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
       propertyPath: accelerationConfig

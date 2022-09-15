@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   accX: 10
   accY: 0
-  desX: 15
+  desX: 10
   desY: 0
   maxVelX: 5
-  maxVelY: 10
+  maxVelY: 6.5
   minVelX: 0
   minVelY: 0

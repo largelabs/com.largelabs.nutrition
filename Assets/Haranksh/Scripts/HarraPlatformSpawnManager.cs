@@ -5,7 +5,9 @@ using UnityEngine;
 public class HarraPlatformSpawnManager : MonoBehaviourBase
 {
     [SerializeField] private HarraPlatformSpawner harraPlatformSpawner = null;
-    [SerializeField] private List<HarraPlatformRow> platformRows = null;
+    [SerializeField] private List<HarraPlatformRow> platformRows_0 = null;
+    [SerializeField] private List<HarraPlatformRow> platformRows_1 = null;
+    [SerializeField] private List<HarraPlatformRow> platformRows_2 = null;
 
     protected override void Awake()
     {
@@ -17,8 +19,10 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
     #region PUBLIC API
 
     [ExposePublicMethod]
-    public void GenerateNewMap()
+    public void GenerateNewMap(int i_type)
     {
+        List<HarraPlatformRow> chosenList = getRowList(i_type);
+
         harraPlatformSpawner.DespawnAllPlatforms();
 
         int length = 0;
@@ -33,7 +37,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
         IReadOnlyList<float> orangeChances = null;
 
         IReadOnlyList<Transform> anchorsInRow = null;
-        foreach (HarraPlatformRow platformRow in platformRows)
+        foreach (HarraPlatformRow platformRow in chosenList)
         {
             anchorsInRow = platformRow.Anchors;
             length = anchorsInRow.Count;
@@ -58,10 +62,12 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
     }
 
     [ExposePublicMethod]
-    public void SpawnAtAllAnchors(HarraPlatformSpawner.PlatformType i_platformType)
+    public void SpawnAtAllAnchors(HarraPlatformSpawner.PlatformType i_platformType, int i_type)
     {
+        List<HarraPlatformRow> chosenList = getRowList(i_type);
+
         IReadOnlyList<Transform> anchorsInRow = null;
-        foreach (HarraPlatformRow platformRow in platformRows)
+        foreach (HarraPlatformRow platformRow in chosenList)
         {
             anchorsInRow = platformRow.Anchors;
             foreach (Transform anchor in anchorsInRow)
@@ -94,6 +100,15 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
             return HarraPlatformSpawner.PlatformType.Orange;
     }
 
+    private List<HarraPlatformRow> getRowList(int i_type)
+    {
+        if (i_type == 0)
+            return platformRows_0;
+        else if (i_type == 1)
+            return platformRows_1;
+        else
+            return platformRows_2;
+    }
     private int getIdxAtRatio(float i_ratio, int i_listCount)
     {
         return Mathf.Clamp(Mathf.FloorToInt(i_ratio * (i_listCount)), 0, i_listCount - 1);
