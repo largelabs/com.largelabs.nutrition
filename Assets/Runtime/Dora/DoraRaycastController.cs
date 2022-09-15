@@ -10,7 +10,6 @@ public class DoraRaycastController : DoraAbstractController
     [SerializeField] float raycastSourceMoveSpeed = 200f;
     [SerializeField] float raycastAutoMoveSpeed = 20f;
     [SerializeField] DoraSelectionRaycastSource raycastSource = null;
-    [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] UIDoraRaycastPointer pointerUI = null;
 
     Coroutine rayCastRoutine = null;
@@ -83,9 +82,12 @@ public class DoraRaycastController : DoraAbstractController
 
     protected override void onEat()
     {
+        Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
+        if (null == currentSelect) return;
+
         if (null == frenzyRoutine && null == centerSourceRoutine)
         {
-            DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
+            DoraCellData cell = cellMap.GetCell(currentSelect.Value, false, false);
             centerSourceRoutine = StartCoroutine(recenterPointer(cell.Anchor));
         }
 
@@ -129,10 +131,13 @@ public class DoraRaycastController : DoraAbstractController
 
             if (null != cellData)
             {
-                bool clearSelection = null != cellSelector.CurrentOriginCell && cellSelector.CurrentOriginCell.Value != cellData.Coords;
+                bool clearSelection = 
+                    null != cellSelector.CurrentOriginCell 
+                    && cellSelector.CurrentOriginCell.Value != cellData.Coords;
 
 
-                if (null == frenzyRoutine) cellSelector.SelectCell(cellData.Coords, false, clearSelection);
+                if (null == frenzyRoutine) 
+                    cellSelector.SelectCell(cellData.Coords, false, clearSelection);
                 else
                     cellSelector.SelectRange(cellData.Coords, 2, true, false, true);
             }

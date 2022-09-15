@@ -102,7 +102,7 @@ public class DoraFlowManager : MiniGameFlow
     {
         while (true)
         {
-            if (true == doraController.IsEating())
+            if (true == doraController.IsEating)
             {
                 Debug.LogError("STILL EATING");
                 yield return null;

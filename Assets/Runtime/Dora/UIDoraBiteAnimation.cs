@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIDoraBiteAnimation : MonoBehaviour
 {
-    [SerializeField] UIDoraEatRangeFeedback rangeFeedback = null;
-    [SerializeField] UIImageFrameSwapper mouthFrameSwapper = null;
+    [SerializeField] protected UIDoraEatRangeFeedback rangeFeedback = null;
+    [SerializeField] protected UIImageFrameSwapper mouthFrameSwapper = null;
+    [SerializeField] protected Image mouthImage = null;
 
     Coroutine waitForPlaybackEndedRoutine = null;
 
@@ -21,7 +23,7 @@ public class UIDoraBiteAnimation : MonoBehaviour
         waitForPlaybackEndedRoutine = StartCoroutine(waitForPlaybackEnded());
     }
 
-    public void Stop()
+    public virtual void Stop()
     {
         this.DisposeCoroutine(ref waitForPlaybackEndedRoutine);
         gameObject.SetActive(false);
@@ -31,11 +33,17 @@ public class UIDoraBiteAnimation : MonoBehaviour
 
     #endregion
 
+    #region PROTECTED
+
+    protected virtual bool isPlaybackDone => false == mouthFrameSwapper.IsPlaying;
+
+    #endregion
+
     #region PRIVATE
 
     IEnumerator waitForPlaybackEnded()
     {
-        while (mouthFrameSwapper.IsPlaying) yield return null;
+        while (true == mouthFrameSwapper.IsPlaying) yield return null;
         Stop();
     }
 

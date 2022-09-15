@@ -220,7 +220,6 @@ GameObject:
   - component: {fileID: 2951328395756798261}
   - component: {fileID: 4281076588556352774}
   - component: {fileID: 9216107197038863743}
-  - component: {fileID: 3327874369086341324}
   - component: {fileID: 159974330804617863}
   - component: {fileID: 3557181392903438822}
   - component: {fileID: 2394362189195525160}
@@ -293,46 +292,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 000000
---- !u!114 &3327874369086341324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2939043650702621699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 201071d8850f5f94a8ae34a465eff522, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseColor: {r: 1, g: 1, b: 1, a: 1}
-  targetColor: {r: 0.90933144, g: 1, b: 0, a: 1}
-  interpolatorsManager: {fileID: 3557181392903438822}
-  singleLerpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  thisText: {fileID: 9216107197038863743}
 --- !u!114 &159974330804617863
 MonoBehaviour:
   m_ObjectHideFlags: 0

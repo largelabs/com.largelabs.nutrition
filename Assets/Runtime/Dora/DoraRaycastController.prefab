@@ -185,7 +185,7 @@ RectTransform:
   m_Children:
   - {fileID: 6455054660187983563}
   m_Father: {fileID: 1939134399391443057}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -214,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rangeFeedback: {fileID: 1857485812079912997}
   mouthFrameSwapper: {fileID: 4416770097353662611}
+  mouthImage: {fileID: 6590713053485395305}
 --- !u!1 &2828167629290425482
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,6 +529,7 @@ RectTransform:
   m_Children:
   - {fileID: 3057667584041809026}
   - {fileID: 4417919342757847398}
+  - {fileID: 3158549810052004231}
   - {fileID: 6295452931910858590}
   m_Father: {fileID: 6622236087329536798}
   m_RootOrder: 3
@@ -598,6 +600,77 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &3863196436886719804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3158549810052004231}
+  - component: {fileID: 1904069726242552527}
+  m_Layer: 5
+  m_Name: BiteAnimationPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3158549810052004231
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863196436886719804}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1939134399391443057}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1904069726242552527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863196436886719804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59dfbc0f4f3a98b4ebf4ad40fc3f43aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: BITE_ANIM_POOL
+  matchPoolScale: 0
+  matchPoolLayer: 0
+  dontReparent: 0
+  _dontDestroyOnLoad: 0
+  logMessages: 0
+  _perPrefabPoolOptions:
+  - prefab: {fileID: 217726738792572579, guid: a8224c62a73371648899c2a6ade1f000, type: 3}
+    preloadAmount: 1
+    preloadTime: 0
+    preloadFrames: 2
+    preloadDelay: 0
+    limitInstances: 0
+    limitAmount: 100
+    limitFIFO: 0
+    cullDespawned: 0
+    cullAbove: 50
+    cullDelay: 60
+    cullMaxPerPass: 5
+    _logMessages: 0
+    spawnPool: {fileID: 0}
+  maxParticleDespawnTime: 300
 --- !u!1 &5184340216716459710
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,6 +878,9 @@ MonoBehaviour:
   frenzyController: {fileID: 5620739680228632249}
   DoraGameplayData: {fileID: 11400000, guid: e2c5b74f921f5294bba6f021a37294df, type: 2}
   biteAnimation: {fileID: 1950815388389520880}
+  biteAnimationPool: {fileID: 1904069726242552527}
+  interpolators: {fileID: 0}
+  rangeFeedback: {fileID: 1857485812079912997}
   scoreManager: {fileID: 0}
   uiKernelManager: {fileID: 0}
   animationTime: 1
@@ -815,7 +891,6 @@ MonoBehaviour:
   raycastSourceMoveSpeed: 15
   raycastAutoMoveSpeed: 20
   raycastSource: {fileID: 1314212347534363070}
-  interpolators: {fileID: 0}
   pointerUI: {fileID: 8991559408114994871}
 --- !u!114 &5620739680228632249
 MonoBehaviour:
