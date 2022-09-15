@@ -65,7 +65,6 @@ public class DoraRaycastController : DoraAbstractController
     protected override void enableControllerUI(bool i_enable)
     {
         pointerUI.EnablePointer(i_enable);
-        pointerUI.EnablePointer(i_enable);
     }
 
     protected override void move(Vector2 i_move)
@@ -84,21 +83,19 @@ public class DoraRaycastController : DoraAbstractController
 
     protected override void onEat()
     {
-        if(true/*CurrentSelectionRadius > 0*/)
+        if (null == frenzyRoutine && null == centerSourceRoutine)
         {
-            if (null == frenzyRoutine && null == centerSourceRoutine)
-            {
-                DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
-                centerSourceRoutine = StartCoroutine(recenterPointer(cell.Anchor));
-            }
+            DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
+            centerSourceRoutine = StartCoroutine(recenterPointer(cell.Anchor));
         }
+
         base.onEat();
     }
 
     protected override void onEatReleased()
     {
-        base.onEatReleased();
         this.DisposeCoroutine(ref centerSourceRoutine);
+        base.onEatReleased();
     }
 
     #endregion
