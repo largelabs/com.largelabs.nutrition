@@ -24,6 +24,7 @@ public class DoraFlowManager : MiniGameFlow
 
     [Header("Sounds")]
     [SerializeField] private AudioSource ambientSound = null;
+    [SerializeField] private AudioSource ambientFireSFX = null;
     [SerializeField] private AudioSource timeBonusSFX = null;
 
     DoraBatchData currentDoraBatch = null;
@@ -116,6 +117,7 @@ public class DoraFlowManager : MiniGameFlow
 
         //it might be stopped after the score screen in the future
         ambientSound?.Stop();
+        ambientFireSFX?.Stop();
     }
 
     IEnumerator bringNewBatch()
