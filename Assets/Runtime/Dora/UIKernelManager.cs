@@ -110,9 +110,11 @@ public class UIKernelManager : MonoBehaviourBase
         {
             UIDoraKernel uiKernel = uiKernelQueue.Dequeue();
 
+            uiKernel.PlayKernelSFX();
             yield return StartCoroutine(animateKernel(uiKernel));
 
             ScoreKernelInfo scoreKernelInfo = uiKernel.ScoreInfo;
+
             uiKernelSpawner.DespawnKernel(uiKernel);
 
             scoreManager.AddScoreByStatus(scoreKernelInfo,
