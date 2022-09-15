@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShakeEffect2D : MonoBehaviour
+public class ShakeEffect2D : MonoBehaviourBase
 {
     public enum ShakeType
     {
@@ -56,8 +56,9 @@ public class ShakeEffect2D : MonoBehaviour
 
     #region UNITY AND CORE
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (transformToShake == null)
             transformToShake = this.transform;
     }
@@ -140,6 +141,8 @@ public class ShakeEffect2D : MonoBehaviour
     }
 
     #region START 
+
+    [ExposePublicMethod]
     public void StartShake(bool i_newOrigin = false)
     {
         if (canShake)

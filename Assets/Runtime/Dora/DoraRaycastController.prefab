@@ -215,6 +215,8 @@ MonoBehaviour:
   rangeFeedback: {fileID: 1857485812079912997}
   mouthFrameSwapper: {fileID: 4416770097353662611}
   mouthImage: {fileID: 6590713053485395305}
+  shakeEffect: {fileID: 9119929098513228122}
+  colorPingPong: {fileID: 3788129420087478681}
 --- !u!1 &2828167629290425482
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +684,9 @@ GameObject:
   - component: {fileID: 6455054660187983563}
   - component: {fileID: 1032988600086312146}
   - component: {fileID: 6590713053485395305}
+  - component: {fileID: 9119929098513228122}
   - component: {fileID: 4416770097353662611}
+  - component: {fileID: 3788129420087478681}
   m_Layer: 5
   m_Name: Mouth
   m_TagString: Untagged
@@ -748,6 +752,31 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9119929098513228122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184340216716459710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad52890592cb2624290948816c941e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformToShake: {fileID: 6455054660187983563}
+  activationType: 1
+  speed: 128
+  intensity: 6
+  shakeType: 0
+  shakeDirection: 2
+  continuousShaking: 0
+  shakeDuration: 1
+  loop: 0
+  waitTimeBetweenLoops: 0
+  globalPosition: 0
+  lockX: 0
+  lockY: 0
 --- !u!114 &4416770097353662611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,6 +803,46 @@ MonoBehaviour:
   - frameObject: {fileID: 21300000, guid: 0c84576b988c2bf46970b7b1ee2dff1d, type: 3}
     screenTime: 0.1
   loopStartIndex: 0
+--- !u!114 &3788129420087478681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184340216716459710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738ce739d5da1cb43beee42f459abe31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  targetColor: {r: 1, g: 0.21226418, b: 0.24375255, a: 1}
+  interpolatorsManager: {fileID: 3535618941173056793}
+  singleLerpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  thisImg: {fileID: 6590713053485395305}
 --- !u!1 &5651637763097233603
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,6 +902,7 @@ GameObject:
   - component: {fileID: 6622236087329536798}
   - component: {fileID: 3687109881843622709}
   - component: {fileID: 5620739680228632249}
+  - component: {fileID: 3535618941173056793}
   m_Layer: 0
   m_Name: DoraRaycastController
   m_TagString: Untagged
@@ -886,6 +956,10 @@ MonoBehaviour:
   animationTime: 1
   animationOffset: 20
   alphaTime: 0.5
+  bigBiteSFXs: []
+  smallBiteSFX: {fileID: 0}
+  chewSFX: {fileID: 0}
+  burntKernelSFXs: []
   minLocalX: -6.5
   maxLocalX: 5
   raycastSourceMoveSpeed: 15
@@ -906,6 +980,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   raycastController: {fileID: 3687109881843622709}
   DoraGameplayData: {fileID: 11400000, guid: e2c5b74f921f5294bba6f021a37294df, type: 2}
+--- !u!114 &3535618941173056793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6622236087329536799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxConcurrentFloat: -1
+  maxConcurrentV2: -1
+  maxConcurrentV3: -1
+  maxConcurrentColor: -1
 --- !u!1 &8060975908451102762
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,3 +1042,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSelectionRadius: 3
   rotationSpeed: 50
+  selectionSFX: {fileID: 0}
+  rangeSelectionSFX: {fileID: 0}

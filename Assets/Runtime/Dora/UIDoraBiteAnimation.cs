@@ -7,14 +7,17 @@ public class UIDoraBiteAnimation : MonoBehaviour
     [SerializeField] protected UIDoraEatRangeFeedback rangeFeedback = null;
     [SerializeField] protected UIImageFrameSwapper mouthFrameSwapper = null;
     [SerializeField] protected Image mouthImage = null;
+    [SerializeField] ShakeEffect2D shakeEffect = null;
+    [SerializeField] UIImageColorPingPong colorPingPong = null;
 
     Coroutine waitForPlaybackEndedRoutine = null;
-    Coroutine shakeRoutine = null;
+    Coroutine negativeRoutine = null;
 
     #region PUBLIC API
 
     public void Play(bool i_negative)
     {
+        mouthImage.color = Color.white;
         gameObject.SetActive(true);
         transform.localScale = rangeFeedback.GetCurrentBiteTargetScale();
         transform.position = rangeFeedback.transform.position;
@@ -23,15 +26,17 @@ public class UIDoraBiteAnimation : MonoBehaviour
         mouthFrameSwapper.Play();
 
         if (true == i_negative)
-            shakeRoutine = StartCoroutine(shakeMouth());
+            negativeRoutine = StartCoroutine(hurtMouth());
 
         waitForPlaybackEndedRoutine = StartCoroutine(waitForPlaybackEnded());
     }
 
     public virtual void Stop()
     {
-        this.DisposeCoroutine(ref shakeRoutine);
+        this.DisposeCoroutine(ref negativeRoutine);
         this.DisposeCoroutine(ref waitForPlaybackEndedRoutine);
+        colorPingPong?.StopPingPong();
+        mouthImage.color = Color.white;
         gameObject.SetActive(false);
     }
 
@@ -41,20 +46,25 @@ public class UIDoraBiteAnimation : MonoBehaviour
 
     #region PROTECTED
 
-    protected virtual bool isPlaybackDone => false == mouthFrameSwapper.IsPlaying && null == shakeRoutine;
+    protected virtual bool isPlaybackDone => false == mouthFrameSwapper.IsPlaying && null == negativeRoutine;
 
     #endregion
 
     #region PRIVATE
 
-    IEnumerator shakeMouth()
+    IEnumerator hurtMouth()
     {
-        yield break;
+        yield return this.Wait(0.15f);
+        colorPingPong.StartPingPong(0.2f, -1);
+        shakeEffect.StartShake();
+        while (true == shakeEffect.IsShaking) yield return null;
+        this.DisposeCoroutine(ref negativeRoutine);
+
     }
 
     IEnumerator waitForPlaybackEnded()
     {
-        while (true == mouthFrameSwapper.IsPlaying) yield return null;
+        while (false == isPlaybackDone) yield return null;
         Stop();
     }
 
