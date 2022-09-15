@@ -55,6 +55,9 @@ public class UIDoraBiteAnimation : MonoBehaviour
     IEnumerator hurtMouth()
     {
         yield return this.Wait(0.15f);
+
+        // Play ouch SFX here
+
         colorPingPong.StartPingPong(0.2f, -1);
         shakeEffect.StartShake();
         while (true == shakeEffect.IsShaking) yield return null;
