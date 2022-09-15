@@ -215,14 +215,17 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         bool canStartFrenzyMode = false;
         HashSet<DoraCellData> cellsToCleanup = null;
-        int goodKernelsCount = enqueueEatenKernels(cellSelector.SelectedRangeInSteps, ref cellsToCleanup, out canStartFrenzyMode);
-        eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, goodKernelsCount, canStartFrenzyMode));
+        int goodKernelsCount, burntKernelsCount = 0;
+        enqueueEatenKernels(cellSelector.SelectedRangeInSteps, ref cellsToCleanup, out canStartFrenzyMode, out goodKernelsCount, out burntKernelsCount);
+        eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, goodKernelsCount, burntKernelsCount, canStartFrenzyMode));
     }
 
-    int enqueueEatenKernels(
+    void enqueueEatenKernels(
         IReadOnlyList<HashSet<Vector2Int>> i_selectedKernelsInSteps, 
         ref HashSet<DoraCellData> i_cellsToCleanup,
-        out bool i_startFrenzyMode)
+        out bool i_startFrenzyMode,
+        out int i_goodKernelsCount,
+        out int i_burntKernelsCount)
     {
         i_startFrenzyMode = false;
         int burntKernelsCount = 0;
@@ -258,8 +261,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         uiKernelManager.EnqueueKernels(getStackInfo(kernelSets));
 
-
-        return eatenKernels - burntKernelsCount;
+        i_goodKernelsCount = eatenKernels - burntKernelsCount;
+        i_burntKernelsCount = burntKernelsCount;
     }
 
     private IEnumerator playBiteAnimation()
