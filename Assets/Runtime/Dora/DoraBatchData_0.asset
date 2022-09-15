@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assignedDoraData: {fileID: 11400000, guid: 022361e63e3149142b800cf71d7a402e, type: 2}
   doraInBatch: 2
-  maxBurntPercentage: 0.15
+  maxBurntPercentage: 0.1
   maxBurntPercentageIncrease: 0.05
+  maxBurntPercentageLimit: 0.4
   distributionStyleLvl1: 1
   distributionStyleLvl2: 0
   distributionStyleLvl3: 3
