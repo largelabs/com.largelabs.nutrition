@@ -1394,7 +1394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   harraPlatformSpawner: {fileID: 1138858152}
-  possibleSpawnsPerRow:
+  platformRows:
   - {fileID: 501588302}
   - {fileID: 656043285}
   - {fileID: 445811805}
@@ -1536,10 +1536,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 345408297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &375678191
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,10 +2085,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 445811803}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &447211067
 GameObject:
   m_ObjectHideFlags: 0
@@ -2619,10 +2637,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 501588300}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1001 &548168224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2915,10 +2942,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 575709157}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1001 &598294052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3300,10 +3336,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 656043283}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &656289007
 GameObject:
   m_ObjectHideFlags: 0
@@ -3849,7 +3894,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7775891, y: 1}
+    m_SensorSize: {x: 1.7789968, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -5080,10 +5125,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 952291327}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &978863940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5372,10 +5426,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1013783425}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &1018109626
 GameObject:
   m_ObjectHideFlags: 0
@@ -8426,10 +8489,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1453512827}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &1463997050
 GameObject:
   m_ObjectHideFlags: 0
@@ -8560,10 +8632,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1501422676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &1521953912
 GameObject:
   m_ObjectHideFlags: 0
@@ -9209,10 +9290,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1644214323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &1648357855
 GameObject:
   m_ObjectHideFlags: 0
@@ -9430,10 +9520,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1688047150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1001 &1697300981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10188,10 +10287,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1847676584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &1855652480
 GameObject:
   m_ObjectHideFlags: 0
@@ -10498,10 +10606,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1934259399}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!4 &1944073458 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3289514128781812915, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
@@ -10992,7 +11109,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7775891, y: 1}
+    m_SensorSize: {x: 1.7789968, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -11130,10 +11247,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2044804850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27794a42fa601fd49ac9dfe4d6ae4447, type: 3}
+  m_Script: {fileID: 11500000, guid: eb356a77411a1f54889b015538535a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   anchors: []
+  spawnConfigs: {fileID: 11400000, guid: 535ffc88ba24392498e0905dc35d85bd, type: 2}
+  globalSpawnChance: 0.8
+  overrideGlobal: 0
+  greenSpawnChances: []
+  overrideGreen: 0
+  yellowSpawnChances: []
+  overrideYellow: 0
+  orangeSpawnChances: []
+  overrideOrange: 0
 --- !u!1 &2054764912
 GameObject:
   m_ObjectHideFlags: 0

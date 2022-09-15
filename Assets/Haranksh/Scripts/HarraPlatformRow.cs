@@ -8,7 +8,7 @@ public class HarraPlatformRow : AnchorList
     [SerializeField] private HarraPlatformRowConfigs spawnConfigs = null;
 
     [Header("Config Overrides")]
-    [SerializeField] [Range(0f, 1f)] private float globalSpawnChance = 0.8f;
+    [SerializeField] [Range(0f, 1f)] private List<float> globalSpawnChances = null;
     [SerializeField] private bool overrideGlobal = false;
 
     [SerializeField] [Range(0f, 1f)] private List<float> greenSpawnChances = null;
@@ -22,7 +22,7 @@ public class HarraPlatformRow : AnchorList
 
 
     #region GETTERS
-    public float GlobalSpawnChance => (overrideGlobal || spawnConfigs == null)? globalSpawnChance:spawnConfigs.GlobalSpawnChance;
+    public IReadOnlyList<float> GlobalSpawnChances => (overrideGlobal || spawnConfigs == null)? globalSpawnChances:spawnConfigs.GlobalSpawnChances;
     public IReadOnlyList<float> GreenSpawnChances => (overrideGreen || spawnConfigs == null) ? greenSpawnChances:spawnConfigs.GreenSpawnChances;
     public IReadOnlyList<float> YellowSpawnChances => (overrideYellow || spawnConfigs == null) ? yellowSpawnChances:spawnConfigs.YellowSpawnChances;
     public IReadOnlyList<float> OrangeSpawnChances => (overrideOrange || spawnConfigs == null) ? orangeSpawnChances:spawnConfigs.OrangeSpawnChances;
