@@ -106,10 +106,13 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         unburntEatenCount = 0;
     }
 
-    public bool IsEating()
+    public bool IsEating
     {
-        if (null == eatingRoutine) return false;
-        else return true;
+        get
+        {
+            if (null != eatingRoutine) return true;
+            return false;
+        }
     }
 
     public void StopController()
@@ -135,9 +138,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         if (false == IsSelectingKernel()) return;
 
-        if (frenzyRoutine == null) StopAutoRotation();
+        StopAutoRotation();
         selectedRadius = 0;
-
         inputs.DisableMoveInputs();
     }
 
@@ -193,33 +195,32 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     private void eatKernels()
     {
         if (null != eatingRoutine) return;
-        if (null == cellSelector.CurrentOriginCell)
+        if (null == cellSelector.CurrentOriginCell || false == IsSelectingKernel())
         {
             inputs.EnableInputs();
             return;
         }
 
-        inputs.DisableInputs();
+        bool canStartFrenzyMode = false;
+        HashSet<DoraCellData> cellsToCleanup = null;
+        int goodKernelsCount = enqueueEatenKernels(cellSelector.SelectedRangeInSteps, ref cellsToCleanup, out canStartFrenzyMode);
+        eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, goodKernelsCount, canStartFrenzyMode));
+    }
 
-        DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
-        if (false == cell.HasKernel) return;
-
-        IReadOnlyList<HashSet<Vector2Int>> selectedKernelsInSteps = cellSelector.SelectedRangeInSteps;
-        if (null == selectedKernelsInSteps)
-        {
-            Debug.LogError("Invalid selected cell steps list! Returning...");
-            return;
-        }
-
-        int burntKenrelsCount = 0;
+    int enqueueEatenKernels(
+        IReadOnlyList<HashSet<Vector2Int>> i_selectedKernelsInSteps, 
+        ref HashSet<DoraCellData> i_cellsToCleanup,
+        out bool i_startFrenzyMode)
+    {
+        i_startFrenzyMode = false;
+        int burntKernelsCount = 0;
         int eatenKernels = 0;
 
+        if(null == i_cellsToCleanup) i_cellsToCleanup = new HashSet<DoraCellData>();
         List<HashSet<DoraKernel>> kernelSets = new List<HashSet<DoraKernel>>();
-        HashSet<DoraCellData> cellsToCleanup = new HashSet<DoraCellData>();
+        DoraCellData cell = null;
 
-        bool startFrenzyMode = false;
-
-        foreach (HashSet<Vector2Int> cellSet in selectedKernelsInSteps)
+        foreach (HashSet<Vector2Int> cellSet in i_selectedKernelsInSteps)
         {
             HashSet<DoraKernel> newSet = new HashSet<DoraKernel>();
             foreach (Vector2Int coord in cellSet)
@@ -231,21 +232,21 @@ public abstract class DoraAbstractController : MonoBehaviourBase
                 if (cell.HasKernel)
                 {
                     newSet.Add(cell.Kernel);
-                    if (cell.KernelStatus == KernelStatus.Burnt) burntKenrelsCount++;
+                    if (cell.KernelStatus == KernelStatus.Burnt) burntKernelsCount++;
                     eatenKernels++;
-                    cellsToCleanup.Add(cell);
+                    i_cellsToCleanup.Add(cell);
 
                     if (cell.KernelStatus == KernelStatus.Super)
-                    {
-                        startFrenzyMode = true;
-                    }
+                        i_startFrenzyMode = true;
                 }
             }
+
             kernelSets.Add(newSet);
         }
 
         uiKernelManager.EnqueueKernels(getStackInfo(kernelSets));
-        eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, eatenKernels - burntKenrelsCount, startFrenzyMode));
+
+        return eatenKernels - burntKernelsCount;
     }
 
     private IEnumerator playBiteAnimation()
@@ -261,6 +262,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatCount, bool i_startFrenzy)
     {
+        inputs.DisableInputs();
+
         yield return StartCoroutine(playBiteAnimation());
 
         foreach (DoraCellData cell in i_cellsToCleanup)
@@ -271,26 +274,35 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         }
 
         unburntEatenCount += i_eatCount;
-
-        if (false == didGameplayEnd && null == frenzyRoutine)
-            StartAutoRotation();
-
-        inputs.EnableInputs();
-
         selectedRadius = 0;
 
-        if (frenzyRoutine == null && true == i_startFrenzy)
-            frenzyRoutine = StartCoroutine(startFrenzyMode());
+        onEatSequenceEnded(i_startFrenzy);
+    }
 
+    void onEatSequenceEnded(bool i_startFrenzy)
+    {
         this.DisposeCoroutine(ref eatingRoutine);
+        if (true == didGameplayEnd) return;
+
+        if (true == i_startFrenzy) startFrenzy();
+        inputs.EnableEatInputs();
+        if (null == frenzyRoutine) inputs.EnableMoveInputs();
+
+        StartAutoRotation(null == frenzyRoutine);
+    }
+
+    void startFrenzy()
+    {
+        if (null != frenzyRoutine) return;
+        frenzyRoutine = StartCoroutine(doFrenzy());
     }
 
 
-    private IEnumerator startFrenzyMode()
+    private IEnumerator doFrenzy()
     {
         Debug.LogError("Start Frenzy Mode");
 
-        inputs.DisableInputs();
+        inputs.DisableMoveInputs();
 
         frenzyController.PlayFrenzyMode(autoRotator);
 
@@ -307,10 +319,9 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private void stopFrenzyMode()
     {
-        this.DisposeCoroutine(ref frenzyRoutine);
         frenzyController.StopFrenzyMode();
-
         uiKernelManager.ActivateFrenzy(false);
+        this.DisposeCoroutine(ref frenzyRoutine);
     }
 
     private Queue<ScoreKernelInfo> getStackInfo(List<HashSet<DoraKernel>> i_eatenKernels)
