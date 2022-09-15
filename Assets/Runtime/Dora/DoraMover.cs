@@ -64,6 +64,7 @@ public class DoraMover : MonoBehaviourBase
     {
         if (currentCob != null)
         {
+            Debug.LogError("get next cob ");
             // could possibly do smth different if cob is burnt
             yield return StartCoroutine(animateToTransform(currentCob, doneAnchor, exitTime,
                                             playMoveCurve, onMoveToDone));
@@ -114,9 +115,11 @@ public class DoraMover : MonoBehaviourBase
 
         charcoalGroup.SetActive(i_enable);
     }
-
+    private int counter = 0;
     IEnumerator animateToTransform(Transform i_nextCob, Transform i_target, float i_time, AnimationCurve i_curve, Action<ITypedAnimator<Vector3>> i_onAnimationEnded)
     {
+        counter++;
+        Debug.LogError("start the animation<<<<<<<<<<<<<<<<< " +counter);
         AnimationMode mode = new AnimationMode(i_curve);
         ITypedAnimator<Vector3> posInterpolator = interpolatorManager.Animate(i_nextCob.position, i_target.position, i_time, mode, false, 0f, i_onAnimationEnded);
         Vector3 targetScale = new Vector3(i_target.localScale.x / i_nextCob.lossyScale.x,
@@ -130,6 +133,9 @@ public class DoraMover : MonoBehaviourBase
             i_nextCob.localScale = scaleInterpolator.Current;
             yield return null;
         }
+        Debug.LogError("end the animation<<<<<<<<<<<<<<<<< " + counter);
+
+        //The callback is not called for some reason
     }
 
     private void onMoveToDone(ITypedAnimator<Vector3> i_anim)

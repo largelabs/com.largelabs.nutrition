@@ -173,7 +173,7 @@ public class KernelSpawner : MonoBehaviourBase
     {
         while (false == i_kernel.CanDespawn)
         {
-            Debug.LogError("Cannot despawn " + i_kernel.gameObject.name);
+            //Debug.LogError("Cannot despawn " + i_kernel.gameObject.name);
             yield return null;
 
         }
