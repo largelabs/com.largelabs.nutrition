@@ -19,6 +19,12 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] float animationOffset = 10f;
     [SerializeField] float alphaTime = 0.2f;
 
+    [Header("SFX")]
+    [SerializeField] private AudioSource[] bigBiteSFXs = null;
+    [SerializeField] private AudioSource smallBiteSFX = null;
+    [SerializeField] private AudioSource chewSFX = null;
+    [SerializeField] private AudioSource[] burntKernelSFXs = null;
+
     Coroutine eatingRoutine = null;
     protected Coroutine frenzyRoutine = null;
     AutoRotator autoRotator = null;
@@ -245,23 +251,51 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         }
 
         uiKernelManager.EnqueueKernels(getStackInfo(kernelSets));
-        eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, eatenKernels - burntKenrelsCount, startFrenzyMode));
+        eatingRoutine = StartCoroutine(eatingSequence(cellsToCleanup, eatenKernels , burntKenrelsCount, startFrenzyMode));
     }
 
     private IEnumerator playBiteAnimation()
     {
-        if (CurrentSelectionRadius == 0) yield break;
+        if (CurrentSelectionRadius == 0)
+        {
+            playSmallBiteSFX();
+            yield break;
+        }
         if (null != frenzyRoutine) yield break;
 
-        biteAnimation.Play();
+        biteAnimation?.Play();
+
+        playRandomSoundFromArray(bigBiteSFXs);
 
         while (true == biteAnimation.IsPlaying)
             yield return null;
+
+        while (bigBiteSFXs[0].isPlaying || bigBiteSFXs[1].isPlaying)
+        {
+            yield return null;
+        }
+        chewSFX.Play();
     }
 
-    private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatCount, bool i_startFrenzy)
+    private void playSmallBiteSFX()
+    {
+        float randomPitch = Random.Range(1f, 2f);
+        smallBiteSFX.pitch = randomPitch;
+        Debug.LogError(randomPitch);
+        smallBiteSFX.Play();
+    }
+
+    private void playRandomSoundFromArray(AudioSource[] i_audioSources)
+    {
+        int randomSFX = Random.Range(0, bigBiteSFXs.Length);
+        i_audioSources[randomSFX]?.Play();
+    }
+
+    private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatenKernel,int i_burntKernels, bool i_startFrenzy)
     {
         yield return StartCoroutine(playBiteAnimation());
+
+        if (i_burntKernels > 0) playRandomSoundFromArray(burntKernelSFXs);
 
         foreach (DoraCellData cell in i_cellsToCleanup)
         {
@@ -270,7 +304,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             cell.Reset();
         }
 
-        unburntEatenCount += i_eatCount;
+        unburntEatenCount += (i_eatenKernel - i_burntKernels);
 
         if (false == didGameplayEnd && null == frenzyRoutine)
             StartAutoRotation();

@@ -22,6 +22,10 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraGameData doraGameData = null;
     [SerializeField] private List<DoraBatchData> doraBatchData = null;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource ambientSound = null;
+    [SerializeField] private AudioSource timeBonusSFX = null;
+
     DoraBatchData currentDoraBatch = null;
 
     private List<DoraPlacer.DoraPositions> doraPositions = new List<DoraPlacer.DoraPositions>
@@ -109,6 +113,9 @@ public class DoraFlowManager : MiniGameFlow
 
         this.DisposeCoroutine(ref doraGameplayRoutine);
         doraController.StopController();
+
+        //it might be stopped after the score screen in the future
+        ambientSound?.Stop();
     }
 
     IEnumerator bringNewBatch()
@@ -202,6 +209,8 @@ public class DoraFlowManager : MiniGameFlow
 
         // maybe animate time increase
         timer.AddTime(currentDoraBatch.BatchFinishTimeBonus);
+        timeBonusSFX?.Play();
+        
        // timerTextColor.StartPingPong(0.25f, 2);
        // timerTextScale.StartPingPong(0.25f, 2);
         yield return this.Wait(1.0f);

@@ -15,4 +15,4 @@ MonoBehaviour:
   goodKernelScore: 10
   burntKernelScore: -200
   superKernelScore: 200
-  baseTimer: 150
+  baseTimer: 180
