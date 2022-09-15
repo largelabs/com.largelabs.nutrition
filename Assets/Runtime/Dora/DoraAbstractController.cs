@@ -311,7 +311,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         float randomPitch = Random.Range(1f, 2f);
         smallBiteSFX.pitch = randomPitch;
-        Debug.LogError(randomPitch);
         smallBiteSFX.Play();
     }
 

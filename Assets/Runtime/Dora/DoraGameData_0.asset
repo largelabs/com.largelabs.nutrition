@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DoraGameData_0
   m_EditorClassIdentifier: 
   goodKernelScore: 10
-  burntKernelScore: -200
+  burntKernelScore: 80
   superKernelScore: 200
   baseTimer: 180
