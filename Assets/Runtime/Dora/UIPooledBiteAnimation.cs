@@ -9,23 +9,14 @@ public class UIPooledBiteAnimation : UIDoraBiteAnimation
 
     #region PUBLIC API
 
-    private void OnEnable()
-    {
-        Debug.LogError("ENABLE");
-    }
-
-    private void OnDisable()
-    {
-        Debug.LogError("DISABLE");
-    }
-
     public void Play(SpawnPool i_pool, InterpolatorsManager i_interpolators, UIDoraEatRangeFeedback i_rangeFeedback)
     {
         this.DisposeCoroutine(ref alphaRoutine);
         rangeFeedback = i_rangeFeedback;
         pool = i_pool;
 
-        Play();
+        Play(false);
+
         setAlpha(0f);
         alphaRoutine = StartCoroutine(updateAlpha(i_interpolators));
     }

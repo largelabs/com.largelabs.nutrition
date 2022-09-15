@@ -139,7 +139,7 @@ public class DoraRaycastController : DoraAbstractController
                 if (null == frenzyRoutine) 
                     cellSelector.SelectCell(cellData.Coords, false, clearSelection);
                 else
-                    cellSelector.SelectRange(cellData.Coords, 2, true, false, true);
+                    cellSelector.SelectRange(cellData.Coords, DoraGameplayData.FrenzySelectionRange, true, false, true);
             }
             else
                 cellSelector.ClearSelection();

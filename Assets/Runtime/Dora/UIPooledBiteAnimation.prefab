@@ -95,7 +95,7 @@ MonoBehaviour:
   resetOnLastFrame: 0
   frames:
   - frameObject: {fileID: 21300000, guid: 904b5e78c1b169b4b9f726305ca65851, type: 3}
-    screenTime: 0.05
+    screenTime: 0.1
   - frameObject: {fileID: 21300000, guid: 3e51af0c81ac2544dae050f1cef6c2c5, type: 3}
     screenTime: 0.05
   - frameObject: {fileID: 21300000, guid: 29182238e56390045aabd162fc4e89fd, type: 3}
