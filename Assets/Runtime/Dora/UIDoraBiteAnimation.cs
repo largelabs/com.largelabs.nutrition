@@ -9,10 +9,11 @@ public class UIDoraBiteAnimation : MonoBehaviour
     [SerializeField] protected Image mouthImage = null;
 
     Coroutine waitForPlaybackEndedRoutine = null;
+    Coroutine shakeRoutine = null;
 
     #region PUBLIC API
 
-    public void Play()
+    public void Play(bool i_negative)
     {
         gameObject.SetActive(true);
         transform.localScale = rangeFeedback.GetCurrentBiteTargetScale();
@@ -20,11 +21,16 @@ public class UIDoraBiteAnimation : MonoBehaviour
 
         mouthFrameSwapper.ResetAnimation();
         mouthFrameSwapper.Play();
+
+        if (true == i_negative)
+            shakeRoutine = StartCoroutine(shakeMouth());
+
         waitForPlaybackEndedRoutine = StartCoroutine(waitForPlaybackEnded());
     }
 
     public virtual void Stop()
     {
+        this.DisposeCoroutine(ref shakeRoutine);
         this.DisposeCoroutine(ref waitForPlaybackEndedRoutine);
         gameObject.SetActive(false);
     }
@@ -35,11 +41,16 @@ public class UIDoraBiteAnimation : MonoBehaviour
 
     #region PROTECTED
 
-    protected virtual bool isPlaybackDone => false == mouthFrameSwapper.IsPlaying;
+    protected virtual bool isPlaybackDone => false == mouthFrameSwapper.IsPlaying && null == shakeRoutine;
 
     #endregion
 
     #region PRIVATE
+
+    IEnumerator shakeMouth()
+    {
+        yield break;
+    }
 
     IEnumerator waitForPlaybackEnded()
     {

@@ -10,7 +10,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] protected DoraCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
     [SerializeField] DoraFrenzyController frenzyController = null;
-    [SerializeField] DoraGameplayData DoraGameplayData = null;
+    [SerializeField] protected DoraGameplayData DoraGameplayData = null;
     [SerializeField] UIDoraBiteAnimation biteAnimation = null;
     [SerializeField] SpawnPool biteAnimationPool = null;
     [SerializeField] protected InterpolatorsManager interpolators = null;
@@ -265,9 +265,10 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         i_burntKernelsCount = burntKernelsCount;
     }
 
-    private IEnumerator playBiteAnimation()
+    private IEnumerator playBiteAnimation(bool i_negative)
     {
-        if (CurrentSelectionRadius == 0 || null != frenzyRoutine)
+
+        if (false == i_negative && (CurrentSelectionRadius == 0 || null != frenzyRoutine))
         {
             playSmallBiteSFX();
             Transform biteTr = biteAnimationPool.Spawn(BITE_ANIMATION_PREFAB);
@@ -276,9 +277,12 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             yield break;
         }
 
-        StartCoroutine(playBigBiteSFX());
+        if(false == i_negative)
+            StartCoroutine(playBigBiteSFX());
+        else
+            playSmallBiteSFX();
 
-        biteAnimation.Play();
+        biteAnimation.Play(i_negative);
         while (true == biteAnimation.IsPlaying)
             yield return null;
     }
@@ -312,7 +316,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatenKernel,int i_burntKernels, bool i_startFrenzy)
     {
         inputs.DisableInputs();
-        yield return StartCoroutine(playBiteAnimation());
+        yield return StartCoroutine(playBiteAnimation(i_burntKernels != 0));
 
         if (i_burntKernels > 0) playRandomSoundFromArray(burntKernelSFXs);
 
