@@ -10,7 +10,6 @@ public class DoraRaycastController : DoraAbstractController
     [SerializeField] float raycastSourceMoveSpeed = 200f;
     [SerializeField] float raycastAutoMoveSpeed = 20f;
     [SerializeField] DoraSelectionRaycastSource raycastSource = null;
-    [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] UIDoraRaycastPointer pointerUI = null;
 
     Coroutine rayCastRoutine = null;
@@ -132,10 +131,13 @@ public class DoraRaycastController : DoraAbstractController
 
             if (null != cellData)
             {
-                bool clearSelection = null != cellSelector.CurrentOriginCell && cellSelector.CurrentOriginCell.Value != cellData.Coords;
+                bool clearSelection = 
+                    null != cellSelector.CurrentOriginCell 
+                    && cellSelector.CurrentOriginCell.Value != cellData.Coords;
 
 
-                if (null == frenzyRoutine) cellSelector.SelectCell(cellData.Coords, false, clearSelection);
+                if (null == frenzyRoutine) 
+                    cellSelector.SelectCell(cellData.Coords, false, clearSelection);
                 else
                     cellSelector.SelectRange(cellData.Coords, 2, true, false, true);
             }

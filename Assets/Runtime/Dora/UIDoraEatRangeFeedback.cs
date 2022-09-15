@@ -49,6 +49,7 @@ public class UIDoraEatRangeFeedback : MonoBehaviour
 
     public Vector3 GetCurrentBiteTargetScale()
     {
+        Debug.Log(controller.CurrentSelectionRadius);
         return controller.CurrentSelectionRadius == 0 ? MathConstants.VECTOR_3_ONE * 1.5f : MathConstants.VECTOR_3_ONE * biteScaleMultiplier * (controller.CurrentSelectionRadius + 1);
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PathologicalGames;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,10 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] DoraFrenzyController frenzyController = null;
     [SerializeField] DoraGameplayData DoraGameplayData = null;
     [SerializeField] UIDoraBiteAnimation biteAnimation = null;
+    [SerializeField] SpawnPool biteAnimationPool = null;
+    [SerializeField] protected InterpolatorsManager interpolators = null;
+    [SerializeField] UIDoraEatRangeFeedback rangeFeedback = null;
+
 
     [Header("Score")]
     [SerializeField] DoraScoreManager scoreManager = null;
@@ -19,6 +24,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] float animationOffset = 10f;
     [SerializeField] float alphaTime = 0.2f;
 
+    private static readonly string BITE_ANIMATION_PREFAB = "UIPooledBiteAnimation";
     Coroutine eatingRoutine = null;
     protected Coroutine frenzyRoutine = null;
     AutoRotator autoRotator = null;
@@ -41,7 +47,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     #region PUBLIC API
 
-    public int CurrentSelectionRadius => selectedRadius;
+    public int CurrentSelectionRadius => null == frenzyRoutine ? selectedRadius : DoraGameplayData.FrenzySelectionRange;
 
     public int MaxSelectionRadius => null == cellSelector ? 1 : cellSelector.MaxSelectionRadius;
 
@@ -251,8 +257,13 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private IEnumerator playBiteAnimation()
     {
-        if (CurrentSelectionRadius == 0) yield break;
-        if (null != frenzyRoutine) yield break;
+        if (CurrentSelectionRadius == 0 || null != frenzyRoutine)
+        {
+            Transform biteTr = biteAnimationPool.Spawn(BITE_ANIMATION_PREFAB);
+            UIPooledBiteAnimation bite = biteTr.GetComponent<UIPooledBiteAnimation>();
+            bite.Play(biteAnimationPool, interpolators, rangeFeedback);
+            yield break;
+        }
 
         biteAnimation.Play();
 
