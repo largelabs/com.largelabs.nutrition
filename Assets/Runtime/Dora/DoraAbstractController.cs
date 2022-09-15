@@ -27,7 +27,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] private AudioSource[] bigBiteSFXs = null;
     [SerializeField] private AudioSource smallBiteSFX = null;
     [SerializeField] private AudioSource chewSFX = null;
-    [SerializeField] private AudioSource[] burntKernelSFXs = null;
     [SerializeField] private AudioSource rangeSelectionSFX = null;
 
     private static readonly string BITE_ANIMATION_PREFAB = "UIPooledBiteAnimation";
@@ -326,8 +325,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         inputs.DisableInputs();
         yield return StartCoroutine(playBiteAnimation(i_burntKernels != 0));
-
-        if (i_burntKernels > 0) playRandomSoundFromArray(burntKernelSFXs);
 
         foreach (DoraCellData cell in i_cellsToCleanup)
         {

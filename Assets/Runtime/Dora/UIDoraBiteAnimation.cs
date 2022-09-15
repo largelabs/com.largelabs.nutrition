@@ -10,6 +10,8 @@ public class UIDoraBiteAnimation : MonoBehaviour
     [SerializeField] ShakeEffect2D shakeEffect = null;
     [SerializeField] UIImageColorPingPong colorPingPong = null;
 
+    [SerializeField] private AudioSource[] hurtMouthSFXs = null;
+
     Coroutine waitForPlaybackEndedRoutine = null;
     Coroutine negativeRoutine = null;
 
@@ -56,7 +58,8 @@ public class UIDoraBiteAnimation : MonoBehaviour
     {
         yield return this.Wait(0.15f);
 
-        // Play ouch SFX here
+        int randomSFX = Random.Range(0, hurtMouthSFXs.Length);
+        hurtMouthSFXs[randomSFX]?.Play();
 
         colorPingPong.StartPingPong(0.2f, -1);
         shakeEffect.StartShake();
