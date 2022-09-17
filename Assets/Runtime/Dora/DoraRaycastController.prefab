@@ -217,6 +217,7 @@ MonoBehaviour:
   mouthImage: {fileID: 6590713053485395305}
   shakeEffect: {fileID: 9119929098513228122}
   colorPingPong: {fileID: 3788129420087478681}
+  sfxProvider: {fileID: 6361036768998632504}
 --- !u!1 &2828167629290425482
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,6 +927,7 @@ Transform:
   - {fileID: 3735511616043935770}
   - {fileID: 7277508342855777533}
   - {fileID: 1939134399391443057}
+  - {fileID: 593554267294007846}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -951,15 +953,13 @@ MonoBehaviour:
   biteAnimationPool: {fileID: 1904069726242552527}
   interpolators: {fileID: 0}
   rangeFeedback: {fileID: 1857485812079912997}
+  cameraShake: {fileID: 0}
+  sfxProvider: {fileID: 6361036768998632504}
   scoreManager: {fileID: 0}
   uiKernelManager: {fileID: 0}
   animationTime: 1
   animationOffset: 20
   alphaTime: 0.5
-  bigBiteSFXs: []
-  smallBiteSFX: {fileID: 0}
-  chewSFX: {fileID: 0}
-  burntKernelSFXs: []
   minLocalX: -6.5
   maxLocalX: 5
   raycastSourceMoveSpeed: 15
@@ -1042,5 +1042,76 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSelectionRadius: 3
   rotationSpeed: 50
-  selectionSFX: {fileID: 0}
-  rangeSelectionSFX: {fileID: 0}
+--- !u!1001 &1708354830712312292
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6622236087329536798}
+    m_Modifications:
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.7171892
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.3730874
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.175313
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2272613417570538435, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+      propertyPath: m_Name
+      value: DoraSFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+--- !u!4 &593554267294007846 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2272613417570538434, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+  m_PrefabInstance: {fileID: 1708354830712312292}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6361036768998632504 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5761153509960629724, guid: a204e3654b8a89b42a632a89e4f2eff1, type: 3}
+  m_PrefabInstance: {fileID: 1708354830712312292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5deec75c561c97249915b8ce561d5cc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

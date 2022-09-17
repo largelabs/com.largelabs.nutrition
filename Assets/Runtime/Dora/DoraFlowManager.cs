@@ -17,15 +17,11 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private UIMinigameTimer uiTimer = null;
     [SerializeField] private BoxCollider cullingBounds = null;
     [SerializeField] private BoxCollider selectionBounds = null;
+    [SerializeField] private DoraSFXProvider sfxProvider = null;
 
     [Header("Options")]
     [SerializeField] private DoraGameData doraGameData = null;
     [SerializeField] private List<DoraBatchData> doraBatchData = null;
-
-    [Header("Sounds")]
-    [SerializeField] private AudioSource ambientSound = null;
-    [SerializeField] private AudioSource ambientFireSFX = null;
-    [SerializeField] private AudioSource timeBonusSFX = null;
 
     DoraBatchData currentDoraBatch = null;
 
@@ -116,8 +112,7 @@ public class DoraFlowManager : MiniGameFlow
         doraController.StopController();
 
         //it might be stopped after the score screen in the future
-        ambientSound?.Stop();
-        ambientFireSFX?.Stop();
+        sfxProvider.StopAmbientSounds();
     }
 
     IEnumerator bringNewBatch()
@@ -211,7 +206,7 @@ public class DoraFlowManager : MiniGameFlow
 
         // maybe animate time increase
         timer.AddTime(currentDoraBatch.BatchFinishTimeBonus);
-        timeBonusSFX?.Play();
+        sfxProvider.PlayTimeBonusSFX();
         
        // timerTextColor.StartPingPong(0.25f, 2);
        // timerTextScale.StartPingPong(0.25f, 2);

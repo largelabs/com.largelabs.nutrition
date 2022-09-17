@@ -20,6 +20,8 @@ public class UIKernelManager : MonoBehaviourBase
     [SerializeField] private float timePerUIKernelFrenzy = 0.2f;
     [SerializeField] private float xOffsetPerUIKernel = -60.0f;
 
+    [SerializeField] DoraSFXProvider sfxProvider = null;
+
     RectTransform lastAnchor = null;
     Vector3 anchorStartInitialAnchoredPosition = MathConstants.VECTOR_3_ZERO;
     Vector3 anchorStartInitialPosition = MathConstants.VECTOR_3_ZERO;
@@ -109,11 +111,11 @@ public class UIKernelManager : MonoBehaviourBase
         while (uiKernelQueue.Count != 0)
         {
             UIDoraKernel uiKernel = uiKernelQueue.Dequeue();
+            ScoreKernelInfo scoreKernelInfo = uiKernel.ScoreInfo;
 
-            uiKernel.PlayKernelSFX();
+            sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
             yield return StartCoroutine(animateKernel(uiKernel));
 
-            ScoreKernelInfo scoreKernelInfo = uiKernel.ScoreInfo;
 
             uiKernelSpawner.DespawnKernel(uiKernel);
 

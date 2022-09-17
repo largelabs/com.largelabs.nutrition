@@ -16,6 +16,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] protected InterpolatorsManager interpolators = null;
     [SerializeField] UIDoraEatRangeFeedback rangeFeedback = null;
     [SerializeField] ShakeEffect2D cameraShake = null;
+    [SerializeField] DoraSFXProvider sfxProvider = null;
 
     [Header("Score")]
     [SerializeField] DoraScoreManager scoreManager = null;
@@ -23,12 +24,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] float animationTime = 0.5f;
     [SerializeField] float animationOffset = 10f;
     [SerializeField] float alphaTime = 0.2f;
-
-    [Header("SFX")]
-    [SerializeField] private AudioSource[] bigBiteSFXs = null;
-    [SerializeField] private AudioSource smallBiteSFX = null;
-    [SerializeField] private AudioSource chewSFX = null;
-    [SerializeField] private AudioSource rangeSelectionSFX = null;
 
     private static readonly string BITE_ANIMATION_PREFAB = "UIPooledBiteAnimation";
     Coroutine eatingRoutine = null;
@@ -163,10 +158,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         if (selectedRadius <= cellSelector.MaxSelectionRadius)
         {
             if (selectedRadius > 0)
-            {
-               if(rangeSelectionSFX.isPlaying == false) rangeSelectionSFX?.Play();
-                rangeSelectionSFX.pitch += 0.25f;
-            }
+                sfxProvider.PlayRangeSFX(0.25f);
 
             cellSelector.SelectRange(currentSelect.Value, selectedRadius, true, false, false);
             selectedRadius++;
@@ -175,10 +167,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     protected virtual void onEatReleased()
     {
+        sfxProvider.StopRangeSFX();
         eatKernels();
-
-        rangeSelectionSFX.pitch = 1f;
-        rangeSelectionSFX?.Stop();
     }
 
     #endregion
@@ -281,17 +271,18 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             cameraShake.SetShakeDuration(0.1f);
             cameraShake.SetIntensity(0.05f);
             cameraShake.StartShake(true);
-            playSmallBiteSFX();
+            sfxProvider.PlaySmallBiteSFX();
             Transform biteTr = biteAnimationPool.Spawn(BITE_ANIMATION_PREFAB);
             UIPooledBiteAnimation bite = biteTr.GetComponent<UIPooledBiteAnimation>();
             bite.Play(biteAnimationPool, interpolators, rangeFeedback);
             yield break;
         }
 
-        if(false == i_negative)
-            StartCoroutine(playBigBiteSFX());
+        if(false == i_negative) 
+            sfxProvider.PlayBigBiteSFX();
         else
-            playSmallBiteSFX();
+            sfxProvider.PlaySmallBiteSFX();
+
 
         biteAnimation.Play(i_negative);
         while (true == biteAnimation.IsPlaying)
@@ -304,31 +295,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             cameraShake.SetIntensity(Mathf.Lerp(0.05f, 0.2f, tShake));
             cameraShake.StartShake(true);
         }
-    }
-
-    IEnumerator playBigBiteSFX()
-    {
-        playRandomSoundFromArray(bigBiteSFXs);
-
-        while (bigBiteSFXs[0].isPlaying || bigBiteSFXs[1].isPlaying)
-        {
-            yield return null;
-        }
-        chewSFX.Play();
-    }
-
-
-    private void playSmallBiteSFX()
-    {
-        float randomPitch = Random.Range(1f, 2f);
-        smallBiteSFX.pitch = randomPitch;
-        smallBiteSFX.Play();
-    }
-
-    private void playRandomSoundFromArray(AudioSource[] i_audioSources)
-    {
-        int randomSFX = Random.Range(0, bigBiteSFXs.Length);
-        i_audioSources[randomSFX]?.Play();
     }
 
     private IEnumerator eatingSequence(HashSet<DoraCellData> i_cellsToCleanup, int i_eatenKernel, int i_burntKernels, bool i_startFrenzy)

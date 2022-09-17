@@ -12,15 +12,13 @@ public class DoraMover : MonoBehaviourBase
     [SerializeField] private AnimationCurve doneMoveCurve = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
     [SerializeField] private GameObject charcoalGroup = null;
- 
+    [SerializeField] private DoraSFXProvider sfxProvider = null;
+
     [Header("Camera")]
     [SerializeField] private PanCamera panCamera = null;
     [SerializeField] private float panDownTime = 0.2f;
     [SerializeField] private float panUpTime = 0.5f;
     [SerializeField] private float exitTime = 0.2f;
-
-    [Header("Camera")]
-    [SerializeField] private AudioSource MovementSFX = null;
 
     private Stack<Transform> doraCobStack = null;
     private Transform currentCob = null;
@@ -130,7 +128,7 @@ public class DoraMover : MonoBehaviourBase
                                             i_target.localScale.z / i_nextCob.lossyScale.z);
         ITypedAnimator<Vector3> scaleInterpolator = interpolatorManager.Animate(i_nextCob.localScale, targetScale, i_time, mode, false, 0f, null);
 
-        MovementSFX?.Play();
+        sfxProvider.PlayMovementSFX();
 
         while (true == posInterpolator.IsActive)
         {
