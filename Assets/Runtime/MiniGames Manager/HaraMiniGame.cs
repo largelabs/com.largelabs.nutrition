@@ -13,6 +13,8 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] StateMachine playerStateMachine = null;
 	[SerializeField] Controls playerControls = null;
 	[SerializeField] HarrankashTouchEventDispatcher touchEventDispatcher = null;
+	[SerializeField] PhysicsBody2D harrankashPhysicsBody = null;
+	[SerializeField] PositionAnimator harrankashRopeSlide = null;
 
 	[SerializeField] HarraPlatformSpawnManager platformSpawnManager = null;
 	[SerializeField] TriggerAction2D endTrigger = null;
@@ -20,6 +22,8 @@ public class HaraMiniGame : MiniGameFlow
 	private int currentPile = 0;
 	private int orangeCount = 0;
 	private Vector3 originPosition = Vector3.zero;
+
+	private Coroutine nextPileRoutine = null;
 
     #region UNITY
     private void Start()
@@ -101,10 +105,13 @@ public class HaraMiniGame : MiniGameFlow
 
 		touchEventDispatcher.OnTouchCart -= failGame;
 		playerControls.DisableControls();
+		harrankashPhysicsBody.SetVelocity(Vector2.zero);
+		harrankashPhysicsBody.SetGravityModifier(0);
 		platformSpawnManager.DespawnMap();
 		orangeCount = 0;
 
-		StartCoroutine(nextPileSequence());
+		if (nextPileRoutine == null)
+			nextPileRoutine = StartCoroutine(nextPileSequence());
 	}
 
     private IEnumerator nextPileSequence()
@@ -112,6 +119,11 @@ public class HaraMiniGame : MiniGameFlow
 		vCamSwitcher.SwitchToVCam(introCam_0);
 		yield return this.Wait(2f);
 		//playerStateMachine.transform.position = originPosition;
+
+		playerStateMachine.SetState<HarankashIdleState>();
+		harrankashRopeSlide.MoveToPosition(playerStateMachine.transform.position, null, null, null, null, null, null);
+		yield return this.Wait(4f);
+		playerStateMachine.transform.position = originPosition;
 
 		vCamSwitcher.SwitchToVCam(introCam_1);
 		yield return this.Wait(2f);
@@ -123,6 +135,8 @@ public class HaraMiniGame : MiniGameFlow
 
 		playerControls.EnableControls();
 		touchEventDispatcher.OnTouchCart += failGame;
+
+		this.DisposeCoroutine(ref nextPileRoutine);
 	}
 	#endregion
 }
