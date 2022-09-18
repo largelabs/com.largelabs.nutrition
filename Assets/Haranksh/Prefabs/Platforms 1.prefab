@@ -673,6 +673,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7373397862271054020}
     m_Modifications:
+    - target: {fileID: 4030519171913097133, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: greenSpawnChances.Array.data[0]
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030519171913097133, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030519171913097133, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[0]
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 4030519171968180921, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
       propertyPath: overrideGreen
       value: 1
@@ -761,6 +773,18 @@ PrefabInstance:
       propertyPath: orangeSpawnChances.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4030519172541775589, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: greenSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030519172541775589, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030519172541775589, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[1]
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4030519172545221763, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
       propertyPath: m_Name
       value: Anchors_00
@@ -848,6 +872,18 @@ PrefabInstance:
     - target: {fileID: 4030519172709806483, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
       propertyPath: globalSpawnChances.Array.data[0]
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030519172978965640, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: greenSpawnChances.Array.data[1]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030519172978965640, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030519172978965640, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[0]
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4030519173027417164, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
       propertyPath: overrideGreen

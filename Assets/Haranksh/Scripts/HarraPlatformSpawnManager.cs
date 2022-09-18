@@ -32,6 +32,11 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
         float currGlobalChance = 0f;
         float idxRatio = 0f;
 
+        bool spawnedPrev = false;
+        bool prevOrange = false;
+        int spawnedInPrevRow = 0;
+        int spawnedInCurrRow = 0;
+
         IReadOnlyList<float> greenChances = null;
         IReadOnlyList<float> yellowChances = null;
         IReadOnlyList<float> orangeChances = null;
@@ -47,16 +52,32 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
             yellowChances = platformRow.YellowSpawnChances;
             orangeChances = platformRow.OrangeSpawnChances;
 
+            prevOrange = false;
+            spawnedPrev = false;
+
+            spawnedInPrevRow = spawnedInCurrRow;
+            spawnedInCurrRow = 0;
+
             for (int i = 0; i < length; i++)
             {
                 idxRatio = Mathf.Clamp01((float)i / length);
+
                 currGlobalChance = globalChances[getIdxAtRatio(idxRatio, globalChances.Count)];
+
+                if (spawnedInPrevRow < 2)
+                    currGlobalChance *= 2f;
+
                 rng = UnityEngine.Random.Range(0f, 1f);
-                if (rng <= currGlobalChance) // spawn a platform at anchor
+                if (prevOrange || rng <= currGlobalChance) // spawn a platform at anchor
                 {
-                    harraPlatformSpawner.SpawnHaraPlatform(choosePlatformType(idxRatio, greenChances, yellowChances, orangeChances),
+                    harraPlatformSpawner.SpawnHaraPlatform(choosePlatformType(idxRatio, greenChances, yellowChances, orangeChances, out prevOrange, spawnedPrev),
                                                             anchorsInRow[i].position);
+
+                    spawnedPrev = true;
+                    spawnedInCurrRow++;
                 }
+                else
+                    spawnedPrev = false;
             }
         }
     }
@@ -82,7 +103,9 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
     private HarraPlatformSpawner.PlatformType choosePlatformType(float i_idxRatio,
         IReadOnlyList<float> i_greenChances,
         IReadOnlyList<float> i_yellowChances,
-        IReadOnlyList<float> i_orangeChances)
+        IReadOnlyList<float> i_orangeChances,
+        out bool o_prevOrange,
+        bool i_spawnedPrev)
     {
         float chanceOfGreen = i_greenChances[getIdxAtRatio(i_idxRatio, i_greenChances.Count)];
         float chanceOfYellow = i_yellowChances[getIdxAtRatio(i_idxRatio, i_yellowChances.Count)];
@@ -92,12 +115,31 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
 
         float rng = UnityEngine.Random.Range(0f, totalChance);
 
+        o_prevOrange = false;
+
         if (rng <= chanceOfGreen)
             return HarraPlatformSpawner.PlatformType.Green;
         else if (rng <= chanceOfGreen + chanceOfYellow)
             return HarraPlatformSpawner.PlatformType.Yellow;
         else
-            return HarraPlatformSpawner.PlatformType.Orange;
+        {
+            if (i_spawnedPrev || i_idxRatio == 0)
+            {
+                o_prevOrange = true;
+                return HarraPlatformSpawner.PlatformType.Orange;
+            }
+            else
+            {
+                rng = UnityEngine.Random.Range(0f, chanceOfGreen + chanceOfYellow);
+
+                o_prevOrange = false;
+
+                if (rng <= chanceOfGreen)
+                    return HarraPlatformSpawner.PlatformType.Green;
+                else
+                    return HarraPlatformSpawner.PlatformType.Yellow;
+            }
+        }
     }
 
     private List<HarraPlatformRow> getRowList(int i_type)
