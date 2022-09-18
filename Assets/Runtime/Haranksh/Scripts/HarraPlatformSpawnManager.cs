@@ -92,6 +92,11 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
         }
     }
 
+    public void DespawnMap()
+    {
+        harraPlatformSpawner.DespawnAllPlatforms();
+    }
+
     [ExposePublicMethod]
     public void SpawnAtAllAnchors(HarraPlatformSpawner.PlatformType i_platformType, int i_type)
     {

@@ -71,5 +71,37 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: c9731595be3b9934b952a9222974e307, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3673627363928991068, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+--- !u!61 &4050455137121828544 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3966028532363776689, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+  m_PrefabInstance: {fileID: 1097808017628736625}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4451643360384534828 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3673627363928991069, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+  m_PrefabInstance: {fileID: 1097808017628736625}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &150259194802768064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4451643360384534828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea496ff33142ba145968356fef5f9e3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accelerationConfig: {fileID: 11400000, guid: f4912b4cd6ba0694782c4a1a96201bde, type: 2}
+  maxJumpHeight: 2.5
+  visualObject: {fileID: 5045933232867434134}
+  collider: {fileID: 4050455137121828544}
+--- !u!212 &5045933232867434134 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5276797202842317543, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+  m_PrefabInstance: {fileID: 1097808017628736625}
+  m_PrefabAsset: {fileID: 0}

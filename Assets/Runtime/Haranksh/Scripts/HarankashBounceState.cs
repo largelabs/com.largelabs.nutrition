@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class HarankashBounceState : HarankashJumpState
 {
+    [SerializeField] HarrankashTouchEventDispatcher eventDispatcher = null;
+
     protected override void onStateEnter()
     {
         if (!body.IsGrounded)
@@ -19,6 +22,9 @@ public class HarankashBounceState : HarankashJumpState
             return;
         }
 
+        if (collidedPlatform.GetComponent<OneJumpHaraPlatform>())
+            eventDispatcher.DispatchOrangeTouchEvent();
+
         maxJumpHeight = collidedPlatform.MaxJumpHeight;
         accelerationData = collidedPlatform.AccelerationConfig;
         collidedPlatform.onCollision();
@@ -33,7 +39,7 @@ public class HarankashBounceState : HarankashJumpState
             collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponent<HaraPlatformAbstract>();
 
         if (collidedPlatform == null)
-            collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInChildren<HaraPlatformAbstract>();
+            collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInChildren<HaraPlatformAbstract>();           
 
         return collidedPlatform;
     }

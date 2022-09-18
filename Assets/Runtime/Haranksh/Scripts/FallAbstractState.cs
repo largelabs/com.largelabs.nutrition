@@ -8,6 +8,7 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     [SerializeField] private SpriteFrameSwapper landingFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
     [SerializeField] private float timeBeforeBounce = 0.5f;
+    [SerializeField] HarrankashTouchEventDispatcher eventDispatcher = null;
 
     Coroutine landingRoutine = null;
 
@@ -57,7 +58,10 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         if (i_tag == "Bouncy")
             setState<HarankashBounceState>();
         else
+        {
             setState<HarankashIdleState>();
+            eventDispatcher.DispatchCartTouchEvent();
+        }
 
         this.DisposeCoroutine(ref landingRoutine);
     }
