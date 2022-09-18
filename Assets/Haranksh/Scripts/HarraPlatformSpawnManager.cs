@@ -70,7 +70,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
                 rng = UnityEngine.Random.Range(0f, 1f);
                 if (prevOrange || rng <= currGlobalChance) // spawn a platform at anchor
                 {
-                    harraPlatformSpawner.SpawnHaraPlatform(choosePlatformType(idxRatio, greenChances, yellowChances, orangeChances, out prevOrange, spawnedPrev),
+                    harraPlatformSpawner.SpawnHaraPlatform(choosePlatformType(idxRatio, greenChances, yellowChances, orangeChances, ref prevOrange, spawnedPrev),
                                                             anchorsInRow[i].position);
 
                     spawnedPrev = true;
@@ -104,7 +104,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
         IReadOnlyList<float> i_greenChances,
         IReadOnlyList<float> i_yellowChances,
         IReadOnlyList<float> i_orangeChances,
-        out bool o_prevOrange,
+        ref bool i_prevOrange,
         bool i_spawnedPrev)
     {
         float chanceOfGreen = i_greenChances[getIdxAtRatio(i_idxRatio, i_greenChances.Count)];
@@ -115,24 +115,28 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
 
         float rng = UnityEngine.Random.Range(0f, totalChance);
 
-        o_prevOrange = false;
-
         if (rng <= chanceOfGreen)
+        {
+            i_prevOrange = false;
             return HarraPlatformSpawner.PlatformType.Green;
+        }
         else if (rng <= chanceOfGreen + chanceOfYellow)
+        {
+            i_prevOrange = false;
             return HarraPlatformSpawner.PlatformType.Yellow;
+        }
         else
         {
-            if (i_spawnedPrev || i_idxRatio == 0)
+            if (!i_prevOrange && (i_spawnedPrev || i_idxRatio == 0))
             {
-                o_prevOrange = true;
+                i_prevOrange = true;
                 return HarraPlatformSpawner.PlatformType.Orange;
             }
             else
             {
                 rng = UnityEngine.Random.Range(0f, chanceOfGreen + chanceOfYellow);
 
-                o_prevOrange = false;
+                i_prevOrange = false;
 
                 if (rng <= chanceOfGreen)
                     return HarraPlatformSpawner.PlatformType.Green;
