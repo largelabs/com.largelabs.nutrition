@@ -3734,6 +3734,314 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 476088018}
     m_Modifications:
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861510251412, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[0]
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861626874693, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397861963711129, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009528206, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.data[0]
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[1]
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862009799510, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[0]
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862125500944, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862183677154, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7373397862271054020, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3781,6 +4089,334 @@ PrefabInstance:
     - target: {fileID: 7373397862271054021, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
       propertyPath: m_Name
       value: Platforms
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862610440877, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397862881802542, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863005846360, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863015911220, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[2]
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[2]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863199624426, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[2]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863337661137, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideGlobal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideOrange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: overrideYellow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: greenSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: globalSpawnChances.Array.data[0]
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[0]
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373397863444112174, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[0]
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
