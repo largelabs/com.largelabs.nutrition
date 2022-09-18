@@ -124,6 +124,7 @@ public class HaraMiniGame : MiniGameFlow
 		harrankashRopeSlide.MoveToPosition(playerStateMachine.transform.position, null, null, null, null, null, null);
 		yield return this.Wait(4f);
 		playerStateMachine.transform.position = originPosition;
+		harrankashPhysicsBody.ResetGravityModifier();
 
 		vCamSwitcher.SwitchToVCam(introCam_1);
 		yield return this.Wait(2f);
