@@ -41,7 +41,6 @@ public class DoraInputs : MonoBehaviourBase
 
     public void EnableMoveInputs()
     {
-        Debug.LogError("ENABLE MOVE");
         inputActions.Player.Move.Enable();
     }
 
@@ -52,7 +51,6 @@ public class DoraInputs : MonoBehaviourBase
 
     public void DisableMoveInputs()
     {
-        Debug.LogError("DISABLE MOVE");
         inputActions.Player.Move.Disable();
         this.DisposeCoroutine(ref moveRoutine);
     }

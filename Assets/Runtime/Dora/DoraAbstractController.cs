@@ -1,4 +1,5 @@
 ﻿using PathologicalGames;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +37,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     private bool didGameplayEnd = false;
 
     protected DoraCellMap cellMap = null;
+
+    public Action OnDidFinishEating = null;
 
     #region UNITY AND CORE
 
@@ -338,6 +341,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     void onEatSequenceEnded(bool i_startFrenzy)
     {
         this.DisposeCoroutine(ref eatingRoutine);
+        OnDidFinishEating?.Invoke();
+
         if (true == didGameplayEnd) return;
 
         if (true == i_startFrenzy) startFrenzy();

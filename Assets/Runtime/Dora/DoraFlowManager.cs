@@ -30,10 +30,10 @@ public class DoraFlowManager : MiniGameFlow
 
     private int doraBatchCount = 0;
 
-    Coroutine doraGameplayRoutine = null;
     Coroutine burntDoraRoutine = null;
 
     DoraActions inputActions = null;
+    DoraDurabilityManager currentDurabilityManager = null;
 
     #region UNITY AND CORE
 
@@ -73,7 +73,6 @@ public class DoraFlowManager : MiniGameFlow
     protected override void onGameplayEnded()
     {
         StartCoroutine(stopGameplay());
-
         unregisterEvents();
     }
 
@@ -104,7 +103,6 @@ public class DoraFlowManager : MiniGameFlow
                 break;
         }
 
-        this.DisposeCoroutine(ref doraGameplayRoutine);
         doraController.StopController();
 
         //it might be stopped after the score screen in the future
@@ -147,42 +145,6 @@ public class DoraFlowManager : MiniGameFlow
 
         i_superKernelChance += currentDoraBatch.SuperKernelChanceIncrease;
         return false;
-    }
-
-    private IEnumerator doraGameplay(DoraCellMap i_cellMap, AutoRotator i_autoRotate)
-    {
-        Debug.LogError("Dora Gameplay");
-
-        if (null == inputActions) inputActions = new DoraActions();
-
-        inputActions.Player.TestAction.Enable();
-
-        doraController.SetDoraComponents(i_cellMap, i_autoRotate);
-        doraController.EnableController();
-        doraController.StartAutoRotation();
-
-        int totalCellCount = i_cellMap.TotalCellCount;
-
-        DoraDurabilityManager dorabilityManager = i_cellMap.GetComponent<DoraDurabilityManager>();
-
-        if (dorabilityManager == null)
-        {
-            Debug.LogError("No durability manager available on current cob! Breaking...");
-            yield break;
-        }
-
-        while (true)
-        {
-            if (doraController.DidEatAllKernels || doraController.GoodKernelsEatenCount == dorabilityManager.UnburntKernels)
-            {
-                doraController.DisableController();
-                doraMover.GetNextCob();
-                this.DisposeCoroutine(ref doraGameplayRoutine);
-                yield break;
-            }
-
-            yield return null;
-        }
     }
 
     private IEnumerator burntDoraSequence()
@@ -241,29 +203,44 @@ public class DoraFlowManager : MiniGameFlow
         doraMover.GetNextCob();
     }
 
+    void onEat()
+    {
+        if (doraController.DidEatAllKernels || doraController.GoodKernelsEatenCount == currentDurabilityManager.UnburntKernels)
+        {
+            doraController.DisableController();
+            doraMover.GetNextCob();
+        }
+    }
+
     private void tryStartDoraGameplay(DoraCellMap i_cellMap, AutoRotator i_autoRotate)
     {
-        if (doraGameplayRoutine == null)
-            doraGameplayRoutine = StartCoroutine(doraGameplay(i_cellMap, i_autoRotate));
-        else
-            Debug.LogError("The dora gameplay sequence is already active; " +
-                            "there is an issue with the game's flow!");
+        Debug.LogError("Dora Gameplay");
+
+        if (null == inputActions) inputActions = new DoraActions();
+        inputActions.Player.TestAction.Enable();
+        doraController.SetDoraComponents(i_cellMap, i_autoRotate);
+        doraController.EnableController();
+        doraController.StartAutoRotation();
+
+        currentDurabilityManager = i_cellMap.GetComponent<DoraDurabilityManager>();
+
+        // add events
     }
 
     private void registerEvents()
     {
         doraMover.OnGetNextCob += tryStartDoraGameplay;
         doraMover.OnQueueEmpty += getNextDoraBatch;
-
         timer.OnTimerEnded += goToSuccess;
+        doraController.OnDidFinishEating += onEat;
     }
 
     private void unregisterEvents()
     {
         doraMover.OnGetNextCob -= tryStartDoraGameplay;
         doraMover.OnQueueEmpty -= getNextDoraBatch;
-
         timer.OnTimerEnded -= goToSuccess;
+        doraController.OnDidFinishEating -= onEat;
     }
 
     #endregion
