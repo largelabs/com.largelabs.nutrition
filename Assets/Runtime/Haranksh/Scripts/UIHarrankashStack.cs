@@ -10,7 +10,7 @@ public class UIHarrankashStack : UIElementStack<float>
     //[SerializeField] DoraScoreManager scoreManager = null;
     //[SerializeField] DoraSFXProvider sfxProvider = null;
 
-    private Stack<SpriteFrameSwapper> uiHarrankashStack = null;
+    private Stack<UIImageFrameSwapper> uiHarrankashStack = null;
     private Stack<float> scoreStack = null;
 
     #region PUBLIC API
@@ -21,13 +21,13 @@ public class UIHarrankashStack : UIElementStack<float>
             lastAnchor = anchorStart;
         }
 
-        if (null == uiHarrankashStack) uiHarrankashStack = new Stack<SpriteFrameSwapper>();
+        if (null == uiHarrankashStack) uiHarrankashStack = new Stack<UIImageFrameSwapper>();
         if (null == scoreStack) scoreStack = new Stack<float>();
 
         while (i_platformScores.Count > 0)
         {
             scoreStack.Push(i_platformScores.Dequeue());
-            SpriteFrameSwapper uiHarraAnimation = uiHarrankashSpawner.SpawnTransformAtAnchor(lastAnchor, new Vector3(xOffsetPerUIKernel,0, 0), UIHarrankashTypes.Orange);
+            UIImageFrameSwapper uiHarraAnimation = uiHarrankashSpawner.SpawnTransformAtAnchor(lastAnchor, new Vector3(xOffsetPerUIKernel,0, 0), UIHarrankashTypes.Orange);
 
             RectTransform kernelRect = lastAnchor = uiHarraAnimation.transform as RectTransform;
 
@@ -60,7 +60,7 @@ public class UIHarrankashStack : UIElementStack<float>
 
         while (uiHarrankashStack.Count != 0)
         {
-            SpriteFrameSwapper uiHarraAnimation = uiHarrankashStack.Pop();
+            UIImageFrameSwapper uiHarraAnimation = uiHarrankashStack.Pop();
 
             //sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
             yield return StartCoroutine(animateKernel(uiHarraAnimation.gameObject));
