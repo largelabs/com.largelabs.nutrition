@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UIHarrankashSpawner : TransformSpawner<SpriteFrameSwapper, UIHarrankashTypes>
+public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, UIHarrankashTypes>
 {
     private readonly static string ORANGE_HARRA_ANIM = "OrangeHarraAnim";
 
@@ -15,7 +15,7 @@ public class UIHarrankashSpawner : TransformSpawner<SpriteFrameSwapper, UIHarran
         }
     }
 
-    protected override void resetComponent(SpriteFrameSwapper i_component)
+    protected override void resetComponent(UIImageFrameSwapper i_component)
     {
         i_component.Stop();
     }
