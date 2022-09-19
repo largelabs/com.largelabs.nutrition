@@ -9,7 +9,6 @@ public class DoraMover : MonoBehaviourBase
     [SerializeField] private Transform doneAnchor = null;
     [SerializeField] private InterpolatorsManager interpolatorManager = null;
     [SerializeField] private AnimationCurve playMoveCurve = null;
-    [SerializeField] private AnimationCurve doneMoveCurve = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
     [SerializeField] private GameObject charcoalGroup = null;
     [SerializeField] private DoraSFXProvider sfxProvider = null;

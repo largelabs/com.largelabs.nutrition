@@ -7,13 +7,10 @@ public class UIDoraRaycastPointer : MonoBehaviourBase
     [SerializeField] Transform selectionFeedbackTr = null;
     [SerializeField] Image cursorImage = null;
     [SerializeField] DoraAbstractController controller = null;
-    [SerializeField] InterpolatorsManager interpolators = null;
 
     [SerializeField] DoraSelectionRaycastSource source = null;
     [SerializeField] RectTransform canvasRect = null;
     [SerializeField] RectTransform cursorRect = null;
-
-    [SerializeField] UIDoraBiteAnimation biteAnimation = null;
 
     #region UNITY AND CORE
 

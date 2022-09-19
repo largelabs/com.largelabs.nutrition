@@ -8,7 +8,6 @@ public class DoraRaycastController : DoraAbstractController
     [SerializeField] float minLocalX = -6.5f;
     [SerializeField] float maxLocalX = 5f;
     [SerializeField] float raycastSourceMoveSpeed = 200f;
-    [SerializeField] float raycastAutoMoveSpeed = 20f;
     [SerializeField] DoraSelectionRaycastSource raycastSource = null;
     [SerializeField] UIDoraRaycastPointer pointerUI = null;
 

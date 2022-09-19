@@ -13,8 +13,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
         Uniform
     }
 
-    Distribution distro = Distribution.EdgeFocused;
-
     [SerializeField] private DoraCellMap cellMap = null;
 
     private int unburntKernels = 0;
@@ -232,7 +230,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
     public void DeactivateDurabilityUpdate()
     {
         this.DisposeCoroutine(ref updateDurabilityRoutine);
-        updateDurabilityRoutine = null;
     }
 
     #endregion

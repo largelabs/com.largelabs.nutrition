@@ -9,12 +9,10 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraPlacer doraPlacer = null;
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
-    [SerializeField] private GameObject doraHUD = null;
 
     [SerializeField] private DoraScoreManager scoreManager = null;
     [SerializeField] private SpawnPool vfxPool = null;
     [SerializeField] private MinigameTimer timer = null;
-    [SerializeField] private UIMinigameTimer uiTimer = null;
     [SerializeField] private BoxCollider cullingBounds = null;
     [SerializeField] private BoxCollider selectionBounds = null;
     [SerializeField] private DoraSFXProvider sfxProvider = null;
@@ -29,8 +27,6 @@ public class DoraFlowManager : MiniGameFlow
                 { DoraPlacer.DoraPositions.BackLeft, DoraPlacer.DoraPositions.BackRight,
                     DoraPlacer.DoraPositions.FrontLeft, DoraPlacer.DoraPositions.FrontRight};
 
-    private DoraCellMap currentCob = null;
-    private DoraCellMap previousCob = null;
 
     private int doraBatchCount = 0;
 
@@ -136,8 +132,9 @@ public class DoraFlowManager : MiniGameFlow
 
             if (superKernelSpawned)
                 superKernelCobsSpawned++;
-            yield return this.Wait(1.0f);
         }
+
+        yield return null;
     }
 
     private bool canSpawnSuper(int i_superKernelCobsSpawned, ref float i_superKernelChance)
@@ -176,15 +173,14 @@ public class DoraFlowManager : MiniGameFlow
 
         while (true)
         {
-            // gameplay stuff
-
-            if (doraController.UnburntEatenCount == dorabilityManager.UnburntKernels)
+            if (doraController.DidEatAllKernels || doraController.GoodKernelsEatenCount == dorabilityManager.UnburntKernels)
             {
-                doraMover.GetNextCob();
                 doraController.DisableController();
+                doraMover.GetNextCob();
                 this.DisposeCoroutine(ref doraGameplayRoutine);
                 yield break;
             }
+
             yield return null;
         }
     }
