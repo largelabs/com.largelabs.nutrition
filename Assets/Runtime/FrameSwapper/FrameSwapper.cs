@@ -77,8 +77,6 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
     [ExposePublicMethod]
     public void Stop()
 	{
-		if (null == playback) return;
-
         this.DisposeCoroutine(ref playback);
         ResetAnimation();
     }
@@ -141,7 +139,6 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
     private void updateCurrentFrame()
     {
         currentFrame.InvokeEndedPlaybackEvent();
-        currentFrame.ResetCurrentTimeSpent();
 
         if (lastFrameReached)
         {
