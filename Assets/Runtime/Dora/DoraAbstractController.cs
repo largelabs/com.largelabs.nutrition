@@ -22,21 +22,19 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [Header("Score")]
     [SerializeField] UIKernelManager uiKernelManager = null;
 
-    private static readonly string BITE_ANIMATION_PREFAB = "UIPooledBiteAnimation";
     Coroutine eatingRoutine = null;
     protected Coroutine frenzyRoutine = null;
+
     AutoRotator autoRotator = null;
+    protected DoraCellMap cellMap = null;
+
+    private static readonly string BITE_ANIMATION_PREFAB = "UIPooledBiteAnimation";
 
     int totalEatenCount = 0;
     int goodEatenCount = 0;
     int burntEatenCount = 0;
-
-
     int selectedRadius = 0;
-
-    private bool didGameplayEnd = false;
-
-    protected DoraCellMap cellMap = null;
+    bool didGameplayEnd = false;
 
     public Action OnDidFinishEating = null;
 
@@ -92,7 +90,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         inputs.DisableInputs();
         enableControllerUI(false);
-
+        StopAutoRotation();
         stopFrenzyMode();
 
         if (true == i_clearSelection)
@@ -137,7 +135,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         stopFrenzyMode();
 
         unlistenToInputs();
-        StopAutoRotation();
         DisableController();
     }
 
@@ -250,17 +247,22 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             {
                 cell = cellMap.GetCell(coord, false, false);
 
-                if (cell.KernelStatus == KernelStatus.Burnt && frenzyRoutine != null)
-                    continue;
                 if (cell.HasKernel)
                 {
-                    newSet.Add(cell.Kernel);
-                    if (cell.KernelStatus == KernelStatus.Burnt) burntKernelsCount++;
-                    eatenKernels++;
-                    i_cellsToCleanup.Add(cell);
+                    if (cell.KernelStatus == KernelStatus.Burnt && frenzyRoutine != null)
+                    {
+                        // ignore
+                    }
+                    else
+                    {
+                        newSet.Add(cell.Kernel);
+                        if (cell.KernelStatus == KernelStatus.Burnt) burntKernelsCount++;
+                        eatenKernels++;
+                        i_cellsToCleanup.Add(cell);
 
-                    if (cell.KernelStatus == KernelStatus.Super)
-                        i_startFrenzyMode = true;
+                        if (cell.KernelStatus == KernelStatus.Super)
+                            i_startFrenzyMode = true;
+                    }
                 }
             }
 
@@ -341,7 +343,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     void onEatSequenceEnded(bool i_startFrenzy)
     {
         this.DisposeCoroutine(ref eatingRoutine);
-        OnDidFinishEating?.Invoke();
 
         if (true == didGameplayEnd) return;
 
@@ -350,10 +351,13 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         if (null == frenzyRoutine) inputs.EnableMoveInputs();
 
         StartAutoRotation(null == frenzyRoutine);
+        OnDidFinishEating?.Invoke();
     }
 
     void startFrenzy()
     {
+        Debug.Log("START FRENZY MODE");
+
         if (null != frenzyRoutine) return;
         frenzyRoutine = StartCoroutine(doFrenzy());
     }
@@ -380,6 +384,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private void stopFrenzyMode()
     {
+        Debug.Log("STOP FRENZY MODE");
+
         frenzyController.StopFrenzyMode();
         uiKernelManager.ActivateFrenzy(false);
         this.DisposeCoroutine(ref frenzyRoutine);

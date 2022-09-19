@@ -197,7 +197,7 @@ public class DoraFlowManager : MiniGameFlow
             currDurabilityManager = doraCob.GetComponent<DoraDurabilityManager>();
 
             if (currDurabilityManager != null)
-                currDurabilityManager.ActivateDurabilityUpdate();
+                currDurabilityManager.UpdateDurability(true);
         }
 
         doraMover.GetNextCob();
@@ -205,14 +205,17 @@ public class DoraFlowManager : MiniGameFlow
 
     void onEat()
     {
+        Debug.Log(doraController.GoodKernelsEatenCount + "  " + currentDurabilityManager.UnburntKernels);
+
         if (doraController.DidEatAllKernels || doraController.GoodKernelsEatenCount == currentDurabilityManager.UnburntKernels)
         {
+            currentDurabilityManager = null;
             doraController.DisableController();
             doraMover.GetNextCob();
         }
     }
 
-    private void tryStartDoraGameplay(DoraCellMap i_cellMap, AutoRotator i_autoRotate)
+    private void tryStartDoraGameplay(DoraCellMap i_cellMap, AutoRotator i_autoRotate, DoraDurabilityManager i_durabilityManager)
     {
         Debug.LogError("Dora Gameplay");
 
@@ -222,9 +225,7 @@ public class DoraFlowManager : MiniGameFlow
         doraController.EnableController();
         doraController.StartAutoRotation();
 
-        currentDurabilityManager = i_cellMap.GetComponent<DoraDurabilityManager>();
-
-        // add events
+        currentDurabilityManager = i_durabilityManager;
     }
 
     private void registerEvents()

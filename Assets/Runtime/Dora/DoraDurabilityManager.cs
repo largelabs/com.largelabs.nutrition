@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +33,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
                 Vector2Int.down + Vector2Int.left
             };
 
-    Coroutine updateDurabilityRoutine = null;
+    float lastDurabilityUpdateTime = 0;
 
     #region UNITY AND CORE
 
@@ -111,6 +110,8 @@ public class DoraDurabilityManager : MonoBehaviourBase
             o_superKernelSpawned = setSuperKernels(length0, length1);
 
         burntPercentage = 0.0f;
+
+        lastDurabilityUpdateTime = Time.time;
 
         return true;
     }
@@ -220,23 +221,74 @@ public class DoraDurabilityManager : MonoBehaviourBase
     }
 
     [ExposePublicMethod]
-    public void ActivateDurabilityUpdate()
+    public void UpdateDurability(bool i_decrease)
     {
-        if (updateDurabilityRoutine == null)
-            updateDurabilityRoutine = StartCoroutine(updateDurability());
-    }
+        Debug.LogError("ACTIVATE DURABILITY MANAGER " + gameObject.name);
 
-    [ExposePublicMethod]
-    public void DeactivateDurabilityUpdate()
-    {
-        this.DisposeCoroutine(ref updateDurabilityRoutine);
+        updateDurability(i_decrease);
+
+        Debug.LogError("DID UPDATE " + unburntKernels + " AND BURNT " + burntKernels + " AND TOTAL " + totalKernels + " " + gameObject.name);
     }
 
     #endregion
 
     #region PRIVATE
 
-    private IEnumerator updateDurability()
+    void updateDurability(bool i_decrease)
+    {
+        float? durability = 0f;
+        DoraCellData currCellData = null;
+
+        int length0 = cellMap.CellMapLength0;
+        int length1 = cellMap.CellMapLength1;
+
+        totalKernels = 0;
+        burntKernels = 0;
+        unburntKernels = 0;
+
+        float durabilityLossInterval = cellMap.DoraData.DurabilityLossInterval;
+        float durabilityLossPerInterval = cellMap.DoraData.DurabilityLossPerInterval;
+
+        int intervalsCount = Mathf.RoundToInt((Time.time - lastDurabilityUpdateTime) / durabilityLossInterval);
+        float decreaseValue = intervalsCount * durabilityLossPerInterval;
+
+        for (int i = 0; i < length0; i++)
+        {
+            for (int j = 0; j < length1; j++)
+            {
+                currCellData = cellMap.GetCell(new Vector2Int(i, j), false, false);
+
+                if (currCellData.KernelStatus != KernelStatus.Super)
+                {
+                    if (true == i_decrease) currCellData.DecreaseDurability(decreaseValue);
+                    currCellData.UpdateColor();
+                }
+
+                durability = currCellData.GetDurability();
+                if (durability != null)
+                {
+                    totalKernels++;
+                    if (currCellData.KernelStatus == KernelStatus.Burnt)
+                        burntKernels++;
+                    else
+                        unburntKernels++;
+                }
+            }
+        }
+
+        // Debug.LogError("burnt: " + burntKernels);
+        // Debug.LogError("total: " + totalKernels);
+
+        if (totalKernels > 0)
+        {
+            burntPercentage = (burntKernels / (float)totalKernels);
+            //Debug.LogError("Burn percentage: " + burntPercentage);
+        }
+
+        lastDurabilityUpdateTime = Time.time;
+    }
+
+   /* private IEnumerator updateDurabilityLoop()
     {
         while (cellMap == null)
         {
@@ -244,8 +296,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
             yield return null;
         }
 
-        int length0 = cellMap.CellMapLength0;
-        int length1 = cellMap.CellMapLength1;
 
         if (cellMap.DoraData == null)
         {
@@ -255,54 +305,17 @@ public class DoraDurabilityManager : MonoBehaviourBase
         }
 
         float durabilityLossInterval = cellMap.DoraData.DurabilityLossInterval;
-        float durabilityLossPerInterval = cellMap.DoraData.DurabilityLossPerInterval;
+        
 
-        float? durability = 0f;
-        DoraCellData currCellData = null;
+
 
         while (true)
         {
-            totalKernels = 0;
-            burntKernels = 0;
-            unburntKernels = 0;
-            bool? isSuper = null;
-
-            for (int i = 0; i < length0; i++)
-            {
-                for (int j = 0; j < length1; j++)
-                {
-                    currCellData = cellMap.GetCell(new Vector2Int(i, j), false, false);
-                    durability = currCellData.GetDurability();
-                    if (durability != null)
-                    {
-                        totalKernels++;
-                        if (currCellData.KernelStatus == KernelStatus.Burnt)
-                            burntKernels++;
-                        else
-                            unburntKernels++;
-                    }
-
-                    isSuper = currCellData.KernelStatus == KernelStatus.Super;
-                    if (isSuper != null && isSuper.Value == false)
-                    {
-                        currCellData.DecreaseDurability(durabilityLossPerInterval);
-                        currCellData.UpdateColor();
-                    }
-                }
-            }
-
-            // Debug.LogError("burnt: " + burntKernels);
-            // Debug.LogError("total: " + totalKernels);
-
-            if (totalKernels > 0)
-            {
-                burntPercentage = (burntKernels / (float)totalKernels);
-                //Debug.LogError("Burn percentage: " + burntPercentage);
-            }
+            updateDurability(true);
 
             yield return this.Wait(durabilityLossInterval);
         }
-    }
+    } */
 
     #endregion
 }
