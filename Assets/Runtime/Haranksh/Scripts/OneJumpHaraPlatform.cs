@@ -5,7 +5,8 @@ using UnityEngine;
 public class OneJumpHaraPlatform : HaraPlatformAbstract
 {
     [SerializeField] SpriteRenderer visualObject = null;
-    [SerializeField] BoxCollider2D collider = null;
+    [SerializeField] BoxCollider2D thisCollider = null;
+
     public override void onCollision()
     {
         //if (gameObject.tag == "Bouncy")
@@ -15,6 +16,6 @@ public class OneJumpHaraPlatform : HaraPlatformAbstract
         //}
 
         visualObject.color = Color.clear;
-        collider.enabled = false;
+        thisCollider.enabled = false;
     }
 }

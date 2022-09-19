@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpriteHarrankashSpawner : MonoBehaviour
+public class SpriteHarrankashSpawner : TransformSpawner<SpriteFrameSwapper, SpriteHarrankashTypes>
 {
-    // Start is called before the first frame update
-    void Start()
+    private readonly static string ORANGE_HARRA_ANIM = "OrangeHarraAnim"; 
+
+    protected override string getPrefab(SpriteHarrankashTypes i_prefabId)
     {
-        
+        if (i_prefabId == SpriteHarrankashTypes.Orange)
+            return ORANGE_HARRA_ANIM;
+        else
+        {
+            Debug.LogError("Invalid prefab Id! Returning null...");
+            return null;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void resetComponent(SpriteFrameSwapper i_component)
     {
-        
+        i_component.Stop();
     }
 }

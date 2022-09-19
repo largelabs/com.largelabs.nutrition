@@ -82,7 +82,6 @@ public abstract class UIElementStack<T> : MonoBehaviourBase
         stackMove.MoveToPosition(anchorStart.position + MathConstants.VECTOR_3_LEFT * xOffsetPerUIKernel, true, getTimePerUIElement() / 2f, interpolatorsManager, stackShiftCurve, null);
 
         yield return this.Wait(getTimePerUIElement() / 2f);
-
     }
 
     protected virtual float getTimePerUIElement()

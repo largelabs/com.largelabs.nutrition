@@ -71,7 +71,7 @@ public class UIKernelManagerV2 : UIElementStack<ScoreKernelInfo>
             ScoreKernelInfo scoreKernelInfo = uiKernel.ScoreInfo;
 
             sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
-            yield return StartCoroutine(animateKernel(uiKernel));
+            yield return StartCoroutine(animateKernel(uiKernel.gameObject));
 
 
             uiKernelSpawner.DespawnKernel(uiKernel);

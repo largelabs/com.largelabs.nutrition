@@ -99,7 +99,7 @@ MonoBehaviour:
   accelerationConfig: {fileID: 11400000, guid: f4912b4cd6ba0694782c4a1a96201bde, type: 2}
   maxJumpHeight: 2.5
   visualObject: {fileID: 5045933232867434134}
-  collider: {fileID: 4050455137121828544}
+  thisCollider: {fileID: 4050455137121828544}
 --- !u!212 &5045933232867434134 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5276797202842317543, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
