@@ -1,12 +1,12 @@
 version: 2
 tpsheetFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.tpsheet
-- Assets/Haranksh/Sprites/Hara_Idle.tpsheet
-- Assets/Haranksh/Sprites/Hara_Jump.tpsheet
+- Assets/Runtime/Haranksh/Sprites/Hara_Idle.tpsheet
+- Assets/Runtime/Haranksh/Sprites/Hara_Jump.tpsheet
 textureFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.png
-- Assets/Haranksh/Sprites/Hara_Idle.png
-- Assets/Haranksh/Sprites/Hara_Jump.png
+- Assets/Runtime/Haranksh/Sprites/Hara_Idle.png
+- Assets/Runtime/Haranksh/Sprites/Hara_Jump.png
 normalmapFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
 - 

@@ -49,6 +49,7 @@ public class StateMachine : MonoBehaviourBase
             currentState.ExitState();
 
         currentState = i_state;
+        Debug.LogError("Entered state: " + currentState);
         currentState.Initialize(this, controls);
         currentState.EnterState();
     }
