@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, UIHarrankashTypes>
 {
-    private readonly static string ORANGE_HARRA_ANIM = "OrangeHarraAnim";
+    private readonly static string ORANGE_HARRA_ANIM = "UIHarra";
 
     protected override string getPrefab(UIHarrankashTypes i_prefabId)
     {
