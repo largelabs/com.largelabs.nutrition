@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIKernelManagerV2 : UIElementStack<UIDoraKernel, ScoreKernelInfo>
+public class UIKernelManagerV2 : UIElementStack<ScoreKernelInfo>
 {
     [SerializeField] DoraScoreManager scoreManager = null;
     [SerializeField] UIKernelSpawner uiKernelSpawner = null;
-    [SerializeField] private float timePerUIKernelFrenzy = 0.2f;
+    [SerializeField] float timePerUIKernelFrenzy = 0.2f;
     [SerializeField] DoraSFXProvider sfxProvider = null;
+
+    Queue<UIDoraKernel> uiKernelQueue = null;
 
     bool isFrenzyActive = false;
 
@@ -18,14 +20,14 @@ public class UIKernelManagerV2 : UIElementStack<UIDoraKernel, ScoreKernelInfo>
         isFrenzyActive = i_active;
     }
 
-    public override void EnqueueKernels(Queue<ScoreKernelInfo> i_kernels)
+    public override void CollectUIElements(Queue<ScoreKernelInfo> i_kernels)
     {
         if (null == lastAnchor)
         {
             lastAnchor = anchorStart;
         }
 
-        if (null == uiElementQueue) uiElementQueue = new Queue<UIDoraKernel>();
+        if (null == uiKernelQueue) uiKernelQueue = new Queue<UIDoraKernel>();
 
         while (i_kernels.Count != 0)
         {
@@ -42,7 +44,7 @@ public class UIKernelManagerV2 : UIElementStack<UIDoraKernel, ScoreKernelInfo>
             pos.y = (i_kernels.Count % 2 == 0 ? -2.5f : 2.5f);
             kernelRect.localPosition = pos;
 
-            uiElementQueue.Enqueue(uiKernel);
+            uiKernelQueue.Enqueue(uiKernel);
 
             StartCoroutine(
                 scaleRoutine(uiKernel.transform, interpolatorsManager.Animate(
@@ -53,19 +55,19 @@ public class UIKernelManagerV2 : UIElementStack<UIDoraKernel, ScoreKernelInfo>
 
         }
 
-        if (null == dequeueKernelsRoutine) dequeueKernelsRoutine = StartCoroutine(dequeueKernels());
+        if (null == dequeueKernelsRoutine) dequeueKernelsRoutine = StartCoroutine(discardUIElements());
     }
 
     #endregion
 
     #region PRIVATE
-    protected override IEnumerator dequeueKernels()
+    protected override IEnumerator discardUIElements()
     {
         yield return this.Wait(base.getTimePerUIElement() * 2f);
 
-        while (uiElementQueue.Count != 0)
+        while (uiKernelQueue.Count != 0)
         {
-            UIDoraKernel uiKernel = uiElementQueue.Dequeue();
+            UIDoraKernel uiKernel = uiKernelQueue.Dequeue();
             ScoreKernelInfo scoreKernelInfo = uiKernel.ScoreInfo;
 
             sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
