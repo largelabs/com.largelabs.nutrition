@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6856063297244469335}
   - component: {fileID: 6856063297244469336}
   - component: {fileID: 6856063297244469337}
+  - component: {fileID: 2389411504037950884}
+  - component: {fileID: 8673341571866927217}
   m_Layer: 5
   m_Name: UIHarra
   m_TagString: Untagged
@@ -97,3 +99,27 @@ MonoBehaviour:
   - frameObject: {fileID: 21300000, guid: 641d4975006a15141931cd3b2970543e, type: 3}
     screenTime: 1
   loopStartIndex: 0
+--- !u!114 &2389411504037950884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6856063297244469339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f3bda1bfccb1d4890193a5e5ee2aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8673341571866927217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6856063297244469339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa047af104112934da4d9a95bf53ba0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

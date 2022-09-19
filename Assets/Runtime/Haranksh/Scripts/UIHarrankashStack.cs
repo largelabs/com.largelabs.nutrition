@@ -49,7 +49,8 @@ public class UIHarrankashStack : UIElementStack<float>
 
         }
 
-        if (null == dequeueKernelsRoutine) dequeueKernelsRoutine = StartCoroutine(discardUIElements());
+        // add option for auto dequeue
+        //if (null == dequeueKernelsRoutine) dequeueKernelsRoutine = StartCoroutine(discardUIElements());
     }
     #endregion
 
