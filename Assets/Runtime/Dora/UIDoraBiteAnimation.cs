@@ -1,29 +1,44 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIDoraBiteAnimation : MonoBehaviour
 {
-    [SerializeField] UIDoraEatRangeFeedback rangeFeedback = null;
-    [SerializeField] UIImageFrameSwapper mouthFrameSwapper = null;
+    [SerializeField] protected UIDoraEatRangeFeedback rangeFeedback = null;
+    [SerializeField] protected UIImageFrameSwapper mouthFrameSwapper = null;
+    [SerializeField] protected Image mouthImage = null;
+    [SerializeField] ShakeEffect2D shakeEffect = null;
+    [SerializeField] UIImageColorPingPong colorPingPong = null;
+    [SerializeField] DoraSFXProvider sfxProvider = null;
+    
 
     Coroutine waitForPlaybackEndedRoutine = null;
+    Coroutine negativeRoutine = null;
 
     #region PUBLIC API
 
-    public void Play()
+    public void Play(bool i_negative)
     {
+        mouthImage.color = Color.white;
         gameObject.SetActive(true);
-        transform.localScale = rangeFeedback.GetCurrentRangeTargetScale();
+        transform.localScale = rangeFeedback.GetCurrentBiteTargetScale();
         transform.position = rangeFeedback.transform.position;
 
         mouthFrameSwapper.ResetAnimation();
         mouthFrameSwapper.Play();
+
+        if (true == i_negative)
+            negativeRoutine = StartCoroutine(hurtMouth());
+
         waitForPlaybackEndedRoutine = StartCoroutine(waitForPlaybackEnded());
     }
 
-    public void Stop()
+    public virtual void Stop()
     {
+        this.DisposeCoroutine(ref negativeRoutine);
         this.DisposeCoroutine(ref waitForPlaybackEndedRoutine);
+        colorPingPong?.StopPingPong();
+        mouthImage.color = Color.white;
         gameObject.SetActive(false);
     }
 
@@ -31,11 +46,30 @@ public class UIDoraBiteAnimation : MonoBehaviour
 
     #endregion
 
+    #region PROTECTED
+
+    protected virtual bool isPlaybackDone => false == mouthFrameSwapper.IsPlaying && null == negativeRoutine;
+
+    #endregion
+
     #region PRIVATE
+
+    IEnumerator hurtMouth()
+    {
+        yield return this.Wait(0.15f);
+
+        sfxProvider.PlayHurtMouthSFX();
+
+        colorPingPong.StartPingPong(0.2f, -1);
+        shakeEffect.StartShake();
+        while (true == shakeEffect.IsShaking) yield return null;
+        this.DisposeCoroutine(ref negativeRoutine);
+
+    }
 
     IEnumerator waitForPlaybackEnded()
     {
-        while (mouthFrameSwapper.IsPlaying) yield return null;
+        while (false == isPlaybackDone) yield return null;
         Stop();
     }
 

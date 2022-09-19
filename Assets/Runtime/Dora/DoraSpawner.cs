@@ -130,6 +130,7 @@ public class DoraSpawner : MonoBehaviourBase
 
     public void DespawnDoraCob(DoraCellMap i_doraCob)
     {
+        Debug.LogError("DESPAWNED: " + i_doraCob.gameObject);
         despawnDoraCob(i_doraCob);
         livingDora.Remove(i_doraCob);
     }
@@ -155,7 +156,6 @@ public class DoraSpawner : MonoBehaviourBase
     #region PRIVATE API
     private void despawnDoraCob(DoraCellMap i_doraCob)
     {
-        //Debug.LogError("DESPAWNED: " + i_doraCob.gameObject);
         i_doraCob.ReleaseDoraCob();
         doraCobPool?.Despawn(i_doraCob.transform);
         OnDespawn?.Invoke(i_doraCob);

@@ -9,10 +9,10 @@ public class DoraMover : MonoBehaviourBase
     [SerializeField] private Transform doneAnchor = null;
     [SerializeField] private InterpolatorsManager interpolatorManager = null;
     [SerializeField] private AnimationCurve playMoveCurve = null;
-    [SerializeField] private AnimationCurve doneMoveCurve = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
     [SerializeField] private GameObject charcoalGroup = null;
- 
+    [SerializeField] private DoraSFXProvider sfxProvider = null;
+
     [Header("Camera")]
     [SerializeField] private PanCamera panCamera = null;
     [SerializeField] private float panDownTime = 0.2f;
@@ -64,6 +64,7 @@ public class DoraMover : MonoBehaviourBase
     {
         if (currentCob != null)
         {
+            Debug.LogError("get next cob ");
             // could possibly do smth different if cob is burnt
             yield return StartCoroutine(animateToTransform(currentCob, doneAnchor, exitTime,
                                             playMoveCurve, onMoveToDone));
@@ -114,9 +115,11 @@ public class DoraMover : MonoBehaviourBase
 
         charcoalGroup.SetActive(i_enable);
     }
-
+    private int counter = 0;
     IEnumerator animateToTransform(Transform i_nextCob, Transform i_target, float i_time, AnimationCurve i_curve, Action<ITypedAnimator<Vector3>> i_onAnimationEnded)
     {
+        counter++;
+        Debug.LogError("start the animation<<<<<<<<<<<<<<<<< " +counter);
         AnimationMode mode = new AnimationMode(i_curve);
         ITypedAnimator<Vector3> posInterpolator = interpolatorManager.Animate(i_nextCob.position, i_target.position, i_time, mode, false, 0f, i_onAnimationEnded);
         Vector3 targetScale = new Vector3(i_target.localScale.x / i_nextCob.lossyScale.x,
@@ -124,12 +127,17 @@ public class DoraMover : MonoBehaviourBase
                                             i_target.localScale.z / i_nextCob.lossyScale.z);
         ITypedAnimator<Vector3> scaleInterpolator = interpolatorManager.Animate(i_nextCob.localScale, targetScale, i_time, mode, false, 0f, null);
 
+        sfxProvider.PlayMovementSFX();
+
         while (true == posInterpolator.IsActive)
         {
             i_nextCob.position = posInterpolator.Current;
             i_nextCob.localScale = scaleInterpolator.Current;
             yield return null;
         }
+        Debug.LogError("end the animation<<<<<<<<<<<<<<<<< " + counter);
+
+        //The callback is not called for some reason
     }
 
     private void onMoveToDone(ITypedAnimator<Vector3> i_anim)

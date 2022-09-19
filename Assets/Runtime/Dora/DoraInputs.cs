@@ -35,27 +35,38 @@ public class DoraInputs : MonoBehaviourBase
 
     public void EnableInputs()
     {
-        inputActions.Player.Move.Enable();
-        inputActions.Player.Eat.Enable();
+        EnableMoveInputs();
+        EnableEatInputs();
     }
+
     public void EnableMoveInputs()
     {
+        Debug.LogError("ENABLE MOVE");
         inputActions.Player.Move.Enable();
+    }
+
+    public void EnableEatInputs()
+    {
+        inputActions.Player.Eat.Enable();
+    }
+
+    public void DisableMoveInputs()
+    {
+        Debug.LogError("DISABLE MOVE");
+        inputActions.Player.Move.Disable();
+        this.DisposeCoroutine(ref moveRoutine);
+    }
+
+    public void DisableEatInputs()
+    {
+        inputActions.Player.Eat.Disable();
+        this.DisposeCoroutine(ref eatRoutine);
     }
 
     public void DisableInputs()
     {
-        inputActions.Player.Move.Disable();
-        inputActions.Player.Eat.Disable();
-
-        this.DisposeCoroutine(ref moveRoutine);
-        this.DisposeCoroutine(ref eatRoutine);
-    }
-    public void DisableMoveInputs()
-    {
-        inputActions.Player.Move.Disable();
-
-        this.DisposeCoroutine(ref moveRoutine);
+        DisableMoveInputs();
+        DisableEatInputs();
     }
 
     #endregion
@@ -64,21 +75,24 @@ public class DoraInputs : MonoBehaviourBase
 
     private IEnumerator dispatchMove()
     {
-        while(true)
+        OnMoveStarted?.Invoke(inputActions.Player.Move.ReadValue<Vector2>());
+
+        while (true)
         {
             yield return moveDispatchInterval <= 0f ? null : this.Wait(moveDispatchInterval);
             OnMove?.Invoke(inputActions.Player.Move.ReadValue<Vector2>());
         }
     }
 
-    void disposeRoutines()
+   /* void disposeRoutines()
     {
         this.DisposeCoroutine(ref moveRoutine);
         this.DisposeCoroutine(ref eatRoutine);
-    }
+    } */
 
     private IEnumerator dispatchEat()
     {
+        OnEatStarted?.Invoke();
         yield return eatDispatchInterval <= 0f ? null : this.Wait(eatDispatchInterval);
 
         while (true)
@@ -90,31 +104,24 @@ public class DoraInputs : MonoBehaviourBase
 
     private void onMoveStarted(InputAction.CallbackContext obj)
     {
-        disposeRoutines();
-        //inputActions.Player.Eat.Disable();
-        OnMoveStarted?.Invoke(obj.ReadValue<Vector2>());
-        moveRoutine = StartCoroutine(dispatchMove());
+        if(null == moveRoutine) moveRoutine = StartCoroutine(dispatchMove());
     }
 
     private void onMoveCanceled(InputAction.CallbackContext obj)
     {
-        disposeRoutines();
-        inputActions.Player.Eat.Enable();
+        this.DisposeCoroutine(ref moveRoutine);
         OnMoveReleased?.Invoke(MathConstants.VECTOR_2_ZERO);
     }
 
     private void onEatStarted(InputAction.CallbackContext obj)
     {
-        disposeRoutines();
-        inputActions.Player.Move.Disable();
-        OnEatStarted?.Invoke();
+        this.DisposeCoroutine(ref eatRoutine);
         eatRoutine = StartCoroutine(dispatchEat());
     }
 
     private void onEatCanceled(InputAction.CallbackContext obj)
     {
-        disposeRoutines();
-        inputActions.Player.Move.Enable();
+        this.DisposeCoroutine(ref eatRoutine);
         OnEatReleased?.Invoke();
     }
 

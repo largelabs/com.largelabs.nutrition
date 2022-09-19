@@ -8,9 +8,7 @@ public class DoraRaycastController : DoraAbstractController
     [SerializeField] float minLocalX = -6.5f;
     [SerializeField] float maxLocalX = 5f;
     [SerializeField] float raycastSourceMoveSpeed = 200f;
-    [SerializeField] float raycastAutoMoveSpeed = 20f;
     [SerializeField] DoraSelectionRaycastSource raycastSource = null;
-    [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] UIDoraRaycastPointer pointerUI = null;
 
     Coroutine rayCastRoutine = null;
@@ -83,21 +81,22 @@ public class DoraRaycastController : DoraAbstractController
 
     protected override void onEat()
     {
-        if(CurrentSelectionRadius > 0)
+        Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
+        if (null == currentSelect) return;
+
+        if (null == frenzyRoutine && null == centerSourceRoutine)
         {
-            if (null == frenzyRoutine && null == centerSourceRoutine)
-            {
-                DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
-                centerSourceRoutine = StartCoroutine(recenterPointer(cell.Anchor));
-            }
+            DoraCellData cell = cellMap.GetCell(currentSelect.Value, false, false);
+            centerSourceRoutine = StartCoroutine(recenterPointer(cell.Anchor));
         }
+
         base.onEat();
     }
 
     protected override void onEatReleased()
     {
-        base.onEatReleased();
         this.DisposeCoroutine(ref centerSourceRoutine);
+        base.onEatReleased();
     }
 
     #endregion
@@ -109,7 +108,7 @@ public class DoraRaycastController : DoraAbstractController
         ITypedAnimator<Vector3> interpolator = interpolators.Animate(
             raycastSource.transform.position,
             i_anchor.position,
-            0.2f,
+            0.1f,
             new AnimationMode(AnimationType.Ease_In_Out));
 
         while(true == interpolator.IsActive)
@@ -131,12 +130,15 @@ public class DoraRaycastController : DoraAbstractController
 
             if (null != cellData)
             {
-                bool clearSelection = null != cellSelector.CurrentOriginCell && cellSelector.CurrentOriginCell.Value != cellData.Coords;
+                bool clearSelection = 
+                    null != cellSelector.CurrentOriginCell 
+                    && cellSelector.CurrentOriginCell.Value != cellData.Coords;
 
 
-                if (null == frenzyRoutine) cellSelector.SelectCell(cellData.Coords, false, clearSelection);
+                if (null == frenzyRoutine) 
+                    cellSelector.SelectCell(cellData.Coords, false, clearSelection);
                 else
-                    cellSelector.SelectRange(cellData.Coords, 2, true, false, true);
+                    cellSelector.SelectRange(cellData.Coords, DoraGameplayData.FrenzySelectionRange, true, false, true);
             }
             else
                 cellSelector.ClearSelection();

@@ -8,6 +8,11 @@ public class DoraKernelVFX : MonoBehaviourBase
     [SerializeField] Transform kernelTransform = null;
 
     private static readonly string BURNT_SELECT_VFX_PREFAB = "VFX_Select_Smoke";
+    private static readonly string EAT_VFX_PREFAB_0 = "VFX_Kernel_Particles_0";
+    private static readonly string EAT_VFX_PREFAB_1 = "VFX_Kernel_Particles_1";
+    private static readonly string EAT_VFX_PREFAB_BURNT = "VFX_Kernel_Particles_Burnt";
+
+
     List<PooledDoraVFX> liveVFX = null;
     SpawnPool vfxPool = null;
     Coroutine updateScaleRoutine = null;
@@ -55,6 +60,28 @@ public class DoraKernelVFX : MonoBehaviourBase
     public void StopScaleAnimation()
     {
         this.DisposeCoroutine(ref updateScaleRoutine);
+    }
+
+    public void PlayEatVFX(float i_durability, bool i_isBurnt)
+    {
+        string prefabId = null;
+        if (true == i_isBurnt)
+            prefabId = EAT_VFX_PREFAB_BURNT;
+        else
+        {
+            prefabId = i_durability < 0.5f ? EAT_VFX_PREFAB_1 : EAT_VFX_PREFAB_0;
+        }
+
+        Transform vfxTr = vfxPool.Spawn(prefabId);
+        registerVfx(vfxTr.GetComponent<PooledDoraVFX>());
+        vfxTr.SetParent(kernelTransform);
+        vfxTr.localScale = MathConstants.VECTOR_3_ONE;
+        vfxTr.localPosition = new Vector3(0f, 0f, 0f);
+
+        vfxTr.SetParent(null);
+        float scaleValue = Mathf.Max(vfxTr.localScale.x, vfxTr.localScale.y);
+        vfxTr.localScale = MathConstants.VECTOR_3_ONE * scaleValue;
+        vfxTr.SetParent(transform);
     }
 
     public void PlaySmokeVFX()

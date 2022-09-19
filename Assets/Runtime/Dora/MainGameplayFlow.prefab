@@ -99,13 +99,13 @@ MonoBehaviour:
   doraMover: {fileID: 6652452769625150235}
   doraSpawner: {fileID: 3809457227273428392}
   doraHUD: {fileID: 0}
-  timerTextScale: {fileID: 0}
-  timerTextColor: {fileID: 0}
   scoreManager: {fileID: 0}
   vfxPool: {fileID: 417055885605045016}
   timer: {fileID: 417055886123930137}
+  uiTimer: {fileID: 0}
   cullingBounds: {fileID: 0}
   selectionBounds: {fileID: 417055884957644404}
+  sfxProvider: {fileID: 6175531668641136764}
   doraGameData: {fileID: 11400000, guid: ddd58610ae9a4c14b98a7d1e0033138c, type: 2}
   doraBatchData:
   - {fileID: 11400000, guid: d113a39f2cab6454e85378fcf0256c19, type: 2}
@@ -122,8 +122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeSeconds: 200
-  popupSpawner: {fileID: 0}
-  anchorTime: {fileID: 0}
 --- !u!1001 &1005732530505870404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131,37 +129,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 417055886123930135}
     m_Modifications:
+    - target: {fileID: 3687109881843622709, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+      propertyPath: interpolators
+      value: 
+      objectReference: {fileID: 8758711578730594997}
     - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.1118814
-      objectReference: {fileID: 0}
-    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.36886665
-      objectReference: {fileID: 0}
-    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1.7166996
-      objectReference: {fileID: 0}
-    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -179,14 +153,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoraRaycastController
       objectReference: {fileID: 0}
-    - target: {fileID: 6622236087329536799, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7709553225775361054, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
-      propertyPath: scoreManager
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
 --- !u!114 &4530105070607683441 stripped
@@ -198,6 +164,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d8f644cd7762b784abeb719671f10aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6175531668641136764 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6361036768998632504, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+  m_PrefabInstance: {fileID: 1005732530505870404}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5deec75c561c97249915b8ce561d5cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &6202579059819927386 stripped
@@ -325,6 +302,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8582649402227204830, guid: 49166fce659668c4d8ed904397806028, type: 3}
+      propertyPath: sfxProvider
+      value: 
+      objectReference: {fileID: 6175531668641136764}
+    - target: {fileID: 8582649402227204830, guid: 49166fce659668c4d8ed904397806028, type: 3}
       propertyPath: charcoalGroup
       value: 
       objectReference: {fileID: 5041499228128945674}
@@ -377,6 +358,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5155214119658718485, guid: 49166fce659668c4d8ed904397806028, type: 3}
   m_PrefabInstance: {fileID: 3119288806946812357}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8758711578730594997 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5964104436916433776, guid: 49166fce659668c4d8ed904397806028, type: 3}
+  m_PrefabInstance: {fileID: 3119288806946812357}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6049661365162220395
 PrefabInstance:
   m_ObjectHideFlags: 0

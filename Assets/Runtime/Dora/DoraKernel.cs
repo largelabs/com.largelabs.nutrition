@@ -123,13 +123,18 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     {
         if (kernelRnd != null)
             kernelRnd.enabled = i_enable;
-
     }
 
     public void EnableCollider(bool i_enable)
     {
         if (null != kernelCollider)
             kernelCollider.enabled = i_enable;
+    }
+
+    public void GetEaten()
+    {
+        EnableRenderer(false);
+        kernelVFX.PlayEatVFX(durability, status == KernelStatus.Burnt);
     }
 
     #endregion

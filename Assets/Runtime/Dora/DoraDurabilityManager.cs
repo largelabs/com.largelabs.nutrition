@@ -13,8 +13,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
         Uniform
     }
 
-    Distribution distro = Distribution.EdgeFocused;
-
     [SerializeField] private DoraCellMap cellMap = null;
 
     private int unburntKernels = 0;
@@ -167,6 +165,9 @@ public class DoraDurabilityManager : MonoBehaviourBase
     private bool KernelIsBurnable(int i_rowIdx, int i_columnIdx, int i_maxColumnIdx, int i_totalBurnable, int i_batchCount)
     {
         float maxBurn = batchData.MaxBurntPercentage;
+        maxBurn += batchData.MaxBurntPercentageIncrease * i_batchCount;
+        Mathf.Clamp(maxBurn, 0f, batchData.MaxBurntPercentageLimit);
+
         if (i_totalBurnable >= maxBurn * cellMap.TotalCellCount)
             return false;
 
@@ -229,7 +230,6 @@ public class DoraDurabilityManager : MonoBehaviourBase
     public void DeactivateDurabilityUpdate()
     {
         this.DisposeCoroutine(ref updateDurabilityRoutine);
-        updateDurabilityRoutine = null;
     }
 
     #endregion

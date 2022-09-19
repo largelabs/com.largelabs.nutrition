@@ -5,7 +5,6 @@ using UnityEngine;
 public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
 {
     [SerializeField] int maxSelectionRadius = 3;
-    [SerializeField] float rotationSpeed = 50f;
 
     DoraCellMap cellMap = null;
     Dictionary<Vector2Int, DoraCellData> selectedRange = null;    
@@ -42,7 +41,8 @@ public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
     [ExposePublicMethod]
     public void SelectCell(Vector2Int i_cell, bool i_loopCoords, bool i_clearSelection)
     {
-        if (true == i_clearSelection) ClearSelection();
+        if (true == i_clearSelection)
+            ClearSelection();
 
         processCell(i_cell, 0, i_loopCoords, i_loopCoords, true, true);
     }
@@ -50,7 +50,8 @@ public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
     [ExposePublicMethod]
     public void SelectRange(Vector2Int i_origin, int i_radius, bool i_loopX, bool i_loopY, bool i_clearSelection)
     {
-        if (true == i_clearSelection) ClearSelection();
+        if (true == i_clearSelection)
+            ClearSelection();
 
         i_radius = Mathf.Clamp(i_radius, 0, maxSelectionRadius);
 
@@ -64,6 +65,17 @@ public class DoraCellSelector : MonoBehaviourBase, IRangeSelectionProvider
         int currStep = 1;
         selectRecursive(ref lastRecursiveSelect, ref currRadius, ref currStep, i_radius, i_loopX, i_loopY);
     } 
+
+    public void SelectAll()
+    {
+        DoraCellData[] allCells = cellMap.AllCells;
+        int count = allCells.Length;
+
+        for(int i = 0; i < count; i++)
+        {
+            processCell(allCells[i].Coords, 1, false, false, i == 0, false);
+        }
+    }
 
     [ExposePublicMethod]
     public void ClearSelection()

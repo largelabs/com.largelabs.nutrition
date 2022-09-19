@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFrameSwapper
+public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFrameSwapper where TRenderer : Component
 {
 	[SerializeField] private bool playOnEnable = false;
-	[SerializeField] protected TRenderer renderer;
+	[SerializeField] new protected TRenderer renderer;
 	[SerializeField] private bool isLooping = false;
 	[SerializeField] private bool resetOnLastFrame = false;
 	[SerializeField] private List<Frame<TFrame>> frames;

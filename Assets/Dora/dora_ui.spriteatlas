@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: dora_ui
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: a1c045973bf423b44ac20ff2e48b5b4a, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 16ce5a80e4090c24996f7cd305c2bc1c, type: 3}
+  - {fileID: 21300000, guid: 4ef8d99087e3b58488cce3e9e558501d, type: 3}
+  - {fileID: 21300000, guid: f4ff2fe014cdbac41bccb3c650aa4d38, type: 3}
+  - {fileID: 21300000, guid: 131fd062bfa160146a9cf33ec8703fc7, type: 3}
+  - {fileID: 21300000, guid: dc338ef4898f9774387279576084558b, type: 3}
+  - {fileID: 21300000, guid: e233c6f594dcf0e4e84d46ee613e2c41, type: 3}
+  - {fileID: 21300000, guid: 8460f796bfb198641a3f3482cb1af4e2, type: 3}
+  - {fileID: 21300000, guid: 29182238e56390045aabd162fc4e89fd, type: 3}
+  - {fileID: 21300000, guid: 904b5e78c1b169b4b9f726305ca65851, type: 3}
+  - {fileID: 21300000, guid: 8efd5c2bc1543614d9a6e914eeaff457, type: 3}
+  - {fileID: 21300000, guid: 0c84576b988c2bf46970b7b1ee2dff1d, type: 3}
+  - {fileID: 21300000, guid: 3e51af0c81ac2544dae050f1cef6c2c5, type: 3}
+  - {fileID: 21300000, guid: c6a87fdd5558223409c1204d2ba70376, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - UI_kernel_OK
+  - cursor_center_static
+  - UI_kernel_bad
+  - cursor_VFX_kernelshrapnel_01
+  - UI_timer_corn_icon
+  - cursor_VFX_kernelshrapnel_05
+  - cursor_VFX_kernelshrapnel_04
+  - cursor_action_mouth003
+  - cursor_action_mouth001
+  - cursor_VFX_kernelshrapnel_03
+  - cursor_action_mouth004
+  - cursor_action_mouth002
+  - cursor_VFX_kernelshrapnel_02
+  m_RenderDataMap: {}
+  m_Tag: dora_ui
+  m_IsVariant: 0

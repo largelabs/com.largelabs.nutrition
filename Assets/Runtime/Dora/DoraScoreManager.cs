@@ -1,5 +1,4 @@
 using UnityEngine.UI;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DoraScoreManager : MonoBehaviourBase
@@ -14,7 +13,7 @@ public class DoraScoreManager : MonoBehaviourBase
     RectTransform scoreRect = null;
     float goodBaseScore = 0f;
     float burntBaseScore = 0f;
-    float superBaseScore = 0f;
+   // float superBaseScore = 0f;
 
     protected override void Awake()
     {
@@ -22,7 +21,7 @@ public class DoraScoreManager : MonoBehaviourBase
         scoreRect = scoreText.rectTransform;
         goodBaseScore = doraGameData.GoodKernelScore;
         burntBaseScore = doraGameData.BurntKernelScore;
-        superBaseScore = doraGameData.SuperKernelScore;
+       // superBaseScore = doraGameData.SuperKernelScore;
     }
 
     #region PUBLIC API
@@ -108,7 +107,7 @@ public class DoraScoreManager : MonoBehaviourBase
     private PopupSpawner.PopupType getPopupType(KernelStatus i_status)
     {
         if (i_status == KernelStatus.Super)
-            return PopupSpawner.PopupType.Super;
+            return PopupSpawner.PopupType.Positive;
         else if (i_status == KernelStatus.Normal)
             return PopupSpawner.PopupType.Positive;
         else if (i_status == KernelStatus.Burnt)
@@ -125,7 +124,7 @@ public class DoraScoreManager : MonoBehaviourBase
         float score = 0;
 
         if (i_status == KernelStatus.Super)
-            score = superBaseScore;
+            score = goodBaseScore;
         else if (i_status == KernelStatus.Normal)
             score = goodBaseScore;
         else if (i_status == KernelStatus.Burnt)
