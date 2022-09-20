@@ -132,7 +132,7 @@ public abstract class UIElementStack<T> : MonoBehaviourBase
             yield return null;
     }
 
-    protected IEnumerator shitftElementStack()
+    protected IEnumerator shiftElementStack()
     {
         UIElementMove stackMove = anchorStart.GetComponent<UIElementMove>();
         Vector3 shiftDirection = (shiftStackInDirectionOfOffset) ? MathConstants.VECTOR_3_RIGHT : MathConstants.VECTOR_3_LEFT;

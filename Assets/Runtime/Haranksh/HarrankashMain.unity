@@ -870,6 +870,7 @@ Transform:
   - {fileID: 97576816}
   - {fileID: 1944073458}
   - {fileID: 334211033}
+  - {fileID: 1431800863}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -897,6 +898,7 @@ MonoBehaviour:
   platformSpawnManager: {fileID: 407191479}
   endTrigger: {fileID: 1975543573}
   harraStack: {fileID: 2036629381}
+  spriteHarraSpawner: {fileID: 0}
 --- !u!1001 &494902409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2995,6 +2997,86 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3673627363928991063, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
   m_PrefabInstance: {fileID: 1416150312}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1431800862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1431800863}
+  - component: {fileID: 1431800865}
+  - component: {fileID: 1431800864}
+  m_Layer: 0
+  m_Name: SpriteHarraSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1431800863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431800862}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 476088018}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1431800864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431800862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59dfbc0f4f3a98b4ebf4ad40fc3f43aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolName: spriteharrapool
+  matchPoolScale: 0
+  matchPoolLayer: 0
+  dontReparent: 0
+  _dontDestroyOnLoad: 0
+  logMessages: 0
+  _perPrefabPoolOptions:
+  - prefab: {fileID: 4076971020428204169, guid: 9d2f2cdeed31c274d9667bb5eee49d90, type: 3}
+    preloadAmount: 1
+    preloadTime: 0
+    preloadFrames: 2
+    preloadDelay: 0
+    limitInstances: 0
+    limitAmount: 100
+    limitFIFO: 0
+    cullDespawned: 0
+    cullAbove: 50
+    cullDelay: 60
+    cullMaxPerPass: 5
+    _logMessages: 0
+    spawnPool: {fileID: 0}
+  maxParticleDespawnTime: 300
+--- !u!114 &1431800865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431800862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d587d6a9d28cd34e8760716ddc2b7e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformPool: {fileID: 1431800864}
 --- !u!1001 &1443044353
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4613,7 +4695,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   shiftStackInDirectionOfOffset: 1
-  autoDequeue: 1
+  autoDequeue: 0
   scaleAnimationTime: 0
   queueSizeScalingRef: 20
   timePerUIElement: 0.5

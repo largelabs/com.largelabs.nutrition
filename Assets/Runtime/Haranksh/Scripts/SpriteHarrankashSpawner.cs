@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SpriteHarrankashSpawner : TransformSpawner<SpriteFrameSwapper, SpriteHarrankashTypes>
 {
-    private readonly static string ORANGE_HARRA_ANIM = "OrangeHarraAnim"; 
+    private readonly static string ORANGE_HARRA_ANIM = "SpriteHarra"; 
 
     protected override string getPrefab(SpriteHarrankashTypes i_prefabId)
     {

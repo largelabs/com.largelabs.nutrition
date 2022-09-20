@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class UIHarrankashStack : UIElementStack<float>
     //score and sfx stuff is commented until further notice
     //[SerializeField] DoraScoreManager scoreManager = null;
     //[SerializeField] DoraSFXProvider sfxProvider = null;
+
+    public Action OnDiscardHarrankash = null;
 
     private Queue<float> queuedHarrankash = null;
     private Stack<UIImageFrameSwapper> uiHarrankashStack = null;
@@ -33,10 +36,20 @@ public class UIHarrankashStack : UIElementStack<float>
     #endregion
 
     #region PUBLIC API
+    public bool IsDestacking => dequeueKernelsRoutine != null;
+
+    protected override int currentStackSize => uiHarrankashStack == null ? 0 : uiHarrankashStack.Count;
+
     public override void CollectUIElements(Queue<float> i_platformScores)
     {
         while (i_platformScores.Count > 0)
             queuedHarrankash.Enqueue(i_platformScores.Dequeue());
+    }
+
+    public void DestackHarrankash()
+    {
+        if (null == dequeueKernelsRoutine) 
+            dequeueKernelsRoutine = StartCoroutine(discardUIElements());
     }
     #endregion
 
@@ -52,8 +65,8 @@ public class UIHarrankashStack : UIElementStack<float>
             //sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
             yield return StartCoroutine(animateElement(uiHarraAnimation.gameObject, true, true, false));
 
-
             uiHarrankashSpawner.DespawnTransform(uiHarraAnimation);
+            OnDiscardHarrankash?.Invoke();
 
             //scoreManager.AddScoreByStatus(scoreKernelInfo,
             //                               anchorScore,
@@ -67,7 +80,7 @@ public class UIHarrankashStack : UIElementStack<float>
             //    new AnimationMode(AnimationType.Bounce))));
 
 
-            yield return StartCoroutine(shitftElementStack());
+            yield return StartCoroutine(shiftElementStack());
         }
 
         anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;

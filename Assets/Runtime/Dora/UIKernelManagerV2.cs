@@ -81,7 +81,7 @@ public class UIKernelManagerV2 : UIElementStack<ScoreKernelInfo>
                 new AnimationMode(AnimationType.Bounce))));
 
 
-            yield return StartCoroutine(shitftElementStack());
+            yield return StartCoroutine(shiftElementStack());
         }
 
         anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;
