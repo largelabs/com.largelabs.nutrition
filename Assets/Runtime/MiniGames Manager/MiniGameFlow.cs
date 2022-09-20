@@ -17,7 +17,9 @@ public abstract class MiniGameFlow : MonoBehaviourBase
     {
 		this.DisposeCoroutine(ref updateGameplayCoroutine);
 
-		if(i_endWithSuccess)
+		onGameplayEnded();
+
+		if (i_endWithSuccess)
 		{
 			successCouroutine = StartCoroutine(onSuccess());
 		}
@@ -26,7 +28,6 @@ public abstract class MiniGameFlow : MonoBehaviourBase
 			failureCoroutine = StartCoroutine(onFailure());
 		}
 
-        onGameplayEnded();
     }
 
     public void ExitMiniGame() => SceneManager.LoadScene(0); //or should we use scene name instead?
@@ -40,9 +41,19 @@ public abstract class MiniGameFlow : MonoBehaviourBase
 	protected abstract IEnumerator onFailure();
 	protected abstract void onGameplayStarted();
 	protected abstract void onGameplayEnded();
-	protected abstract void onGameplayUpdate();
+	protected virtual void onGameplayUpdate() { }
+
+	protected void disposeAllCoroutines()
+    {
+		this.DisposeCoroutine(ref introCouroutine);
+		this.DisposeCoroutine(ref successCouroutine);
+		this.DisposeCoroutine(ref failureCoroutine);
+		this.DisposeCoroutine(ref updateGameplayCoroutine);
+	}
 
     #endregion
+
+
 
     #region PRIVATE
 
@@ -63,6 +74,7 @@ public abstract class MiniGameFlow : MonoBehaviourBase
 
 	private void startMiniGame()
 	{
+		this.DisposeCoroutine(ref introCouroutine);
 		onGameplayStarted();
 		updateGameplayCoroutine = StartCoroutine(updateGameplay());
 	}

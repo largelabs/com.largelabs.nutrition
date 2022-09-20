@@ -223,11 +223,7 @@ public class DoraDurabilityManager : MonoBehaviourBase
     [ExposePublicMethod]
     public void UpdateDurability(bool i_decrease)
     {
-        Debug.LogError("ACTIVATE DURABILITY MANAGER " + gameObject.name);
-
         updateDurability(i_decrease);
-
-        Debug.LogError("DID UPDATE " + unburntKernels + " AND BURNT " + burntKernels + " AND TOTAL " + totalKernels + " " + gameObject.name);
     }
 
     #endregion

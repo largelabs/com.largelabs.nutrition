@@ -16,63 +16,59 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private BoxCollider cullingBounds = null;
     [SerializeField] private BoxCollider selectionBounds = null;
     [SerializeField] private DoraSFXProvider sfxProvider = null;
+    [SerializeField] private PanCamera panCamera = null;
+
 
     [Header("Options")]
     [SerializeField] private DoraGameData doraGameData = null;
     [SerializeField] private List<DoraBatchData> doraBatchData = null;
 
     DoraBatchData currentDoraBatch = null;
-
-    private List<DoraPlacer.DoraPositions> doraPositions = new List<DoraPlacer.DoraPositions>
-                { DoraPlacer.DoraPositions.BackLeft, DoraPlacer.DoraPositions.BackRight,
-                    DoraPlacer.DoraPositions.FrontLeft, DoraPlacer.DoraPositions.FrontRight};
-
-
-    private int doraBatchCount = 0;
-
-    Coroutine burntDoraRoutine = null;
-
-    DoraActions inputActions = null;
     DoraDurabilityManager currentDurabilityManager = null;
+    DoraActions inputActions = null;
+    List<DoraPlacer.DoraPositions> doraPositions = null;
+    int doraBatchCount = 0;
 
     #region UNITY AND CORE
 
-    private void Start()
+    private void Start() { EnterMiniGame(); }
+
+    #endregion
+
+    #region PUBLIC API
+
+    [ExposePublicMethod]
+    public void RestartFlow()
     {
+        disposeAllCoroutines();
         EnterMiniGame();
     }
 
     #endregion
 
-    #region GameFlow
+    #region GAME_FLOW
 
     protected override IEnumerator introRoutine()
     {
-        timer.SetTimer(doraGameData.BaseTimer, true);
-        Debug.LogError("intro");
-        yield return this.Wait(1.0f);
+        resetGame();
 
-        yield return StartCoroutine(bringNewBatch());
+        bringNewBatch();
+        yield return this.Wait(1f);
+
+        panCamera.PanCameraDown();
+        while (true == panCamera.IsMovingCamera) yield return null;
     }
+
 
     protected override void onGameplayStarted()
     {
-        Debug.LogError("on gameplay started");
-
         registerEvents();
         timer.StartTimer();
-
         startDoraFlow();
-    }
-
-    protected override void onGameplayUpdate()
-    {
-
     }
 
     protected override void onGameplayEnded()
     {
-        StartCoroutine(stopGameplay());
         unregisterEvents();
     }
 
@@ -82,34 +78,44 @@ public class DoraFlowManager : MiniGameFlow
         yield return null;
     }
 
-    protected override IEnumerator onFailure()
-    {
-        yield break;
-    }
+    protected override IEnumerator onFailure() { yield break; }
     #endregion
 
     #region PRIVATE
 
+    void resetGame()
+    {
+        if (null == doraPositions) doraPositions = new List<DoraPlacer.DoraPositions>
+        {
+            DoraPlacer.DoraPositions.BackLeft,
+            DoraPlacer.DoraPositions.BackRight,
+            DoraPlacer.DoraPositions.FrontLeft,
+            DoraPlacer.DoraPositions.FrontRight
+        };
+
+        unregisterEvents();
+
+        doraSpawner.DespawnAllDora();
+        doraController.DisableController();
+
+        scoreManager.ResetScoreManager();
+        doraMover.ResetMover();
+
+        timer.SetTimer(doraGameData.BaseTimer, true);
+        currentDurabilityManager = null;
+        currentDoraBatch = null;
+        doraBatchCount = 0;
+    }
+
     private IEnumerator stopGameplay()
     {
-        while (true)
-        {
-            if (true == doraController.IsEating)
-            {
-                Debug.LogError("STILL EATING");
-                yield return null;
-            }
-            else
-                break;
-        }
+        while (true == doraController.IsEating) yield return null;
 
         doraController.StopController();
-
-        //it might be stopped after the score screen in the future
         sfxProvider.StopAmbientSounds();
     }
 
-    IEnumerator bringNewBatch()
+    void bringNewBatch()
     {
         // Maybe change way of choosing batch?
         currentDoraBatch = doraBatchData[UnityEngine.Random.Range(0, doraBatchData.Count)];
@@ -131,8 +137,6 @@ public class DoraFlowManager : MiniGameFlow
             if (superKernelSpawned)
                 superKernelCobsSpawned++;
         }
-
-        yield return null;
     }
 
     private bool canSpawnSuper(int i_superKernelCobsSpawned, ref float i_superKernelChance)
@@ -147,14 +151,6 @@ public class DoraFlowManager : MiniGameFlow
         return false;
     }
 
-    private IEnumerator burntDoraSequence()
-    {
-        // play some burnt dora feedback
-        yield return null;
-        doraMover.GetNextCob();
-        this.DisposeCoroutine(ref burntDoraRoutine);
-    }
-
     private IEnumerator doraBatchSequence()
     {
         timer.PauseTimer();
@@ -165,12 +161,11 @@ public class DoraFlowManager : MiniGameFlow
         // maybe animate time increase
         timer.AddTime(currentDoraBatch.BatchFinishTimeBonus);
         sfxProvider.PlayTimeBonusSFX();
-        
-       // timerTextColor.StartPingPong(0.25f, 2);
-       // timerTextScale.StartPingPong(0.25f, 2);
+
         yield return this.Wait(1.0f);
 
-        yield return StartCoroutine(bringNewBatch());
+        bringNewBatch();
+        yield return this.Wait(1.0f);
 
         timer.ResumeTimer();
 
@@ -179,14 +174,10 @@ public class DoraFlowManager : MiniGameFlow
 
     private void goToSuccess()
     {
-        StartCoroutine(onSuccess());
         EndMiniGame(true);
     }
 
-    private void getNextDoraBatch()
-    {
-        StartCoroutine(doraBatchSequence());
-    }
+    private void getNextDoraBatch() {  StartCoroutine(doraBatchSequence()); }
 
     private void startDoraFlow()
     {
@@ -196,8 +187,8 @@ public class DoraFlowManager : MiniGameFlow
         {
             currDurabilityManager = doraCob.GetComponent<DoraDurabilityManager>();
 
-            if (currDurabilityManager != null)
-                currDurabilityManager.UpdateDurability(true);
+         //   if (currDurabilityManager != null)
+          //      currDurabilityManager.UpdateDurability(true);
         }
 
         doraMover.GetNextCob();
@@ -215,8 +206,6 @@ public class DoraFlowManager : MiniGameFlow
 
     private void tryStartDoraGameplay(DoraCellMap i_cellMap, AutoRotator i_autoRotate, DoraDurabilityManager i_durabilityManager)
     {
-        Debug.LogError("Dora Gameplay");
-
         if (null == inputActions) inputActions = new DoraActions();
         inputActions.Player.TestAction.Enable();
         doraController.SetDoraComponents(i_cellMap, i_autoRotate, i_durabilityManager.UnburntKernels);
@@ -241,12 +230,6 @@ public class DoraFlowManager : MiniGameFlow
         timer.OnTimerEnded -= goToSuccess;
         doraController.OnDidFinishEating -= onEat;
     }
-
-    #endregion
-
-    #region MUTABLE
-
-    public int DoraBatchCount => doraBatchCount;
 
     #endregion
 }

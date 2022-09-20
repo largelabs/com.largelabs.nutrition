@@ -82,7 +82,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [ExposePublicMethod]
     public void EnableController()
     {
-        Debug.LogError("Enable Controller");
         inputs.EnableInputs();
         enableControllerUI(true);
     }

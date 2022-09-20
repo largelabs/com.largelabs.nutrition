@@ -461,7 +461,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1232865151}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 17}
+  m_LocalPosition: {x: 0, y: 5.5, z: 17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -508,6 +508,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  panDownTime: 0.2
+  panUpTime: 0.5
 --- !u!114 &1232865156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,17 +571,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9061d59362ceb654884214447ed1702c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1468638208 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2489217776206881801, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
-  m_PrefabInstance: {fileID: 2489217777548913729}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1acfd8c3b05e2499ce627bbb12d51b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &2109395912
@@ -976,11 +967,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9113963768067449863, guid: 2b6d3c54dc34dd644ae149dd526f779b, type: 3}
   m_PrefabInstance: {fileID: 2109395912}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &387603560207528527 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2876235570545909262, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
-  m_PrefabInstance: {fileID: 2489217777548913729}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &417055885261860209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -993,13 +979,9 @@ PrefabInstance:
       value: MainGameplayFlow
       objectReference: {fileID: 0}
     - target: {fileID: 417055886123930134, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: doraHUD
+      propertyPath: panCamera
       value: 
-      objectReference: {fileID: 387603560207528527}
-    - target: {fileID: 417055886123930134, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: uiTimer
-      value: 
-      objectReference: {fileID: 1468638208}
+      objectReference: {fileID: 1232865155}
     - target: {fileID: 417055886123930134, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: scoreManager
       value: 
@@ -1052,50 +1034,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: targetColor.b
-      value: 0.66828734
-      objectReference: {fileID: 0}
-    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: targetColor.g
-      value: 0.015686274
-      objectReference: {fileID: 0}
-    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: singleLerpCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: singleLerpCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: singleLerpCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: singleLerpCurve.m_Curve.Array.data[0].inSlope
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: singleLerpCurve.m_Curve.Array.data[0].outSlope
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: cameraShake
       value: 
       objectReference: {fileID: 1232865157}
     - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: scoreManager
-      value: 
-      objectReference: {fileID: 2489217777548913730}
-    - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: uiKernelManager
       value: 
       objectReference: {fileID: 1266575456}
-    - target: {fileID: 4897089128826604285, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
-      propertyPath: superKernelMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: ecf53fba01c3b7746b226a8621145008, type: 2}
     - target: {fileID: 6652452769625150235, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: panCamera
       value: 

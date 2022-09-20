@@ -9,29 +9,30 @@ public class PanCamera : MonoBehaviourBase
     [SerializeField] private InterpolatorsManager interpolatorManager = null;
     [SerializeField] private AnimationCurve panCurve = null;
 
+    [SerializeField] private float panDownTime = 0.2f;
+    [SerializeField] private float panUpTime = 0.5f;
+
     Coroutine panCameraRoutine = null;
 
+    public bool IsMovingCamera => null != panCameraRoutine;
+
+    public float PanUpTime => panUpTime;
+
+    public float PanDownTime => panDownTime;
+
     [ExposePublicMethod]
-    public void PanCameraWithPos(Vector3 i_cameraPos, float i_panTime)
+    public void PanCameraDown()
     {
         if(panCameraRoutine == null)
-            panCameraRoutine = StartCoroutine(animateToTransform(transform, i_cameraPos, i_panTime,
-                                            panCurve, null));
-    } 
-    
-    [ExposePublicMethod]
-    public void PanCameraDown(float i_panTime)
-    {
-        if(panCameraRoutine == null)
-            panCameraRoutine = StartCoroutine(animateToTransform(transform, posDown.position, i_panTime,
+            panCameraRoutine = StartCoroutine(animateToTransform(transform, posDown.position, panDownTime,
                                             panCurve, null));
     }
     
     [ExposePublicMethod]
-    public void PanCameraUp(float i_panTime)
+    public void PanCameraUp()
     {
         if(panCameraRoutine == null)
-            panCameraRoutine = StartCoroutine(animateToTransform(transform, posUp.position, i_panTime,
+            panCameraRoutine = StartCoroutine(animateToTransform(transform, posUp.position, panUpTime,
                                             panCurve, null));
     }
 
