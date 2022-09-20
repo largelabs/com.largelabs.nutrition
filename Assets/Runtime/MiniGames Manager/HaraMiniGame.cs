@@ -175,7 +175,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		PositionAnimator posAnim = spawnedHarra.GetComponent<PositionAnimator>();
 		if (posAnim != null)
-			posAnim.MoveToPosition(null, ropeSlideEnd.position, true, 4f, interpolatorsManager, slideCurve, null);
+			posAnim.MoveToPosition(spawnedHarra.transform.position, ropeSlideEnd.position, true, 4f, interpolatorsManager, slideCurve, null);
     }
 	#endregion
 

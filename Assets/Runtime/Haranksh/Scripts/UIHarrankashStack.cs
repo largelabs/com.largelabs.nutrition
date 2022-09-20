@@ -80,7 +80,7 @@ public class UIHarrankashStack : UIElementStack<float>
             //    new AnimationMode(AnimationType.Bounce))));
 
 
-            yield return StartCoroutine(shiftElementStack());
+            //yield return StartCoroutine(shiftElementStack());
         }
 
         anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;

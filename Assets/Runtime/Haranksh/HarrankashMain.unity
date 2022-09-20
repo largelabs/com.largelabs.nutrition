@@ -848,6 +848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 476088018}
   - component: {fileID: 476088019}
+  - component: {fileID: 476088020}
   m_Layer: 0
   m_Name: Gameplay
   m_TagString: Untagged
@@ -898,7 +899,50 @@ MonoBehaviour:
   platformSpawnManager: {fileID: 407191479}
   endTrigger: {fileID: 1975543573}
   harraStack: {fileID: 2036629381}
-  spriteHarraSpawner: {fileID: 0}
+  spriteHarraSpawner: {fileID: 1431800865}
+  interpolatorsManager: {fileID: 476088020}
+  slideCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ropeSlideStart: {fileID: 1836722479}
+  ropeSlideEnd: {fileID: 180252438}
+--- !u!114 &476088020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476088017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxConcurrentFloat: -1
+  maxConcurrentV2: -1
+  maxConcurrentV3: -1
+  maxConcurrentColor: -1
 --- !u!1001 &494902409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4698,7 +4742,7 @@ MonoBehaviour:
   autoDequeue: 0
   scaleAnimationTime: 0
   queueSizeScalingRef: 20
-  timePerUIElement: 0.5
+  timePerUIElement: 0.2
   minTimePerUIElement: 0.2
   uiHarrankashSpawner: {fileID: 1943330761}
 --- !u!1 &2046613759
