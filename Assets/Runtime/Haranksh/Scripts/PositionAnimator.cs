@@ -47,6 +47,8 @@ public class PositionAnimator : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+    public bool IsMoving => movementRoutine != null;
+
     public void MoveToPosition(Vector3? i_startPos, Vector3? i_endPos, bool? i_clamp, float? i_time,
                                 InterpolatorsManager i_interps, AnimationCurve i_curve,
                                 Action<ITypedAnimator<Vector3>> i_callback)

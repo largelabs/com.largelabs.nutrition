@@ -20,7 +20,16 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] PhysicsBody2D harrankashPhysicsBody = null;
 	[SerializeField] PositionAnimator harrankashRopeSlide = null;
 
-	[Header("Sequence Components")]
+	[Header("Banner Sequence Components")]
+	[SerializeField] PositionAnimator bannerPositionIn = null;
+	[SerializeField] PositionAnimator bannerPositionOut = null;
+	[SerializeField] LocalScalePingPong textScale = null;
+	[SerializeField] LocalRotationPingPong leafRotation_0 = null;
+	[SerializeField] LocalRotationPingPong leafRotation_1 = null;
+	[SerializeField] LocalRotationPingPong leafRotation_2 = null;
+	[SerializeField] LocalRotationPingPong shineRotation = null;
+
+	[Header("Pile Sequence Components")]
 	[SerializeField] HarraPlatformSpawnManager platformSpawnManager = null;
 	[SerializeField] TriggerAction2D endTrigger = null;
 	[SerializeField] UIHarrankashStack harraStack = null;
@@ -70,6 +79,32 @@ public class HaraMiniGame : MiniGameFlow
 
 		vCamSwitcher.SwitchToVCam(playerCam);
 		yield return this.Wait(2f);
+
+		bannerPositionIn.transform.parent.gameObject.SetActive(true);
+		bannerPositionIn.MoveToPosition();
+		while (bannerPositionIn.IsMoving)
+			yield return null;
+
+		textScale.StartPingPong(0.5f, MathConstants.VECTOR_3_ZERO, MathConstants.VECTOR_3_ONE * 1.5f, 1, false);
+		leafRotation_0.StartPingPong(0.5f, -1);
+		leafRotation_1.StartPingPong(0.5f, -1);
+		leafRotation_2.StartPingPong(0.5f, -1);
+		shineRotation.StartPingPong(10f, 1);
+		while (textScale.isScaling)
+			yield return null;
+
+		textScale.StartPingPong(0.3f, textScale.transform.localScale, MathConstants.VECTOR_3_ONE, 1, false);
+		yield return this.Wait(1f);
+
+		bannerPositionOut.MoveToPosition();
+		while (bannerPositionOut.IsMoving)
+			yield return null;
+
+		leafRotation_0.StopPingPong();
+		leafRotation_1.StopPingPong();
+		leafRotation_2.StopPingPong();
+		shineRotation.StopPingPong();
+		bannerPositionIn.transform.parent.gameObject.SetActive(false);
 	}
 
 	protected override void onGameplayStarted()

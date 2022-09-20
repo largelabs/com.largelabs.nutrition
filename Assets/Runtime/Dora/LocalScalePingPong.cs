@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LocalScalePingPong : MonoBehaviourBase
@@ -21,6 +20,8 @@ public class LocalScalePingPong : MonoBehaviourBase
     }
 
     #region PUBLIC API
+    public bool isScaling => pingPongRoutine != null;
+
     public void StartPingPong(float i_singleLerpTime,
                               Vector3? i_baseScale,
                               Vector3? i_targetScale,
