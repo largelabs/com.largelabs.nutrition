@@ -1,6 +1,7 @@
 using Cinemachine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HaraMiniGame : MiniGameFlow
@@ -18,6 +19,8 @@ public class HaraMiniGame : MiniGameFlow
 
 	[SerializeField] HarraPlatformSpawnManager platformSpawnManager = null;
 	[SerializeField] TriggerAction2D endTrigger = null;
+
+	[SerializeField] UIHarrankashStack harraStack = null;
 
 	private int currentPile = 0;
 	private int orangeCount = 0;
@@ -139,5 +142,15 @@ public class HaraMiniGame : MiniGameFlow
 
 		this.DisposeCoroutine(ref nextPileRoutine);
 	}
+	#endregion
+
+	#region DEBUG
+	[ExposePublicMethod]
+    public void AddUIHarra()
+    {
+		Queue<float> test = new Queue<float>();
+		test.Enqueue(1f);
+		harraStack.CollectUIElements(test);
+    }
 	#endregion
 }

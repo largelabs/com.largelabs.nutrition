@@ -10,6 +10,8 @@ public class UIElementAlpha : MonoBehaviourBase
     Image thisImage = null;
     Coroutine alphaLerpRoutine = null;
 
+    public bool IsAnimated => null != alphaLerpRoutine;
+
     private void OnDisable()
     {
         this.DisposeCoroutine(ref alphaLerpRoutine);

@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, UIHarrankashTypes>
 {
-    private readonly static string ORANGE_HARRA_ANIM = "OrangeHarraAnim";
+    private readonly static string ORANGE_HARRA_ANIM = "UIHarra";
 
     protected override string getPrefab(UIHarrankashTypes i_prefabId)
     {
@@ -18,5 +19,8 @@ public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, UIHarra
     protected override void resetComponent(UIImageFrameSwapper i_component)
     {
         i_component.Stop();
+        Image img = i_component.GetComponent<Image>();
+        if (img != null)
+            img.color = Color.white;
     }
 }

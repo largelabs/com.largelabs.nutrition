@@ -47,7 +47,7 @@ public class UIKernelManagerV2 : UIElementStack<ScoreKernelInfo>
 
         }
 
-        if (null == dequeueKernelsRoutine) dequeueKernelsRoutine = StartCoroutine(discardUIElements());
+        if (autoDequeue && null == dequeueKernelsRoutine) dequeueKernelsRoutine = StartCoroutine(discardUIElements());
     }
 
     #endregion
@@ -64,7 +64,7 @@ public class UIKernelManagerV2 : UIElementStack<ScoreKernelInfo>
             ScoreKernelInfo scoreKernelInfo = uiKernel.ScoreInfo;
 
             sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
-            yield return StartCoroutine(animateKernel(uiKernel.gameObject));
+            yield return StartCoroutine(animateElement(uiKernel.gameObject));
 
 
             uiKernelSpawner.DespawnKernel(uiKernel);
@@ -81,7 +81,7 @@ public class UIKernelManagerV2 : UIElementStack<ScoreKernelInfo>
                 new AnimationMode(AnimationType.Bounce))));
 
 
-            yield return StartCoroutine(shitftKernelStack());
+            yield return StartCoroutine(shitftElementStack());
         }
 
         anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;

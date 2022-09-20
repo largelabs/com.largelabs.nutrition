@@ -94,6 +94,7 @@ MonoBehaviour:
   - {fileID: 7373397863005846360}
   - {fileID: 7373397861963711129}
   - {fileID: 7373397862610440877}
+  maxOrange: 15
 --- !u!1 &7373397862852945675
 GameObject:
   m_ObjectHideFlags: 0

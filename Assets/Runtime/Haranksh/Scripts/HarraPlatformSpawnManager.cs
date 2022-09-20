@@ -8,6 +8,9 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
     [SerializeField] private List<HarraPlatformRow> platformRows_0 = null;
     [SerializeField] private List<HarraPlatformRow> platformRows_1 = null;
     [SerializeField] private List<HarraPlatformRow> platformRows_2 = null;
+    [SerializeField] private int maxOrange = 10;
+
+    int currOrange = 0;
 
     protected override void Awake()
     {
@@ -38,6 +41,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
         int spawnedInPrevRow = 0;
         int spawnedInCurrRow = 0;
         int iterationsSinceLastSpawn = 0;
+        currOrange = 0;
 
         IReadOnlyList<float> greenChances = null;
         IReadOnlyList<float> yellowChances = null;
@@ -74,7 +78,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
                     currGlobalChance *= 2f;
 
                 rng = UnityEngine.Random.Range(0f, 1f);
-                if ((prevSolo && prevOrange) || rng <= currGlobalChance) // spawn a platform at anchor
+                if (length == 1 || (prevSolo && prevOrange) || rng <= currGlobalChance) // spawn a platform at anchor
                 {
                     harraPlatformSpawner.SpawnHaraPlatform(choosePlatformType(idxRatio, greenChances, yellowChances, orangeChances, ref prevSolo, ref prevOrange, spawnedPrev),
                                                             anchorsInRow[i].position);
@@ -145,10 +149,11 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
         }
         else
         {
-            if (!i_prevOrange && !i_prevSolo)// && (i_spawnedPrev || i_idxRatio == 0))
+            if (currOrange < maxOrange && !i_prevOrange && !i_prevSolo)// && (i_spawnedPrev || i_idxRatio == 0))
             {
                 i_prevOrange = true;
                 ret = HarraPlatformSpawner.PlatformType.Orange;
+                currOrange++;
             }
             else
             {
