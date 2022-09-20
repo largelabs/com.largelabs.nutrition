@@ -371,8 +371,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         frenzyController.PlayFrenzyMode(autoRotator);
 
-        uiKernelManager.ActivateFrenzy(true);
-
         yield return frenzyController.PlayFrenzyMode(autoRotator);
 
         inputs.EnableInputs();
@@ -387,7 +385,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         Debug.Log("STOP FRENZY MODE");
 
         frenzyController.StopFrenzyMode();
-        uiKernelManager.ActivateFrenzy(false);
         this.DisposeCoroutine(ref frenzyRoutine);
     }
 

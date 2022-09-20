@@ -46,6 +46,8 @@ public class UIElementMove : MonoBehaviourBase
         }
     }
 
+    public bool IsAnimated => null != movementRoutine;
+
     #endregion
 
     #region PRIVATE

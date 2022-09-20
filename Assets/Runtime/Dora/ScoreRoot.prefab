@@ -569,9 +569,10 @@ MonoBehaviour:
   anchorStart: {fileID: 7048278624670352939}
   anchorEnd: {fileID: 8231065868071589731}
   anchorScore: {fileID: 3810682070486520627}
-  timePerUIKernel: 0.1
+  timePerUIKernel: 0.3
   timePerUIKernelFrenzy: 0.05
   xOffsetPerUIKernel: -17.5
+  sfxProvider: {fileID: 0}
 --- !u!114 &3495590306925383
 MonoBehaviour:
   m_ObjectHideFlags: 0
