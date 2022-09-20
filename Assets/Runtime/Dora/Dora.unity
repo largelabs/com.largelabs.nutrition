@@ -1053,6 +1053,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: targetColor.b
+      value: 0.66828734
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: targetColor.g
+      value: 0.015686274
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: singleLerpCurve.m_Curve.Array.size
       value: 2
       objectReference: {fileID: 0}

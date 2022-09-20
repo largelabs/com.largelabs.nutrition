@@ -6,10 +6,11 @@ public class DoraFrenzyController : MonoBehaviourBase
     [SerializeField] private DoraRaycastController raycastController = null;
     [SerializeField] DoraGameplayData DoraGameplayData = null;
     [SerializeField] MaterialColorPingPong superKernelMaterialPingPong = null;
+    [SerializeField] float superKernelPingPingLength = 0.5f;
 
     private void OnEnable()
     {
-        superKernelMaterialPingPong.StartPingPong(0.3f, -1);
+        superKernelMaterialPingPong.StartPingPong(superKernelPingPingLength, -1);
     }
 
     #region PUBLIC API

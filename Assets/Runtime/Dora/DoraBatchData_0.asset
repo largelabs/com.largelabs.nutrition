@@ -22,7 +22,7 @@ MonoBehaviour:
   distributionStyleLvl3: 3
   batchFinishScoreBonus: 1000
   batchFinishTimeBonus: 30
-  superKernelChance: 0.2
+  superKernelChance: 1
   superKernelChanceIncrease: 0.025
-  maxSuperKernelsPerCob: 1
+  maxSuperKernelsPerCob: 10
   maxSuperKernelsPerBatch: 4

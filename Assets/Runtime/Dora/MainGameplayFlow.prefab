@@ -98,11 +98,9 @@ MonoBehaviour:
   doraPlacer: {fileID: 6149394797180395310}
   doraMover: {fileID: 6652452769625150235}
   doraSpawner: {fileID: 3809457227273428392}
-  doraHUD: {fileID: 0}
   scoreManager: {fileID: 0}
   vfxPool: {fileID: 417055885605045016}
   timer: {fileID: 417055886123930137}
-  uiTimer: {fileID: 0}
   cullingBounds: {fileID: 0}
   selectionBounds: {fileID: 417055884957644404}
   sfxProvider: {fileID: 6175531668641136764}
@@ -136,6 +134,34 @@ PrefabInstance:
     - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.1118814
+      objectReference: {fileID: 0}
+    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.36886665
+      objectReference: {fileID: 0}
+    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.7166996
+      objectReference: {fileID: 0}
+    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6622236087329536798, guid: 487ed716c1d08d64da23505c63d2b8a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
