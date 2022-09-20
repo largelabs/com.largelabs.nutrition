@@ -30,9 +30,9 @@ public class DoraRaycastController : DoraAbstractController
 
     #region PUBLIC API
 
-    public override void StartAutoRotation(bool i_setDefaultSpeed)
+    public override void StartAutoRotation()
     {
-        base.StartAutoRotation(i_setDefaultSpeed);
+        base.StartAutoRotation();
         if (null == rayCastRoutine) rayCastRoutine = StartCoroutine(updateRaycast());
     }
 

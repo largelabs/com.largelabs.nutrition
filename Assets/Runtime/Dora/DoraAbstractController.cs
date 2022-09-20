@@ -34,6 +34,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     int goodEatenCount = 0;
     int burntEatenCount = 0;
     int selectedRadius = 0;
+    int totalGoodKernels = 0;
+
     bool didGameplayEnd = false;
 
     public Action OnDidFinishEating = null;
@@ -97,10 +99,23 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             cellSelector.ClearSelection();
     }
 
-    public virtual void StartAutoRotation(bool i_setDefaultSpeed = true)
+    public virtual void StartAutoRotation()
     {
-        if (true == i_setDefaultSpeed) autoRotator?.SetRotationSpeedX(DoraGameplayData.DefaultRotationSpeed);
-        autoRotator?.StartAutoRotation();
+        float speedRatio = (float)goodEatenCount / (float)totalGoodKernels;
+        autoRotator.SetRotationSpeedRatio(speedRatio);
+
+        if (null == frenzyRoutine)
+        {
+            autoRotator.SetRotationSpeedX(DoraGameplayData.DefaultRotationSpeed);
+            autoRotator.SetMaxRotationSpeedX(DoraGameplayData.MaxRotationSpeed);
+        }
+        else
+        {
+            autoRotator.SetRotationSpeedX(DoraGameplayData.FrenzyRotationSpeed);
+            autoRotator.SetMaxRotationSpeedX(DoraGameplayData.FrenzyRotationSpeed);
+        }
+
+        autoRotator.StartAutoRotation();
     }
 
     public virtual void StopAutoRotation()
@@ -108,7 +123,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         autoRotator?.StopAutoRotation();
     }
 
-    public void SetDoraComponents(DoraCellMap i_cellMap, AutoRotator i_autoRotator)
+    public void SetDoraComponents(DoraCellMap i_cellMap, AutoRotator i_autoRotator, int i_goodKernelsCount)
     {
         autoRotator = i_autoRotator;
         cellMap = i_cellMap;
@@ -124,6 +139,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         burntEatenCount = 0;
         totalEatenCount = 0;
         goodEatenCount = 0;
+        totalGoodKernels = i_goodKernelsCount;
     }
 
     public bool IsEating => null != eatingRoutine;
@@ -350,7 +366,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         inputs.EnableEatInputs();
         if (null == frenzyRoutine) inputs.EnableMoveInputs();
 
-        StartAutoRotation(null == frenzyRoutine);
+        StartAutoRotation();
+
         OnDidFinishEating?.Invoke();
     }
 

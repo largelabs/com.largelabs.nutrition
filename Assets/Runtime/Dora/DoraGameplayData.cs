@@ -5,6 +5,7 @@ public class DoraGameplayData : ScriptableObject
 {
     [Header("Default Settings")]
     [SerializeField] private float defaultRotationSpeed = 50f;
+    [SerializeField] private float maxRotationSpeed = 70f;
 
     [Header("Frenzy Settings")]
     [SerializeField] private float frenzyTime = 5f;
@@ -15,10 +16,10 @@ public class DoraGameplayData : ScriptableObject
     #region GETTERS
 
     public float DefaultRotationSpeed => defaultRotationSpeed;
+    public float MaxRotationSpeed => maxRotationSpeed;
     public float FrenzyTime => frenzyTime;
     public float FrenzyRotationSpeed => frenzyRotationSpeed;
     public float CursorAutoMoveSpeed => cursorAutoMoveSpeed;
-
     public int FrenzySelectionRange => frenzySelectionRange;
 
     #endregion

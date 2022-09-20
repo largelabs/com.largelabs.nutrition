@@ -205,8 +205,6 @@ public class DoraFlowManager : MiniGameFlow
 
     void onEat()
     {
-        Debug.Log(doraController.GoodKernelsEatenCount + "  " + currentDurabilityManager.UnburntKernels);
-
         if (doraController.DidEatAllKernels || doraController.GoodKernelsEatenCount == currentDurabilityManager.UnburntKernels)
         {
             currentDurabilityManager = null;
@@ -221,7 +219,7 @@ public class DoraFlowManager : MiniGameFlow
 
         if (null == inputActions) inputActions = new DoraActions();
         inputActions.Player.TestAction.Enable();
-        doraController.SetDoraComponents(i_cellMap, i_autoRotate);
+        doraController.SetDoraComponents(i_cellMap, i_autoRotate, i_durabilityManager.UnburntKernels);
         doraController.EnableController();
         doraController.StartAutoRotation();
 
