@@ -10,6 +10,7 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] VCamSwitcher vCamSwitcher = null;
 	[SerializeField] CinemachineVirtualCamera introCam_0 = null;
 	[SerializeField] CinemachineVirtualCamera introCam_1 = null;
+	[SerializeField] CinemachineVirtualCamera introCam_2 = null;
 	[SerializeField] CinemachineVirtualCamera playerCam = null;
 
 	[Header("Player Components")]
@@ -26,14 +27,26 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] SpriteHarrankashSpawner spriteHarraSpawner = null;
 	[SerializeField] InterpolatorsManager interpolatorsManager = null;
 	[SerializeField] AnimationCurve slideCurve = null;
-	[SerializeField] Transform ropeSlideStart = null;
-	[SerializeField] Transform ropeSlideEnd = null;
+	[SerializeField] Transform rope0SlideStart = null;
+	[SerializeField] Transform rope0SlideEnd = null;
+	[SerializeField] Transform rope1SlideStart = null;
+	[SerializeField] Transform rope1SlideEnd = null;
+	[SerializeField] Transform playerRopeSlideStart = null;
+	[SerializeField] Transform playerRopeSlideEnd = null;
+	[SerializeField] float slideSpeed = 2f;
 
 	private int currentPile = 0;
 	private int orangeCount = 0;
 	private Vector3 originPosition = Vector3.zero;
 
 	private Coroutine nextPileRoutine = null;
+
+	private Transform currentRopeSlideStart = null;
+	private Vector3 currentRopeSlideEnd = MathConstants.VECTOR_3_ZERO;
+	// add currentSlidHarra to keep track of when to switch ropes
+	private bool slideRight = true;
+	private int maxOnRope = 27;
+	private int currentSlid = 0;
 
     #region UNITY
     private void Start()
@@ -64,6 +77,9 @@ public class HaraMiniGame : MiniGameFlow
 		endTrigger.OnTriggerAction += nextPile;
 		touchEventDispatcher.OnTouchOrange += collectOrange;
 		touchEventDispatcher.OnTouchCart += failGame;
+
+		//currentRopeSlideStart = rope0SlideStart.position;
+		//currentRopeSlideEnd = rope0SlideEnd.position;
 
 		playerControls.EnableControls();
 		Debug.LogError("Gameplay Start! Controls Activated.");
@@ -115,29 +131,36 @@ public class HaraMiniGame : MiniGameFlow
 		touchEventDispatcher.OnTouchCart -= failGame;
 		playerControls.DisableControls();
 		harrankashPhysicsBody.SetVelocity(Vector2.zero);
-		harrankashPhysicsBody.SetGravityModifier(0);
+		//harrankashPhysicsBody.SetGravityModifier(0);
+		playerStateMachine.gameObject.SetActive(false);
+		SpriteFrameSwapper spawnedHarra = spriteHarraSpawner.SpawnTransformAtAnchor(playerRopeSlideStart, MathConstants.VECTOR_3_ZERO,
+											SpriteHarrankashTypes.OrangePlayer, true, false, false);
+		//harrankashPhysicsBody.ResetGravityModifier();
 		platformSpawnManager.DespawnMap();
 		orangeCount = 0;
 
 		if (nextPileRoutine == null)
-			nextPileRoutine = StartCoroutine(nextPileSequence());
+			nextPileRoutine = StartCoroutine(nextPileSequence(spawnedHarra));
 	}
 
-    private IEnumerator nextPileSequence()
+    private IEnumerator nextPileSequence(SpriteFrameSwapper i_spawnedHarra)
     {
-		vCamSwitcher.SwitchToVCam(introCam_0);
+		// add a way to get vcam switch time
+		vCamSwitcher.SwitchToVCam(introCam_2);
 		yield return this.Wait(2f);
-		//playerStateMachine.transform.position = originPosition;
+
+		slidePlayer(i_spawnedHarra);
+		playerStateMachine.transform.position = originPosition;
+		playerStateMachine.gameObject.SetActive(true);
 
 		playerStateMachine.SetState<HarankashIdleState>();
 
 		yield return StartCoroutine(UIHarraSlideSequence());
 
-		harrankashRopeSlide.MoveToPosition(playerStateMachine.transform.position, null, null, null, null, null, null);
-		yield return this.Wait(4f);
-		playerStateMachine.transform.position = originPosition;
-		harrankashPhysicsBody.ResetGravityModifier();
+		//harrankashRopeSlide.MoveToPosition(playerStateMachine.transform.position, null, null, null, null, null, null);
+		//yield return this.Wait(4f);
 
+		spriteHarraSpawner.DespawnTransform(i_spawnedHarra);
 		vCamSwitcher.SwitchToVCam(introCam_1);
 		yield return this.Wait(2f);
 
@@ -167,16 +190,40 @@ public class HaraMiniGame : MiniGameFlow
 		harraStack.OnDiscardHarrankash -= ropeSlideHarra;
 	}
 
+	private void slidePlayer(SpriteFrameSwapper i_spawnedHarra)
+    {
+		Transform slideStart = i_spawnedHarra.transform;
+
+		PositionAnimator posAnim = i_spawnedHarra.GetComponent<PositionAnimator>();
+		float time = Vector3.Distance(slideStart.position, playerRopeSlideEnd.position) / slideSpeed;
+		if (posAnim != null)
+			posAnim.MoveToPosition(i_spawnedHarra.transform.position, playerRopeSlideEnd.position, true, time, interpolatorsManager, slideCurve, null);
+
+	}
+
 	private void ropeSlideHarra()
     {
+		if (currentSlid > 26)
+        {
+			slideRight = !slideRight;
+			currentSlid = 0;
+        }
+
+		Transform slideStart = slideRight ? rope0SlideStart : rope1SlideStart;
+		Transform slideEnd = slideRight ? rope0SlideEnd : rope1SlideEnd;
+
 		SpriteFrameSwapper spawnedHarra = 
-			spriteHarraSpawner.SpawnTransformAtAnchor(ropeSlideStart, Vector3.zero, SpriteHarrankashTypes.Orange,
+			spriteHarraSpawner.SpawnTransformAtAnchor(slideStart, Vector3.zero, SpriteHarrankashTypes.OrangePlat,
 			true, false, false);
 
 		PositionAnimator posAnim = spawnedHarra.GetComponent<PositionAnimator>();
+		Vector3 endPos = Vector3.Lerp(slideStart.position, slideEnd.position, 1 - ((float)currentSlid / maxOnRope));
+		float time = Vector3.Distance(slideStart.position, endPos) / slideSpeed;
 		if (posAnim != null)
-			posAnim.MoveToPosition(spawnedHarra.transform.position, ropeSlideEnd.position, true, 4f, interpolatorsManager, slideCurve, null);
-    }
+			posAnim.MoveToPosition(spawnedHarra.transform.position, endPos, true, time, interpolatorsManager, slideCurve, null);
+
+		currentSlid++;
+	}
 	#endregion
 
 	#region DEBUG

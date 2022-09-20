@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class SpriteHarrankashSpawner : TransformSpawner<SpriteFrameSwapper, SpriteHarrankashTypes>
 {
-    private readonly static string ORANGE_HARRA_ANIM = "SpriteHarra"; 
+    private readonly static string ORANGE_PLAT = "SpriteHarra"; 
+    private readonly static string ORANGE_PLAYER = "SpriteHarraPlayer"; 
 
     protected override string getPrefab(SpriteHarrankashTypes i_prefabId)
     {
-        if (i_prefabId == SpriteHarrankashTypes.Orange)
-            return ORANGE_HARRA_ANIM;
+        if (i_prefabId == SpriteHarrankashTypes.OrangePlat)
+            return ORANGE_PLAT;
+        else if (i_prefabId == SpriteHarrankashTypes.OrangePlayer)
+            return ORANGE_PLAYER;
         else
         {
             Debug.LogError("Invalid prefab Id! Returning null...");

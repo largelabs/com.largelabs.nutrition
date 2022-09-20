@@ -5,5 +5,6 @@ public enum UIHarrankashTypes
 
 public enum SpriteHarrankashTypes
 {
-    Orange
+    OrangePlat,
+    OrangePlayer
 }

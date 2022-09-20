@@ -1,0 +1,22 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:1bbfa9a18c4984ef43b4e152b83a710f:92dffe58599f50e02fe2e879e289a0e0:51ea116ea5946281d7e19f851e0a7e81$
+#
+:format=40300
+:texture=Hara_RopeSlide.png
+:size=1024x1024
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+CRopeB001;1;666;198;357; 0.5;0.5; 0;0;0;0
+CRopeF001;201;666;198;357; 0.5;0.5; 0;0;0;0
+CRopeF002;401;666;198;357; 0.5;0.5; 0;0;0;0
+CRopeF003;601;666;198;357; 0.5;0.5; 0;0;0;0
+CRopeF004;801;666;198;357; 0.5;0.5; 0;0;0;0
+CRopeF005;1;307;198;357; 0.5;0.5; 0;0;0;0
+CRopeF006;201;307;198;357; 0.5;0.5; 0;0;0;0

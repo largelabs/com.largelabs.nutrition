@@ -1,0 +1,27 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:4da3adde05959ecc2e2cecd771941c28:211b3859e31da60ce902fd609bf9cee8:0b8cb016788c8c41093c7fc0652bea5d$
+#
+:format=40300
+:texture=Hara_Win.png
+:size=1024x2048
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+CWin001;1;1756;327;291; 0.5;0.5; 0;0;0;0
+CWin002;330;1756;327;291; 0.5;0.5; 0;0;0;0
+CWin003;659;1756;327;291; 0.5;0.5; 0;0;0;0
+CWin004;1;1463;327;291; 0.5;0.5; 0;0;0;0
+CWin005;330;1463;327;291; 0.5;0.5; 0;0;0;0
+CWin006;659;1463;327;291; 0.5;0.5; 0;0;0;0
+CWin007;1;1170;327;291; 0.5;0.5; 0;0;0;0
+CWin008;330;1170;327;291; 0.5;0.5; 0;0;0;0
+CWin009;659;1170;327;291; 0.5;0.5; 0;0;0;0
+CWin010;1;877;327;291; 0.5;0.5; 0;0;0;0
+CWin011;330;877;327;291; 0.5;0.5; 0;0;0;0
+CWin012;659;877;327;291; 0.5;0.5; 0;0;0;0

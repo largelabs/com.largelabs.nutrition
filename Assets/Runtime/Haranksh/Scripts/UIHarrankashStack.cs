@@ -56,7 +56,7 @@ public class UIHarrankashStack : UIElementStack<float>
     #region PROTECTED API
     protected override IEnumerator discardUIElements()
     {
-        yield return this.Wait(base.getTimePerUIElement() * 2f);
+        //yield return this.Wait(base.getTimePerUIElement() * 2f);
 
         while (uiHarrankashStack.Count != 0)
         {
