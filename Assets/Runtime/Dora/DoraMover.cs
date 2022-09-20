@@ -23,23 +23,26 @@ public class DoraMover : MonoBehaviourBase
     private Transform currentCob = null;
 
     Coroutine nextCobRoutine = null;
-    public Action<DoraCellMap, AutoRotator> OnGetNextCob = null;
+    public Action<DoraCellMap, AutoRotator, DoraDurabilityManager> OnGetNextCob = null;
     public Action OnQueueEmpty = null;
 
     #region PUBLIC API
     [ExposePublicMethod]
     public void GetNextCob()
     {
-        if (nextCobRoutine == null)
+        if (null != nextCobRoutine) return;
+
+        enableOffScreenCobKernels(true);
+
+        Transform nextCob = null;
+        if (doraCobStack != null && doraCobStack.Count > 0)
         {
-            Transform nextCob = null;
-
-            enableOffScreenCobKernels(true);
-
-            if (doraCobStack != null && doraCobStack.Count > 0)
-                nextCob = doraCobStack.Pop();
-
+            nextCob = doraCobStack.Pop();
             nextCobRoutine = StartCoroutine(getNextCob(nextCob));
+        }
+        else
+        {
+            OnQueueEmpty?.Invoke();
         }
     }
 
@@ -60,44 +63,38 @@ public class DoraMover : MonoBehaviourBase
 
     #region PRIVATE API
 
+    private IEnumerator moveCobOffScreen(Transform i_cob)
+    {
+        if (null == i_cob) yield break;
+
+        yield return StartCoroutine(animateToTransform(i_cob, doneAnchor, exitTime, playMoveCurve));
+
+        onMoveToDone(i_cob);
+    }
+
     private IEnumerator getNextCob(Transform i_nextCob)
     {
-        if (currentCob != null)
-        {
-            Debug.LogError("get next cob ");
-            // could possibly do smth different if cob is burnt
-            yield return StartCoroutine(animateToTransform(currentCob, doneAnchor, exitTime,
-                                            playMoveCurve, onMoveToDone));
+        yield return StartCoroutine(moveCobOffScreen(currentCob));
 
-        }
+        currentCob = i_nextCob;
+        DoraDurabilityManager durability = currentCob.GetComponent<DoraDurabilityManager>();
+        durability.UpdateDurability(true);
 
         panCamera.PanCameraDown(panDownTime);
         yield return this.Wait(panDownTime + 0.2f);
 
-        if (i_nextCob != null)
-        {
-            DoraDurabilityManager dorabilityManager = i_nextCob.GetComponent<DoraDurabilityManager>();
-            if (dorabilityManager != null)
-                dorabilityManager.DeactivateDurabilityUpdate();
+        panCamera.PanCameraUp(panUpTime);
+        yield return StartCoroutine(animateToTransform(currentCob, playAnchor, panUpTime,
+                                        playMoveCurve));
 
-            panCamera.PanCameraUp(panUpTime);
-            yield return StartCoroutine(animateToTransform(i_nextCob, playAnchor, panUpTime,
-                                            playMoveCurve, null));
+        currentCob.transform.position = new Vector3(playAnchor.position.x, playAnchor.position.y, 0);
 
-            i_nextCob.transform.position = new Vector3(playAnchor.position.x, playAnchor.position.y, 0);
+        enableOffScreenCobKernels(false);
 
-            enableOffScreenCobKernels(false);
+        DoraCellMap cellMap = currentCob.GetComponent<DoraCellMap>();
+        AutoRotator rotator = currentCob.GetComponent<AutoRotator>();
 
-            DoraCellMap cellMap = i_nextCob.GetComponent<DoraCellMap>();
-            AutoRotator rotator = i_nextCob.GetComponent<AutoRotator>();
-            OnGetNextCob?.Invoke(cellMap, rotator);
-        }
-        else
-        {
-            OnQueueEmpty?.Invoke();
-        }
-
-        currentCob = i_nextCob;          
+        OnGetNextCob?.Invoke(cellMap, rotator, durability);
 
         this.DisposeCoroutine(ref nextCobRoutine);
     }
@@ -116,16 +113,17 @@ public class DoraMover : MonoBehaviourBase
         charcoalGroup.SetActive(i_enable);
     }
     private int counter = 0;
-    IEnumerator animateToTransform(Transform i_nextCob, Transform i_target, float i_time, AnimationCurve i_curve, Action<ITypedAnimator<Vector3>> i_onAnimationEnded)
+    IEnumerator animateToTransform(Transform i_nextCob, Transform i_target, float i_time, AnimationCurve i_curve)
     {
         counter++;
         Debug.LogError("start the animation<<<<<<<<<<<<<<<<< " +counter);
         AnimationMode mode = new AnimationMode(i_curve);
-        ITypedAnimator<Vector3> posInterpolator = interpolatorManager.Animate(i_nextCob.position, i_target.position, i_time, mode, false, 0f, i_onAnimationEnded);
+
         Vector3 targetScale = new Vector3(i_target.localScale.x / i_nextCob.lossyScale.x,
                                             i_target.localScale.y / i_nextCob.lossyScale.y,
                                             i_target.localScale.z / i_nextCob.lossyScale.z);
         ITypedAnimator<Vector3> scaleInterpolator = interpolatorManager.Animate(i_nextCob.localScale, targetScale, i_time, mode, false, 0f, null);
+        ITypedAnimator<Vector3> posInterpolator = interpolatorManager.Animate(i_nextCob.position, i_target.position, i_time, mode, false, 0f, null);
 
         sfxProvider.PlayMovementSFX();
 
@@ -135,23 +133,16 @@ public class DoraMover : MonoBehaviourBase
             i_nextCob.localScale = scaleInterpolator.Current;
             yield return null;
         }
-        Debug.LogError("end the animation<<<<<<<<<<<<<<<<< " + counter);
 
-        //The callback is not called for some reason
+        Debug.LogError("end the animation<<<<<<<<<<<<<<<<< " + counter);
     }
 
-    private void onMoveToDone(ITypedAnimator<Vector3> i_anim)
+    private void onMoveToDone(Transform i_cob)
     {
-        if (currentCob == null)
-        {
-            Debug.LogError("No current cob, how was this triggered?");
-            return;
-        }
+        if (null == i_cob) return;
 
-        DoraCellMap cellMap = currentCob.GetComponent<DoraCellMap>();
-
-        if(cellMap != null)
-            doraSpawner.DespawnDoraCob(cellMap);
+        DoraCellMap cellMap = i_cob.GetComponent<DoraCellMap>();
+        if(cellMap != null) doraSpawner.DespawnDoraCob(cellMap);
     }
 
     #endregion

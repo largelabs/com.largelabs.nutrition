@@ -71,6 +71,11 @@ public class InterpolatorsManager : MonoBehaviourBase
         }
     }
 
+    public void ReturnToPool(IAnimator fl)
+    {
+        return_to_pool(fl);
+    }
+
     public void StopAllAnimations()
     {
         StopAllCoroutines();
@@ -109,13 +114,15 @@ public class InterpolatorsManager : MonoBehaviourBase
             i_animator.EnableAnimation();
             i_animator.UpdateAnimator(timer / animationTime);
             timer += Time.deltaTime;
+
+            if(timer >= animationTime)
+                i_animator.UpdateAnimator(1f);
+
             yield return null;
         }
 
         i_animator.TriggerExitCallback();
-
         Stop(i_animator);
-
     }
 
     private void return_to_pool(IAnimator fl)

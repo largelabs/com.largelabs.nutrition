@@ -28,7 +28,6 @@ public class UIKernelManager : MonoBehaviourBase
 
     Queue<UIDoraKernel> uiKernelQueue = null;
     Coroutine dequeueKernelsRoutine = null;
-    bool isFrenzyActive = false;
 
     #region UNITY AND CORE
 
@@ -42,11 +41,6 @@ public class UIKernelManager : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
-
-    public void ActivateFrenzy(bool i_active)
-    {
-        isFrenzyActive = i_active;
-    }
 
     public void EnqueueKernels(Queue<ScoreKernelInfo> i_kernels)
     {
@@ -92,7 +86,8 @@ public class UIKernelManager : MonoBehaviourBase
 
     float getTimePerUIKernel()
     {
-        return isFrenzyActive ? timePerUIKernelFrenzy : timePerUIKernel;
+        float time = Mathf.Lerp(timePerUIKernel, timePerUIKernelFrenzy, (float)uiKernelQueue.Count / 20f);
+        return time;
     }
 
     IEnumerator scaleRoutine(Transform i_tr, ITypedAnimator<Vector3> i_scaleAnimator)
@@ -113,25 +108,31 @@ public class UIKernelManager : MonoBehaviourBase
             UIDoraKernel uiKernel = uiKernelQueue.Dequeue();
             ScoreKernelInfo scoreKernelInfo = uiKernel.ScoreInfo;
 
-            sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
-            yield return StartCoroutine(animateKernel(uiKernel));
+            float timeBase = getTimePerUIKernel();
 
+            sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
+            yield return StartCoroutine(animateKernel(uiKernel, timeBase));
+
+           // Debug.Break();
 
             uiKernelSpawner.DespawnKernel(uiKernel);
 
             scoreManager.AddScoreByStatus(scoreKernelInfo,
                                            anchorScore,
-                                           getTimePerUIKernel() * 2f, 0.1f, -100f);
+                                           timeBase * 2f, 0.1f, -100f);
 
             StartCoroutine(
                 scaleRoutine(scoreManager.ScoreRect, interpolatorsManager.Animate(
                 MathConstants.VECTOR_3_ONE,
                 MathConstants.VECTOR_3_ONE * 1.075f,
-                getTimePerUIKernel(),
+                timeBase,
                 new AnimationMode(AnimationType.Bounce))));
 
 
-            yield return StartCoroutine(shitftKernelStack());
+            yield return StartCoroutine(shitftKernelStack(timeBase));
+
+           // Debug.Break();
+
         }
 
         anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;
@@ -140,33 +141,32 @@ public class UIKernelManager : MonoBehaviourBase
         this.DisposeCoroutine(ref dequeueKernelsRoutine);
     }
 
-    IEnumerator animateKernel(UIDoraKernel i_uiKernel)
+    IEnumerator animateKernel(UIDoraKernel i_uiKernel, float i_time)
     {
         i_uiKernel.transform.SetParent(anchorStart.parent);
 
         UIElementMove elementMove = i_uiKernel.GetComponent<UIElementMove>();
-        elementMove.MoveToPosition(new Vector2(anchorEnd.position.x, i_uiKernel.transform.position.y), false, getTimePerUIKernel(), interpolatorsManager, positionCurve, null);
+        elementMove.MoveToPosition(new Vector2(anchorEnd.position.x, i_uiKernel.transform.position.y), false, i_time, interpolatorsManager, positionCurve, null);
 
         UIElementAlpha elementAlpha = i_uiKernel.GetComponent<UIElementAlpha>();
-        elementAlpha.lerpAlpha(1f, 0f, getTimePerUIKernel(), interpolatorsManager, alphaCurve, null);
+        elementAlpha.lerpAlpha(1f, 0f, i_time, interpolatorsManager, alphaCurve, null);
 
         StartCoroutine(
             scaleRoutine(i_uiKernel.transform, interpolatorsManager.Animate(
             MathConstants.VECTOR_3_ONE,
             MathConstants.VECTOR_3_ONE * 1.8f,
-            getTimePerUIKernel() / 2f,
+            i_time / 2f,
             new AnimationMode(AnimationType.Ease_In_Out))));
 
-        yield return this.Wait(getTimePerUIKernel());
+        while (true == elementMove.IsAnimated) yield return null;
     }
 
-    IEnumerator shitftKernelStack()
+    IEnumerator shitftKernelStack(float i_time)
     {
         UIElementMove stackMove = anchorStart.GetComponent<UIElementMove>();
-        stackMove.MoveToPosition(anchorStart.position + MathConstants.VECTOR_3_LEFT * xOffsetPerUIKernel, true, getTimePerUIKernel() / 2f, interpolatorsManager, stackShiftCurve, null);
+        stackMove.MoveToPosition(anchorStart.position + MathConstants.VECTOR_3_LEFT * xOffsetPerUIKernel, false, i_time / 2f, interpolatorsManager, stackShiftCurve, null);
 
-        yield return this.Wait(getTimePerUIKernel() / 2f);
-
+        while(true == stackMove.IsAnimated) yield return null;
     }
 
     #endregion

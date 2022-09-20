@@ -8,12 +8,17 @@ public abstract class UIElementStack<T> : MonoBehaviourBase
     [SerializeField] protected RectTransform anchorStart = null;
     [SerializeField] protected RectTransform anchorEnd = null;
     [SerializeField] protected RectTransform anchorScore = null;
-    [SerializeField] protected float timePerUIElement = 0.2f;
     [SerializeField] protected float xOffsetPerUIKernel = -60.0f;
     [SerializeField] protected InterpolatorsManager interpolatorsManager = null;
     [SerializeField] private AnimationCurve alphaCurve = null;
     [SerializeField] private AnimationCurve positionCurve = null;
     [SerializeField] private AnimationCurve stackShiftCurve = null;
+
+    [Header("Animation timing")]
+    [SerializeField] bool scaleAnimationTime = false;
+    [SerializeField] int queueSizeScalingRef = 20;
+    [SerializeField] protected float timePerUIElement = 0.2f;
+    [SerializeField] protected float minTimePerUIElement = 0.2f;
 
     protected RectTransform lastAnchor = null;
     protected Vector3 anchorStartInitialAnchoredPosition = MathConstants.VECTOR_3_ZERO;
@@ -73,7 +78,7 @@ public abstract class UIElementStack<T> : MonoBehaviourBase
             getTimePerUIElement() / 2f,
             new AnimationMode(AnimationType.Ease_In_Out))));
 
-        yield return this.Wait(getTimePerUIElement());
+        while (true == elementMove.IsAnimated) yield return null;
     }
 
     protected IEnumerator shitftKernelStack()
@@ -81,12 +86,18 @@ public abstract class UIElementStack<T> : MonoBehaviourBase
         UIElementMove stackMove = anchorStart.GetComponent<UIElementMove>();
         stackMove.MoveToPosition(anchorStart.position + MathConstants.VECTOR_3_LEFT * xOffsetPerUIKernel, true, getTimePerUIElement() / 2f, interpolatorsManager, stackShiftCurve, null);
 
-        yield return this.Wait(getTimePerUIElement() / 2f);
+        while (true == stackMove.IsAnimated) yield return null;
     }
+
+    protected virtual int currentStackSize => 0;
 
     protected virtual float getTimePerUIElement()
     {
-        return timePerUIElement;
+        if (false == scaleAnimationTime) return timePerUIElement;
+
+        float time = Mathf.Lerp(timePerUIElement, minTimePerUIElement, (float)currentStackSize / (float)queueSizeScalingRef);
+        return time;
     }
+
     #endregion
 }

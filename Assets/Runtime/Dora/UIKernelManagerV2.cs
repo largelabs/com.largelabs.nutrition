@@ -6,19 +6,11 @@ public class UIKernelManagerV2 : UIElementStack<ScoreKernelInfo>
 {
     [SerializeField] DoraScoreManager scoreManager = null;
     [SerializeField] UIKernelSpawner uiKernelSpawner = null;
-    [SerializeField] float timePerUIKernelFrenzy = 0.2f;
     [SerializeField] DoraSFXProvider sfxProvider = null;
 
     Queue<UIDoraKernel> uiKernelQueue = null;
 
-    bool isFrenzyActive = false;
-
     #region PUBLIC API
-
-    public void ActivateFrenzy(bool i_active)
-    {
-        isFrenzyActive = i_active;
-    }
 
     public override void CollectUIElements(Queue<ScoreKernelInfo> i_kernels)
     {
@@ -60,7 +52,8 @@ public class UIKernelManagerV2 : UIElementStack<ScoreKernelInfo>
 
     #endregion
 
-    #region PRIVATE
+    #region PROTECTED
+
     protected override IEnumerator discardUIElements()
     {
         yield return this.Wait(base.getTimePerUIElement() * 2f);
@@ -97,9 +90,7 @@ public class UIKernelManagerV2 : UIElementStack<ScoreKernelInfo>
         this.DisposeCoroutine(ref dequeueKernelsRoutine);
     }
 
-    protected override float getTimePerUIElement()
-    {
-        return isFrenzyActive ? timePerUIKernelFrenzy : timePerUIElement;
-    }
+    protected override int currentStackSize => null == uiKernelQueue ? 0 : uiKernelQueue.Count;
+
     #endregion
 }
