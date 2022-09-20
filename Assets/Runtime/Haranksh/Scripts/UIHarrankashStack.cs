@@ -50,7 +50,7 @@ public class UIHarrankashStack : UIElementStack<float>
             UIImageFrameSwapper uiHarraAnimation = uiHarrankashStack.Pop();
 
             //sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
-            yield return StartCoroutine(animateKernel(uiHarraAnimation.gameObject));
+            yield return StartCoroutine(animateElement(uiHarraAnimation.gameObject, true, true, false));
 
 
             uiHarrankashSpawner.DespawnTransform(uiHarraAnimation);
@@ -67,7 +67,7 @@ public class UIHarrankashStack : UIElementStack<float>
             //    new AnimationMode(AnimationType.Bounce))));
 
 
-            yield return StartCoroutine(shitftKernelStack());
+            yield return StartCoroutine(shitftElementStack());
         }
 
         anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;
@@ -95,7 +95,10 @@ public class UIHarrankashStack : UIElementStack<float>
             while (queuedHarrankash.Count > 0)
             {
                 scoreStack.Push(queuedHarrankash.Dequeue());
-                UIImageFrameSwapper uiHarraAnimation = uiHarrankashSpawner.SpawnTransformAtAnchor(lastAnchor, new Vector3(xOffsetPerUIKernel, 0, 0), UIHarrankashTypes.Orange);
+                UIImageFrameSwapper uiHarraAnimation = 
+                    uiHarrankashSpawner.SpawnTransformAtAnchor(lastAnchor, 
+                    new Vector3(xOffsetPerUIKernel, 0, 0), UIHarrankashTypes.Orange,
+                    true, true, false);
 
                 RectTransform kernelRect = lastAnchor = uiHarraAnimation.transform as RectTransform;
 
@@ -110,16 +113,16 @@ public class UIHarrankashStack : UIElementStack<float>
 
                 yield return StartCoroutine(
                     scaleRoutine(uiHarraAnimation.transform, interpolatorsManager.Animate(
-                    MathConstants.VECTOR_3_ONE,
-                    MathConstants.VECTOR_3_ONE * 1.5f,
+                    uiHarraAnimation.transform.localScale,
+                    uiHarraAnimation.transform.localScale * 1.5f,
                     0.5f,
                     new AnimationMode(AnimationType.Bounce))));
             }
 
-            // add option for auto dequeue
-            if (null == dequeueKernelsRoutine) dequeueKernelsRoutine = StartCoroutine(discardUIElements());
+            if(autoDequeue && uiHarrankashStack.Count > 0)
+                yield return StartCoroutine(discardUIElements());
 
-            yield return null;
+           yield return null;
         }
     }
     #endregion

@@ -27,7 +27,11 @@ public abstract class TransformSpawner<ComponentType, PrefabIdType> : MonoBehavi
     public IReadOnlyList<ComponentType> LivingTransforms => livingTransforms;
 
     [ExposePublicMethod]
-    public ComponentType SpawnTransformAtAnchor(Transform i_anchor, Vector3 i_offset, PrefabIdType i_prefabId)
+    public ComponentType SpawnTransformAtAnchor(Transform i_anchor, 
+                                                Vector3 i_offset, PrefabIdType i_prefabId,
+                                                bool i_matchLocalPos = true,
+                                                bool i_matchLocalRotation = true,
+                                                bool i_matchLocalScale = true)
     {
         if (transformPool == null)
         {
@@ -39,9 +43,12 @@ public abstract class TransformSpawner<ComponentType, PrefabIdType> : MonoBehavi
         Transform originalParent = tr.parent;
 
         tr.SetParent(i_anchor);
-        tr.localPosition = i_offset;
-        tr.localRotation = MathConstants.QUATERNION_IDENTITY;
-        tr.localScale = MathConstants.VECTOR_3_ONE;
+        if(i_matchLocalPos)
+            tr.localPosition = i_offset;
+        if(i_matchLocalRotation)
+            tr.localRotation = MathConstants.QUATERNION_IDENTITY;
+        if(i_matchLocalScale)
+            tr.localScale = MathConstants.VECTOR_3_ONE;
 
         tr.SetParent(originalParent);
 

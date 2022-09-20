@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, UIHarrankashTypes>
 {
@@ -18,5 +19,8 @@ public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, UIHarra
     protected override void resetComponent(UIImageFrameSwapper i_component)
     {
         i_component.Stop();
+        Image img = i_component.GetComponent<Image>();
+        if (img != null)
+            img.color = Color.white;
     }
 }
