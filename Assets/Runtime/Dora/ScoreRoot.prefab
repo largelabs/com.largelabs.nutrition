@@ -419,9 +419,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2893049207155586819}
-  - component: {fileID: 4665366107687338237}
   - component: {fileID: 3495590306925383}
   - component: {fileID: 8845486343768753308}
+  - component: {fileID: 8192799432904154828}
   m_Layer: 5
   m_Name: UIKernels
   m_TagString: Untagged
@@ -452,7 +452,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 466.20312, y: 100}
   m_Pivot: {x: 1, y: 0.5}
---- !u!114 &4665366107687338237
+--- !u!114 &3495590306925383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -461,11 +461,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 4615223572342186297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2de40b22a9ddf7f46bac345b52bf94ff, type: 3}
+  m_Script: {fileID: 11500000, guid: c089968395f294a4984c670c51049e3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreManager: {fileID: 2860149975273147005}
-  uiKernelSpawner: {fileID: 3495590306925383}
+  uiKernelPool: {fileID: 5497142311558738053}
+--- !u!114 &8845486343768753308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4615223572342186297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxConcurrentFloat: -1
+  maxConcurrentV2: -1
+  maxConcurrentV3: -1
+  maxConcurrentColor: -1
+--- !u!114 &8192799432904154828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4615223572342186297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 864e197a77e20194d8b479f900558f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorStart: {fileID: 7048278624670352939}
+  anchorEnd: {fileID: 8231065868071589731}
+  anchorScore: {fileID: 3810682070486520627}
+  xOffsetPerUIKernel: -17.5
   interpolatorsManager: {fileID: 8845486343768753308}
   alphaCurve:
     serializedVersion: 2
@@ -480,23 +511,14 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.51172024
-      value: -0.086610734
-      inSlope: -0.020953277
-      outSlope: -0.020953277
+      time: 0.81071156
+      value: -0.08905655
+      inSlope: 0.8349706
+      outSlope: 0.8349706
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.84442306
-      value: 0.095120996
-      inSlope: 3.5031433
-      outSlope: 3.5031433
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.21926573
     - serializedVersion: 3
       time: 1
       value: 1
@@ -522,10 +544,10 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.39586306
-      value: -0.094542444
-      inSlope: 0.9455763
-      outSlope: 0.9455763
+      time: 0.31713706
+      value: -0.30382097
+      inSlope: 0.58595556
+      outSlope: 0.58595556
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -557,8 +579,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -566,42 +588,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  anchorStart: {fileID: 7048278624670352939}
-  anchorEnd: {fileID: 8231065868071589731}
-  anchorScore: {fileID: 3810682070486520627}
-  timePerUIKernel: 0.3
-  timePerUIKernelFrenzy: 0.05
-  xOffsetPerUIKernel: -17.5
+  scaleAnimationTime: 1
+  queueSizeScalingRef: 20
+  timePerUIElement: 0.3
+  minTimePerUIElement: 0.05
+  scoreManager: {fileID: 2860149975273147005}
+  uiKernelSpawner: {fileID: 3495590306925383}
   sfxProvider: {fileID: 0}
---- !u!114 &3495590306925383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4615223572342186297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c089968395f294a4984c670c51049e3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiKernelPool: {fileID: 5497142311558738053}
---- !u!114 &8845486343768753308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4615223572342186297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxConcurrentFloat: -1
-  maxConcurrentV2: -1
-  maxConcurrentV3: -1
-  maxConcurrentColor: -1
 --- !u!1 &5439696137279010218
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     [SerializeField] DoraSFXProvider sfxProvider = null;
 
     [Header("Score")]
-    [SerializeField] UIKernelManager uiKernelManager = null;
+    [SerializeField] UIKernelManagerV2 uiKernelManager = null;
 
     Coroutine eatingRoutine = null;
     protected Coroutine frenzyRoutine = null;
@@ -269,7 +269,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             kernelSets.Add(newSet);
         }
 
-        uiKernelManager.EnqueueKernels(getStackInfo(kernelSets));
+        uiKernelManager.CollectUIElements(getStackInfo(kernelSets));
 
         i_totalKernelsCount = eatenKernels;
         i_goodKernelsCount = eatenKernels - burntKernelsCount;

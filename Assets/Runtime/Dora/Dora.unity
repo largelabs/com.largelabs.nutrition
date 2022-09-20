@@ -549,15 +549,15 @@ MonoBehaviour:
   globalPosition: 0
   lockX: 0
   lockY: 0
---- !u!114 &1266575452 stripped
+--- !u!114 &1266575456 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4234226275115802266, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
+  m_CorrespondingSourceObject: {fileID: 850863884762398891, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
   m_PrefabInstance: {fileID: 2489217777548913729}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2de40b22a9ddf7f46bac345b52bf94ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 864e197a77e20194d8b479f900558f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1399062376 stripped
@@ -1063,7 +1063,7 @@ PrefabInstance:
     - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: uiKernelManager
       value: 
-      objectReference: {fileID: 1266575452}
+      objectReference: {fileID: 1266575456}
     - target: {fileID: 6652452769625150235, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: panCamera
       value: 
@@ -1145,6 +1145,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 850863884762398891, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
+      propertyPath: sfxProvider
+      value: 
+      objectReference: {fileID: 417055885261860210}
     - target: {fileID: 1477890059063126980, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
