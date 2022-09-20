@@ -494,11 +494,9 @@ MonoBehaviour:
   selectionFeedbackTr: {fileID: 3057667584041809026}
   cursorImage: {fileID: 2632374131206775861}
   controller: {fileID: 3687109881843622709}
-  interpolators: {fileID: 7571428221420921817}
   source: {fileID: 1314212347534363070}
   canvasRect: {fileID: 1939134399391443057}
   cursorRect: {fileID: 4417919342757847398}
-  biteAnimation: {fileID: 1950815388389520880}
 --- !u!1 &3375724243957153099
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,9 +887,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLength: 5
-  cellMap: {fileID: 0}
-  selector: {fileID: 0}
-  inputs: {fileID: 0}
 --- !u!1 &6622236087329536799
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,6 +899,7 @@ GameObject:
   - component: {fileID: 3687109881843622709}
   - component: {fileID: 5620739680228632249}
   - component: {fileID: 3535618941173056793}
+  - component: {fileID: 4259911647286828770}
   m_Layer: 0
   m_Name: DoraRaycastController
   m_TagString: Untagged
@@ -955,15 +951,10 @@ MonoBehaviour:
   rangeFeedback: {fileID: 1857485812079912997}
   cameraShake: {fileID: 0}
   sfxProvider: {fileID: 6361036768998632504}
-  scoreManager: {fileID: 0}
   uiKernelManager: {fileID: 0}
-  animationTime: 1
-  animationOffset: 20
-  alphaTime: 0.5
   minLocalX: -6.5
   maxLocalX: 5
   raycastSourceMoveSpeed: 15
-  raycastAutoMoveSpeed: 20
   raycastSource: {fileID: 1314212347534363070}
   pointerUI: {fileID: 8991559408114994871}
 --- !u!114 &5620739680228632249
@@ -980,6 +971,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   raycastController: {fileID: 3687109881843622709}
   DoraGameplayData: {fileID: 11400000, guid: e2c5b74f921f5294bba6f021a37294df, type: 2}
+  superKernelMaterial: {fileID: 0}
 --- !u!114 &3535618941173056793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -996,6 +988,28 @@ MonoBehaviour:
   maxConcurrentV2: -1
   maxConcurrentV3: -1
   maxConcurrentColor: -1
+--- !u!114 &4259911647286828770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6622236087329536799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f615f643d86d124faf3daeb8de08248, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  targetColor: {r: 1, g: 0, b: 1, a: 1}
+  interpolatorsManager: {fileID: 3535618941173056793}
+  singleLerpCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  mat: {fileID: 2100000, guid: ecf53fba01c3b7746b226a8621145008, type: 2}
 --- !u!1 &8060975908451102762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,7 +1055,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSelectionRadius: 3
-  rotationSpeed: 50
 --- !u!1001 &1708354830712312292
 PrefabInstance:
   m_ObjectHideFlags: 0

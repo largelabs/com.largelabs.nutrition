@@ -1052,6 +1052,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[0].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3957304504131515046, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[0].outSlope
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: cameraShake
       value: 
@@ -1064,6 +1084,10 @@ PrefabInstance:
       propertyPath: uiKernelManager
       value: 
       objectReference: {fileID: 1266575456}
+    - target: {fileID: 4897089128826604285, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: superKernelMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: ecf53fba01c3b7746b226a8621145008, type: 2}
     - target: {fileID: 6652452769625150235, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: panCamera
       value: 
