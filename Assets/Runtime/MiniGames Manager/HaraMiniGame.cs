@@ -163,16 +163,14 @@ public class HaraMiniGame : MiniGameFlow
 		vCamSwitcher.SwitchToVCam(introCam_2);
 		yield return this.Wait(2f);
 
-		slidePlayer(i_spawnedHarra);
+		float playerTime = slidePlayer(i_spawnedHarra);
 		playerStateMachine.transform.position = originPosition;
 		playerStateMachine.gameObject.SetActive(true);
 
 		playerStateMachine.SetState<HarankashIdleState>();
 
 		yield return StartCoroutine(UIHarraSlideSequence());
-
-		//harrankashRopeSlide.MoveToPosition(playerStateMachine.transform.position, null, null, null, null, null, null);
-		//yield return this.Wait(4f);
+		yield return this.Wait(playerTime/2);
 
 		spriteHarraSpawner.DespawnTransform(i_spawnedHarra);
 		vCamSwitcher.SwitchToVCam(introCam_1);
@@ -213,7 +211,7 @@ public class HaraMiniGame : MiniGameFlow
 		harraStack.OnDiscardHarrankash -= ropeSlideHarra;
 	}
 
-	private void slidePlayer(SpriteFrameSwapper i_spawnedHarra)
+	private float slidePlayer(SpriteFrameSwapper i_spawnedHarra)
     {
 		Transform slideStart = i_spawnedHarra.transform;
 
@@ -222,6 +220,7 @@ public class HaraMiniGame : MiniGameFlow
 		if (posAnim != null)
 			posAnim.MoveToPosition(i_spawnedHarra.transform.position, playerRopeSlideEnd.position, true, time, interpolatorsManager, slideCurve, null);
 
+		return time;
 	}
 
 	private void ropeSlideHarra()
