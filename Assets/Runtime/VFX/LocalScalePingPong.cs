@@ -8,13 +8,13 @@ public class LocalScalePingPong : MonoBehaviourBase
     [SerializeField] private Vector3 targetScale = Vector3.one;
     [SerializeField] private InterpolatorsManager interpolatorsManager = null;
     [SerializeField] private AnimationCurve singleLerpCurve = null;
-    [SerializeField] bool clampValues = true;
+    [SerializeField] private bool clampValues = true;
+    [SerializeField] private bool resetScaleOnFinish = true;
 
 
     private ITypedAnimator<Vector3> scaleInterpolator = null;
     private Coroutine pingPongRoutine = null;
     private Vector3 originalScale = Vector3.one;
-    private bool resetScaleOnFinish = true;
 
     private void OnDestroy()
     {
@@ -65,6 +65,11 @@ public class LocalScalePingPong : MonoBehaviourBase
     {
         if (scaleInterpolator != null)
             scaleInterpolator.Resume();
+    }
+
+    public void AssignInterpolators(InterpolatorsManager i_interps)
+    {
+        interpolatorsManager = i_interps;
     }
     #endregion
 

@@ -72,6 +72,7 @@ public class HaraMiniGame : MiniGameFlow
 		vCamSwitcher.SwitchToVCam(introCam_1);
 		yield return this.Wait(1f);
 
+		platformSpawnManager.MapAppear();
 		playerStateMachine.SetState<HarankashIdleState>();
 		playerControls.DisableControls();
 		Debug.LogError("DisabledControls");
@@ -79,6 +80,9 @@ public class HaraMiniGame : MiniGameFlow
 
 		vCamSwitcher.SwitchToVCam(playerCam);
 		yield return this.Wait(2f);
+
+		while (platformSpawnManager.MapIsAnimating)
+			yield return null;
 
 		bannerPositionIn.transform.parent.gameObject.SetActive(true);
 		bannerPositionIn.MoveToPosition();
@@ -171,7 +175,6 @@ public class HaraMiniGame : MiniGameFlow
 		SpriteFrameSwapper spawnedHarra = spriteHarraSpawner.SpawnTransformAtAnchor(playerRopeSlideStart, MathConstants.VECTOR_3_ZERO,
 											SpriteHarrankashTypes.OrangePlayer, true, false, false);
 		//harrankashPhysicsBody.ResetGravityModifier();
-		platformSpawnManager.DespawnMap();
 		orangeCount = 0;
 
 		if (nextPileRoutine == null)
@@ -197,10 +200,14 @@ public class HaraMiniGame : MiniGameFlow
 
 		spriteHarraSpawner.DespawnTransform(i_spawnedHarra);
 		vCamSwitcher.SwitchToVCam(introCam_1);
+		platformSpawnManager.DespawnMap(true);
 		yield return this.Wait(2f);
 
-		platformSpawnManager.GenerateNewMap(++currentPile);
+		while (platformSpawnManager.MapIsAnimating)
+			yield return null;
 
+		platformSpawnManager.GenerateNewMap(++currentPile);
+		platformSpawnManager.MapAppear();
 		vCamSwitcher.SwitchToVCam(playerCam);
 		yield return this.Wait(2f);
 

@@ -1820,6 +1820,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   clampValues: 0
+  resetScaleOnFinish: 1
 --- !u!1 &1183406037
 GameObject:
   m_ObjectHideFlags: 0
@@ -4470,6 +4471,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platforms
       objectReference: {fileID: 0}
+    - target: {fileID: 7373397862271054023, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: interpolatorsManager
+      value: 
+      objectReference: {fileID: 476088020}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
 --- !u!1 &7649165823968813284
