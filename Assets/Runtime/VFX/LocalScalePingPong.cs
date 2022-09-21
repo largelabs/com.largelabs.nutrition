@@ -11,7 +11,6 @@ public class LocalScalePingPong : MonoBehaviourBase
     [SerializeField] private bool clampValues = true;
     [SerializeField] private bool resetScaleOnFinish = true;
 
-
     private ITypedAnimator<Vector3> scaleInterpolator = null;
     private Coroutine pingPongRoutine = null;
     private Vector3 originalScale = Vector3.one;
@@ -65,6 +64,11 @@ public class LocalScalePingPong : MonoBehaviourBase
     {
         if (scaleInterpolator != null)
             scaleInterpolator.Resume();
+    }
+
+    public void SetScale(Vector3 i_scale)
+    {
+        tr.localScale = i_scale;
     }
 
     public void AssignInterpolators(InterpolatorsManager i_interps)

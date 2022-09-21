@@ -84,31 +84,7 @@ public class HaraMiniGame : MiniGameFlow
 		while (platformSpawnManager.MapIsAnimating)
 			yield return null;
 
-		bannerPositionIn.transform.parent.gameObject.SetActive(true);
-		bannerPositionIn.MoveToPosition();
-		while (bannerPositionIn.IsMoving)
-			yield return null;
-
-		textScale.StartPingPong(0.5f, MathConstants.VECTOR_3_ZERO, MathConstants.VECTOR_3_ONE * 1.5f, 1, false);
-		leafRotation_0.StartPingPong(0.5f, -1);
-		leafRotation_1.StartPingPong(0.5f, -1);
-		leafRotation_2.StartPingPong(0.5f, -1);
-		shineRotation.StartPingPong(10f, 1);
-		while (textScale.isScaling)
-			yield return null;
-
-		textScale.StartPingPong(0.3f, textScale.transform.localScale, MathConstants.VECTOR_3_ONE, 1, false);
-		yield return this.Wait(1f);
-
-		bannerPositionOut.MoveToPosition();
-		while (bannerPositionOut.IsMoving)
-			yield return null;
-
-		leafRotation_0.StopPingPong();
-		leafRotation_1.StopPingPong();
-		leafRotation_2.StopPingPong();
-		shineRotation.StopPingPong();
-		bannerPositionIn.transform.parent.gameObject.SetActive(false);
+		yield return StartCoroutine(bannerSequence());
 	}
 
 	protected override void onGameplayStarted()
@@ -211,6 +187,11 @@ public class HaraMiniGame : MiniGameFlow
 		vCamSwitcher.SwitchToVCam(playerCam);
 		yield return this.Wait(2f);
 
+		while (platformSpawnManager.MapIsAnimating)
+			yield return null;
+
+		yield return StartCoroutine(bannerSequence());
+
 		playerControls.EnableControls();
 		touchEventDispatcher.OnTouchCart += failGame;
 
@@ -265,6 +246,36 @@ public class HaraMiniGame : MiniGameFlow
 			posAnim.MoveToPosition(spawnedHarra.transform.position, endPos, true, time, interpolatorsManager, slideCurve, null);
 
 		currentSlid++;
+	}
+
+	private IEnumerator bannerSequence()
+	{
+		bannerPositionIn.transform.parent.gameObject.SetActive(true);
+		bannerPositionIn.MoveToPosition();
+		while (bannerPositionIn.IsMoving)
+			yield return null;
+
+		textScale.StartPingPong(0.3f, MathConstants.VECTOR_3_ZERO, MathConstants.VECTOR_3_ONE * 1.5f, 1, false);
+		leafRotation_0.StartPingPong(0.5f, -1);
+		leafRotation_1.StartPingPong(0.5f, -1);
+		leafRotation_2.StartPingPong(0.5f, -1);
+		shineRotation.StartPingPong(10f, 1);
+		while (textScale.isScaling)
+			yield return null;
+
+		textScale.StartPingPong(0.2f, textScale.transform.localScale, MathConstants.VECTOR_3_ONE, 1, false);
+		yield return this.Wait(1f);
+
+		bannerPositionOut.MoveToPosition();
+		while (bannerPositionOut.IsMoving)
+			yield return null;
+
+		leafRotation_0.StopPingPong();
+		leafRotation_1.StopPingPong();
+		leafRotation_2.StopPingPong();
+		shineRotation.StopPingPong();
+		textScale.SetScale(MathConstants.VECTOR_3_ZERO);
+		bannerPositionIn.transform.parent.gameObject.SetActive(false);
 	}
 	#endregion
 

@@ -15,7 +15,7 @@ public class OneJumpHaraPlatform : HaraPlatformAbstract
         //    gameObject.GetComponent<MeshRenderer>().material.color = Color.white;
         //}
 
-        visualObject.color = Color.clear;
+        visualObject.color = new Color(1, 1, 1, 0);
         thisCollider.enabled = false;
     }
 }

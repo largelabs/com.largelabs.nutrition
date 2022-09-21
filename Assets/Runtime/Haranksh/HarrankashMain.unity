@@ -1801,18 +1801,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -1820,7 +1820,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   clampValues: 0
-  resetScaleOnFinish: 1
+  resetScaleOnFinish: 0
 --- !u!1 &1183406037
 GameObject:
   m_ObjectHideFlags: 0
@@ -4475,6 +4475,10 @@ PrefabInstance:
       propertyPath: interpolatorsManager
       value: 
       objectReference: {fileID: 476088020}
+    - target: {fileID: 7373397862271054023, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: numberToSpawnTogether
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
 --- !u!1 &7649165823968813284
