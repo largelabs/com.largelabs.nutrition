@@ -24,7 +24,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
 
     System.Random rng = null;
 
-    Coroutine platformAppearRoutine = null;
+    Coroutine platformAnimationRoutine = null;
     Coroutine platformDisappearRoutine = null;
 
     protected override void Awake()
@@ -36,7 +36,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
     }
 
     #region PUBLIC API
-    public bool MapIsAnimating => platformAppearRoutine != null;
+    public bool MapIsAnimating => platformAnimationRoutine != null;
 
     [ExposePublicMethod]
     public void GenerateNewMap(int i_type)
@@ -116,8 +116,8 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
     [ExposePublicMethod]
     public void MapAppear()
     {
-        if (platformAppearRoutine == null)
-            platformAppearRoutine = StartCoroutine(platformAppearSequence(true));
+        if (platformAnimationRoutine == null)
+            platformAnimationRoutine = StartCoroutine(platformAnimationSequence(true));
     }
 
     [ExposePublicMethod]
@@ -125,8 +125,8 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
     {
         if (i_animated)
         {
-            if (platformDisappearRoutine == null)
-                platformDisappearRoutine = StartCoroutine(platformAppearSequence(false));
+            if (platformAnimationRoutine == null)
+                platformAnimationRoutine = StartCoroutine(platformAnimationSequence(false));
         }
         else
             harraPlatformSpawner.DespawnAllPlatforms();
@@ -219,7 +219,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
         return Mathf.Clamp(Mathf.FloorToInt(i_ratio * (i_listCount)), 0, i_listCount - 1);
     }
 
-    private IEnumerator platformAppearSequence(bool i_appear)
+    private IEnumerator platformAnimationSequence(bool i_appear)
     {
         IReadOnlyList<HaraPlatformAbstract> livingPlatforms = harraPlatformSpawner.LivingPlatforms;
         List<HaraPlatformAbstract> shuffledPlatforms = livingPlatforms.OrderBy(a => rng.Next()).ToList();
@@ -238,18 +238,19 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
 
             spawnedSinceDelay++;
 
-            if (spawnedSinceDelay == numberToSpawnTogether)
+            if (spawnedSinceDelay == numberToSpawnTogether && i < length - 1)
             {
                 yield return this.Wait(baseSpawnDelay + (UnityEngine.Random.Range(minSpawnDelay, maxSpawnDelay)));
                 spawnedSinceDelay = 0;
             }
         }
 
+        yield return this.Wait(i_appear ? appearTime : disappearTime);
+
         if(i_appear == false)
             harraPlatformSpawner.DespawnAllPlatforms();
 
-        yield return null;
-        this.DisposeCoroutine(ref platformAppearRoutine);
+        this.DisposeCoroutine(ref platformAnimationRoutine);
     }
     #endregion
 }
