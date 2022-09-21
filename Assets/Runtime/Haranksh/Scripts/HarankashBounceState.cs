@@ -23,7 +23,7 @@ public class HarankashBounceState : HarankashJumpState
         }
 
         if (collidedPlatform.GetComponent<OneJumpHaraPlatform>())
-            eventDispatcher.DispatchOrangeTouchEvent();
+            eventDispatcher.DispatchOrangeTouchEvent(collidedPlatform.transform.position);
 
         maxJumpHeight = collidedPlatform.MaxJumpHeight;
         accelerationData = collidedPlatform.AccelerationConfig;

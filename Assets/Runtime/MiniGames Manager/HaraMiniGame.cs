@@ -28,6 +28,9 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] LocalRotationPingPong leafRotation_1 = null;
 	[SerializeField] LocalRotationPingPong leafRotation_2 = null;
 	[SerializeField] LocalRotationPingPong shineRotation = null;
+	[SerializeField] SpriteRenderer bannerText = null;
+	[SerializeField] Sprite bannerStart = null;
+	[SerializeField] Sprite bannerJump = null;
 
 	[Header("Pile Sequence Components")]
 	[SerializeField] HarraPlatformSpawnManager platformSpawnManager = null;
@@ -43,6 +46,9 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] Transform playerRopeSlideStart = null;
 	[SerializeField] Transform playerRopeSlideEnd = null;
 	[SerializeField] float slideSpeed = 2f;
+
+	[Header("Score")]
+	[SerializeField] HarraScoreManager scoreManager = null;
 
 	private int currentPile = 0;
 	private int orangeCount = 0;
@@ -83,7 +89,8 @@ public class HaraMiniGame : MiniGameFlow
 
 		while (platformSpawnManager.MapIsAnimating)
 			yield return null;
-
+		
+		bannerText.sprite = bannerStart;
 		yield return StartCoroutine(bannerSequence());
 	}
 
@@ -132,8 +139,9 @@ public class HaraMiniGame : MiniGameFlow
 		EndMiniGame(false);
 	}
 
-	private void collectOrange()
+	private void collectOrange(Vector3 i_platformPos)
 	{
+		scoreManager.AddScore(i_platformPos);
 		orangeCount++;
 		AddUIHarra();
 	}
@@ -143,6 +151,7 @@ public class HaraMiniGame : MiniGameFlow
 		if (currentPile == 2)
 			EndMiniGame(true);
 
+		scoreManager.gameObject.SetActive(false);
 		touchEventDispatcher.OnTouchCart -= failGame;
 		playerControls.DisableControls();
 		harrankashPhysicsBody.SetVelocity(Vector2.zero);
@@ -188,6 +197,7 @@ public class HaraMiniGame : MiniGameFlow
 		while (platformSpawnManager.MapIsAnimating)
 			yield return null;
 
+		bannerText.sprite = bannerJump;
 		yield return StartCoroutine(bannerSequence());
 
 		playerControls.EnableControls();
@@ -268,6 +278,8 @@ public class HaraMiniGame : MiniGameFlow
 		bannerPositionOut.MoveToPosition();
 		while (bannerPositionOut.IsMoving)
 			yield return null;
+
+		scoreManager.gameObject.SetActive(true);
 
 		leafRotation_0.StopPingPong();
 		leafRotation_1.StopPingPong();
