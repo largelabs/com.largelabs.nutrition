@@ -6,6 +6,7 @@ public class HarankashJumpState : MoveHorizontalAbstractState
     [SerializeField][Range(1f, 30f)] protected float maxJumpHeight = 8f;
     [SerializeField] private SpriteFrameSwapper jumpLaunchFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
+    [SerializeField] private SpriteFrameSwapper jumpVFX = null;
     [SerializeField] Transform visualObjectRoot = null;
     [SerializeField] float visualObjectYOffset = 0.1263f;
 
@@ -60,6 +61,8 @@ public class HarankashJumpState : MoveHorizontalAbstractState
     {
         matchVisualToCollider();
 
+        jumpVFX.ResetAnimation();
+        jumpVFX.Play();
         jumpLaunchFrames.Play();
         yield return this.Wait(0.05f);
 

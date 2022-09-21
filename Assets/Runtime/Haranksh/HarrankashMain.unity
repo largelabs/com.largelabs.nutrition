@@ -4336,6 +4336,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 476088018}
     m_Modifications:
+    - target: {fileID: 2285553246848972691, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2285553246848972691, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2285553246848972691, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2285553246848972691, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2899122977406907062, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2899122977406907062, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2899122977406907062, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2899122977406907062, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3289514128781812912, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
       propertyPath: m_Name
       value: HarankashPlayer

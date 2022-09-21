@@ -7,6 +7,7 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     [SerializeField] private SpriteFrameSwapper fallingFrames = null;
     [SerializeField] private SpriteFrameSwapper landingFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
+    [SerializeField] private SpriteFrameSwapper landVFX = null;
     [SerializeField] private float timeBeforeBounce = 0.5f;
     [SerializeField] HarrankashTouchEventDispatcher eventDispatcher = null;
 
@@ -52,6 +53,8 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
 
         fallingFrames.Stop();
         landingFrames.Play();
+        landVFX.ResetAnimation();
+        landVFX.Play();
         yield return this.Wait(timeBeforeBounce);
         landingFrames.Stop();
 
