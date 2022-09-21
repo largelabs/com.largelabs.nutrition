@@ -88,10 +88,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIEndGameParticlesRT
       objectReference: {fileID: 0}
-    - target: {fileID: 5871063785926014046, guid: 31d896d06f1df114ca32813392e16f61, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d896d06f1df114ca32813392e16f61, type: 3}
 --- !u!1 &5720343531106540474 stripped
