@@ -7,11 +7,17 @@ public class AppearWithLocalScale : MonoBehaviourBase, IAppear
     [SerializeField] Transform animatedTransform = null;
     [SerializeField] AnimationCurve appearCurve = null;
     [SerializeField] AnimationCurve disappearCurve = null;
+    [SerializeField] float appearTime = 0.5f;
+    [SerializeField] float disappearTime = 0.5f;
+    [SerializeField] bool deactivateOnDisappear = true;
 
     InterpolatorsManager interpolators = null;
     Coroutine appearRoutine = null;
     Coroutine disappearRoutine = null;
     bool isInit = false;
+
+    public Action OnDidAppear = null;
+    public Action OnDidDisappear = null;
 
     public void Init(InterpolatorsManager i_interpolators)
     {
@@ -26,6 +32,8 @@ public class AppearWithLocalScale : MonoBehaviourBase, IAppear
 
     #region IAppear
 
+    public bool IsAppearInit => isInit;
+
     [ExposePublicMethod]
     public void Appear(bool i_animated)
     {
@@ -33,7 +41,7 @@ public class AppearWithLocalScale : MonoBehaviourBase, IAppear
 
         if (true == i_animated)
         {
-            if (null == appearRoutine) appearRoutine = StartCoroutine(animateLocalScale(MathConstants.VECTOR_3_ZERO, MathConstants.VECTOR_3_ONE, 0.5f, appearCurve, onDidAppear));
+            if (null == appearRoutine) appearRoutine = StartCoroutine(animateLocalScale(MathConstants.VECTOR_3_ZERO, MathConstants.VECTOR_3_ONE, appearTime, appearCurve, onDidAppear));
         }
         else
         {
@@ -48,7 +56,7 @@ public class AppearWithLocalScale : MonoBehaviourBase, IAppear
 
         if (true == i_animated)
         {
-            if (null == disappearRoutine) disappearRoutine = StartCoroutine(animateLocalScale(animatedTransform.localScale, MathConstants.VECTOR_3_ZERO, 0.2f, disappearCurve, onDidDisappear));
+            if (null == disappearRoutine) disappearRoutine = StartCoroutine(animateLocalScale(animatedTransform.localScale, MathConstants.VECTOR_3_ZERO, disappearTime, disappearCurve, onDidDisappear));
         }
         else
         {
@@ -82,12 +90,19 @@ public class AppearWithLocalScale : MonoBehaviourBase, IAppear
     {
         animatedTransform.localScale = MathConstants.VECTOR_3_ONE;
         this.DisposeCoroutine(ref appearRoutine);
+
+        OnDidAppear?.Invoke();
     }
 
     void onDidDisappear(ITypedAnimator<Vector3> i_interpolator)
     {
         animatedTransform.localScale = MathConstants.VECTOR_3_ZERO;
         this.DisposeCoroutine(ref disappearRoutine);
+
+        if (true == deactivateOnDisappear) animatedTransform.gameObject.SetActive(false);
+
+        OnDidDisappear?.Invoke();
+
     }
 
     #endregion

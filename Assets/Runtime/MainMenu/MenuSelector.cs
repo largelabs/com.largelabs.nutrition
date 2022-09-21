@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -57,7 +54,6 @@ public class MenuSelector : MonoBehaviourBase
     #region Sub-methods
         void MoveIndicator(Transform i_selectedGame)
         {
-            
             indicator.position = new Vector3(i_selectedGame.position.x, indicator.position.y, indicator.position.z);
         }
         void SelectScene(int i_sceneIndex)

@@ -29,6 +29,19 @@ public class DoraInputs : MonoBehaviourBase
         initInputs();
     }
 
+    private void OnDestroy()
+    {
+        DisableInputs();
+
+        OnEatStarted = null;
+        OnEat = null;
+        OnEatReleased = null;
+
+        OnMoveStarted = null;
+        OnMove = null;
+        OnMoveReleased = null;
+    }
+
     #endregion
 
     #region PUBLIC API

@@ -68,6 +68,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
         if (null == cellSelector.CurrentOriginCell) return false;
         DoraCellData cell = cellMap.GetCell(cellSelector.CurrentOriginCell.Value, false, false);
+        if (null == cell) return false;
+
         return cell.HasKernel;
     }
 
@@ -398,8 +400,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private void stopFrenzyMode()
     {
-        Debug.Log("STOP FRENZY MODE");
-
         frenzyController.StopFrenzyMode();
         this.DisposeCoroutine(ref frenzyRoutine);
     }

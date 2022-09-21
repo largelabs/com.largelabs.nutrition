@@ -24,6 +24,11 @@ public class DoraScoreManager : MonoBehaviourBase
 
     #region PUBLIC API
 
+    public string GetScoreString()
+    {
+        return score.ToString("000000");
+    }
+
     public void ResetScoreManager()
     {
         addToScore(-score);
@@ -140,8 +145,7 @@ public class DoraScoreManager : MonoBehaviourBase
     {
         score += i_score;
         score = Mathf.Clamp(score, 0, 999999);
-        scoreText.text = score.ToString("000000");
-
+        scoreText.text = GetScoreString();
     }
 
     void removeFromScore(int i_score)

@@ -17,6 +17,7 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private BoxCollider selectionBounds = null;
     [SerializeField] private DoraSFXProvider sfxProvider = null;
     [SerializeField] private PanCamera panCamera = null;
+    [SerializeField] private UIDoraEndGamePopup endGamePopup = null;
 
 
     [Header("Options")]
@@ -42,6 +43,22 @@ public class DoraFlowManager : MiniGameFlow
     {
         disposeAllCoroutines();
         EnterMiniGame();
+    }
+
+    [ExposePublicMethod]
+    public void ShowEndGamePopup()
+    {
+        endGamePopup.SetScore(scoreManager.GetScoreString());
+        endGamePopup.Appear(true);
+
+        disposeAllCoroutines();
+        resetGame();
+    }
+
+    [ExposePublicMethod]
+    public void HideEndgamePopup()
+    {
+        endGamePopup.Disappear(true);
     }
 
     #endregion

@@ -104,6 +104,8 @@ MonoBehaviour:
   cullingBounds: {fileID: 0}
   selectionBounds: {fileID: 417055884957644404}
   sfxProvider: {fileID: 6175531668641136764}
+  panCamera: {fileID: 0}
+  endGamePopup: {fileID: 0}
   doraGameData: {fileID: 11400000, guid: ddd58610ae9a4c14b98a7d1e0033138c, type: 2}
   doraBatchData:
   - {fileID: 11400000, guid: d113a39f2cab6454e85378fcf0256c19, type: 2}
