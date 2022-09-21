@@ -8,6 +8,8 @@ public class LocalRotationPingPong : MonoBehaviourBase
     [SerializeField] private InterpolatorsManager interpolatorsManager = null;
     [SerializeField] private AnimationCurve singleLerpCurve = null;
     [SerializeField] private bool resetRotationOnFinish = false;
+    [SerializeField] bool clampValues = true;
+
 
 
     private ITypedAnimator<Vector3> rotationInterpolator = null;
@@ -88,7 +90,7 @@ public class LocalRotationPingPong : MonoBehaviourBase
         Vector3 scale_0 = i_baseRotation != null ? i_baseRotation.Value : baseRotation;
         Vector3 scale_1 = i_targetRotation != null ? i_targetRotation.Value : targetRotation;
 
-        rotationInterpolator = interpolatorsManager.Animate(scale_0, scale_1, i_singleLerpTime, mode, true, 0f, null);
+        rotationInterpolator = interpolatorsManager.Animate(scale_0, scale_1, i_singleLerpTime, mode, clampValues, 0f, null);
 
         while (rotationInterpolator.IsActive)
         {

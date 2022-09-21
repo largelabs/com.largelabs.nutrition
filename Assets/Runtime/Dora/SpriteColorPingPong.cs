@@ -43,7 +43,7 @@ public class SpriteColorPingPong : ColorPingPongBase
         Color color_0 = i_baseColor != null ? i_baseColor.Value : baseColor;
         Color color_1 = i_targetColor != null ? i_targetColor.Value : targetColor;
 
-        colorInterpolator = interpolatorsManager.Animate(color_0, color_1, i_singleLerpTime, mode, true, 0f, null);
+        colorInterpolator = interpolatorsManager.Animate(color_0, color_1, i_singleLerpTime, mode, clampValues, 0f, null);
 
         while (colorInterpolator.IsActive)
         {

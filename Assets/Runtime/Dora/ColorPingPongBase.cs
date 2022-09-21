@@ -7,6 +7,7 @@ public abstract class ColorPingPongBase : MonoBehaviourBase
     [SerializeField] protected Color targetColor = Color.magenta;
     [SerializeField] protected InterpolatorsManager interpolatorsManager = null;
     [SerializeField] protected AnimationCurve singleLerpCurve = null;
+    [SerializeField] protected bool clampValues = true;
 
     protected ITypedAnimator<Color> colorInterpolator = null;
     protected Coroutine pingPongRoutine = null;

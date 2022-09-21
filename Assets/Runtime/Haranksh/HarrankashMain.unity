@@ -212,25 +212,34 @@ MonoBehaviour:
   endTransform: {fileID: 0}
   useTransformAsDefault: 0
   animationTime: 0.5
-  clampValues: 1
+  clampValues: 0
   animationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.4895162
+      value: 1.1772138
+      inSlope: 0.65305376
+      outSlope: 0.65305376
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -671,7 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tr: {fileID: 288540198}
   baseRotation: {x: 0, y: 0, z: 0}
-  targetRotation: {x: 0, y: 0, z: 15}
+  targetRotation: {x: 0, y: 0, z: 10}
   interpolatorsManager: {fileID: 1940744085}
   singleLerpCurve:
     serializedVersion: 2
@@ -679,18 +688,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -698,6 +707,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   resetRotationOnFinish: 1
+  clampValues: 0
 --- !u!212 &288540201
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -802,25 +812,25 @@ MonoBehaviour:
   endTransform: {fileID: 0}
   useTransformAsDefault: 0
   animationTime: 0.5
-  clampValues: 1
+  clampValues: 0
   animationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -1342,7 +1352,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.777933, y: 1}
+    m_SensorSize: {x: 1.7780613, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1810,6 +1820,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  clampValues: 0
 --- !u!1 &1183406037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,6 +1947,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   resetRotationOnFinish: 1
+  clampValues: 1
 --- !u!1 &1191566549
 GameObject:
   m_ObjectHideFlags: 0
@@ -3198,7 +3210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tr: {fileID: 1939390768}
   baseRotation: {x: 0, y: 0, z: 0}
-  targetRotation: {x: 0, y: 0, z: -15}
+  targetRotation: {x: 0, y: 0, z: -10}
   interpolatorsManager: {fileID: 1940744085}
   singleLerpCurve:
     serializedVersion: 2
@@ -3206,18 +3218,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -3225,6 +3237,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   resetRotationOnFinish: 1
+  clampValues: 0
 --- !u!1 &1940744082
 GameObject:
   m_ObjectHideFlags: 0
@@ -3682,7 +3695,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.777933, y: 1}
+    m_SensorSize: {x: 1.7780613, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4007,7 +4020,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.777933, y: 1}
+    m_SensorSize: {x: 1.7780613, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4285,7 +4298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tr: {fileID: 2142283375}
   baseRotation: {x: 0, y: 0, z: 0}
-  targetRotation: {x: 0, y: 0, z: 15}
+  targetRotation: {x: 0, y: 0, z: 10}
   interpolatorsManager: {fileID: 1940744085}
   singleLerpCurve:
     serializedVersion: 2
@@ -4293,18 +4306,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -4312,6 +4325,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   resetRotationOnFinish: 1
+  clampValues: 0
 --- !u!1 &2145183337
 GameObject:
   m_ObjectHideFlags: 0
@@ -4390,7 +4404,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.777933, y: 1}
+    m_SensorSize: {x: 1.7780613, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
