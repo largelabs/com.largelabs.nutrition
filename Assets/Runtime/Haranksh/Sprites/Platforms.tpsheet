@@ -1,0 +1,47 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:cc18a156afad706d631512d4b413528a:6404820e494456cd18c34836997c7e0e:d1c53c08799047d1b5238ca1db2da01c$
+#
+:format=40300
+:texture=Platforms.png
+:size=1024x2048
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+PlatformG01;1;1914;250;133; 0.5;0.5; 0;0;0;0
+PlatformG02;253;1914;250;133; 0.5;0.5; 0;0;0;0
+PlatformG03;505;1914;250;133; 0.5;0.5; 0;0;0;0
+PlatformG04;757;1914;250;133; 0.5;0.5; 0;0;0;0
+PlatformG05;1;1779;250;133; 0.5;0.5; 0;0;0;0
+PlatformG06;253;1779;250;133; 0.5;0.5; 0;0;0;0
+PlatformG07;505;1779;250;133; 0.5;0.5; 0;0;0;0
+PlatformG08;757;1779;250;133; 0.5;0.5; 0;0;0;0
+PlatformG09;1;1644;250;133; 0.5;0.5; 0;0;0;0
+PlatformG10;253;1644;250;133; 0.5;0.5; 0;0;0;0
+PlatformR01;505;1644;250;133; 0.5;0.5; 0;0;0;0
+PlatformR02;757;1644;250;133; 0.5;0.5; 0;0;0;0
+PlatformR03;1;1509;250;133; 0.5;0.5; 0;0;0;0
+PlatformR04;253;1509;250;133; 0.5;0.5; 0;0;0;0
+PlatformR05;505;1509;250;133; 0.5;0.5; 0;0;0;0
+PlatformR06;757;1509;250;133; 0.5;0.5; 0;0;0;0
+PlatformR07;1;1374;250;133; 0.5;0.5; 0;0;0;0
+PlatformR08;253;1374;250;133; 0.5;0.5; 0;0;0;0
+PlatformR09;505;1374;250;133; 0.5;0.5; 0;0;0;0
+PlatformR10;757;1374;250;133; 0.5;0.5; 0;0;0;0
+PlatformSlideR01;1;1211;95;161; 0.5;0.5; 0;0;0;0
+PlatformSlideR02;98;1211;95;161; 0.5;0.5; 0;0;0;0
+PlatformY01;195;1239;250;133; 0.5;0.5; 0;0;0;0
+PlatformY02;447;1239;250;133; 0.5;0.5; 0;0;0;0
+PlatformY03;699;1239;250;133; 0.5;0.5; 0;0;0;0
+PlatformY04;1;1076;250;133; 0.5;0.5; 0;0;0;0
+PlatformY05;253;1076;250;133; 0.5;0.5; 0;0;0;0
+PlatformY06;505;1076;250;133; 0.5;0.5; 0;0;0;0
+PlatformY07;757;1076;250;133; 0.5;0.5; 0;0;0;0
+PlatformY08;1;941;250;133; 0.5;0.5; 0;0;0;0
+PlatformY09;253;941;250;133; 0.5;0.5; 0;0;0;0
+PlatformY10;505;941;250;133; 0.5;0.5; 0;0;0;0

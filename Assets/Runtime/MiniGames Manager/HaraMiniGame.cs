@@ -158,7 +158,7 @@ public class HaraMiniGame : MiniGameFlow
 		//harrankashPhysicsBody.SetGravityModifier(0);
 		playerStateMachine.gameObject.SetActive(false);
 		SpriteFrameSwapper spawnedHarra = spriteHarraSpawner.SpawnTransformAtAnchor(playerRopeSlideStart, MathConstants.VECTOR_3_ZERO,
-											SpriteHarrankashTypes.OrangePlayer, true, false, false);
+											HarraEnumReference.SpriteHarrankashTypes.OrangePlayer, true, false, false);
 		//harrankashPhysicsBody.ResetGravityModifier();
 		orangeCount = 0;
 
@@ -245,7 +245,7 @@ public class HaraMiniGame : MiniGameFlow
 		Transform slideEnd = slideRight ? rope0SlideEnd : rope1SlideEnd;
 
 		SpriteFrameSwapper spawnedHarra = 
-			spriteHarraSpawner.SpawnTransformAtAnchor(slideStart, Vector3.zero, SpriteHarrankashTypes.OrangePlat,
+			spriteHarraSpawner.SpawnTransformAtAnchor(slideStart, Vector3.zero, HarraEnumReference.SpriteHarrankashTypes.OrangePlat,
 			true, false, false);
 
 		PositionAnimator posAnim = spawnedHarra.GetComponent<PositionAnimator>();

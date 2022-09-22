@@ -5,14 +5,17 @@ tpsheetFileNames:
 - Assets/Runtime/Haranksh/Sprites/Hara_Jump.tpsheet
 - Assets/Runtime/Haranksh/Sprites/Hara_RopeSlide.tpsheet
 - Assets/Runtime/Haranksh/Sprites/Hara_Win.tpsheet
+- Assets/Runtime/Haranksh/Sprites/Platforms.tpsheet
 textureFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites.png
 - Assets/Runtime/Haranksh/Sprites/Hara_Idle.png
 - Assets/Runtime/Haranksh/Sprites/Hara_Jump.png
 - Assets/Runtime/Haranksh/Sprites/Hara_RopeSlide.png
 - Assets/Runtime/Haranksh/Sprites/Hara_Win.png
+- Assets/Runtime/Haranksh/Sprites/Platforms.png
 normalmapFileNames:
 - Assets/codeandweb.com/Example/SpriteSheet/sprites_n.png
+- 
 - 
 - 
 - 

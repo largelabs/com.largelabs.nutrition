@@ -110,7 +110,7 @@ public class UIHarrankashStack : UIElementStack<float>
                 scoreStack.Push(queuedHarrankash.Dequeue());
                 UIImageFrameSwapper uiHarraAnimation = 
                     uiHarrankashSpawner.SpawnTransformAtAnchor(lastAnchor, 
-                    new Vector3(xOffsetPerUIKernel, 0, 0), UIHarrankashTypes.Orange,
+                    new Vector3(xOffsetPerUIKernel, 0, 0), HarraEnumReference.UIHarrankashTypes.Orange,
                     true, true, false);
 
                 RectTransform kernelRect = lastAnchor = uiHarraAnimation.transform as RectTransform;

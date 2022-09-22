@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, UIHarrankashTypes>
+public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, HarraEnumReference.UIHarrankashTypes>
 {
     private readonly static string ORANGE_HARRA_ANIM = "UIHarra";
 
-    protected override string getPrefab(UIHarrankashTypes i_prefabId)
+    protected override string getPrefab(HarraEnumReference.UIHarrankashTypes i_prefabId)
     {
-        if (i_prefabId == UIHarrankashTypes.Orange)
+        if (i_prefabId == HarraEnumReference.UIHarrankashTypes.Orange)
             return ORANGE_HARRA_ANIM;
         else
         {
