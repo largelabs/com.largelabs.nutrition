@@ -1158,6 +1158,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2529756154456706995, guid: 027f746757812504b8a8d7f543f42258, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7165359001015827749, guid: 027f746757812504b8a8d7f543f42258, type: 3}
       propertyPath: m_Name
       value: Gameplay
