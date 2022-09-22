@@ -6,6 +6,17 @@ using UnityEngine;
 
 public class HaraMiniGame : MiniGameFlow
 {
+	[Header("Gameflow")]
+	[SerializeField] int maxPiles = 2;
+
+	[Header("Score")]
+	[SerializeField] HarraScoreManager scoreManager = null;
+
+	[Header("Timer")]
+	[SerializeField] MinigameTimer mgTimer = null;
+	[SerializeField] UIMinigameTimer uiMGTimer = null;
+	[SerializeField] List<float> pileTime = null;
+
 	[Header("Camera Work")]
 	[SerializeField] VCamSwitcher vCamSwitcher = null;
 	[SerializeField] CinemachineVirtualCamera introCam_0 = null;
@@ -46,14 +57,6 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] Transform playerRopeSlideStart = null;
 	[SerializeField] Transform playerRopeSlideEnd = null;
 	[SerializeField] float slideSpeed = 2f;
-
-	[Header("Score")]
-	[SerializeField] HarraScoreManager scoreManager = null;
-
-	[Header("Timer")]
-	[SerializeField] MinigameTimer mgTimer = null;
-	[SerializeField] UIMinigameTimer uiMGTimer = null;
-	[SerializeField] List<float> pileTime = null;
 
 	private int currentPile = 0;
 	private int orangeCount = 0;
@@ -153,7 +156,7 @@ public class HaraMiniGame : MiniGameFlow
 
 	private void nextPile()
 	{
-		if (currentPile == 2)
+		if (currentPile == maxPiles - 1)
 			EndMiniGame(true);
 
 		scoreManager.gameObject.SetActive(false);
