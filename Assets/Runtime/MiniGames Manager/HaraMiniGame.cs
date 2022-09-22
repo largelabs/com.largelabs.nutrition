@@ -175,8 +175,8 @@ public class HaraMiniGame : MiniGameFlow
 		float playerTime = slidePlayer(i_spawnedHarra);
 		playerStateMachine.transform.position = originPosition;
 		playerStateMachine.gameObject.SetActive(true);
-
 		playerStateMachine.SetState<HarankashIdleState>();
+		playerControls.DisableControls();
 
 		yield return StartCoroutine(UIHarraSlideSequence());
 		yield return this.Wait(playerTime/2);

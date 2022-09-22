@@ -30,6 +30,7 @@ public class Controls : MonoBehaviourBase
 
     public void EnableControls()
     {
+        //Debug.LogError("Enable Controls");
         inputActions.Player.HMovement.Enable();
         inputActions.Player.Jump.Enable();
         inputActions.Player.HMovement.performed += (InputAction.CallbackContext obj) => MoveStarted?.Invoke();
@@ -40,6 +41,7 @@ public class Controls : MonoBehaviourBase
 
     public void DisableControls()
     {
+        //Debug.LogError("Disable Controls");
         inputActions.Player.HMovement.Disable();
         inputActions.Player.Jump.Disable();
     }

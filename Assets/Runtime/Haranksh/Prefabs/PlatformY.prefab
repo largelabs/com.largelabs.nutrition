@@ -47,6 +47,10 @@ PrefabInstance:
       propertyPath: frames.Array.data[9].frameObject
       value: 
       objectReference: {fileID: 1356491246, guid: 0879efe8eba3f8441916526e7018a6f9, type: 3}
+    - target: {fileID: 3348220502249957551, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+      propertyPath: baseSprite
+      value: 
+      objectReference: {fileID: 1435856120, guid: 0879efe8eba3f8441916526e7018a6f9, type: 3}
     - target: {fileID: 3673627363928991063, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
       propertyPath: m_RootOrder
       value: 0
