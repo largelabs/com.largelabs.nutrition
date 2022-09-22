@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7165359001015827750}
   - component: {fileID: 7165359001015827751}
   - component: {fileID: 7165359001015827744}
+  - component: {fileID: 7559566314289358373}
   m_Layer: 0
   m_Name: Gameplay
   m_TagString: Untagged
@@ -105,6 +106,13 @@ MonoBehaviour:
   playerRopeSlideEnd: {fileID: 0}
   slideSpeed: 10
   scoreManager: {fileID: 0}
+  mgTimer: {fileID: 7559566314289358373}
+  uiMGTimer: {fileID: 0}
+  pileTime:
+  - 45
+  - 60
+  - 50
+  - 30
 --- !u!114 &7165359001015827744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +129,19 @@ MonoBehaviour:
   maxConcurrentV2: -1
   maxConcurrentV3: -1
   maxConcurrentColor: -1
+--- !u!114 &7559566314289358373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7165359001015827749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9061d59362ceb654884214447ed1702c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeSeconds: 200
 --- !u!1 &7165359002204059626
 GameObject:
   m_ObjectHideFlags: 0

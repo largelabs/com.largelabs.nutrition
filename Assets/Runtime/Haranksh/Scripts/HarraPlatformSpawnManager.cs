@@ -211,8 +211,13 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
             return platformRows_0;
         else if (i_type == 1)
             return platformRows_1;
-        else
-            return platformRows_2;
+        else 
+        {
+            if (i_type % 2 == 0)
+                return platformRows_2;
+            else
+                return platformRows_1;
+        }
     }
     private int getIdxAtRatio(float i_ratio, int i_listCount)
     {

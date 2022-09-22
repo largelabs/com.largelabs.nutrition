@@ -50,6 +50,11 @@ public class HaraMiniGame : MiniGameFlow
 	[Header("Score")]
 	[SerializeField] HarraScoreManager scoreManager = null;
 
+	[Header("Timer")]
+	[SerializeField] MinigameTimer mgTimer = null;
+	[SerializeField] UIMinigameTimer uiMGTimer = null;
+	[SerializeField] List<float> pileTime = null;
+
 	private int currentPile = 0;
 	private int orangeCount = 0;
 	private Vector3 originPosition = Vector3.zero;
@@ -152,6 +157,8 @@ public class HaraMiniGame : MiniGameFlow
 			EndMiniGame(true);
 
 		scoreManager.gameObject.SetActive(false);
+		uiMGTimer.gameObject.SetActive(false);
+		mgTimer.PauseTimer();
 		touchEventDispatcher.OnTouchCart -= failGame;
 		playerControls.DisableControls();
 		harrankashPhysicsBody.SetVelocity(Vector2.zero);
@@ -284,6 +291,9 @@ public class HaraMiniGame : MiniGameFlow
 			yield return null;
 
 		scoreManager.gameObject.SetActive(true);
+		uiMGTimer.gameObject.SetActive(true);
+		mgTimer.SetTimer(pileTime[Mathf.Clamp(currentPile, 0, pileTime.Count - 1)], true);
+		mgTimer.StartTimer();
 
 		leafRotation_0.StopPingPong();
 		leafRotation_1.StopPingPong();

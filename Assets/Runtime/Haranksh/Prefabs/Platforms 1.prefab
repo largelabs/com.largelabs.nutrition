@@ -94,7 +94,13 @@ MonoBehaviour:
   - {fileID: 7373397863005846360}
   - {fileID: 7373397861963711129}
   - {fileID: 7373397862610440877}
-  maxOrange: 15
+  maxOrange: 14
+  numberToSpawnTogether: 2
+  baseSpawnDelay: 0.05
+  spawnDelayVariance: 0.02
+  appearTime: 0.2
+  disappearTime: 0.2
+  interpolatorsManager: {fileID: 0}
 --- !u!1 &7373397862852945675
 GameObject:
   m_ObjectHideFlags: 0
