@@ -48,7 +48,10 @@ public class HarraPlatformSpawner : MonoBehaviourBase
         if (ret == null)
             Debug.LogError("No hara platform component attached to prefab root!");
         else
+        {
             livingPlatforms.Add(ret);
+            ret.EnableCollider(true);
+        }
 
         return ret;
     }
@@ -93,6 +96,10 @@ public class HarraPlatformSpawner : MonoBehaviourBase
     private void despawnHarraPlatform(HaraPlatformAbstract i_haraPlatform)
     {
         platformPool?.Despawn(i_haraPlatform.transform);
+
+        HarraPlatformAnimationManager animations = i_haraPlatform.GetComponent<HarraPlatformAnimationManager>();
+        if (animations != null)
+            animations.ResetSprite();
     }
     #endregion
 }

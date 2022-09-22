@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class HarraPlatformAnimationManager : MonoBehaviourBase
 {
+    [Header("VFX")]
     [SerializeField] LocalScalePingPong scaleAppear = null;
     [SerializeField] LocalScalePingPong scaleDisppear = null;
     [SerializeField] SpriteAlphaLerp alphaAppear = null;
     [SerializeField] SpriteAlphaLerp alphaDisappear = null;
+
+    [Header("Animations")]
+    [SerializeField] SpriteRenderer rnd = null;
+    [SerializeField] Sprite baseSprite = null;
+    [SerializeField] SpriteFrameSwapper openUp = null;    
+    [SerializeField] SpriteFrameSwapper closeUp = null;    
+
+    public void ResetSprite()
+    {
+        rnd.sprite = baseSprite;
+    }
 
     [ExposePublicMethod]
     public void PlatformAppear(InterpolatorsManager i_interps, float i_time)
@@ -33,5 +45,25 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
             scaleDisppear.AssignInterpolators(i_interps);
             scaleDisppear.StartPingPong(i_time, 1);
         }
+
+        CloseUp();
+    }
+
+    [ExposePublicMethod]
+    public void OpenUp()
+    {
+        if (openUp == null) return;
+
+        openUp.ResetAnimation();
+        openUp.Play();
+    } 
+    
+    [ExposePublicMethod]
+    public void CloseUp()
+    {
+        if (closeUp == null) return;
+
+        closeUp.ResetAnimation();
+        closeUp.Play();
     }
 }

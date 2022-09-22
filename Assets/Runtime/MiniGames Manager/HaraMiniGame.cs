@@ -248,6 +248,10 @@ public class HaraMiniGame : MiniGameFlow
 			spriteHarraSpawner.SpawnTransformAtAnchor(slideStart, Vector3.zero, HarraEnumReference.SpriteHarrankashTypes.OrangePlat,
 			true, false, false);
 
+		SpriteRenderer[] rnds = spawnedHarra.GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer rnd in rnds)
+			rnd.flipX = slideRight == false;
+
 		PositionAnimator posAnim = spawnedHarra.GetComponent<PositionAnimator>();
 		Vector3 endPos = Vector3.Lerp(slideStart.position, slideEnd.position, 1 - ((float)currentSlid / maxOnRope));
 		float time = Vector3.Distance(slideStart.position, endPos) / slideSpeed;

@@ -985,6 +985,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 15385900923843637, guid: b295144cf31de1342b557b9bfd12cb51, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -33.956
+      objectReference: {fileID: 0}
+    - target: {fileID: 15385900988844771, guid: b295144cf31de1342b557b9bfd12cb51, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 15385901524276772, guid: b295144cf31de1342b557b9bfd12cb51, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1032,6 +1040,10 @@ PrefabInstance:
     - target: {fileID: 15385901524276775, guid: b295144cf31de1342b557b9bfd12cb51, type: 3}
       propertyPath: m_Name
       value: GameDecor
+      objectReference: {fileID: 0}
+    - target: {fileID: 15385901586939957, guid: b295144cf31de1342b557b9bfd12cb51, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b295144cf31de1342b557b9bfd12cb51, type: 3}
@@ -1158,10 +1170,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2529756154456706995, guid: 027f746757812504b8a8d7f543f42258, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 7165359001015827749, guid: 027f746757812504b8a8d7f543f42258, type: 3}
       propertyPath: m_Name
       value: Gameplay
