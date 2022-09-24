@@ -18,6 +18,8 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private DoraSFXProvider sfxProvider = null;
     [SerializeField] private PanCamera panCamera = null;
     [SerializeField] private UIDoraEndGamePopup endGamePopup = null;
+    [SerializeField] private UIKernelManagerV2 UIkernelManager = null;
+    [SerializeField] private GameObject hudGo = null;
 
 
     [Header("Options")]
@@ -48,6 +50,7 @@ public class DoraFlowManager : MiniGameFlow
     [ExposePublicMethod]
     public void ShowEndGamePopup()
     {
+        hudGo.SetActive(false);
         endGamePopup.SetScore(scoreManager.GetScoreString());
         endGamePopup.Appear(true);
 
@@ -61,12 +64,19 @@ public class DoraFlowManager : MiniGameFlow
         endGamePopup.Disappear(true);
     }
 
+    [ExposePublicMethod]
+    public void BringNextCob()
+    {
+        doraMover.GetNextCob();
+    }
+
     #endregion
 
     #region GAME_FLOW
 
     protected override IEnumerator introRoutine()
     {
+        hudGo.SetActive(false);
         resetGame();
 
         bringNewBatch();
@@ -74,6 +84,10 @@ public class DoraFlowManager : MiniGameFlow
 
         panCamera.PanCameraDown();
         while (true == panCamera.IsMovingCamera) yield return null;
+
+        hudGo.SetActive(true);
+        doraController.StartController();
+        timer.SetTimer(doraGameData.BaseTimer, true);
     }
 
 
@@ -81,7 +95,7 @@ public class DoraFlowManager : MiniGameFlow
     {
         registerEvents();
         timer.StartTimer();
-        startDoraFlow();
+        BringNextCob();
     }
 
     protected override void onGameplayEnded()
@@ -91,8 +105,14 @@ public class DoraFlowManager : MiniGameFlow
 
     protected override IEnumerator onSuccess()
     {
-        Debug.LogError("SUCCESS!");
-        yield return null;
+        doraController.StopController();
+
+        while (true == doraController.IsEating) yield return null;
+        while (true == UIkernelManager.IsDequeing) yield return null;
+
+        yield return this.Wait(1.5f);
+
+        ShowEndGamePopup();
     }
 
     protected override IEnumerator onFailure() { yield break; }
@@ -118,7 +138,7 @@ public class DoraFlowManager : MiniGameFlow
         scoreManager.ResetScoreManager();
         doraMover.ResetMover();
 
-        timer.SetTimer(doraGameData.BaseTimer, true);
+        timer.ResetTimer();
         currentDurabilityManager = null;
         currentDoraBatch = null;
         doraBatchCount = 0;
@@ -186,7 +206,7 @@ public class DoraFlowManager : MiniGameFlow
 
         timer.ResumeTimer();
 
-        startDoraFlow();
+        BringNextCob();
     }
 
     private void goToSuccess()
@@ -196,20 +216,7 @@ public class DoraFlowManager : MiniGameFlow
 
     private void getNextDoraBatch() {  StartCoroutine(doraBatchSequence()); }
 
-    private void startDoraFlow()
-    {
-        IReadOnlyList<DoraCellMap> doraCobs = doraSpawner.LivingDora;
-        DoraDurabilityManager currDurabilityManager = null;
-        foreach (DoraCellMap doraCob in doraCobs)
-        {
-            currDurabilityManager = doraCob.GetComponent<DoraDurabilityManager>();
 
-         //   if (currDurabilityManager != null)
-          //      currDurabilityManager.UpdateDurability(true);
-        }
-
-        doraMover.GetNextCob();
-    }
 
     void onEat()
     {

@@ -41,6 +41,12 @@ public class MinigameTimer : MonoBehaviourBase
 
     #region PUBLIC API
 
+    public void ResetTimer()
+    {
+        timerStatus = TimerStatus.None;
+        timeSeconds = 0f;
+    }
+
     [ExposePublicMethod]
     public void StartTimer()
     {

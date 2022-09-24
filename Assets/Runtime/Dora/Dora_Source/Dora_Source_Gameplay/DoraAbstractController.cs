@@ -44,8 +44,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     protected virtual void Start()
     {
-        enableControllerUI(false);
-        listenToInputs();
     }
 
     #endregion
@@ -144,6 +142,13 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     }
 
     public bool IsEating => null != eatingRoutine;
+
+    public void StartController()
+    {
+        didGameplayEnd = false;
+        enableControllerUI(false);
+        listenToInputs();
+    }
 
     public void StopController()
     {
