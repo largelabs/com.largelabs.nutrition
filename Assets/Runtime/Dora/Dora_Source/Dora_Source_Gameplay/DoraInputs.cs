@@ -54,23 +54,23 @@ public class DoraInputs : MonoBehaviourBase
 
     public void EnableMoveInputs()
     {
-        inputActions.Player.Move.Enable();
+        if (null != inputActions) inputActions.Player.Move.Enable();
     }
 
     public void EnableEatInputs()
     {
-        inputActions.Player.Eat.Enable();
+        if (null != inputActions) inputActions.Player.Eat.Enable();
     }
 
     public void DisableMoveInputs()
     {
-        inputActions.Player.Move.Disable();
+        if(null != inputActions) inputActions.Player.Move.Disable();
         this.DisposeCoroutine(ref moveRoutine);
     }
 
     public void DisableEatInputs()
     {
-        inputActions.Player.Eat.Disable();
+        if (null != inputActions) inputActions.Player.Eat.Disable();
         this.DisposeCoroutine(ref eatRoutine);
     }
 

@@ -20,6 +20,7 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private UIDoraEndGamePopup endGamePopup = null;
     [SerializeField] private UIKernelManagerV2 UIkernelManager = null;
     [SerializeField] private GameObject hudGo = null;
+    [SerializeField] private PopupSpawner scorePopupSpawner = null;
 
 
     [Header("Options")]
@@ -88,8 +89,8 @@ public class DoraFlowManager : MiniGameFlow
         hudGo.SetActive(true);
         doraController.StartController();
         timer.SetTimer(doraGameData.BaseTimer, true);
+        sfxProvider.StartMusic();
     }
-
 
     protected override void onGameplayStarted()
     {
@@ -105,12 +106,12 @@ public class DoraFlowManager : MiniGameFlow
 
     protected override IEnumerator onSuccess()
     {
+        sfxProvider.StopMusic();
         doraController.StopController();
 
         while (true == doraController.IsEating) yield return null;
         while (true == UIkernelManager.IsDequeing) yield return null;
-
-        yield return this.Wait(1.5f);
+        while (true == scorePopupSpawner.HasLivingPopups) yield return null;
 
         ShowEndGamePopup();
     }
@@ -142,14 +143,6 @@ public class DoraFlowManager : MiniGameFlow
         currentDurabilityManager = null;
         currentDoraBatch = null;
         doraBatchCount = 0;
-    }
-
-    private IEnumerator stopGameplay()
-    {
-        while (true == doraController.IsEating) yield return null;
-
-        doraController.StopController();
-        sfxProvider.StopAmbientSounds();
     }
 
     void bringNewBatch()

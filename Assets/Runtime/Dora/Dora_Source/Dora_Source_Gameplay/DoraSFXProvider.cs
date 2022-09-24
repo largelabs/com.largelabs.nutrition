@@ -21,6 +21,16 @@ public class DoraSFXProvider : MonoBehaviourBase
 
     #region PUBLIC API
 
+    public void StartMusic()
+    {
+
+    }
+
+    public void StopMusic()
+    {
+
+    }
+
     public void PlayMovementSFX()
     {
         movementSFX?.Play();

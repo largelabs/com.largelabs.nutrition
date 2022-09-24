@@ -286,6 +286,17 @@ Transform:
   m_Father: {fileID: 910149972}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &293410827 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2489217776581094088, guid: 0ae8bc6f93f36fe4386d7072ab8d296a, type: 3}
+  m_PrefabInstance: {fileID: 2489217777548913729}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60fc6d8be2a9901439e8ea8f989b4127, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &607569887 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5728284551971938870, guid: fc0174ceb80c4a34d95adb4118b7beef, type: 3}
@@ -1029,6 +1040,10 @@ PrefabInstance:
       propertyPath: UIkernelManager
       value: 
       objectReference: {fileID: 1266575456}
+    - target: {fileID: 417055886123930134, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: scorePopupSpawner
+      value: 
+      objectReference: {fileID: 293410827}
     - target: {fileID: 417055886123930135, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: m_RootOrder
       value: 2
