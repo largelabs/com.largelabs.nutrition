@@ -3,19 +3,20 @@ using UnityEngine.UI;
 
 public class UIDoraEndGamePopup : MonoBehaviourBase, IAppear
 {
-    [SerializeField] GameObject endGameParticlesRT = null;
+    // UIEndGamePopup
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] AppearWithLocalScale scaleAppear = null;
     [SerializeField] UIAppearWithCanvasGroupAlpha alphaAppear = null;
     [SerializeField] UIAppearWithCanvasGroupAlpha blackBgAppear = null;
-
-
     [SerializeField] Text scoreText = null;
-    [SerializeField] UIDoraEndGameButton button0 = null;
-    [SerializeField] UIDoraEndGameButton button1 = null;
-    [SerializeField] DoraInputs popupInputs = null;
+    [SerializeField] UIEndGameButton button0 = null;
+    [SerializeField] UIEndGameButton button1 = null;
 
-    UIDoraEndGameButton selectedButton = null;
+    UIEndGameButton selectedButton = null;
+
+    // UIDoraEndGamePopup
+    [SerializeField] GameObject endGameParticlesRT = null;
+    [SerializeField] DoraInputs popupInputs = null;
 
     #region UNITY AND CORE
 
@@ -101,20 +102,21 @@ public class UIDoraEndGamePopup : MonoBehaviourBase, IAppear
         }
     }
 
-    UIDoraEndGameButton getOtherButton(UIDoraEndGameButton i_button)
+    UIEndGameButton getOtherButton(UIEndGameButton i_button)
     {
         return i_button == button0 ? button1 : button0;
     }
 
-    void selectButton(UIDoraEndGameButton i_button)
+    void selectButton(UIEndGameButton i_button)
     {
-        UIDoraEndGameButton otherButton = getOtherButton(i_button);
+        UIEndGameButton otherButton = getOtherButton(i_button);
 
         if(null != otherButton) otherButton.Unselect(true);
         selectedButton = i_button;
         selectedButton.Select(true);
     }
 
+    // make virtual protected
     void enableInputs()
     {
         popupInputs.EnableInputs();
@@ -123,6 +125,7 @@ public class UIDoraEndGamePopup : MonoBehaviourBase, IAppear
         popupInputs.OnEatStarted += onAction;
     }
 
+    // make virtual protected
     void disableInputs()
     {
         popupInputs.DisableInputs();

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class UIDoraEndGameButton : MonoBehaviourBase, ISelectable
+public class UIEndGameButton : MonoBehaviourBase, ISelectable
 {
     [SerializeField] GameObject selected = null;
     [SerializeField] GameObject unselected = null;
