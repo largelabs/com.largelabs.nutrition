@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class UIDoraEndGamePopup : UIEndGamePopup
 {
+
     [SerializeField] GameObject endGameParticlesRT = null;
     [SerializeField] DoraInputs popupInputs = null;
 

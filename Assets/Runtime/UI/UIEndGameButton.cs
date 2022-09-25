@@ -35,7 +35,7 @@ public class UIEndGameButton : MonoBehaviourBase, ISelectable
 
     public void Select(bool i_animated)
     {
-        if (false == isSelected) playSelectionSFX();
+        if (true == i_animated && false == isSelected) playSelectionSFX();
 
         isSelected = true;
         updateSelectionVisuals();

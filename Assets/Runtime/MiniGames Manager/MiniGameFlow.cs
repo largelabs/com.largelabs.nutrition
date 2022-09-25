@@ -19,6 +19,7 @@ public abstract class MiniGameFlow : MonoBehaviourBase
 
     public void EnterMiniGame() => StartCoroutine(introSequence());
 
+	[ExposePublicMethod]
     public void EndMiniGame(bool i_endWithSuccess)
     {
 		this.DisposeCoroutine(ref updateGameplayCoroutine);
