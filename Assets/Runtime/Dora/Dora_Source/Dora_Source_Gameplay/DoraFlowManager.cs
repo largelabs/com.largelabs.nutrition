@@ -5,33 +5,48 @@ using UnityEngine;
 
 public class DoraFlowManager : MiniGameFlow
 {
+    [Header("Dora flow managers")]
     [SerializeField] private DoraAbstractController doraController = null;
     [SerializeField] private DoraPlacer doraPlacer = null;
     [SerializeField] private DoraMover doraMover = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
-
     [SerializeField] private DoraScoreManager scoreManager = null;
-    [SerializeField] private SpawnPool vfxPool = null;
     [SerializeField] private MinigameTimer timer = null;
-    [SerializeField] private BoxCollider cullingBounds = null;
-    [SerializeField] private BoxCollider selectionBounds = null;
-    [SerializeField] private DoraSFXProvider sfxProvider = null;
-    [SerializeField] private PanCamera panCamera = null;
+
+    [Header("UI")]
     [SerializeField] private UIDoraEndGamePopup endGamePopup = null;
     [SerializeField] private UIKernelManagerV2 UIkernelManager = null;
     [SerializeField] private GameObject hudGo = null;
     [SerializeField] private PopupSpawner scorePopupSpawner = null;
 
+    [Header("VFX / SFX")]
+    [SerializeField] private PanCamera panCamera = null;
+    [SerializeField] private SpawnPool vfxPool = null;
+    [SerializeField] private DoraSFXProvider sfxProvider = null;
 
-    [Header("Options")]
+    [Header("Bounds")]
+    [SerializeField] private BoxCollider cullingBounds = null;
+    [SerializeField] private BoxCollider selectionBounds = null;
+
+    [Header("Decor")]
+    [SerializeField] private GameObject charcoalGroup = null;
+
+    [Header("Game Data")]
     [SerializeField] private DoraGameData doraGameData = null;
     [SerializeField] private List<DoraBatchData> doraBatchData = null;
+    [SerializeField] private float cobExitTime = 0.2f;
+    [SerializeField] private float cobEnterTime = 0.2f;
 
+    // Flow data
     DoraBatchData currentDoraBatch = null;
+    Transform currentCob = null;
     DoraDurabilityManager currentDurabilityManager = null;
-    DoraActions inputActions = null;
-    List<DoraPlacer.DoraPositions> doraPositions = null;
     int doraBatchCount = 0;
+    private Stack<Transform> doraCobStack = null;
+    List<DoraPlacer.DoraPositions> doraPositions = null;
+
+    // Routines
+    Coroutine getNextCobRoutine = null;
 
     #region UNITY AND CORE
 
@@ -68,7 +83,19 @@ public class DoraFlowManager : MiniGameFlow
     [ExposePublicMethod]
     public void BringNextCob()
     {
-        doraMover.GetNextCob();
+        if (null != getNextCobRoutine) return;
+
+        enableOffScreenCobKernels(true);
+  
+        Transform cob = unstackNextCob();
+        if(null == cob)
+        {
+            getNextDoraBatch();
+        }
+        else
+        {
+            getNextCobRoutine = StartCoroutine(onGetNextCob(cob));
+        }
     }
 
     #endregion
@@ -110,6 +137,9 @@ public class DoraFlowManager : MiniGameFlow
         doraController.StopController();
 
         while (true == doraController.IsEating) yield return null;
+
+        yield return StartCoroutine(moveCurrentCob(true));
+
         while (true == UIkernelManager.IsDequeing) yield return null;
         while (true == scorePopupSpawner.HasLivingPopups) yield return null;
 
@@ -120,6 +150,83 @@ public class DoraFlowManager : MiniGameFlow
     #endregion
 
     #region PRIVATE
+
+    IEnumerator moveCurrentCob(bool i_offScreen)
+    {
+        if (null == currentCob) yield break;
+        sfxProvider.PlayMovementSFX();
+
+        if(true == i_offScreen)
+        {
+            yield return StartCoroutine(doraMover.MoveCobOffScreen(currentCob, cobExitTime));
+            DoraCellMap cellMap = currentCob.GetComponent<DoraCellMap>();
+            if (cellMap != null) doraSpawner.DespawnDoraCob(cellMap);
+        }
+        else
+            yield return StartCoroutine(doraMover.MoveCobToGameView(currentCob, cobEnterTime));
+    }
+
+    IEnumerator onGetNextCob(Transform i_cob)
+    {
+        yield return StartCoroutine(moveCurrentCob(true));
+
+        currentCob = i_cob;
+
+        DoraDurabilityManager durability = i_cob.GetComponent<DoraDurabilityManager>();
+        durability.UpdateDurability(true);
+
+        panCamera.PanCameraDown();
+        while (true == panCamera.IsMovingCamera) yield return null;
+        yield return this.Wait(0.5f);
+
+        panCamera.PanCameraUp();
+
+        yield return StartCoroutine(moveCurrentCob(false));
+
+        enableOffScreenCobKernels(false);
+
+        DoraCellMap cellMap = i_cob.GetComponent<DoraCellMap>();
+        AutoRotator rotator = i_cob.GetComponent<AutoRotator>();
+
+        tryStartDoraGameplay(cellMap, rotator, durability);
+    }
+
+    void enableOffScreenCobKernels(bool i_enable)
+    {
+        DoraCellMap currDora = null;
+        foreach (Transform dora in doraCobStack)
+        {
+            currDora = dora.GetComponent<DoraCellMap>();
+
+            if (currDora != null)
+                currDora.EnableRenderers(i_enable);
+        }
+
+        charcoalGroup.SetActive(i_enable);
+    }
+
+    void registerCob(Transform i_doraCob)
+    {
+        if (i_doraCob == null)
+        {
+            Debug.LogError("Transform is null! Cannot register cob");
+            return;
+        }
+
+        if (doraCobStack == null)
+            doraCobStack = new Stack<Transform>();
+
+        doraCobStack.Push(i_doraCob);
+    }
+
+    Transform unstackNextCob()
+    {
+        Transform nextCob = null;
+        if (doraCobStack != null && doraCobStack.Count > 0)
+            nextCob = doraCobStack.Pop();
+
+        return nextCob;
+    }
 
     void resetGame()
     {
@@ -137,7 +244,12 @@ public class DoraFlowManager : MiniGameFlow
         doraController.DisableController();
 
         scoreManager.ResetScoreManager();
+
+        this.DisposeCoroutine(ref getNextCobRoutine);
         doraMover.ResetMover();
+
+        if (null != doraCobStack) doraCobStack.Clear();
+        currentCob = null;
 
         timer.ResetTimer();
         currentDurabilityManager = null;
@@ -164,8 +276,13 @@ public class DoraFlowManager : MiniGameFlow
             currCob = doraPlacer.SpawnDoraAtAnchor(doraPositions[i]);
             currCob.InitializeDoraCob(vfxPool, cullingBounds, selectionBounds, currentDoraBatch, doraBatchCount, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
 
-            if (superKernelSpawned)
-                superKernelCobsSpawned++;
+            if(null != currCob)
+            {
+                registerCob(currCob.transform);
+
+                if (true == superKernelSpawned)
+                    superKernelCobsSpawned++;
+            }
         }
     }
 
@@ -202,14 +319,9 @@ public class DoraFlowManager : MiniGameFlow
         BringNextCob();
     }
 
-    private void goToSuccess()
-    {
-        EndMiniGame(true);
-    }
+    private void goToSuccess() { EndMiniGame(true); }
 
     private void getNextDoraBatch() {  StartCoroutine(doraBatchSequence()); }
-
-
 
     void onEat()
     {
@@ -217,14 +329,12 @@ public class DoraFlowManager : MiniGameFlow
         {
             currentDurabilityManager = null;
             doraController.DisableController();
-            doraMover.GetNextCob();
+            BringNextCob();
         }
     }
 
     private void tryStartDoraGameplay(DoraCellMap i_cellMap, AutoRotator i_autoRotate, DoraDurabilityManager i_durabilityManager)
     {
-        if (null == inputActions) inputActions = new DoraActions();
-        inputActions.Player.TestAction.Enable();
         doraController.SetDoraComponents(i_cellMap, i_autoRotate, i_durabilityManager.UnburntKernels);
         doraController.EnableController();
         doraController.StartAutoRotation();
@@ -234,16 +344,12 @@ public class DoraFlowManager : MiniGameFlow
 
     private void registerEvents()
     {
-        doraMover.OnGetNextCob += tryStartDoraGameplay;
-        doraMover.OnQueueEmpty += getNextDoraBatch;
         timer.OnTimerEnded += goToSuccess;
         doraController.OnDidFinishEating += onEat;
     }
 
     private void unregisterEvents()
     {
-        doraMover.OnGetNextCob -= tryStartDoraGameplay;
-        doraMover.OnQueueEmpty -= getNextDoraBatch;
         timer.OnTimerEnded -= goToSuccess;
         doraController.OnDidFinishEating -= onEat;
     }

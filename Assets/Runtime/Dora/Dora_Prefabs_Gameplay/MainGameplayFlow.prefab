@@ -99,16 +99,22 @@ MonoBehaviour:
   doraMover: {fileID: 6652452769625150235}
   doraSpawner: {fileID: 3809457227273428392}
   scoreManager: {fileID: 0}
-  vfxPool: {fileID: 417055885605045016}
   timer: {fileID: 417055886123930137}
+  endGamePopup: {fileID: 0}
+  UIkernelManager: {fileID: 0}
+  hudGo: {fileID: 0}
+  scorePopupSpawner: {fileID: 0}
+  panCamera: {fileID: 0}
+  vfxPool: {fileID: 417055885605045016}
+  sfxProvider: {fileID: 6175531668641136764}
   cullingBounds: {fileID: 0}
   selectionBounds: {fileID: 417055884957644404}
-  sfxProvider: {fileID: 6175531668641136764}
-  panCamera: {fileID: 0}
-  endGamePopup: {fileID: 0}
+  charcoalGroup: {fileID: 5041499228128945674}
   doraGameData: {fileID: 11400000, guid: ddd58610ae9a4c14b98a7d1e0033138c, type: 2}
   doraBatchData:
   - {fileID: 11400000, guid: d113a39f2cab6454e85378fcf0256c19, type: 2}
+  cobExitTime: 0.2
+  cobEnterTime: 0.5
 --- !u!114 &417055886123930137
 MonoBehaviour:
   m_ObjectHideFlags: 0
