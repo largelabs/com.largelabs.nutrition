@@ -49,6 +49,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ddd1cb5ab871c41978852fb3e0f24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxPiles: 1
+  scoreManager: {fileID: 0}
+  mgTimer: {fileID: 7559566314289358373}
+  uiMGTimer: {fileID: 0}
+  pileTime:
+  - 45
+  - 60
+  - 50
+  - 30
   vCamSwitcher: {fileID: 0}
   introCam_0: {fileID: 0}
   introCam_1: {fileID: 0}
@@ -105,14 +114,6 @@ MonoBehaviour:
   playerRopeSlideStart: {fileID: 0}
   playerRopeSlideEnd: {fileID: 0}
   slideSpeed: 10
-  scoreManager: {fileID: 0}
-  mgTimer: {fileID: 7559566314289358373}
-  uiMGTimer: {fileID: 0}
-  pileTime:
-  - 45
-  - 60
-  - 50
-  - 30
 --- !u!114 &7165359001015827744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,7 +209,7 @@ MonoBehaviour:
   logMessages: 0
   _perPrefabPoolOptions:
   - prefab: {fileID: 1116640932322826084, guid: 50a52cec99ecea247a2d0547317d3fab, type: 3}
-    preloadAmount: 3
+    preloadAmount: 1
     preloadTime: 0
     preloadFrames: 2
     preloadDelay: 0
