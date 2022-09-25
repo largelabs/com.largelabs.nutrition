@@ -28,7 +28,7 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] StateMachine playerStateMachine = null;
 	[SerializeField] HarrankashCelebrationState celebState = null;
 	[SerializeField] Controls playerControls = null;
-	[SerializeField] HarrankashTouchEventDispatcher touchEventDispatcher = null;
+	[SerializeField] HarrankashPlatformEventDispatcher touchEventDispatcher = null;
 	[SerializeField] PhysicsBody2D harrankashPhysicsBody = null;
 	[SerializeField] PositionAnimator harrankashRopeSlide = null;
 
@@ -113,10 +113,9 @@ public class HaraMiniGame : MiniGameFlow
 	{
 		endTrigger.OnTriggerAction += harraSlide;
 		touchEventDispatcher.OnTouchOrange += collectOrange;
-		touchEventDispatcher.OnTouchCart += failGame;
+		touchEventDispatcher.OnFailConditionMet += failGame;
+		mgTimer.OnTimerEnded += timeOut;
 
-		//currentRopeSlideStart = rope0SlideStart.position;
-		//currentRopeSlideEnd = rope0SlideEnd.position;
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
 		Debug.LogError("Gameplay Start! Controls Activated.");
@@ -130,7 +129,8 @@ public class HaraMiniGame : MiniGameFlow
 	{
 		endTrigger.OnTriggerAction -= harraSlide;
 		touchEventDispatcher.OnTouchOrange -= collectOrange;
-		touchEventDispatcher.OnTouchCart -= failGame;
+		touchEventDispatcher.OnFailConditionMet -= failGame;
+		mgTimer.OnTimerEnded -= timeOut;
 
 		mgTimer.PauseTimer();
 	}
@@ -153,6 +153,9 @@ public class HaraMiniGame : MiniGameFlow
 	protected override IEnumerator onFailure()
 	{
 		Debug.LogError("FAIL");
+		playerStateMachine.GetComponentInChildren<TrailRenderer>().enabled = false;
+		//playerStateMachine.SetState<HarankashIdleState>();
+		//yield return null;
 		playerStateMachine.SetGenericState("d");
 
 		// sfx suggestion: failure sound
@@ -169,6 +172,12 @@ public class HaraMiniGame : MiniGameFlow
 	#endregion
 
 	#region PRIVATE
+	private void timeOut()
+    {
+		if (playerStateMachine.CurrentState.GetType() == typeof(HarankashIdleState))
+			failGame();
+    }
+
 	private void failGame()
 	{
 		EndMiniGame(false);
@@ -190,7 +199,7 @@ public class HaraMiniGame : MiniGameFlow
 		scoreManager.gameObject.SetActive(false);
 		uiMGTimer.gameObject.SetActive(false);
 		mgTimer.PauseTimer();
-		touchEventDispatcher.OnTouchCart -= failGame;
+		touchEventDispatcher.OnFailConditionMet -= failGame;
 		playerControls.DisableControls();
 		playerControls.SetLock(true);
 		harrankashPhysicsBody.SetVelocityX(0f);
@@ -332,7 +341,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
-		touchEventDispatcher.OnTouchCart += failGame;
+		touchEventDispatcher.OnFailConditionMet += failGame;
 
 		endTrigger.OnTriggerAction -= pileSwitch;
 		endTrigger.OnTriggerAction += harraSlide;

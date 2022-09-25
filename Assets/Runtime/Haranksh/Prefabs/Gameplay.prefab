@@ -542,6 +542,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7165359001015827750}
     m_Modifications:
+    - target: {fileID: 3289514128570613975, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: mgTimer
+      value: 
+      objectReference: {fileID: 7559566314289358373}
     - target: {fileID: 3289514128781812912, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
       propertyPath: m_Name
       value: HarankashPlayer

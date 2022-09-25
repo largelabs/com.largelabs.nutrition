@@ -1,18 +1,18 @@
 using System;
 using UnityEngine;
 
-public class HarrankashTouchEventDispatcher : MonoBehaviourBase
+public class HarrankashPlatformEventDispatcher : MonoBehaviourBase
 {
     public Action<Vector3> OnTouchOrange = null;
-    public Action OnTouchCart = null;
+    public Action OnFailConditionMet = null;
 
     public void DispatchOrangeTouchEvent(Vector3 i_platformPos)
     {
         OnTouchOrange?.Invoke(i_platformPos);
     }
 
-    public void DispatchCartTouchEvent()
+    public void DispatchFailGameEvent()
     {
-        OnTouchCart?.Invoke();
+        OnFailConditionMet?.Invoke();
     }
 }

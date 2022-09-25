@@ -77,6 +77,8 @@ public class StateMachine : MonoBehaviourBase
         }
     }
 
+    public State CurrentState => currentState;
+
     void initializeStateCollections()
     {
         allStates = GetComponentsInChildren<State>(true);

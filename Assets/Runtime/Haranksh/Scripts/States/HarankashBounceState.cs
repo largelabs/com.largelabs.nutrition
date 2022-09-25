@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HarankashBounceState : HarankashJumpState
 {
-    [SerializeField] HarrankashTouchEventDispatcher eventDispatcher = null;
+    [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
 
     protected override void onStateEnter()
     {

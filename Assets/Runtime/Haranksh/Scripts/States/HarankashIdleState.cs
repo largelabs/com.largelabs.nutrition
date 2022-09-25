@@ -40,6 +40,7 @@ public class HarankashIdleState : State
             Debug.LogError("NO PHYSICS IN STATES");
             return;
         }
+        controls.JumpPressed -= onJump;
 
         this.DisposeCoroutine(ref jumpRoutine);
     }

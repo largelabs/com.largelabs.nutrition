@@ -10,7 +10,8 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     [SerializeField] private SpriteFrameSwapper landVFX = null;
     [SerializeField] private float timeBeforeBounce = 0.5f;
     [SerializeField] private TrailRenderer trail = null;
-    [SerializeField] HarrankashTouchEventDispatcher eventDispatcher = null;
+    [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
+    [SerializeField] MinigameTimer mgTimer = null;
 
     Coroutine landingRoutine = null;
 
@@ -62,7 +63,7 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         yield return this.Wait(timeBeforeBounce);
         landingFrames.Stop();
 
-        if (i_tag == "Finish")
+        if (i_tag == "Finish" || mgTimer.RemainingTimeSeconds < 0.05f)
         {
             trail.enabled = false;
             yield return this.Wait(0.01f);
@@ -70,7 +71,7 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
             if (firstFall == false)
             {
                 firstFall = true;
-                eventDispatcher.DispatchCartTouchEvent();
+                eventDispatcher.DispatchFailGameEvent();
             }
             else
                 setState<HarankashIdleState>();

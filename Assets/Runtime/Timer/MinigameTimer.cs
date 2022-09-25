@@ -89,7 +89,9 @@ public class MinigameTimer : MonoBehaviourBase
         {
             updateDisplay();
         }
-    }
+    }  
+    
+    public float RemainingTimeSeconds => remainingTime.Seconds;
 
     [ExposePublicMethod]
     public void AddTime(float i_timeBonus)
