@@ -103,6 +103,10 @@ public class UIEndGamePopup : MonoBehaviourBase, IAppear
     {
         selectButton(getOtherButton(selectedButton), true);
     }
+    protected void onMove()
+    {
+        onMove(Vector2.zero);
+    }
 
     protected virtual void onDidAppear()
     {

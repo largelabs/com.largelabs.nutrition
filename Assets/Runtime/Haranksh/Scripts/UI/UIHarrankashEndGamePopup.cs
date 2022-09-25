@@ -6,17 +6,17 @@ public class UIHarrankashEndGamePopup : UIEndGamePopup
     protected override void enableInputs()
     {
         popupInputs.EnableControls();
-        popupInputs.OnMoveStarted += onMove;
-        popupInputs.OnMove += onMove;
-        popupInputs.OnEatStarted += onAction;
+        popupInputs.MoveStarted += onMove;
+        popupInputs.Move += onMove;
+        popupInputs.JumpPressed += onAction;
     }
 
     protected override void disableInputs()
     {
         popupInputs.DisableControls();
-        popupInputs.OnMoveStarted -= onMove;
-        popupInputs.OnMove -= onMove;
-        popupInputs.OnEatStarted -= onAction;
+        popupInputs.MoveStarted -= onMove;
+        popupInputs.Move -= onMove;
+        popupInputs.JumpPressed -= onAction;
     }
 
 }
