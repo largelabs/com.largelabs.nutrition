@@ -63,47 +63,13 @@ public class DoraFlowManager : MiniGameFlow
         EnterMiniGame();
     }
 
-    [ExposePublicMethod]
-    public void ShowEndGamePopup()
-    {
-        hudGo.SetActive(false);
-        endGamePopup.SetScore(scoreManager.GetScoreString());
-        endGamePopup.Appear(true);
-
-        disposeAllCoroutines();
-        resetGame();
-    }
-
-    [ExposePublicMethod]
-    public void HideEndgamePopup()
-    {
-        endGamePopup.Disappear(true);
-    }
-
-    [ExposePublicMethod]
-    public void BringNextCob()
-    {
-        if (null != getNextCobRoutine) return;
-
-        enableOffScreenCobKernels(true);
-  
-        Transform cob = unstackNextCob();
-        if(null == cob)
-        {
-            getNextDoraBatch();
-        }
-        else
-        {
-            getNextCobRoutine = StartCoroutine(onGetNextCob(cob));
-        }
-    }
-
     #endregion
 
     #region GAME_FLOW
 
     protected override IEnumerator introRoutine()
     {
+        sfxProvider.PlayMovementSFX();
         hudGo.SetActive(false);
         resetGame();
 
@@ -123,7 +89,7 @@ public class DoraFlowManager : MiniGameFlow
     {
         registerEvents();
         timer.StartTimer();
-        BringNextCob();
+        bringNextCob();
     }
 
     protected override void onGameplayEnded()
@@ -143,13 +109,42 @@ public class DoraFlowManager : MiniGameFlow
         while (true == UIkernelManager.IsDequeing) yield return null;
         while (true == scorePopupSpawner.HasLivingPopups) yield return null;
 
-        ShowEndGamePopup();
+        showEndGamePopup();
     }
 
     protected override IEnumerator onFailure() { yield break; }
     #endregion
 
     #region PRIVATE
+
+    void bringNextCob()
+    {
+        if (null != getNextCobRoutine) return;
+
+        enableOffScreenCobKernels(true);
+
+        Transform cob = unstackNextCob();
+        if (null == cob)
+        {
+            getNextDoraBatch();
+        }
+        else
+        {
+            getNextCobRoutine = StartCoroutine(onGetNextCob(cob));
+        }
+    }
+
+    void showEndGamePopup()
+    {
+        hudGo.SetActive(false);
+        endGamePopup.SetScore(scoreManager.GetScoreString());
+        endGamePopup.Appear(true);
+
+        sfxProvider.PlayMovementSFX();
+
+        disposeAllCoroutines();
+        resetGame();
+    }
 
     IEnumerator moveCurrentCob(bool i_offScreen)
     {
@@ -316,7 +311,7 @@ public class DoraFlowManager : MiniGameFlow
 
         timer.ResumeTimer();
 
-        BringNextCob();
+        bringNextCob();
     }
 
     private void goToSuccess() { EndMiniGame(true); }
@@ -329,7 +324,7 @@ public class DoraFlowManager : MiniGameFlow
         {
             currentDurabilityManager = null;
             doraController.DisableController();
-            BringNextCob();
+            bringNextCob();
         }
     }
 
