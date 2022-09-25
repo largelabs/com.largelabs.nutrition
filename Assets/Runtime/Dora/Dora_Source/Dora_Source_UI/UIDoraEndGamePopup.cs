@@ -69,8 +69,6 @@ public class UIDoraEndGamePopup : MonoBehaviourBase, IAppear
     {
         if (false == IsAppearInit) return;
 
-        Debug.Log("disappear");
-
         scaleAppear.OnDidDisappear += onDidDisappear;
 
         disableInputs();
