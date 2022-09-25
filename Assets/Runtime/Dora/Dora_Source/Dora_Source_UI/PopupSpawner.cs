@@ -69,6 +69,9 @@ public class PopupSpawner : MonoBehaviourBase
     }
 
     #region PUBLIC API
+
+    public bool HasLivingPopups => null != livingPopups && livingPopups.Count != 0;
+
     public void PlayPopup(PopupType i_popupType,
                           Vector3? i_worldPosition,
                           float i_animTime,
