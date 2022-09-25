@@ -55,6 +55,8 @@ public class HarankashIdleState : State
 
     private void onJump()
     {
+        // sfx suggestion: launch/strong jump sound
+        
         if (jumpRoutine == null)
         {
             jumpRoutine = StartCoroutine(onJumpSequence());

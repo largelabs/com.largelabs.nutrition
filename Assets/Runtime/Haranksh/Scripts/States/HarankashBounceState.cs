@@ -22,6 +22,8 @@ public class HarankashBounceState : HarankashJumpState
             return;
         }
 
+        // sfx suggestion: bouncy jump sound
+
         HarraPlatformAnimationManager animations = collidedPlatform.GetComponentInChildren<HarraPlatformAnimationManager>();
         if (animations != null)
             animations.OpenUp();

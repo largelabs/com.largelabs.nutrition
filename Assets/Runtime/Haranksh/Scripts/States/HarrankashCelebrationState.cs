@@ -40,6 +40,8 @@ public class HarrankashCelebrationState : State
     #region STATE API
     protected override void onStateEnter()
     {
+        // sfx suggestion: victory sound
+
         celebrationFrames.Play();
         trail.enabled = false;
     }

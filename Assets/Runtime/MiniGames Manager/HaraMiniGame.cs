@@ -148,12 +148,14 @@ public class HaraMiniGame : MiniGameFlow
 		Debug.LogError("FAIL");
 		playerStateMachine.SetGenericState("d");
 
+		// sfx suggestion: failure sound
 		gameOverScale.StartPingPong(1.0f, 1);
 		yield return this.Wait(1.25f);
 		gameOverFade.LerpAlpha(null, null, 0.5f, interpolatorsManager, null, true, null);
-		// sfx (add this marker everywhere where I think vfx is needed)
 
 		// show score banner popup
+		// sfx suggestion: board appear sound
+
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
 		yield return null;

@@ -62,25 +62,12 @@ public class UIHarrankashStack : UIElementStack<float>
         {
             UIImageFrameSwapper uiHarraAnimation = uiHarrankashStack.Pop();
 
-            //sfxProvider.PlayUIKernelSFX(scoreKernelInfo.KernelStatus);
+            // sfx suggestion: collection sound for counting each UI harankash
             yield return StartCoroutine(animateElement(uiHarraAnimation.gameObject, true, true, false));
 
             uiHarrankashSpawner.DespawnTransform(uiHarraAnimation);
             OnDiscardHarrankash?.Invoke();
 
-            //scoreManager.AddScoreByStatus(scoreKernelInfo,
-            //                               anchorScore,
-            //                               base.getTimePerUIElement() * 2f, 0.1f, -100f);
-
-            //StartCoroutine(
-            //    scaleRoutine(scoreManager.ScoreRect, interpolatorsManager.Animate(
-            //    MathConstants.VECTOR_3_ONE,
-            //    MathConstants.VECTOR_3_ONE * 1.075f,
-            //    getTimePerUIElement(),
-            //    new AnimationMode(AnimationType.Bounce))));
-
-
-            //yield return StartCoroutine(shiftElementStack());
         }
 
         anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;

@@ -58,6 +58,7 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         landingFrames.Play();
         landVFX.ResetAnimation();
         landVFX.Play();
+        // sfx suggestion: impact sound
         yield return this.Wait(timeBeforeBounce);
         landingFrames.Stop();
 

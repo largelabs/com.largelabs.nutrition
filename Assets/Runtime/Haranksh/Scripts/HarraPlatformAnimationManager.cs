@@ -53,6 +53,7 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     public void OpenUp()
     {
         if (openUp == null) return;
+        // sfx suggestion: sound for platform opening
 
         openUp.ResetAnimation();
         openUp.Play();
