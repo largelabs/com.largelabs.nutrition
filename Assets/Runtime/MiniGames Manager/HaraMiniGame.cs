@@ -131,16 +131,23 @@ public class HaraMiniGame : MiniGameFlow
 		endTrigger.OnTriggerAction -= harraSlide;
 		touchEventDispatcher.OnTouchOrange -= collectOrange;
 		touchEventDispatcher.OnTouchCart -= failGame;
+
+		mgTimer.PauseTimer();
 	}
 
 	protected override IEnumerator onSuccess()
 	{
 		Debug.LogError("SUCCESS");
 		vCamSwitcher.SwitchToVCam(playerCam);
+
+		// sfx suggestion: success sound (note that victory sound could be played with celebration state)
+		// celebration sound would be for every pile finish but this would only be if all piles are finished
+
 		// show score banner popup
+		yield return null;
+
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
-		yield return null;
 	}
 
 	protected override IEnumerator onFailure()
@@ -158,7 +165,6 @@ public class HaraMiniGame : MiniGameFlow
 
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
-		yield return null;
 	}
 	#endregion
 
