@@ -60,10 +60,14 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
 
         if (i_tag == "Bouncy")
             setState<HarankashBounceState>();
+        else if (i_tag == "Respawn")
+            setState<HarrankashCelebrationState>();
         else
         {
+            if (i_tag == "Finish")
+                eventDispatcher.DispatchCartTouchEvent();
+
             setState<HarankashIdleState>();
-            eventDispatcher.DispatchCartTouchEvent();
         }
 
         this.DisposeCoroutine(ref landingRoutine);

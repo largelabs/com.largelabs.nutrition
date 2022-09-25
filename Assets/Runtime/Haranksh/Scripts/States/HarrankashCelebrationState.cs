@@ -8,6 +8,8 @@ public class HarrankashCelebrationState : State
 
     Coroutine jumpRoutine = null;
 
+    public bool IsJumping => jumpRoutine != null;
+
     public void PlayJumpSequence()
     {
         if (jumpRoutine == null)

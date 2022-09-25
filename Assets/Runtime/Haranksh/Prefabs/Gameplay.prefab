@@ -64,6 +64,7 @@ MonoBehaviour:
   introCam_2: {fileID: 0}
   playerCam: {fileID: 0}
   playerStateMachine: {fileID: 7165359001561108226}
+  celebState: {fileID: 0}
   playerControls: {fileID: 7165359001280152085}
   touchEventDispatcher: {fileID: 7966925455856959488}
   harrankashPhysicsBody: {fileID: 7165359001561108225}
@@ -80,6 +81,7 @@ MonoBehaviour:
   bannerJump: {fileID: 21300000, guid: 2b39890d1bd1f0d48b3d170837235331, type: 3}
   platformSpawnManager: {fileID: 7165359001024666670}
   endTrigger: {fileID: 0}
+  topPlatform: {fileID: 0}
   harraStack: {fileID: 0}
   spriteHarraSpawner: {fileID: 7165359002204059605}
   interpolatorsManager: {fileID: 7165359001015827744}

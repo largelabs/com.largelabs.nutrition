@@ -26,6 +26,7 @@ public class HaraMiniGame : MiniGameFlow
 
 	[Header("Player Components")]
 	[SerializeField] StateMachine playerStateMachine = null;
+	[SerializeField] HarrankashCelebrationState celebState = null;
 	[SerializeField] Controls playerControls = null;
 	[SerializeField] HarrankashTouchEventDispatcher touchEventDispatcher = null;
 	[SerializeField] PhysicsBody2D harrankashPhysicsBody = null;
@@ -46,6 +47,7 @@ public class HaraMiniGame : MiniGameFlow
 	[Header("Pile Sequence Components")]
 	[SerializeField] HarraPlatformSpawnManager platformSpawnManager = null;
 	[SerializeField] TriggerAction2D endTrigger = null;
+	[SerializeField] GameObject topPlatform = null;
 	[SerializeField] UIHarrankashStack harraStack = null;
 	[SerializeField] SpriteHarrankashSpawner spriteHarraSpawner = null;
 	[SerializeField] InterpolatorsManager interpolatorsManager = null;
@@ -104,7 +106,7 @@ public class HaraMiniGame : MiniGameFlow
 
 	protected override void onGameplayStarted()
 	{
-		endTrigger.OnTriggerAction += nextPile;
+		endTrigger.OnTriggerAction += harraSlide;
 		touchEventDispatcher.OnTouchOrange += collectOrange;
 		touchEventDispatcher.OnTouchCart += failGame;
 
@@ -121,7 +123,7 @@ public class HaraMiniGame : MiniGameFlow
 
 	protected override void onGameplayEnded()
 	{
-		endTrigger.OnTriggerAction -= nextPile;
+		endTrigger.OnTriggerAction -= harraSlide;
 		touchEventDispatcher.OnTouchOrange -= collectOrange;
 		touchEventDispatcher.OnTouchCart -= failGame;
 	}
@@ -154,7 +156,34 @@ public class HaraMiniGame : MiniGameFlow
 		AddUIHarra();
 	}
 
-	private void nextPile()
+	private void harraSlide()
+    {
+		bool end = false;
+		if (currentPile == maxPiles - 1)
+			end = true;//EndMiniGame(true);
+
+		scoreManager.gameObject.SetActive(false);
+		uiMGTimer.gameObject.SetActive(false);
+		mgTimer.PauseTimer();
+		touchEventDispatcher.OnTouchCart -= failGame;
+		playerControls.DisableControls();
+
+		if (nextPileRoutine == null)
+			nextPileRoutine = StartCoroutine(harraSlideSequence(end));
+	}
+
+	private void pileSwitch()
+    {
+		harrankashPhysicsBody.SetVelocity(Vector2.zero);
+		playerStateMachine.gameObject.SetActive(false);
+		SpriteFrameSwapper spawnedHarra = spriteHarraSpawner.SpawnTransformAtAnchor(playerRopeSlideStart, MathConstants.VECTOR_3_ZERO,
+											HarraEnumReference.SpriteHarrankashTypes.OrangePlayer, true, false, false);
+
+		if (nextPileRoutine == null)
+			nextPileRoutine = StartCoroutine(pileSwitchSequence(spawnedHarra));
+	}
+
+	/*private void nextPile()
 	{
 		if (currentPile == maxPiles - 1)
 			EndMiniGame(true);
@@ -175,21 +204,81 @@ public class HaraMiniGame : MiniGameFlow
 		if (nextPileRoutine == null)
 			nextPileRoutine = StartCoroutine(nextPileSequence(spawnedHarra));
 	}
+	*/
 
-    private IEnumerator nextPileSequence(SpriteFrameSwapper i_spawnedHarra)
+    /*private IEnumerator nextPileSequence(SpriteFrameSwapper i_spawnedHarra)
     {
 		// add a way to get vcam switch time
 		vCamSwitcher.SwitchToVCam(introCam_2);
 		yield return this.Wait(2f);
 
+        float playerTime = slidePlayer(i_spawnedHarra);
+        playerStateMachine.transform.position = originPosition;
+        playerStateMachine.gameObject.SetActive(true);
+        playerStateMachine.SetState<HarankashIdleState>();
+        playerControls.DisableControls();
+
+        yield return StartCoroutine(UIHarraSlideSequence());
+		yield return this.Wait(playerTime/2);
+
+        spriteHarraSpawner.DespawnTransform(i_spawnedHarra);
+        vCamSwitcher.SwitchToVCam(introCam_1);
+		platformSpawnManager.DespawnMap(true);
+		yield return this.Wait(2f);
+
+		while (platformSpawnManager.MapIsAnimating)
+			yield return null;
+
+		platformSpawnManager.GenerateNewMap(++currentPile);
+		platformSpawnManager.MapAppear();
+		vCamSwitcher.SwitchToVCam(playerCam);
+		yield return this.Wait(2f);
+
+		while (platformSpawnManager.MapIsAnimating)
+			yield return null;
+
+		bannerText.sprite = bannerJump;
+		yield return StartCoroutine(bannerSequence());
+
+		playerControls.EnableControls();
+		touchEventDispatcher.OnTouchCart += failGame;
+
+		this.DisposeCoroutine(ref nextPileRoutine);
+	}
+	*/
+
+	private IEnumerator harraSlideSequence(bool i_end)
+    {
+		// add a way to get vcam switch time
+		vCamSwitcher.SwitchToVCam(introCam_2);
+		yield return this.Wait(2f);
+
+		yield return StartCoroutine(UIHarraSlideSequence());
+
+		if (i_end == false)
+		{
+			celebState.PlayJumpSequence();
+			endTrigger.OnTriggerAction -= harraSlide;
+			endTrigger.OnTriggerAction += pileSwitch;
+		}
+		else
+			EndMiniGame(true);
+
+		//while (celebState.IsJumping)
+		//	yield return null;
+
+		this.DisposeCoroutine(ref nextPileRoutine);
+	}
+
+	private IEnumerator pileSwitchSequence(SpriteFrameSwapper i_spawnedHarra)
+    {
 		float playerTime = slidePlayer(i_spawnedHarra);
 		playerStateMachine.transform.position = originPosition;
 		playerStateMachine.gameObject.SetActive(true);
 		playerStateMachine.SetState<HarankashIdleState>();
 		playerControls.DisableControls();
 
-		yield return StartCoroutine(UIHarraSlideSequence());
-		yield return this.Wait(playerTime/2);
+		yield return this.Wait(playerTime / 2f);
 
 		spriteHarraSpawner.DespawnTransform(i_spawnedHarra);
 		vCamSwitcher.SwitchToVCam(introCam_1);
@@ -212,6 +301,9 @@ public class HaraMiniGame : MiniGameFlow
 
 		playerControls.EnableControls();
 		touchEventDispatcher.OnTouchCart += failGame;
+
+		endTrigger.OnTriggerAction -= pileSwitch;
+		endTrigger.OnTriggerAction += harraSlide;
 
 		this.DisposeCoroutine(ref nextPileRoutine);
 	}
