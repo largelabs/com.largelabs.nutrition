@@ -61,7 +61,8 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] float slideSpeed = 2f;
 
 	[Header("End Sequence Components")]
-	[SerializeField] LocalScalePingPong gameOver = null;
+	[SerializeField] LocalScalePingPong gameOverScale = null;
+	[SerializeField] SpriteAlphaLerp gameOverFade = null;
 
 	private int currentPile = 0;
 	private int orangeCount = 0;
@@ -137,6 +138,8 @@ public class HaraMiniGame : MiniGameFlow
 		Debug.LogError("SUCCESS");
 		vCamSwitcher.SwitchToVCam(playerCam);
 		// show score banner popup
+		playerControls.SetLock(false);
+		playerControls.EnableControls();
 		yield return null;
 	}
 
@@ -144,14 +147,15 @@ public class HaraMiniGame : MiniGameFlow
 	{
 		Debug.LogError("FAIL");
 		playerStateMachine.SetGenericState("d");
-		playerControls.DisableControls();
-		playerControls.SetLock(true);
 
-		gameOver.StartPingPong(1.0f, 1);
-		// alpha fade out
+		gameOverScale.StartPingPong(1.0f, 1);
+		yield return this.Wait(1.25f);
+		gameOverFade.LerpAlpha(null, null, 0.5f, interpolatorsManager, null, true, null);
 		// sfx (add this marker everywhere where I think vfx is needed)
 
 		// show score banner popup
+		playerControls.SetLock(false);
+		playerControls.EnableControls();
 		yield return null;
 	}
 	#endregion

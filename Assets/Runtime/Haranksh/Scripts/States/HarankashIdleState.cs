@@ -8,6 +8,7 @@ public class HarankashIdleState : State
     [SerializeField] SpriteFrameSwapper jumpAnticipationFrames = null;
     [SerializeField] Transform visualObjectRoot = null;
     [SerializeField] float visualObjectYOffset = -0.0174f;
+    [SerializeField] private TrailRenderer trail = null;
 
     Coroutine jumpRoutine = null;
 
@@ -27,6 +28,8 @@ public class HarankashIdleState : State
 
         matchVisualToCollider();
         idlingFrames.Play();
+
+        trail.enabled = false;
     }
 
     protected override void onStateExit()

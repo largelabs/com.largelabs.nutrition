@@ -9,9 +9,12 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
     [SerializeField] private SpriteFrameSwapper landVFX = null;
     [SerializeField] private float timeBeforeBounce = 0.5f;
+    [SerializeField] private TrailRenderer trail = null;
     [SerializeField] HarrankashTouchEventDispatcher eventDispatcher = null;
 
     Coroutine landingRoutine = null;
+
+    private bool firstFall = true;
 
     #region PROTECTED
     protected override void onStateEnter()
@@ -58,14 +61,29 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         yield return this.Wait(timeBeforeBounce);
         landingFrames.Stop();
 
-        if (i_tag == "Bouncy")
-            setState<HarankashBounceState>();
-        else if (i_tag == "Respawn")
-            setState<HarrankashCelebrationState>();
-        else if(i_tag == "Finish")
-            eventDispatcher.DispatchCartTouchEvent();
+        if (i_tag == "Finish")
+        {
+            trail.enabled = false;
+            yield return this.Wait(0.01f);
+
+            if (firstFall == false)
+            {
+                firstFall = true;
+                eventDispatcher.DispatchCartTouchEvent();
+            }
+            else
+                setState<HarankashIdleState>();
+        }
         else
-            setState<HarankashIdleState>();
+        {
+            firstFall = false;
+            if (i_tag == "Bouncy")
+                setState<HarankashBounceState>();
+            else if (i_tag == "Respawn")
+                setState<HarrankashCelebrationState>();
+            else
+                setState<HarankashIdleState>();
+        }
 
         this.DisposeCoroutine(ref landingRoutine);
     }
