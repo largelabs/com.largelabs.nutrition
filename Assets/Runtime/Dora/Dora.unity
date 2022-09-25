@@ -407,6 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5f6a5514d69a940a3df37f9d715f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 1232865153}
   posDown: {fileID: 162979862}
   posUp: {fileID: 134495424}
   interpolatorManager: {fileID: 1232865156}
@@ -434,6 +435,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  maxOrthoSize: 5.4
+  minOrthoSize: 4.5
   panDownTime: 0.2
   panUpTime: 0.5
 --- !u!114 &1232865156
@@ -621,6 +624,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 1232865155}
     - target: {fileID: 4530105070607683441, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
       propertyPath: cameraShake
       value: 
