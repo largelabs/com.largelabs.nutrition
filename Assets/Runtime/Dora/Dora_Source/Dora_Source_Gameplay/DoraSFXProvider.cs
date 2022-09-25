@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class DoraSFXProvider : MonoBehaviourBase
 {
+    [SerializeField] private AudioSource music = null;
+
     [SerializeField] private AudioSource[] bigBiteSFXs = null;
     [SerializeField] private AudioSource smallBiteSFX = null;
     [SerializeField] private AudioSource chewSFX = null;
@@ -23,12 +25,12 @@ public class DoraSFXProvider : MonoBehaviourBase
 
     public void StartMusic()
     {
-
+        music.Play();
     }
 
     public void StopMusic()
     {
-
+        music.Stop();
     }
 
     public void PlayMovementSFX()
