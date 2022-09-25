@@ -43,7 +43,7 @@ public class UIEndGamePopup : MonoBehaviourBase, IAppear
     public bool IsDisappearing => scaleAppear.IsDisappearing || alphaAppear.IsDisappearing || blackBgAppear.IsDisappearing;
 
     [ExposePublicMethod]
-    public void Appear(bool i_animated)
+    public virtual void Appear(bool i_animated)
     {
         alphaAppear.Init(interpolators);
         scaleAppear.Init(interpolators);
@@ -57,7 +57,7 @@ public class UIEndGamePopup : MonoBehaviourBase, IAppear
     }
 
     [ExposePublicMethod]
-    public void Disappear(bool i_animated)
+    public virtual void Disappear(bool i_animated)
     {
         if (false == IsAppearInit) return;
 
