@@ -11,8 +11,15 @@ public abstract class MiniGameFlow : MonoBehaviourBase
 
     #region PUBLIC API
 
+	[ExposePublicMethod]
+	public virtual void GoToMainMenu()
+    {
+		SceneManager.LoadScene("Main Menu");
+	}
+
     public void EnterMiniGame() => StartCoroutine(introSequence());
 
+	[ExposePublicMethod]
     public void EndMiniGame(bool i_endWithSuccess)
     {
 		this.DisposeCoroutine(ref updateGameplayCoroutine);

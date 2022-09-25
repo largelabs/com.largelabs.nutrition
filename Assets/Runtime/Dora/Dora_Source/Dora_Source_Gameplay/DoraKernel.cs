@@ -141,6 +141,8 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     #region IAppear
 
+    public bool IsAppearInit => appear.IsAppearInit;
+
     [ExposePublicMethod]
     public void Appear(bool i_animated) { appear?.Appear(i_animated); }
 

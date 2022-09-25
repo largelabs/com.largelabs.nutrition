@@ -29,6 +29,21 @@ public class DoraInputs : MonoBehaviourBase
         initInputs();
     }
 
+    private void OnDestroy()
+    {
+        DisableInputs();
+
+        OnEatStarted = null;
+        OnEat = null;
+        OnEatReleased = null;
+
+        OnMoveStarted = null;
+        OnMove = null;
+        OnMoveReleased = null;
+
+        unregisterInputs();
+    }
+
     #endregion
 
     #region PUBLIC API
@@ -41,23 +56,23 @@ public class DoraInputs : MonoBehaviourBase
 
     public void EnableMoveInputs()
     {
-        inputActions.Player.Move.Enable();
+        if (null != inputActions) inputActions.Player.Move.Enable();
     }
 
     public void EnableEatInputs()
     {
-        inputActions.Player.Eat.Enable();
+        if (null != inputActions) inputActions.Player.Eat.Enable();
     }
 
     public void DisableMoveInputs()
     {
-        inputActions.Player.Move.Disable();
+        if(null != inputActions) inputActions.Player.Move.Disable();
         this.DisposeCoroutine(ref moveRoutine);
     }
 
     public void DisableEatInputs()
     {
-        inputActions.Player.Eat.Disable();
+        if (null != inputActions) inputActions.Player.Eat.Disable();
         this.DisposeCoroutine(ref eatRoutine);
     }
 
@@ -133,5 +148,15 @@ public class DoraInputs : MonoBehaviourBase
         inputActions.Player.Eat.canceled += onEatCanceled;
     }
 
+    void unregisterInputs()
+    {
+        if (null == inputActions) return;
+
+        inputActions.Player.Move.started -= onMoveStarted;
+        inputActions.Player.Move.canceled -= onMoveCanceled;
+
+        inputActions.Player.Eat.started -= onEatStarted;
+        inputActions.Player.Eat.canceled -= onEatCanceled;
+    }
     #endregion
 }

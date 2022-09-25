@@ -38,6 +38,9 @@ public abstract class UIElementStack<T> : MonoBehaviourBase
     #endregion
 
     #region PUBLIC API
+
+    public bool IsDequeing => null != dequeueKernelsRoutine;
+
     public abstract void CollectUIElements(Queue<T> i_kernels);
     #endregion
 

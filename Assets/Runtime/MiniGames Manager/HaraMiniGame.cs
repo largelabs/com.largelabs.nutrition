@@ -59,6 +59,7 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] Transform playerRopeSlideStart = null;
 	[SerializeField] Transform playerRopeSlideEnd = null;
 	[SerializeField] float slideSpeed = 2f;
+	[SerializeField] UIHarrankashEndGamePopup harrankashPopup = null;
 
 	[Header("End Sequence Components")]
 	[SerializeField] LocalScalePingPong gameOverScale = null;
@@ -438,6 +439,12 @@ public class HaraMiniGame : MiniGameFlow
 		textScale.SetScale(MathConstants.VECTOR_3_ZERO);
 		bannerPositionIn.transform.parent.gameObject.SetActive(false);
 	}
+
+	private void showEndgamePopup()
+    {
+		harrankashPopup.SetScore("you suck");
+		harrankashPopup.Appear(true);
+    }
 	#endregion
 
 	#region DEBUG
@@ -453,6 +460,12 @@ public class HaraMiniGame : MiniGameFlow
 	public void Destack()
     {
 		StartCoroutine(UIHarraSlideSequence());
+	}
+
+	[ExposePublicMethod]
+	public void ShowScorePopup()
+	{
+		showEndgamePopup();
 	}
 	#endregion
 }

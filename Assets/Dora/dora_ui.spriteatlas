@@ -41,30 +41,32 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 16ce5a80e4090c24996f7cd305c2bc1c, type: 3}
   - {fileID: 21300000, guid: 4ef8d99087e3b58488cce3e9e558501d, type: 3}
   - {fileID: 21300000, guid: f4ff2fe014cdbac41bccb3c650aa4d38, type: 3}
-  - {fileID: 21300000, guid: 131fd062bfa160146a9cf33ec8703fc7, type: 3}
   - {fileID: 21300000, guid: dc338ef4898f9774387279576084558b, type: 3}
-  - {fileID: 21300000, guid: e233c6f594dcf0e4e84d46ee613e2c41, type: 3}
-  - {fileID: 21300000, guid: 8460f796bfb198641a3f3482cb1af4e2, type: 3}
+  - {fileID: 21300000, guid: f1d9aa950bd8e744a921e556f7a06047, type: 3}
+  - {fileID: 21300000, guid: 5259c7161cdf75e4a888e123a941b819, type: 3}
   - {fileID: 21300000, guid: 29182238e56390045aabd162fc4e89fd, type: 3}
   - {fileID: 21300000, guid: 904b5e78c1b169b4b9f726305ca65851, type: 3}
-  - {fileID: 21300000, guid: 8efd5c2bc1543614d9a6e914eeaff457, type: 3}
+  - {fileID: 21300000, guid: 5a7b51492aa5aeb4085fe4743ecd56f0, type: 3}
+  - {fileID: 21300000, guid: 3a3959d9c3e1f7840a548bb153307ea9, type: 3}
   - {fileID: 21300000, guid: 0c84576b988c2bf46970b7b1ee2dff1d, type: 3}
+  - {fileID: 21300000, guid: 9a31710cf051bb048b167519fc1e9fd3, type: 3}
   - {fileID: 21300000, guid: 3e51af0c81ac2544dae050f1cef6c2c5, type: 3}
-  - {fileID: 21300000, guid: c6a87fdd5558223409c1204d2ba70376, type: 3}
+  - {fileID: 21300000, guid: bfae7fcc3379bef4abac2cc0876b59a6, type: 3}
   m_PackedSpriteNamesToIndex:
   - UI_kernel_OK
   - cursor_center_static
   - UI_kernel_bad
-  - cursor_VFX_kernelshrapnel_01
   - UI_timer_corn_icon
-  - cursor_VFX_kernelshrapnel_05
-  - cursor_VFX_kernelshrapnel_04
+  - dura_gameover_popup_button_normal
+  - dura_render_GOpopup_01
   - cursor_action_mouth003
   - cursor_action_mouth001
-  - cursor_VFX_kernelshrapnel_03
+  - dura_gameover_title_bg
+  - dura_gameover_popup_bg
   - cursor_action_mouth004
+  - dura_gameover_title
   - cursor_action_mouth002
-  - cursor_VFX_kernelshrapnel_02
+  - dura_gameover_popup_button_highlight
   m_RenderDataMap: {}
   m_Tag: dora_ui
   m_IsVariant: 0
