@@ -9,6 +9,8 @@ public class UIDoraEndGamePopup : UIEndGamePopup
     #region PROTECTED API
     protected override void enableInputs()
     {
+        Debug.Log("enable inputs");
+
         popupInputs.EnableInputs();
         popupInputs.OnMoveStarted += onMove;
         popupInputs.OnMove += onMove;
@@ -17,6 +19,8 @@ public class UIDoraEndGamePopup : UIEndGamePopup
 
     protected override void disableInputs()
     {
+        Debug.Log("disable inputs");
+
         popupInputs.DisableInputs();
         popupInputs.OnMoveStarted -= onMove;
         popupInputs.OnMove -= onMove;
@@ -34,14 +38,14 @@ public class UIDoraEndGamePopup : UIEndGamePopup
     #region PUBLIC API
 
     [ExposePublicMethod]
-    public void Appear(bool i_animated)
+    public override void Appear(bool i_animated)
     {
         endGameParticlesRT.SetActive(true);
         base.Appear(i_animated);
     }
 
     [ExposePublicMethod]
-    public void Disappear(bool i_animated)
+    public override void Disappear(bool i_animated)
     {
         if (false == IsAppearInit) return;
         disableInputs();
