@@ -10,6 +10,7 @@ public class UIEndGamePopup : MonoBehaviourBase, IAppear
     [SerializeField] Text scoreText = null;
     [SerializeField] UIEndGameButton button0 = null;
     [SerializeField] UIEndGameButton button1 = null;
+    [SerializeField] AudioSource onAppearSfx = null;
 
     UIEndGameButton selectedButton = null;
 
@@ -78,13 +79,13 @@ public class UIEndGamePopup : MonoBehaviourBase, IAppear
         return i_button == button0 ? button1 : button0;
     }
 
-    void selectButton(UIEndGameButton i_button)
+    void selectButton(UIEndGameButton i_button, bool i_animated)
     {
         UIEndGameButton otherButton = getOtherButton(i_button);
 
-        if (null != otherButton) otherButton.Unselect(true);
+        if (null != otherButton) otherButton.Unselect(i_animated);
         selectedButton = i_button;
-        selectedButton.Select(true);
+        selectedButton.Select(i_animated);
     }
     #endregion
 
@@ -100,14 +101,15 @@ public class UIEndGamePopup : MonoBehaviourBase, IAppear
 
     protected void onMove(Vector2 i_move)
     {
-        selectButton(getOtherButton(selectedButton));
+        selectButton(getOtherButton(selectedButton), true);
     }
 
     protected virtual void onDidAppear()
     {
         scaleAppear.OnDidAppear -= onDidAppear;
-        selectButton(button0);
+        selectButton(button0, false);
         enableInputs();
+        onAppearSfx?.Play();
     }
 
     protected virtual void onDidDisappear()
