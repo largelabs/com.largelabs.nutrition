@@ -111,8 +111,11 @@ public class DoraSpawner : MonoBehaviourBase
 
     public void DespawnDoraCob(DoraCellMap i_doraCob)
     {
-        despawnDoraCob(i_doraCob);
-        livingDora.Remove(i_doraCob);
+        if(true == livingDora.Contains(i_doraCob))
+        {
+            despawnDoraCob(i_doraCob);
+            livingDora.Remove(i_doraCob);
+        }
     }
 
     [ExposePublicMethod]
@@ -139,8 +142,6 @@ public class DoraSpawner : MonoBehaviourBase
         i_doraCob.ReleaseDoraCob();
         doraCobPool?.Despawn(i_doraCob.transform);
         OnDespawn?.Invoke(i_doraCob);
-
-        // unregister from any events if needed
     }
 
     #endregion

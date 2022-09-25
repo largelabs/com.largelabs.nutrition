@@ -10,36 +10,96 @@ public class UIMinigameTimer : MonoBehaviour
     [SerializeField] PopupSpawner popupSpawner = null;
     [SerializeField] RectTransform anchorTime = null;
     [SerializeField] Transform timerRoot = null;
+    [SerializeField] Transform centerAnchor = null;
     [SerializeField] InterpolatorsManager interpolatorsManager = null;
+
+    Coroutine moveTimerRootRoutine = null;
+    Coroutine scaleRoutine = null;
+
+
+    Vector3 timerRootInitialPosition = MathConstants.VECTOR_3_ZERO;
 
     #region UNITY AND CORE
 
     private void Awake()
     {
+        timerRootInitialPosition = timerRoot.position;
         timer.OnDisplayUpdateRequest += updateTimerDisplay;
-        timer.OnAddedSeconds += onAddedSeconds;
     }
 
     private void OnDestroy()
     {
         timer.OnDisplayUpdateRequest -= updateTimerDisplay;
-        timer.OnAddedSeconds -= onAddedSeconds;
+    }
+
+    #endregion
+
+    #region PUBLIC API
+
+
+    public void MoveTimerRootToCenter()
+    {
+        this.DisposeCoroutine(ref moveTimerRootRoutine); 
+        this.DisposeCoroutine(ref scaleRoutine);
+
+        moveTimerRootRoutine = StartCoroutine(moveTimeRoot(timerRoot.position, centerAnchor.position, 0.5f));
+
+        scaleRoutine = StartCoroutine(
+            updateScale(timerRoot, interpolatorsManager.Animate(
+            timerRoot.localScale,
+            MathConstants.VECTOR_3_ONE * 1.5f,
+            0.5f,
+            new AnimationMode(AnimationType.Ease_In_Out))));
+    }
+
+    public void MoveTimerRootToInitialPosition()
+    {
+        this.DisposeCoroutine(ref moveTimerRootRoutine);
+        this.DisposeCoroutine(ref scaleRoutine);
+
+        moveTimerRootRoutine = StartCoroutine(moveTimeRoot(timerRoot.position, timerRootInitialPosition, 0.5f));
+
+        scaleRoutine = StartCoroutine(
+            updateScale(timerRoot, interpolatorsManager.Animate(
+            timerRoot.localScale,
+            MathConstants.VECTOR_3_ONE,
+            0.5f,
+            new AnimationMode(AnimationType.Ease_In_Out))));
+    }
+
+    public void PlayTimeBonusPopup(float i_added)
+    {
+        popupSpawner.PlayPopupWithAnchor(PopupSpawner.PopupType.TimeBonus, anchorTime, 0.5f, 0.1f, Mathf.CeilToInt(i_added), 30f);
+    }
+
+    public void BumpTimer()
+    {
+        this.DisposeCoroutine(ref scaleRoutine);
+
+        scaleRoutine = StartCoroutine(
+            updateScale(timerRoot, interpolatorsManager.Animate(
+            timerRoot.localScale,
+            timerRoot.localScale * 1.5f,
+            0.5f,
+            new AnimationMode(AnimationType.Bounce))));
     }
 
     #endregion
 
     #region PRIVATE
 
-    void onAddedSeconds(float i_added)
+    IEnumerator moveTimeRoot(Vector3 i_start, Vector3 i_target, float i_time)
     {
-        popupSpawner.PlayPopupWithAnchor(PopupSpawner.PopupType.TimeBonus, anchorTime, 0.5f, 0.1f, Mathf.CeilToInt(i_added), 30f);
+        ITypedAnimator<Vector3> interpolator = interpolatorsManager.Animate(i_start, i_target, i_time, new AnimationMode(AnimationType.Ease_In_Out));
+        while (true == interpolator.IsAnimating)
+        {
+            timerRoot.position = interpolator.Current;
+            yield return null;
+        }
 
-        StartCoroutine(
-            scaleRoutine(timerRoot, interpolatorsManager.Animate(
-            MathConstants.VECTOR_3_ONE,
-            MathConstants.VECTOR_3_ONE * 1.25f,
-            0.5f,
-            new AnimationMode(AnimationType.Bounce))));
+        timerRoot.position = i_target;
+        this.DisposeCoroutine(ref moveTimerRootRoutine);
+
     }
 
     void updateTimerDisplay(string i_minutes, string i_seconds)
@@ -48,13 +108,16 @@ public class UIMinigameTimer : MonoBehaviour
         secondsTxt.text = i_seconds;
     }
 
-    IEnumerator scaleRoutine(Transform i_tr, ITypedAnimator<Vector3> i_scaleAnimator)
+    IEnumerator updateScale(Transform i_tr, ITypedAnimator<Vector3> i_scaleAnimator)
     {
         while (true == i_scaleAnimator.IsAnimating)
         {
             i_tr.localScale = i_scaleAnimator.Current;
             yield return null;
         }
+
+        this.DisposeCoroutine(ref scaleRoutine);
+
     }
 
     #endregion

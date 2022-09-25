@@ -2,6 +2,7 @@ using PathologicalGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DoraFlowManager : MiniGameFlow
 {
@@ -18,12 +19,15 @@ public class DoraFlowManager : MiniGameFlow
     [SerializeField] private UIKernelManagerV2 UIkernelManager = null;
     [SerializeField] private GameObject hudGo = null;
     [SerializeField] private PopupSpawner scorePopupSpawner = null;
+    [SerializeField] private UIMinigameTimer uiMiniGameTimer = null;
 
     [Header("VFX / SFX")]
+    [SerializeField] private InterpolatorsManager interpolators = null;
     [SerializeField] private PanCamera panCamera = null;
     [SerializeField] private SpawnPool vfxPool = null;
     [SerializeField] private DoraSFXProvider sfxProvider = null;
     [SerializeField] private ParticleSystem fireParticlesBurst = null;
+    [SerializeField] private UIAppearWithCanvasGroupAlpha uiHighlightBg = null;
 
     [Header("Bounds")]
     [SerializeField] private BoxCollider cullingBounds = null;
@@ -62,6 +66,9 @@ public class DoraFlowManager : MiniGameFlow
         disposeAllCoroutines();
         EnterMiniGame();
     }
+
+    [ExposePublicMethod]
+    public void GetNextDoraBatch() { StartCoroutine(doraBatchSequence()); }
 
     #endregion
 
@@ -127,7 +134,7 @@ public class DoraFlowManager : MiniGameFlow
         Transform cob = unstackNextCob();
         if (null == cob)
         {
-            getNextDoraBatch();
+            GetNextDoraBatch();
         }
         else
         {
@@ -340,15 +347,37 @@ public class DoraFlowManager : MiniGameFlow
 
     private IEnumerator doraBatchSequence()
     {
+        doraController.DisableController();
+
+        yield return StartCoroutine(moveCurrentCob(true));
+
         timer.PauseTimer();
 
-        scoreManager.AddScoreByValue(currentDoraBatch.BatchFinishScoreBonus, 
-            PopupSpawner.PopupType.Super, Vector3.zero, 1.0f, 0.5f, 10f);
+        uiHighlightBg.Init(interpolators);
+        uiHighlightBg.Appear(true);
+        yield return this.Wait(0.5f);
 
-        // maybe animate time increase
+      //  scoreManager.AddScoreByValue(currentDoraBatch.BatchFinishScoreBonus, 
+       //     PopupSpawner.PopupType.Super, Vector3.zero, 1.0f, 0.5f, 10f);
+
+     //   yield return this.Wait(1.0f);
+
+        uiMiniGameTimer.MoveTimerRootToCenter();
+        yield return this.Wait(0.5f);
+
+        uiMiniGameTimer.PlayTimeBonusPopup(currentDoraBatch.BatchFinishTimeBonus);
+
+        yield return this.Wait(0.3f);
+
+        uiMiniGameTimer.BumpTimer();
         timer.AddTime(currentDoraBatch.BatchFinishTimeBonus);
         sfxProvider.PlayTimeBonusSFX();
 
+        yield return this.Wait(0.5f);
+
+        uiMiniGameTimer.MoveTimerRootToInitialPosition();
+
+        uiHighlightBg.Disappear(true);
         yield return this.Wait(1.0f);
 
         yield return StartCoroutine(bringNewBatch());
@@ -361,8 +390,6 @@ public class DoraFlowManager : MiniGameFlow
     }
 
     private void goToSuccess() { EndMiniGame(true); }
-
-    private void getNextDoraBatch() {  StartCoroutine(doraBatchSequence()); }
 
     void onEat()
     {
