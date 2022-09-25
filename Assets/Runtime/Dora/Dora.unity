@@ -601,6 +601,10 @@ PrefabInstance:
       propertyPath: uiKernelManager
       value: 
       objectReference: {fileID: 1266575456}
+    - target: {fileID: 6378642210666974943, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68566fa6d172f4e4f8d23705a42d8221, type: 3}
 --- !u!114 &417055885261860210 stripped

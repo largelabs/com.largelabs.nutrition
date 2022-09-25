@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +14,12 @@ public class DoraMover : MonoBehaviourBase
     public void ResetMover()
     {
         StopAllCoroutines();
+    }
+
+    public void MoveCob(Transform i_cob, Transform i_target, float i_time, Action<Transform> i_onAnimationEnded = null)
+    {
+        if (null == i_cob) return;
+        StartCoroutine(animateToTransform(i_cob, i_target, i_time, playMoveCurve, i_onAnimationEnded));
     }
 
     public IEnumerator MoveCobOffScreen(Transform i_cob, float i_time)
@@ -32,7 +39,7 @@ public class DoraMover : MonoBehaviourBase
 
     #region PRIVATE API
 
-    IEnumerator animateToTransform(Transform i_cob, Transform i_target, float i_time, AnimationCurve i_curve)
+    IEnumerator animateToTransform(Transform i_cob, Transform i_target, float i_time, AnimationCurve i_curve, Action<Transform> i_onAnimationEnded = null)
     {
         AnimationMode mode = new AnimationMode(i_curve);
 
@@ -49,7 +56,9 @@ public class DoraMover : MonoBehaviourBase
             yield return null;
         }
 
-        i_cob.transform.position = new Vector3(i_target.position.x, i_target.position.y, 0);
+        i_cob.transform.position = new Vector3(i_target.position.x, i_target.position.y, i_target.position.z);
+
+        i_onAnimationEnded?.Invoke(i_cob);
     }
 
     #endregion

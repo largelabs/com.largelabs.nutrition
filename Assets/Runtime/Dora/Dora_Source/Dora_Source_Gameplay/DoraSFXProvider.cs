@@ -16,6 +16,7 @@ public class DoraSFXProvider : MonoBehaviourBase
 
     [SerializeField] private AudioSource[] hurtMouthSFXs = null;
     [SerializeField] private AudioSource movementSFX = null;
+    [SerializeField] private AudioSource landedSFX = null;
 
     [SerializeField] private AudioSource uiKernelPositiveSFX = null;
     [SerializeField] private AudioSource uiKernelNegativeSFX = null;
@@ -36,6 +37,11 @@ public class DoraSFXProvider : MonoBehaviourBase
     public void PlayMovementSFX()
     {
         movementSFX?.Play();
+    }
+
+    public void PlayLandedSFX()
+    {
+        landedSFX?.Play();
     }
 
     public void PlayHurtMouthSFX()
