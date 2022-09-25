@@ -91,6 +91,7 @@ public class HaraMiniGame : MiniGameFlow
 		platformSpawnManager.MapAppear();
 		playerStateMachine.SetState<HarankashIdleState>();
 		playerControls.DisableControls();
+		playerControls.SetLock(true);
 		Debug.LogError("DisabledControls");
 		yield return this.Wait(1f);
 
@@ -112,7 +113,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		//currentRopeSlideStart = rope0SlideStart.position;
 		//currentRopeSlideEnd = rope0SlideEnd.position;
-
+		playerControls.SetLock(false);
 		playerControls.EnableControls();
 		Debug.LogError("Gameplay Start! Controls Activated.");
 	}
@@ -139,6 +140,7 @@ public class HaraMiniGame : MiniGameFlow
 		Debug.LogError("FAIL");
 		playerStateMachine.SetGenericState("d");
 		playerControls.DisableControls();
+		playerControls.SetLock(true);
 		yield break;
 	}
 	#endregion
@@ -167,6 +169,8 @@ public class HaraMiniGame : MiniGameFlow
 		mgTimer.PauseTimer();
 		touchEventDispatcher.OnTouchCart -= failGame;
 		playerControls.DisableControls();
+		playerControls.SetLock(true);
+		harrankashPhysicsBody.SetVelocityX(0f);
 
 		if (nextPileRoutine == null)
 			nextPileRoutine = StartCoroutine(harraSlideSequence(end));
@@ -174,6 +178,9 @@ public class HaraMiniGame : MiniGameFlow
 
 	private void pileSwitch()
     {
+		playerControls.DisableControls();
+		playerControls.SetLock(true);
+
 		harrankashPhysicsBody.SetVelocity(Vector2.zero);
 		playerStateMachine.gameObject.SetActive(false);
 		SpriteFrameSwapper spawnedHarra = spriteHarraSpawner.SpawnTransformAtAnchor(playerRopeSlideStart, MathConstants.VECTOR_3_ZERO,
@@ -277,6 +284,7 @@ public class HaraMiniGame : MiniGameFlow
 		playerStateMachine.gameObject.SetActive(true);
 		playerStateMachine.SetState<HarankashIdleState>();
 		playerControls.DisableControls();
+		playerControls.SetLock(true);
 
 		yield return this.Wait(playerTime / 2f);
 
@@ -299,6 +307,7 @@ public class HaraMiniGame : MiniGameFlow
 		bannerText.sprite = bannerJump;
 		yield return StartCoroutine(bannerSequence());
 
+		playerControls.SetLock(false);
 		playerControls.EnableControls();
 		touchEventDispatcher.OnTouchCart += failGame;
 

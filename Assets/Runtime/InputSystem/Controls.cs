@@ -12,6 +12,8 @@ public class Controls : MonoBehaviourBase
     public Action MoveStarted;
     public Action MoveReleased;
 
+    bool locked = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,6 +32,7 @@ public class Controls : MonoBehaviourBase
 
     public void EnableControls()
     {
+        if (locked) return;
         //Debug.LogError("Enable Controls");
         inputActions.Player.HMovement.Enable();
         inputActions.Player.Jump.Enable();
@@ -41,9 +44,15 @@ public class Controls : MonoBehaviourBase
 
     public void DisableControls()
     {
+        if (locked) return;
         //Debug.LogError("Disable Controls");
         inputActions.Player.HMovement.Disable();
         inputActions.Player.Jump.Disable();
+    }
+
+    public void SetLock(bool i_lock)
+    {
+        locked = i_lock;
     }
 
     public float MoveDirection()

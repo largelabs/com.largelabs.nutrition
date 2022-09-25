@@ -95,7 +95,7 @@ MonoBehaviour:
   - {fileID: 7373397861963711129}
   - {fileID: 7373397862610440877}
   maxOrange: 14
-  numberToSpawnTogether: 2
+  numberToSpawnTogether: 3
   baseSpawnDelay: 0.05
   spawnDelayVariance: 0.02
   appearTime: 0.2
@@ -680,6 +680,10 @@ PrefabInstance:
       propertyPath: orangeSpawnChances.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8709166443905676749, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.541
+      objectReference: {fileID: 0}
     - target: {fileID: 8709166443905676754, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: overrideGreen
       value: 1
@@ -1211,6 +1215,10 @@ PrefabInstance:
     - target: {fileID: 4973875442362832302, guid: c5062ce666a8c7b43b5280d024b89f89, type: 3}
       propertyPath: orangeSpawnChances.Array.data[0]
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973875442398878264, guid: c5062ce666a8c7b43b5280d024b89f89, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.541
       objectReference: {fileID: 0}
     - target: {fileID: 4973875442398878271, guid: c5062ce666a8c7b43b5280d024b89f89, type: 3}
       propertyPath: overrideGreen
@@ -2003,6 +2011,10 @@ PrefabInstance:
     - target: {fileID: 4030519171968180921, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
       propertyPath: yellowSpawnChances.Array.data[0]
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030519172029966650, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.541
       objectReference: {fileID: 0}
     - target: {fileID: 4030519172029966651, guid: f90cc4d783a35924398c0d4ae8b190d0, type: 3}
       propertyPath: overrideGreen

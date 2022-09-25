@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ddd1cb5ab871c41978852fb3e0f24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPiles: 1
+  maxPiles: 2
   scoreManager: {fileID: 0}
   mgTimer: {fileID: 7559566314289358373}
   uiMGTimer: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
   introCam_2: {fileID: 0}
   playerCam: {fileID: 0}
   playerStateMachine: {fileID: 7165359001561108226}
-  celebState: {fileID: 0}
+  celebState: {fileID: 1713754598247187182}
   playerControls: {fileID: 7165359001280152085}
   touchEventDispatcher: {fileID: 7966925455856959488}
   harrankashPhysicsBody: {fileID: 7165359001561108225}
@@ -298,10 +298,6 @@ PrefabInstance:
       propertyPath: interpolatorsManager
       value: 
       objectReference: {fileID: 7165359001015827744}
-    - target: {fileID: 7373397862271054023, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
-      propertyPath: numberToSpawnTogether
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
 --- !u!4 &7165359001024666669 stripped
@@ -327,38 +323,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7165359001015827750}
     m_Modifications:
-    - target: {fileID: 2285553246848972691, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 2285553246848972691, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2285553246848972691, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2285553246848972691, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2899122977406907062, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2899122977406907062, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2899122977406907062, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2899122977406907062, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3289514128781812912, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
       propertyPath: m_Name
       value: HarankashPlayer
@@ -407,16 +371,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3825132285063479698, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: endTransform
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3825132285063479698, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: startTransform
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+--- !u!114 &1713754598247187182 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6421764859426171227, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+  m_PrefabInstance: {fileID: 5680951901074074549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0179e268636e0ee44abbf4d84162c864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7165359001280152085 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3289514129004046752, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
