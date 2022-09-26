@@ -83,7 +83,6 @@ public class HaraMiniGame : MiniGameFlow
     private void Start()
     {
         originPosition = playerStateMachine.transform.position;
-        platformSpawnManager.GenerateNewMap(0);
         EnterMiniGame();
     }
     #endregion
@@ -92,6 +91,8 @@ public class HaraMiniGame : MiniGameFlow
     protected override IEnumerator introRoutine()
     {
         vCamSwitcher.SwitchToVCam(introCam_1);
+
+        platformSpawnManager.GenerateNewMap(0);
 
         yield return this.Wait(1f);
 
@@ -130,11 +131,7 @@ public class HaraMiniGame : MiniGameFlow
 
     protected override void onGameplayEnded()
     {
-        endTrigger.OnTriggerAction -= harraSlide;
-        touchEventDispatcher.OnTouchOrange -= collectOrange;
-        touchEventDispatcher.OnFailConditionMet -= failGame;
-        mgTimer.OnTimerEnded -= timeOut;
-
+        unregisterEvents();
         mgTimer.PauseTimer();
     }
 
@@ -188,8 +185,11 @@ public class HaraMiniGame : MiniGameFlow
 
     private void resetGame()
     {
-        this.DisposeCoroutine(ref bannerRoutine);
+        stopBannerSequence();
+
         diactivateBanner();
+
+        unregisterEvents();
 
         playerControls.DisableControls();
 
@@ -205,8 +205,18 @@ public class HaraMiniGame : MiniGameFlow
         spriteHarraSpawner.DespawnAllTransforms();
 
         platformSpawnManager.DespawnMap(false);
+    }
 
-        platformSpawnManager.GenerateNewMap(0);
+    private void stopBannerSequence()
+    {
+        this.DisposeCoroutine(ref bannerRoutine);
+
+        textScale.StopPingPong();
+        leafRotation_0.StopPingPong();
+        leafRotation_1.StopPingPong();
+        leafRotation_2.StopPingPong();
+        shineRotation.StopPingPong();
+
     }
 
     private void collectOrange(Vector3 i_platformPos)
@@ -476,6 +486,14 @@ public class HaraMiniGame : MiniGameFlow
     {
         harrankashPopup.SetScore(scoreManager.TotalScore.ToString());
         harrankashPopup.Appear(true);
+    }
+
+    private void unregisterEvents()
+    {
+        endTrigger.OnTriggerAction -= harraSlide;
+        touchEventDispatcher.OnTouchOrange -= collectOrange;
+        touchEventDispatcher.OnFailConditionMet -= failGame;
+        mgTimer.OnTimerEnded -= timeOut;
     }
     #endregion
 

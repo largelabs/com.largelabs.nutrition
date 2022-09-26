@@ -236,10 +236,13 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
         int spawnedSinceDelay = 0;
         for (int i = 0; i < length; i++)
         {
-            if(i_appear)
-                shuffledPlatforms[i].GetComponent<HarraPlatformAnimationManager>().PlatformAppear(interpolatorsManager, appearTime);
+            GameObject shuffledPlatform = shuffledPlatforms[i].gameObject;
+            if (shuffledPlatform.activeSelf == false) shuffledPlatform.SetActive(true);
+
+            if (i_appear)
+                shuffledPlatform.GetComponent<HarraPlatformAnimationManager>().PlatformAppear(interpolatorsManager, appearTime);
             else
-                shuffledPlatforms[i].GetComponent<HarraPlatformAnimationManager>().PlatformDisppear(interpolatorsManager, disappearTime);
+                shuffledPlatform.GetComponent<HarraPlatformAnimationManager>().PlatformDisppear(interpolatorsManager, disappearTime);
 
             spawnedSinceDelay++;
 
