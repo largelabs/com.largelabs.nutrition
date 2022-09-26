@@ -20,4 +20,9 @@ public class HarraScoreManager : MonoBehaviourBase
             temp = "0" + temp;
         scoreText.text = temp;
     }
+
+    public int TotalScore
+    {
+        get { return totalScore; }
+    }
 }
