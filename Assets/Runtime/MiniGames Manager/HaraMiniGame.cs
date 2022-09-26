@@ -7,7 +7,7 @@ using UnityEngine;
 public class HaraMiniGame : MiniGameFlow
 {
 	[Header("Gameflow")]
-	[SerializeField] int maxPiles = 2;
+	[SerializeField] HarraGameData gameData = null;
 
 	[Header("Score")]
 	[SerializeField] HarraScoreManager scoreManager = null;
@@ -15,7 +15,6 @@ public class HaraMiniGame : MiniGameFlow
 	[Header("Timer")]
 	[SerializeField] MinigameTimer mgTimer = null;
 	[SerializeField] UIMinigameTimer uiMGTimer = null;
-	[SerializeField] List<float> pileTime = null;
 
 	[Header("Camera Work")]
 	[SerializeField] VCamSwitcher vCamSwitcher = null;
@@ -186,7 +185,14 @@ public class HaraMiniGame : MiniGameFlow
 
 	private void collectOrange(Vector3 i_platformPos)
 	{
-		scoreManager.AddScore(i_platformPos);
+		scoreManager.AddScore(i_platformPos, gameData.OrangeScore);
+		orangeCount++;
+		AddUIHarra();
+	}	
+	
+	private void collectNormal(Vector3 i_platformPos)
+	{
+		scoreManager.AddScore(i_platformPos, gameData.NormalScore);
 		orangeCount++;
 		AddUIHarra();
 	}
@@ -194,7 +200,7 @@ public class HaraMiniGame : MiniGameFlow
 	private void harraSlide()
     {
 		bool end = false;
-		if (currentPile == maxPiles - 1)
+		if (currentPile == gameData.PileAmount - 1)
 			end = true;//EndMiniGame(true);
 
 		scoreManager.gameObject.SetActive(false);
@@ -429,7 +435,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		scoreManager.gameObject.SetActive(true);
 		uiMGTimer.gameObject.SetActive(true);
-		mgTimer.SetTimer(pileTime[Mathf.Clamp(currentPile, 0, pileTime.Count - 1)], true);
+		mgTimer.SetTimer(gameData.PileTimes[Mathf.Clamp(currentPile, 0, gameData.PileTimes.Count - 1)], true);
 		mgTimer.StartTimer();
 
 		leafRotation_0.StopPingPong();

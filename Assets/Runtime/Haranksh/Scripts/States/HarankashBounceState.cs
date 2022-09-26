@@ -29,6 +29,8 @@ public class HarankashBounceState : HarankashJumpState
 
             if (collidedPlatform.GetComponent<OneJumpHaraPlatform>())
                 eventDispatcher.DispatchOrangeTouchEvent(collidedPlatform.transform.position);
+            else
+                eventDispatcher.DispatchNormalTouchEvent(collidedPlatform.transform.position);
 
             collidedPlatform.onCollision();
         }
