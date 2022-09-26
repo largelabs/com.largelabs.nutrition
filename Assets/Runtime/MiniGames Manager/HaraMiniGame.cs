@@ -445,7 +445,7 @@ public class HaraMiniGame : MiniGameFlow
 
 	private void showEndgamePopup()
     {
-		harrankashPopup.SetScore("you suck");
+		harrankashPopup.SetScore(scoreManager.TotalScore.ToString());
 		harrankashPopup.Appear(true);
     }
 	#endregion
