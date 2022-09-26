@@ -1,10 +1,12 @@
-using System;
+using Cinemachine;
 using UnityEngine;
 
 public class HarankashBounceState : HarankashJumpState
 {
     [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
     [SerializeField] MinigameTimer mgTimer = null;
+    [SerializeField] VCamSwitcher vCamSwitcher = null;
+    [SerializeField] CinemachineVirtualCamera farCam = null;
 
     private HaraPlatformAbstract fallPlatform = null;
 
@@ -36,11 +38,21 @@ public class HarankashBounceState : HarankashJumpState
             collidedPlatform.onCollision();
         }
 
+        PlatformID pID = collidedPlatform.GetComponent<PlatformID>();
+        if (pID != null)
+            if (pID.PType == PlatformID.PlatformType.Yellow)
+                vCamSwitcher.SwitchToVCam(farCam);
+
         // sfx suggestion: bouncy jump sound
 
         maxJumpHeight = collidedPlatform.MaxJumpHeight;
         accelerationData = collidedPlatform.AccelerationConfig;
         base.onStateEnter();
+    }
+
+    protected override void onStateExit()
+    {
+        base.onStateExit();
     }
 
     private HaraPlatformAbstract getCollidedPlatformComponent()

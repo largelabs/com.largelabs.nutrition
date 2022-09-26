@@ -297,6 +297,7 @@ public class HaraMiniGame : MiniGameFlow
     {
 		// add a way to get vcam switch time
 		vCamSwitcher.SwitchToVCam(introCam_2);
+		vCamSwitcher.LockSwitching(true);
 		yield return this.Wait(2f);
 
 		yield return StartCoroutine(UIHarraSlideSequence());
@@ -318,6 +319,7 @@ public class HaraMiniGame : MiniGameFlow
 
 	private IEnumerator pileSwitchSequence(SpriteFrameSwapper i_spawnedHarra)
     {
+
 		float playerTime = slidePlayer(i_spawnedHarra);
 		playerStateMachine.transform.position = originPosition;
 		playerStateMachine.gameObject.SetActive(true);
@@ -328,6 +330,7 @@ public class HaraMiniGame : MiniGameFlow
 		yield return this.Wait(playerTime / 2f);
 
 		spriteHarraSpawner.DespawnTransform(i_spawnedHarra);
+		vCamSwitcher.LockSwitching(false);
 		vCamSwitcher.SwitchToVCam(introCam_1);
 		platformSpawnManager.DespawnMap(true);
 		yield return this.Wait(2f);

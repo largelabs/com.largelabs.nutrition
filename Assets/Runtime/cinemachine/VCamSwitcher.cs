@@ -9,6 +9,8 @@ public class VCamSwitcher : MonoBehaviourBase
     private const int highVal = 100;
     private const int lowVal = 0;
 
+    private bool locked = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -21,6 +23,8 @@ public class VCamSwitcher : MonoBehaviourBase
 
     public void SwitchToVCam(CinemachineVirtualCamera i_VCam)
     {
+        if (locked) return;
+
         foreach (CinemachineVirtualCamera vcam in VCams)
         {
             if (vcam == i_VCam)
@@ -28,5 +32,10 @@ public class VCamSwitcher : MonoBehaviourBase
             else
                 vcam.Priority = lowVal;
         }
+    }
+
+    public void LockSwitching(bool i_lock)
+    {
+        locked = i_lock;
     }
 }
