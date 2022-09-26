@@ -14,11 +14,16 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     [SerializeField] SpriteRenderer rnd = null;
     [SerializeField] Sprite baseSprite = null;
     [SerializeField] SpriteFrameSwapper openUp = null;    
-    [SerializeField] SpriteFrameSwapper closeUp = null;    
+    [SerializeField] SpriteFrameSwapper closeUp = null;
+
+    bool open = false;
+
+    public bool IsOpen => open;
 
     public void ResetSprite()
     {
         rnd.sprite = baseSprite;
+        open = false;
     }
 
     [ExposePublicMethod]
@@ -57,6 +62,7 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
 
         openUp.ResetAnimation();
         openUp.Play();
+        open = true;
     } 
     
     [ExposePublicMethod]
@@ -66,5 +72,6 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
 
         closeUp.ResetAnimation();
         closeUp.Play();
+        open = false;
     }
 }

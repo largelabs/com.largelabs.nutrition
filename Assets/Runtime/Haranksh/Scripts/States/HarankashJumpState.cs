@@ -9,7 +9,7 @@ public class HarankashJumpState : MoveHorizontalAbstractState
     [SerializeField] private SpriteFrameSwapper jumpVFX = null;
     [SerializeField] Transform visualObjectRoot = null;
     [SerializeField] float visualObjectYOffset = 0.1263f;
-    [SerializeField] private TrailRenderer trail = null;
+    [SerializeField] protected TrailRenderer trail = null;
 
     Coroutine launchRoutine = null;
 

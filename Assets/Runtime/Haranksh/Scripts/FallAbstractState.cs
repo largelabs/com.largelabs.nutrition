@@ -12,6 +12,7 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     [SerializeField] private TrailRenderer trail = null;
     [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
     [SerializeField] MinigameTimer mgTimer = null;
+    [SerializeField] HarankashBounceState bounceState = null;
 
     Coroutine landingRoutine = null;
 
@@ -66,11 +67,16 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
             HarraPlatformAnimationManager animations = platform.GetComponentInChildren<HarraPlatformAnimationManager>();
             if (animations != null)
                 animations.OpenUp();
+            if (platform.GetComponent<OneJumpHaraPlatform>())
+                eventDispatcher.DispatchOrangeTouchEvent(platform.transform.position);
         }
 
         // sfx suggestion: impact sound
         yield return this.Wait(timeBeforeBounce);
         landingFrames.Stop();
+
+        if(platform != null)
+        platform.onCollision();
 
         if (i_tag == "Finish" || mgTimer.RemainingTimeSeconds < 0.05f)
         {
@@ -89,7 +95,10 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         {
             firstFall = false;
             if (i_tag == "Bouncy")
+            {
+                bounceState.SetFallPlatform(platform);
                 setState<HarankashBounceState>();
+            }
             else if (i_tag == "Respawn")
                 setState<HarrankashCelebrationState>();
             else
@@ -112,6 +121,7 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
     #region UTILITY
     private HaraPlatformAbstract getCollidedPlatformComponent()
     {
+        Debug.LogError("Get component fall");
         HaraPlatformAbstract collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInParent<HaraPlatformAbstract>();
 
         if (collidedPlatform == null)

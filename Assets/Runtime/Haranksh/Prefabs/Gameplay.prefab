@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ddd1cb5ab871c41978852fb3e0f24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPiles: 1
+  maxPiles: 2
   scoreManager: {fileID: 0}
   mgTimer: {fileID: 7559566314289358373}
   uiMGTimer: {fileID: 0}
@@ -595,6 +595,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3289514128787467903, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: mgTimer
+      value: 
+      objectReference: {fileID: 7559566314289358373}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
 --- !u!114 &1713754598247187182 stripped

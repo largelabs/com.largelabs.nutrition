@@ -1292,10 +1292,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7165359000479834230, guid: 027f746757812504b8a8d7f543f42258, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 10.319
-      objectReference: {fileID: 0}
     - target: {fileID: 7165359001015827749, guid: 027f746757812504b8a8d7f543f42258, type: 3}
       propertyPath: m_Name
       value: Gameplay
@@ -1343,10 +1339,6 @@ PrefabInstance:
     - target: {fileID: 7165359001015827750, guid: 027f746757812504b8a8d7f543f42258, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7165359001015827751, guid: 027f746757812504b8a8d7f543f42258, type: 3}
-      propertyPath: maxPiles
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7165359001015827751, guid: 027f746757812504b8a8d7f543f42258, type: 3}
       propertyPath: playerCam
@@ -1444,14 +1436,6 @@ PrefabInstance:
       propertyPath: playerRopeSlideStart
       value: 
       objectReference: {fileID: 332662511}
-    - target: {fileID: 7165359001372622427, guid: 027f746757812504b8a8d7f543f42258, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 10.319
-      objectReference: {fileID: 0}
-    - target: {fileID: 7165359001639425351, guid: 027f746757812504b8a8d7f543f42258, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 10.319
-      objectReference: {fileID: 0}
     - target: {fileID: 8918062037390584359, guid: 027f746757812504b8a8d7f543f42258, type: 3}
       propertyPath: endTransform
       value: 
