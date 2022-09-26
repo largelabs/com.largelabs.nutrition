@@ -381,6 +381,7 @@ MonoBehaviour:
   timeBeforeBounce: 0.5
   trail: {fileID: 0}
   eventDispatcher: {fileID: 0}
+  mgTimer: {fileID: 0}
 --- !u!1 &3289514128146950376
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +490,7 @@ MonoBehaviour:
   timeBeforeBounce: 0.5
   trail: {fileID: 7912178539449394182}
   eventDispatcher: {fileID: 2325827571058912181}
+  mgTimer: {fileID: 0}
 --- !u!1 &3289514128781812912
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +667,7 @@ MonoBehaviour:
   jumpRiseFrames: {fileID: 3472372678444729562}
   jumpVFX: {fileID: 3403016381172331550}
   visualObjectRoot: {fileID: 3289514128824970441}
-  visualObjectYOffset: 0.1263
+  visualObjectYOffset: 0.279
   trail: {fileID: 7912178539449394182}
   eventDispatcher: {fileID: 2325827571058912181}
 --- !u!1 &3289514128824970438

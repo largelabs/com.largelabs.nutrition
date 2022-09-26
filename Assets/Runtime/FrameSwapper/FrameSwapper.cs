@@ -87,6 +87,7 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
     [ExposePublicMethod]
     public void Resume() => isResumed = true;
 
+    [ExposePublicMethod]
 	public void ResetAnimation() => currentFrame = frames[0];
 
 	public void StopLoop() => isLooping = false;

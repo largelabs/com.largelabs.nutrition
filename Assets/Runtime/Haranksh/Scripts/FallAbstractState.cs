@@ -59,6 +59,15 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         landingFrames.Play();
         landVFX.ResetAnimation();
         landVFX.Play();
+
+        HaraPlatformAbstract platform = getCollidedPlatformComponent();
+        if (platform != null)
+        {
+            HarraPlatformAnimationManager animations = platform.GetComponentInChildren<HarraPlatformAnimationManager>();
+            if (animations != null)
+                animations.OpenUp();
+        }
+
         // sfx suggestion: impact sound
         yield return this.Wait(timeBeforeBounce);
         landingFrames.Stop();
@@ -98,6 +107,21 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         body.AddVelocityY(addedVelocityY);
     }
 
+    #endregion
+
+    #region UTILITY
+    private HaraPlatformAbstract getCollidedPlatformComponent()
+    {
+        HaraPlatformAbstract collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInParent<HaraPlatformAbstract>();
+
+        if (collidedPlatform == null)
+            collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponent<HaraPlatformAbstract>();
+
+        if (collidedPlatform == null)
+            collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInChildren<HaraPlatformAbstract>();
+
+        return collidedPlatform;
+    }
     #endregion
 
 }
