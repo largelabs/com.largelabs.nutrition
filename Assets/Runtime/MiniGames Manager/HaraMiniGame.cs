@@ -145,7 +145,8 @@ public class HaraMiniGame : MiniGameFlow
 		// celebration sound would be for every pile finish but this would only be if all piles are finished
 
 		// show score banner popup
-		yield return null;
+		yield return this.Wait(2.5f);
+		showEndgamePopup();
 
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
@@ -164,7 +165,9 @@ public class HaraMiniGame : MiniGameFlow
 		yield return this.Wait(1.25f);
 		gameOverFade.LerpAlpha(null, null, 0.5f, interpolatorsManager, null, true, null);
 
+		yield return this.Wait(0.5f);
 		// show score banner popup
+		showEndgamePopup();
 		// sfx suggestion: board appear sound
 
 		playerControls.SetLock(false);

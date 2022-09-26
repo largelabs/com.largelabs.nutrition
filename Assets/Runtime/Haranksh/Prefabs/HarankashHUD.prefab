@@ -979,55 +979,59 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 517267297540483839, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 517267297540483839, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 517267297540483839, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 517267297540483839, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 583306210725058087, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 583306210725058087, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 583306210725058087, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 583306210725058087, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 2533787594154770604, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2533787594154770604, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2533787594154770604, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 2533787594154770604, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 4472547927732263400, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: m_Name
       value: UITimer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4472547927732263400, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4472547927732263402, guid: 4e9d60788040ca84e9557150a9b9abb4, type: 3}
       propertyPath: timer

@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tr: {fileID: 1411434996}
   baseScale: {x: 0, y: 0, z: 0}
-  targetScale: {x: 1, y: 1, z: 1}
+  targetScale: {x: 0.7, y: 0.7, z: 0.7}
   interpolatorsManager: {fileID: 1411434997}
   singleLerpCurve:
     serializedVersion: 2
@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ddd1cb5ab871c41978852fb3e0f24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPiles: 2
+  maxPiles: 1
   scoreManager: {fileID: 0}
   mgTimer: {fileID: 7559566314289358373}
   uiMGTimer: {fileID: 0}
@@ -333,6 +333,7 @@ MonoBehaviour:
   playerRopeSlideStart: {fileID: 0}
   playerRopeSlideEnd: {fileID: 0}
   slideSpeed: 10
+  harrankashPopup: {fileID: 0}
   gameOverScale: {fileID: 1411434998}
   gameOverFade: {fileID: 4861638833474041322}
 --- !u!114 &7165359001015827744
