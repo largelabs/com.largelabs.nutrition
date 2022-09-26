@@ -7,7 +7,8 @@ public class HarrankashCelebrationState : State
     [SerializeField] SpriteFrameSwapper jumpAnticipationFrames = null;
 
     [SerializeField] Transform visualObjectRoot = null;
-    [SerializeField] float visualObjectYOffset = -0.0174f;
+    [SerializeField] float visualObjectYOffsetJump = -0.0174f;
+    [SerializeField] float visualObjectYOffsetCeleb = -0.0174f;
 
     [SerializeField] TrailRenderer trail = null;
 
@@ -27,7 +28,7 @@ public class HarrankashCelebrationState : State
     {
         celebrationFrames.Stop();
         Vector3 temp = visualObjectRoot.localPosition;
-        visualObjectRoot.localPosition = new Vector3(temp.x, visualObjectYOffset, temp.z);
+        visualObjectRoot.localPosition = new Vector3(temp.x, visualObjectYOffsetJump, temp.z);
         jumpAnticipationFrames.Play();
         yield return this.Wait(0.3f);
         jumpAnticipationFrames.Stop();
@@ -41,7 +42,8 @@ public class HarrankashCelebrationState : State
     protected override void onStateEnter()
     {
         // sfx suggestion: victory sound
-
+        Vector3 temp = visualObjectRoot.localPosition;
+        visualObjectRoot.localPosition = new Vector3(temp.x, visualObjectYOffsetCeleb, temp.z);
         celebrationFrames.Play();
         trail.enabled = false;
     }

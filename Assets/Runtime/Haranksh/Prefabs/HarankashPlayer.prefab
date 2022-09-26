@@ -178,7 +178,8 @@ MonoBehaviour:
   celebrationFrames: {fileID: 2693661383114204730}
   jumpAnticipationFrames: {fileID: 1508248216536313224}
   visualObjectRoot: {fileID: 3289514128824970441}
-  visualObjectYOffset: 0.074
+  visualObjectYOffsetJump: 0.074
+  visualObjectYOffsetCeleb: 0.123
   trail: {fileID: 7912178539449394182}
 --- !u!1 &2965676345956075584
 GameObject:
