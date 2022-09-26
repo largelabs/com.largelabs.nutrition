@@ -65,13 +65,14 @@ public abstract class FallAbstractState : MoveHorizontalAbstractState
         if (platform != null)
         {
             HarraPlatformAnimationManager animations = platform.GetComponentInChildren<HarraPlatformAnimationManager>();
-            if (animations != null)
-                animations.OpenUp();
 
             if (platform.GetComponent<OneJumpHaraPlatform>())
                 eventDispatcher.DispatchOrangeTouchEvent(platform.transform.position);
-            else
-                eventDispatcher.DispatchNormalTouchEvent(platform.transform.position);
+            else if(animations.IsOpen == false)
+                eventDispatcher.DispatchNormalFirstTouchEvent(platform.transform.position);
+
+            if (animations != null)
+                animations.OpenUp();
         }
 
         // sfx suggestion: impact sound

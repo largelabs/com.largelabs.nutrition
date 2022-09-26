@@ -24,13 +24,14 @@ public class HarankashBounceState : HarankashJumpState
         if (collidedPlatform != fallPlatform)
         {
             HarraPlatformAnimationManager animations = collidedPlatform.GetComponentInChildren<HarraPlatformAnimationManager>();
-            if (animations != null)
-                animations.OpenUp();
 
             if (collidedPlatform.GetComponent<OneJumpHaraPlatform>())
                 eventDispatcher.DispatchOrangeTouchEvent(collidedPlatform.transform.position);
-            else
-                eventDispatcher.DispatchNormalTouchEvent(collidedPlatform.transform.position);
+            else if(animations.IsOpen == false)
+                eventDispatcher.DispatchNormalFirstTouchEvent(collidedPlatform.transform.position);
+
+            if (animations != null)
+                animations.OpenUp();
 
             collidedPlatform.onCollision();
         }

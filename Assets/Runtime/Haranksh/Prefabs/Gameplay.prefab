@@ -266,15 +266,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ddd1cb5ab871c41978852fb3e0f24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPiles: 2
+  gameData: {fileID: 11400000, guid: 5c2433c79f78065479b1e47bfb594c45, type: 2}
   scoreManager: {fileID: 0}
   mgTimer: {fileID: 7559566314289358373}
   uiMGTimer: {fileID: 0}
-  pileTime:
-  - 45
-  - 60
-  - 50
-  - 30
   vCamSwitcher: {fileID: 0}
   introCam_0: {fileID: 0}
   introCam_1: {fileID: 0}

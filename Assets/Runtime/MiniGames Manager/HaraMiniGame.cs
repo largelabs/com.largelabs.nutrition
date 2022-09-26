@@ -113,6 +113,7 @@ public class HaraMiniGame : MiniGameFlow
 	{
 		endTrigger.OnTriggerAction += harraSlide;
 		touchEventDispatcher.OnTouchOrange += collectOrange;
+		touchEventDispatcher.OnFirstTouchNormal += collectNormal;
 		touchEventDispatcher.OnFailConditionMet += failGame;
 		mgTimer.OnTimerEnded += timeOut;
 
@@ -129,6 +130,7 @@ public class HaraMiniGame : MiniGameFlow
 	{
 		endTrigger.OnTriggerAction -= harraSlide;
 		touchEventDispatcher.OnTouchOrange -= collectOrange;
+		touchEventDispatcher.OnFirstTouchNormal -= collectNormal;
 		touchEventDispatcher.OnFailConditionMet -= failGame;
 		mgTimer.OnTimerEnded -= timeOut;
 

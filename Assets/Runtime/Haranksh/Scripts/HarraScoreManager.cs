@@ -12,7 +12,7 @@ public class HarraScoreManager : MonoBehaviourBase
     {
         // sfx suggestion: popup score sound (can be added by assigning audio clip on the scorepopup prefab)
 
-        scorePopups.PlayPopup(PopupSpawner.PopupType.Positive, i_platformPos, 0.5f, 0.1f, i_score, 10f);
+        scorePopups.PlayPopup(PopupSpawner.PopupType.Positive, i_platformPos, 0.5f, 0.1f, i_score, 20f);
         totalScore += i_score;
         string temp = totalScore.ToString();
 

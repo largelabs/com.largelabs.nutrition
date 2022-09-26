@@ -4,7 +4,7 @@ using UnityEngine;
 public class HarrankashPlatformEventDispatcher : MonoBehaviourBase
 {
     public Action<Vector3> OnTouchOrange = null;
-    public Action<Vector3> OnTouchNormal = null;
+    public Action<Vector3> OnFirstTouchNormal = null;
     public Action OnFailConditionMet = null;
 
     public void DispatchOrangeTouchEvent(Vector3 i_platformPos)
@@ -12,9 +12,9 @@ public class HarrankashPlatformEventDispatcher : MonoBehaviourBase
         OnTouchOrange?.Invoke(i_platformPos);
     }  
     
-    public void DispatchNormalTouchEvent(Vector3 i_platformPos)
+    public void DispatchNormalFirstTouchEvent(Vector3 i_platformPos)
     {
-        OnTouchNormal?.Invoke(i_platformPos);
+        OnFirstTouchNormal?.Invoke(i_platformPos);
     }
 
     public void DispatchFailGameEvent()
