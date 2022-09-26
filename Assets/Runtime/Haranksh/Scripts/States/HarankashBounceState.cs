@@ -19,11 +19,7 @@ public class HarankashBounceState : HarankashJumpState
         HaraPlatformAbstract collidedPlatform = getCollidedPlatformComponent();
 
         if (collidedPlatform == null)
-        {
-            Debug.LogError("No hara platform component found! setting state to idle.");
-            setState<HarankashIdleState>();
             return;
-        }
 
         if (collidedPlatform != fallPlatform)
         {
@@ -61,6 +57,11 @@ public class HarankashBounceState : HarankashJumpState
             trail.enabled = false;
 
             eventDispatcher.DispatchFailGameEvent();
+        }
+        else if(collidedPlatform == null)
+        {
+            Debug.LogError("No hara platform component found! setting state to idle.");
+            setState<HarankashIdleState>();
         }
 
         return collidedPlatform;
