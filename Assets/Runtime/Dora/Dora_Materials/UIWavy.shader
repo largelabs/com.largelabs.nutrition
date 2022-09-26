@@ -1,4 +1,6 @@
-Shader "UI/Default"
+
+
+Shader "Largelabs/UI/Wavy"
 {
     Properties
     {
