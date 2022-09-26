@@ -314,7 +314,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scorePopups: {fileID: 2754325524240766343}
-  platformSore: 60
   scoreText: {fileID: 2298510306877712615}
 --- !u!1 &6918587138213038859
 GameObject:
