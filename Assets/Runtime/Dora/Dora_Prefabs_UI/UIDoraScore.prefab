@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6202466096675858853}
   - component: {fileID: 372464713003128813}
   - component: {fileID: 5009070083813984431}
+  - component: {fileID: 6434145315743436427}
   m_Layer: 5
   m_Name: ScoreLabel
   m_TagString: Untagged
@@ -96,6 +97,24 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 0
+--- !u!114 &6434145315743436427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305927185833792112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e8a6e4869c35f44af8097d221ef840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isArabic: 0
+  englishString: score
+  arabicString: "\u0646\u062A\u064A\u062C\u0629"
+  englishFont: {fileID: 12800000, guid: 9b99e6767286a3047bad7f53bbaa6966, type: 3}
+  arabicFont: {fileID: 12800000, guid: 9b99e6767286a3047bad7f53bbaa6966, type: 3}
+  uiText: {fileID: 372464713003128813}
 --- !u!1 &7482154532478549341
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +139,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7482154532478549341}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -265,6 +284,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  clampValues: 1
+  resetScaleOnFinish: 1
 --- !u!114 &9195875975479434111
 MonoBehaviour:
   m_ObjectHideFlags: 0
