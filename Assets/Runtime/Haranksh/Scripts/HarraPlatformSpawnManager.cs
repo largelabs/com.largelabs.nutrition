@@ -182,7 +182,9 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
         }
         else
         {
-            if (currOrange < maxOrange && !i_prevOrange && !i_prevSolo && (i_spawnedPrev || i_rowLength == 1))
+            // can change !(i_prevOrange) to !(i_prevOrange && i_prevSolo) to
+            // make it spawn orange more freely
+            if (i_rowLength == 1 || (currOrange < maxOrange && !(i_prevOrange) && i_spawnedPrev))
             {
                 i_prevOrange = true;
                 ret = HarraPlatformSpawner.PlatformType.Orange;
