@@ -43,6 +43,9 @@ public class HarankashBounceState : HarankashJumpState
             if (pID.PType == PlatformID.PlatformType.Yellow)
                 vCamSwitcher.SwitchToVCam(farCam);
 
+        //VFX Make platform wobble using animation manager
+
+
         // sfx suggestion: bouncy jump sound
 
         maxJumpHeight = collidedPlatform.MaxJumpHeight;

@@ -81,6 +81,9 @@ public class HarankashFallState : FallAbstractState
             if (pID != null)
                 if (pID.PType != PlatformID.PlatformType.Yellow)
                     vCamSwitcher.SwitchToVCam(nearCam);
+
+
+            //VFX Make platform go down using animation manager
         }
 
         // sfx suggestion: impact sound
