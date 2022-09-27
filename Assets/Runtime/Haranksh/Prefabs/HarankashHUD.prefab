@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 408314526430434829}
   - component: {fileID: 7544795561951331178}
   - component: {fileID: 4290992792171347234}
-  - component: {fileID: 8873255824056509024}
+  - component: {fileID: 647979811913024897}
+  - component: {fileID: 1539990023524815442}
   m_Layer: 5
   m_Name: ScoreLabel
   m_TagString: Untagged
@@ -36,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 8.676}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.5, y: -85.8}
-  m_SizeDelta: {x: 160.8644, y: 81.9839}
+  m_AnchoredPosition: {x: -3.9, y: -112.06}
+  m_SizeDelta: {x: 181.405, y: 81.9839}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &7544795561951331178
 CanvasRenderer:
@@ -68,7 +69,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 9b99e6767286a3047bad7f53bbaa6966, type: 3}
+    m_Font: {fileID: 12800000, guid: 8865281176d6ed64eb6195ffab5e1763, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
@@ -80,8 +81,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: score
---- !u!114 &8873255824056509024
+  m_Text: "\uFE94\uFEA0\uFEF4\uFE98\uFEE8\uFEDF\u0627"
+--- !u!114 &647979811913024897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,12 +91,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 3222462149128304831}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a0b1df83dcb5b3418bb4f442eec6ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 2, y: -2}
-  m_UseGraphicAlpha: 0
+  m_UseGraphicAlpha: 1
+  m_halfSampleCountX: 2
+  m_halfSampleCountY: 2
+--- !u!114 &1539990023524815442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3222462149128304831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58e8a6e4869c35f44af8097d221ef840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5245100341092299163
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,6 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scorePopups: {fileID: 2754325524240766343}
   scoreText: {fileID: 2298510306877712615}
+  sfxProvider: {fileID: 0}
 --- !u!1 &6918587138213038859
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,6 +820,7 @@ MonoBehaviour:
   timePerUIElement: 0.2
   minTimePerUIElement: 0.2
   uiHarrankashSpawner: {fileID: 6918587138814013449}
+  sfxProvider: {fileID: 0}
 --- !u!114 &6918587138974470212
 MonoBehaviour:
   m_ObjectHideFlags: 0
