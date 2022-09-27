@@ -998,10 +998,6 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u0639\uFEEE\uFE9F\u0631"
       objectReference: {fileID: 0}
-    - target: {fileID: 1425944600574641923, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: 9b99e6767286a3047bad7f53bbaa6966, type: 3}
     - target: {fileID: 3794757413247916789, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
       propertyPath: uiText
       value: 
@@ -1185,10 +1181,6 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\uFEF2\uFEE7\uFE8E\uFE97 "
       objectReference: {fileID: 0}
-    - target: {fileID: 1425944600574641923, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: 9b99e6767286a3047bad7f53bbaa6966, type: 3}
     - target: {fileID: 3794757413247916789, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
       propertyPath: uiText
       value: 
