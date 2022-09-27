@@ -16,7 +16,11 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     [SerializeField] SpriteFrameSwapper openUp = null;    
     [SerializeField] SpriteFrameSwapper closeUp = null;
 
+    [Header("SFX")]
+    [SerializeField] HarraSFXProvider sfxProvider = null;
+
     bool open = false;
+    
 
     public bool IsOpen => open;
 
@@ -59,6 +63,7 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     {
         if (openUp == null) return;
         // sfx suggestion: sound for platform opening
+        sfxProvider.PlayPlatformOpenningSFX();
 
         openUp.ResetAnimation();
         openUp.Play();

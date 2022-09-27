@@ -64,11 +64,15 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] LocalScalePingPong gameOverScale = null;
 	[SerializeField] SpriteAlphaLerp gameOverFade = null;
 
-	private int currentPile = 0;
-	private int orangeCount = 0;
-	private Vector3 originPosition = Vector3.zero;
+    [Header("Sounds")]
+    [SerializeField] HarraSFXProvider sfxProvider = null;
 
-	private Coroutine nextPileRoutine = null;
+    private int currentPile = 0;
+    private int orangeCount = 0;
+    private Vector3 originPosition = Vector3.zero;
+
+    private Coroutine nextPileRoutine = null;
+    private Coroutine bannerRoutine = null;
 
 	private Transform currentRopeSlideStart = null;
 	private Vector3 currentRopeSlideEnd = MathConstants.VECTOR_3_ZERO;
@@ -80,34 +84,36 @@ public class HaraMiniGame : MiniGameFlow
     #region UNITY
     private void Start()
     {
-		originPosition = playerStateMachine.transform.position;
-		platformSpawnManager.GenerateNewMap(0);
-		EnterMiniGame();
-	}
+        originPosition = playerStateMachine.transform.position;
+        EnterMiniGame();
+    }
     #endregion
 
     #region PROTECTED
     protected override IEnumerator introRoutine()
-	{
-		vCamSwitcher.SwitchToVCam(introCam_1);
-		yield return this.Wait(1f);
+    {
+        vCamSwitcher.SwitchToVCam(introCam_1);
 
-		platformSpawnManager.MapAppear();
-		playerStateMachine.SetState<HarankashIdleState>();
-		playerControls.DisableControls();
-		playerControls.SetLock(true);
-		Debug.LogError("DisabledControls");
-		yield return this.Wait(1f);
+        platformSpawnManager.GenerateNewMap(0);
 
-		vCamSwitcher.SwitchToVCam(playerCam);
-		yield return this.Wait(2f);
+        yield return this.Wait(1f);
 
-		while (platformSpawnManager.MapIsAnimating)
-			yield return null;
-		
-		bannerText.sprite = bannerStart;
-		yield return StartCoroutine(bannerSequence());
-	}
+        platformSpawnManager.MapAppear();
+        playerStateMachine.SetState<HarankashIdleState>();
+        playerControls.DisableControls();
+        playerControls.SetLock(true);
+        Debug.LogError("DisabledControls");
+        yield return this.Wait(1f);
+
+        vCamSwitcher.SwitchToVCam(playerCam);
+        yield return this.Wait(2f);
+
+        while (platformSpawnManager.MapIsAnimating)
+            yield return null;
+
+        bannerText.sprite = bannerStart;
+        yield return StartCoroutine(bannerSequence());
+    }
 
 	protected override void onGameplayStarted()
 	{
@@ -126,32 +132,27 @@ public class HaraMiniGame : MiniGameFlow
 	{
 	}
 
-	protected override void onGameplayEnded()
-	{
-		endTrigger.OnTriggerAction -= harraSlide;
-		touchEventDispatcher.OnTouchOrange -= collectOrange;
-		touchEventDispatcher.OnFirstTouchNormal -= collectNormal;
-		touchEventDispatcher.OnFailConditionMet -= failGame;
-		mgTimer.OnTimerEnded -= timeOut;
+    protected override void onGameplayEnded()
+    {
+        unregisterEvents();
+        mgTimer.PauseTimer();
+    }
 
-		mgTimer.PauseTimer();
-	}
+    protected override IEnumerator onSuccess()
+    {
+        Debug.LogError("SUCCESS");
+        vCamSwitcher.SwitchToVCam(playerCam);
 
-	protected override IEnumerator onSuccess()
-	{
-		Debug.LogError("SUCCESS");
-		vCamSwitcher.SwitchToVCam(playerCam);
+        // sfx suggestion: success sound (note that victory sound could be played with celebration state)
+        // celebration sound would be for every pile finish but this would only be if all piles are finished
 
-		// sfx suggestion: success sound (note that victory sound could be played with celebration state)
-		// celebration sound would be for every pile finish but this would only be if all piles are finished
+        // show score banner popup
+        yield return this.Wait(2.5f);
+        showEndgamePopup();
 
-		// show score banner popup
-		yield return this.Wait(2.5f);
-		showEndgamePopup();
-
-		playerControls.SetLock(false);
-		playerControls.EnableControls();
-	}
+        playerControls.SetLock(false);
+        playerControls.EnableControls();
+    }
 
 	protected override IEnumerator onFailure()
 	{
@@ -161,7 +162,8 @@ public class HaraMiniGame : MiniGameFlow
 		//yield return null;
 		playerStateMachine.SetGenericState("d");
 
-		// sfx suggestion: failure sound
+        // sfx suggestion: failure sound
+        sfxProvider.PlayFailureSFX();
 
 		yield return this.Wait(0.5f);
 		// show score banner popup
@@ -185,17 +187,48 @@ public class HaraMiniGame : MiniGameFlow
 		EndMiniGame(false);
 	}
 
-	private void collectOrange(Vector3 i_platformPos)
-	{
-		scoreManager.AddScore(i_platformPos, gameData.OrangeScore);
-		orangeCount++;
-		AddUIHarra();
-	}	
-	
-	private void collectNormal(Vector3 i_platformPos)
-	{
-		scoreManager.AddScore(i_platformPos, gameData.NormalScore);
-	}
+    private void resetGame()
+    {
+        stopBannerSequence();
+
+        diactivateBanner();
+
+        unregisterEvents();
+
+        playerControls.DisableControls();
+
+        playerStateMachine.gameObject.SetActive(true);
+        playerStateMachine.SetState<HarankashIdleState>();
+        playerStateMachine.transform.position = originPosition;
+
+        currentPile = 0;
+        mgTimer.ResetTimer();
+        scoreManager.gameObject.SetActive(false);
+        uiMGTimer.gameObject.SetActive(false);
+
+        spriteHarraSpawner.DespawnAllTransforms();
+
+        platformSpawnManager.DespawnMap(false);
+    }
+
+    private void stopBannerSequence()
+    {
+        this.DisposeCoroutine(ref bannerRoutine);
+
+        textScale.StopPingPong();
+        leafRotation_0.StopPingPong();
+        leafRotation_1.StopPingPong();
+        leafRotation_2.StopPingPong();
+        shineRotation.StopPingPong();
+
+    }
+
+    private void collectOrange(Vector3 i_platformPos)
+    {
+        scoreManager.AddScore(i_platformPos);
+        orangeCount++;
+        AddUIHarra();
+    }
 
 	private void harraSlide()
     {
@@ -347,7 +380,7 @@ public class HaraMiniGame : MiniGameFlow
 			yield return null;
 
 		bannerText.sprite = bannerJump;
-		yield return StartCoroutine(bannerSequence());
+		yield return bannerRoutine = StartCoroutine(bannerSequence());
 
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
@@ -436,10 +469,17 @@ public class HaraMiniGame : MiniGameFlow
 		while (bannerPositionOut.IsMoving)
 			yield return null;
 
-		scoreManager.gameObject.SetActive(true);
-		uiMGTimer.gameObject.SetActive(true);
-		mgTimer.SetTimer(gameData.PileTimes[Mathf.Clamp(currentPile, 0, gameData.PileTimes.Count - 1)], true);
-		mgTimer.StartTimer();
+        scoreManager.gameObject.SetActive(true);
+        uiMGTimer.gameObject.SetActive(true);
+        mgTimer.SetTimer(gameData.PileTimes[Mathf.Clamp(currentPile, 0, gameData.PileTimes.Count - 1)], true);
+        mgTimer.StartTimer();
+
+        diactivateBanner();
+    }
+
+    private void diactivateBanner()
+    {
+        if (bannerPositionIn.transform.parent.gameObject.activeSelf == false) return;
 
 		leafRotation_0.StopPingPong();
 		leafRotation_1.StopPingPong();
@@ -451,8 +491,18 @@ public class HaraMiniGame : MiniGameFlow
 
 	private void showEndgamePopup()
     {
-		harrankashPopup.SetScore(scoreManager.TotalScore.ToString());
-		harrankashPopup.Appear(true);
+        harrankashPopup.SetScore(scoreManager.TotalScore.ToString());
+        harrankashPopup.Appear(true);
+        sfxProvider.PlayAppearSFX();
+    }
+
+    private void unregisterEvents()
+    {
+        endTrigger.OnTriggerAction -= harraSlide;
+        touchEventDispatcher.OnTouchOrange -= collectOrange;
+		touchEventDispatcher.OnFirstTouchNormal -= collectNormal;
+        touchEventDispatcher.OnFailConditionMet -= failGame;
+        mgTimer.OnTimerEnded -= timeOut;
     }
 	#endregion
 
@@ -471,10 +521,22 @@ public class HaraMiniGame : MiniGameFlow
 		StartCoroutine(UIHarraSlideSequence());
 	}
 
-	[ExposePublicMethod]
-	public void ShowScorePopup()
-	{
-		showEndgamePopup();
-	}
-	#endregion
+    [ExposePublicMethod]
+    public void ShowScorePopup()
+    {
+        showEndgamePopup();
+    }
+    #endregion
+
+    #region PUBLIC API
+
+    [ExposePublicMethod]
+    public void RestartGame()
+    {
+        disposeAllCoroutines();
+        resetGame();
+        EnterMiniGame();
+    }
+
+    #endregion
 }

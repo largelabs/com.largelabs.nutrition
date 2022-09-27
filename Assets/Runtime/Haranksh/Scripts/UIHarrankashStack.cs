@@ -6,6 +6,7 @@ using UnityEngine;
 public class UIHarrankashStack : UIElementStack<float>
 {
     [SerializeField] UIHarrankashSpawner uiHarrankashSpawner = null;
+    [SerializeField] HarraSFXProvider sfxProvider = null;
 
     //score and sfx stuff is commented until further notice
     //[SerializeField] DoraScoreManager scoreManager = null;
@@ -63,6 +64,8 @@ public class UIHarrankashStack : UIElementStack<float>
             UIImageFrameSwapper uiHarraAnimation = uiHarrankashStack.Pop();
 
             // sfx suggestion: collection sound for counting each UI harankash
+            sfxProvider.PlayStackSFX();
+
             yield return StartCoroutine(animateElement(uiHarraAnimation.gameObject, true, true, false));
 
             uiHarrankashSpawner.DespawnTransform(uiHarraAnimation);
