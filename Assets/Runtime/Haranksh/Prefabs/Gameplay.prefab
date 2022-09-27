@@ -267,15 +267,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ddd1cb5ab871c41978852fb3e0f24f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPiles: 1
+  gameData: {fileID: 11400000, guid: 5c2433c79f78065479b1e47bfb594c45, type: 2}
   scoreManager: {fileID: 0}
   mgTimer: {fileID: 7559566314289358373}
   uiMGTimer: {fileID: 0}
-  pileTime:
-  - 45
-  - 60
-  - 50
-  - 30
   vCamSwitcher: {fileID: 0}
   introCam_0: {fileID: 0}
   introCam_1: {fileID: 0}
@@ -337,7 +332,7 @@ MonoBehaviour:
   harrankashPopup: {fileID: 0}
   gameOverScale: {fileID: 1411434998}
   gameOverFade: {fileID: 4861638833474041322}
-  sfxProvider: {fileID: 0}
+  sfxProvider: {fileID: 2529863125299437705}
 --- !u!114 &7165359001015827744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,6 +512,10 @@ PrefabInstance:
       value: Platforms
       objectReference: {fileID: 0}
     - target: {fileID: 7373397862271054023, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
+      propertyPath: sfxProvider
+      value: 
+      objectReference: {fileID: 2529863125299437705}
+    - target: {fileID: 7373397862271054023, guid: d9a9bc3404587fc4397ed98b899901c7, type: 3}
       propertyPath: interpolatorsManager
       value: 
       objectReference: {fileID: 7165359001015827744}
@@ -597,6 +596,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3289514128787467903, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
+      propertyPath: mgTimer
+      value: 
+      objectReference: {fileID: 7559566314289358373}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
 --- !u!114 &1713754598247187182 stripped
@@ -727,6 +730,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d509b942ad0841459e94caa38951cfe, type: 3}
+--- !u!114 &2529863125299437705 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8590077288765597415, guid: 5d509b942ad0841459e94caa38951cfe, type: 3}
+  m_PrefabInstance: {fileID: 6065773464505222766}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a5a1856bf1f9344aa647f46bfe0eae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5298686559535354814 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2136187857485616592, guid: 5d509b942ad0841459e94caa38951cfe, type: 3}

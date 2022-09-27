@@ -383,6 +383,7 @@ MonoBehaviour:
   trail: {fileID: 0}
   eventDispatcher: {fileID: 0}
   mgTimer: {fileID: 0}
+  bounceState: {fileID: 0}
 --- !u!1 &3289514128146950376
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,6 +493,7 @@ MonoBehaviour:
   trail: {fileID: 7912178539449394182}
   eventDispatcher: {fileID: 2325827571058912181}
   mgTimer: {fileID: 0}
+  bounceState: {fileID: 3289514128787467903}
 --- !u!1 &3289514128781812912
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,6 +673,7 @@ MonoBehaviour:
   visualObjectYOffset: 0.279
   trail: {fileID: 7912178539449394182}
   eventDispatcher: {fileID: 2325827571058912181}
+  mgTimer: {fileID: 0}
 --- !u!1 &3289514128824970438
 GameObject:
   m_ObjectHideFlags: 0

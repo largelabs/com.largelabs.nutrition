@@ -32,7 +32,7 @@ public class HarraPlatformSpawner : MonoBehaviourBase
     #region PUBLIC API
     public IReadOnlyList<HaraPlatformAbstract> LivingPlatforms => livingPlatforms;
 
-    public HaraPlatformAbstract SpawnHaraPlatform(PlatformType i_platformType, Vector3 i_worldPosition)
+    public HaraPlatformAbstract SpawnHaraPlatform(PlatformType i_platformType, Vector3 i_worldPosition, HarraSFXProvider i_sfxProvider)
     {
         if (platformPool == null)
         {
@@ -49,6 +49,10 @@ public class HarraPlatformSpawner : MonoBehaviourBase
             Debug.LogError("No hara platform component attached to prefab root!");
         else
         {
+            HarraPlatformAnimationManager animations = ret.GetComponent<HarraPlatformAnimationManager>();
+            if (animations != null)
+                animations.RegisterSFX(i_sfxProvider);
+
             livingPlatforms.Add(ret);
             ret.EnableCollider(true);
         }

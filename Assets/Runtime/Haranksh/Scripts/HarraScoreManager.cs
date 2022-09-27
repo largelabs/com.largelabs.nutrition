@@ -4,18 +4,20 @@ using UnityEngine.UI;
 public class HarraScoreManager : MonoBehaviourBase
 {
     [SerializeField] PopupSpawner scorePopups = null;
-    [SerializeField] int platformSore = 60;
     [SerializeField] Text scoreText = null;
     [SerializeField] HarraSFXProvider sfxProvider = null;
 
     private int totalScore = 0;
-    public void AddScore(Vector3 i_platformPos)
+
+    public void AddScore(Vector3 i_platformPos, int i_score)
     {
         // sfx suggestion: popup score sound (can be added by assigning audio clip on the scorepopup prefab)
-        sfxProvider.PlayScoreSFX();
+        if(sfxProvider != null)
+            sfxProvider.PlayScoreSFX();
 
-        scorePopups.PlayPopup(PopupSpawner.PopupType.Positive, i_platformPos, 0.5f, 0.1f, platformSore, 10f);
-        totalScore += platformSore;
+        scorePopups.PlayPopup(PopupSpawner.PopupType.Positive, i_platformPos, 0.5f, 0.1f, i_score, 20f);
+        totalScore += i_score;
+
         string temp = totalScore.ToString();
 
         while (temp.Length < 4)
