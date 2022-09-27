@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 372464713003128813, guid: eba2c66748840b6428ec93f24dcea4da, type: 3}
       propertyPath: m_Text
-      value: TOTAL SCORE
+      value: "\uFE94\uFEF4\uFE8B\uFE8E\uFEEC\uFEE8\uFEDF\u0627 \uFE94\uFEA0\uFEF4\uFE98\uFEE8\uFEDF\u0627"
       objectReference: {fileID: 0}
     - target: {fileID: 2396508090989806120, guid: eba2c66748840b6428ec93f24dcea4da, type: 3}
       propertyPath: m_FontData.m_Alignment
@@ -49,7 +49,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4255187503961455810, guid: eba2c66748840b6428ec93f24dcea4da, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -32
+      value: -18.9
       objectReference: {fileID: 0}
     - target: {fileID: 5045785092904396749, guid: eba2c66748840b6428ec93f24dcea4da, type: 3}
       propertyPath: m_Pivot.x

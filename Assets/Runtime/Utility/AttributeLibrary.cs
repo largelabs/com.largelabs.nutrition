@@ -6,5 +6,9 @@
 /// </summary>
 public class ExposePublicMethod : Attribute
 {
-    public ExposePublicMethod() { }
+    bool playModeOnly = true;
+
+    public ExposePublicMethod(bool i_playModeOnly = true) { playModeOnly = i_playModeOnly; }
+
+    public bool PlayModeOnly => playModeOnly;
 }
