@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DoraGameData", menuName = "ScriptableObjects/Dora/DoraGameData", order = 1)]

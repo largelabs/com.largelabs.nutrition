@@ -40,6 +40,8 @@ public class DoraInputs : MonoBehaviourBase
         OnMoveStarted = null;
         OnMove = null;
         OnMoveReleased = null;
+
+        unregisterInputs();
     }
 
     #endregion
@@ -140,5 +142,15 @@ public class DoraInputs : MonoBehaviourBase
         inputActions.Player.Eat.canceled += onEatCanceled;
     }
 
+    void unregisterInputs()
+    {
+        if (null == inputActions) return;
+
+        inputActions.Player.Move.started -= onMoveStarted;
+        inputActions.Player.Move.canceled -= onMoveCanceled;
+
+        inputActions.Player.Eat.started -= onEatStarted;
+        inputActions.Player.Eat.canceled -= onEatCanceled;
+    }
     #endregion
 }

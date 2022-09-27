@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class UIDoraEndGamePopup : UIEndGamePopup
 {
-
     [SerializeField] GameObject endGameParticlesRT = null;
     [SerializeField] DoraInputs popupInputs = null;
 
     #region PROTECTED API
     protected override void enableInputs()
     {
-        Debug.Log("enable inputs");
-
         popupInputs.EnableInputs();
         popupInputs.OnMoveStarted += onMove;
         popupInputs.OnMove += onMove;
@@ -19,8 +16,6 @@ public class UIDoraEndGamePopup : UIEndGamePopup
 
     protected override void disableInputs()
     {
-        Debug.Log("disable inputs");
-
         popupInputs.DisableInputs();
         popupInputs.OnMoveStarted -= onMove;
         popupInputs.OnMove -= onMove;

@@ -1,9 +1,14 @@
-using System;
+using Cinemachine;
 using UnityEngine;
 
 public class HarankashBounceState : HarankashJumpState
 {
-    [SerializeField] HarrankashTouchEventDispatcher eventDispatcher = null;
+    [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
+    [SerializeField] MinigameTimer mgTimer = null;
+    [SerializeField] VCamSwitcher vCamSwitcher = null;
+    [SerializeField] CinemachineVirtualCamera farCam = null;
+
+    private HaraPlatformAbstract fallPlatform = null;
 
     protected override void onStateEnter()
     {
@@ -16,35 +21,72 @@ public class HarankashBounceState : HarankashJumpState
         HaraPlatformAbstract collidedPlatform = getCollidedPlatformComponent();
 
         if (collidedPlatform == null)
-        {
-            Debug.LogError("No hara platform component found! setting state to idle.");
-            setState<HarankashIdleState>();
             return;
+
+        if (collidedPlatform != fallPlatform)
+        {
+            HarraPlatformAnimationManager animations = collidedPlatform.GetComponentInChildren<HarraPlatformAnimationManager>();
+
+            if (collidedPlatform.GetComponent<OneJumpHaraPlatform>())
+                eventDispatcher.DispatchOrangeTouchEvent(collidedPlatform.transform.position);
+            else if(animations.IsOpen == false)
+                eventDispatcher.DispatchNormalFirstTouchEvent(collidedPlatform.transform.position);
+
+            if (animations != null)
+                animations.OpenUp();
+
+            collidedPlatform.onCollision();
         }
 
-        HarraPlatformAnimationManager animations = collidedPlatform.GetComponentInChildren<HarraPlatformAnimationManager>();
-        if (animations != null)
-            animations.OpenUp();
+        PlatformID pID = collidedPlatform.GetComponent<PlatformID>();
+        if (pID != null)
+            if (pID.PType == PlatformID.PlatformType.Yellow)
+                vCamSwitcher.SwitchToVCam(farCam);
 
-        if (collidedPlatform.GetComponent<OneJumpHaraPlatform>())
-            eventDispatcher.DispatchOrangeTouchEvent(collidedPlatform.transform.position);
+        //VFX Make platform wobble using animation manager
+
+
+        // sfx suggestion: bouncy jump sound
 
         maxJumpHeight = collidedPlatform.MaxJumpHeight;
         accelerationData = collidedPlatform.AccelerationConfig;
-        collidedPlatform.onCollision();
         base.onStateEnter();
+    }
+
+    protected override void onStateExit()
+    {
+        base.onStateExit();
     }
 
     private HaraPlatformAbstract getCollidedPlatformComponent()
     {
+        Debug.LogError("Get component bounce");
+
         HaraPlatformAbstract collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInParent<HaraPlatformAbstract>();
 
         if (collidedPlatform == null)
             collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponent<HaraPlatformAbstract>();
 
         if (collidedPlatform == null)
-            collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInChildren<HaraPlatformAbstract>();           
+            collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInChildren<HaraPlatformAbstract>();
+
+        if (body.CurrentGroundTransform.gameObject.tag == "Finish" || mgTimer.RemainingTimeSeconds < 0.05f)
+        {
+            trail.enabled = false;
+
+            eventDispatcher.DispatchFailGameEvent();
+        }
+        else if(collidedPlatform == null)
+        {
+            Debug.LogError("No hara platform component found! setting state to idle.");
+            setState<HarankashIdleState>();
+        }
 
         return collidedPlatform;
+    }
+
+    public void SetFallPlatform(HaraPlatformAbstract i_platform)
+    {
+        fallPlatform = i_platform;
     }
 }
