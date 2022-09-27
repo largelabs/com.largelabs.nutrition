@@ -12,6 +12,8 @@ public class HarrankashCelebrationState : State
 
     [SerializeField] TrailRenderer trail = null;
 
+    [SerializeField] AudioSource victorySound = null;
+
     Coroutine jumpRoutine = null;
 
     public bool IsJumping => jumpRoutine != null;
@@ -42,6 +44,8 @@ public class HarrankashCelebrationState : State
     protected override void onStateEnter()
     {
         // sfx suggestion: victory sound
+        victorySound?.Play();
+
         Vector3 temp = visualObjectRoot.localPosition;
         visualObjectRoot.localPosition = new Vector3(temp.x, visualObjectYOffsetCeleb, temp.z);
         celebrationFrames.Play();

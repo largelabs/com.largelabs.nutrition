@@ -64,9 +64,11 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     {
         if (openUp == null) return;
         // sfx suggestion: sound for platform opening
-        if(sfxProvider != null)
+        if (sfxProvider != null)
+        {
             sfxProvider.PlayPlatformOpenningSFX();
-
+            sfxProvider.PlayPlatformOpenning2SFX();
+        }
         openUp.ResetAnimation();
         openUp.Play();
         open = true;

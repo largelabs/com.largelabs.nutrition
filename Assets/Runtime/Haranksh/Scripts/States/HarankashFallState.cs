@@ -9,6 +9,7 @@ public class HarankashFallState : FallAbstractState
     [SerializeField] private SpriteFrameSwapper landingFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
     [SerializeField] private SpriteFrameSwapper landVFX = null;
+    [SerializeField] private AudioSource impactSFX = null;
     [SerializeField] private float timeBeforeBounce = 0.5f;
     [SerializeField] private TrailRenderer trail = null;
     [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
@@ -87,6 +88,8 @@ public class HarankashFallState : FallAbstractState
         }
 
         // sfx suggestion: impact sound
+        impactSFX?.Play();
+
         yield return this.Wait(timeBeforeBounce);
         landingFrames.Stop();
 
@@ -115,7 +118,11 @@ public class HarankashFallState : FallAbstractState
                 setState<HarankashBounceState>();
             }
             else if (i_tag == "Respawn")
+            {
+                Debug.LogError("ENTER CELEBRATION");
                 setState<HarrankashCelebrationState>();
+
+            }
             else
                 setState<HarankashIdleState>();
         }

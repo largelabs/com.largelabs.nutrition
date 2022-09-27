@@ -42,6 +42,7 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] SpriteRenderer bannerText = null;
 	[SerializeField] Sprite bannerStart = null;
 	[SerializeField] Sprite bannerJump = null;
+	private Coroutine bannerRoutine = null;
 
 	[Header("Pile Sequence Components")]
 	[SerializeField] HarraPlatformSpawnManager platformSpawnManager = null;
@@ -72,7 +73,6 @@ public class HaraMiniGame : MiniGameFlow
 	private Vector3 originPosition = Vector3.zero;
 
 	private Coroutine nextPileRoutine = null;
-	private Coroutine bannerRoutine = null;
 
 	private Transform currentRopeSlideStart = null;
 	private Vector3 currentRopeSlideEnd = MathConstants.VECTOR_3_ZERO;
@@ -92,6 +92,8 @@ public class HaraMiniGame : MiniGameFlow
 	#region PROTECTED
 	protected override IEnumerator introRoutine()
 	{
+		sfxProvider.PlayMusic();
+
 		vCamSwitcher.SwitchToVCam(introCam_1);
 
 		platformSpawnManager.GenerateNewMap(0);
@@ -142,7 +144,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		// sfx suggestion: success sound (note that victory sound could be played with celebration state)
 		// celebration sound would be for every pile finish but this would only be if all piles are finished
-
+		sfxProvider.StopMusic();
 		// show score banner popup
 		yield return this.Wait(2.5f);
 		showEndgamePopup();
@@ -159,8 +161,9 @@ public class HaraMiniGame : MiniGameFlow
 		//yield return null;
 		playerStateMachine.SetGenericState("d");
 
+		sfxProvider.StopMusic();
 		// sfx suggestion: failure sound
-		if(sfxProvider != null)
+		if (sfxProvider != null)
 			sfxProvider.PlayFailureSFX();
 
 		yield return this.Wait(0.5f);
@@ -201,6 +204,8 @@ public class HaraMiniGame : MiniGameFlow
 
 		currentPile = 0;
 		mgTimer.ResetTimer();
+		sfxProvider.StopMusic();
+
 		scoreManager.gameObject.SetActive(false);
 		uiMGTimer.gameObject.SetActive(false);
 
@@ -390,6 +395,7 @@ public class HaraMiniGame : MiniGameFlow
 	{
 		bannerPositionIn.transform.parent.gameObject.SetActive(true);
 		bannerPositionIn.MoveToPosition();
+		sfxProvider.PlayBannerSFX();
 		while (bannerPositionIn.IsMoving)
 			yield return null;
 
@@ -398,6 +404,8 @@ public class HaraMiniGame : MiniGameFlow
 		leafRotation_1.StartPingPong(0.5f, -1);
 		leafRotation_2.StartPingPong(0.5f, -1);
 		shineRotation.StartPingPong(10f, 1);
+		sfxProvider.PlayBannerTextSFX();
+
 		while (textScale.isScaling)
 			yield return null;
 
@@ -405,6 +413,7 @@ public class HaraMiniGame : MiniGameFlow
 		yield return this.Wait(1f);
 
 		bannerPositionOut.MoveToPosition();
+		sfxProvider.PlayBannerSFX();
 		while (bannerPositionOut.IsMoving)
 			yield return null;
 

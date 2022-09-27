@@ -12,8 +12,6 @@ public class HarraScoreManager : MonoBehaviourBase
     public void AddScore(Vector3 i_platformPos, int i_score)
     {
         // sfx suggestion: popup score sound (can be added by assigning audio clip on the scorepopup prefab)
-        if(sfxProvider != null)
-            sfxProvider.PlayScoreSFX();
 
         scorePopups.PlayPopup(PopupSpawner.PopupType.Positive, i_platformPos, 0.5f, 0.1f, i_score, 20f);
         totalScore += i_score;
