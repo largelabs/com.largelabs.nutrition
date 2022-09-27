@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleAppear: {fileID: 3305709965843895530}
-  scaleDisppear: {fileID: 3593969001576665733}
+  scaleDisappear: {fileID: 3593969001576665733}
   alphaAppear: {fileID: 1805368244388822511}
   alphaDisappear: {fileID: 8724632780404744753}
   nudgePingPong: {fileID: 5425579686585680071}
@@ -255,7 +255,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  totalLerps: 1
+  totalLerps: 15
   clampValues: 1
   resetOnFinish: 1
   flipTargetXAfterEachLerp: 1
@@ -847,8 +847,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
+      time: 0.5
       value: 1
+      inSlope: 0.0000044504823
+      outSlope: 0.0000044504823
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.42857122
+    - serializedVersion: 3
+      time: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

@@ -505,6 +505,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3289514127598067326}
+  - component: {fileID: 4026079753907811023}
   m_Layer: 0
   m_Name: States
   m_TagString: Untagged
@@ -534,6 +535,22 @@ Transform:
   m_Father: {fileID: 3289514128781812915}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4026079753907811023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3289514127598067327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxConcurrentFloat: -1
+  maxConcurrentV2: -1
+  maxConcurrentV3: -1
+  maxConcurrentColor: -1
 --- !u!1 &3289514127660768709
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,11 +698,11 @@ MonoBehaviour:
   accelerationData: {fileID: 11400000, guid: 24f3ed9de6b89094eb07373067eff365, type: 2}
   body: {fileID: 3289514128781812916}
   maxJumpHeight: 2.5
+  visualObjectRoot: {fileID: 3289514128824970441}
+  visualObjectYOffset: 0.279
   jumpLaunchFrames: {fileID: 7053689418511488723}
   jumpRiseFrames: {fileID: 3472372678444729562}
   jumpVFX: {fileID: 3403016381172331550}
-  visualObjectRoot: {fileID: 3289514128824970441}
-  visualObjectYOffset: 0.279
   trail: {fileID: 7912178539449394182}
 --- !u!1 &3289514128570613973
 GameObject:
@@ -741,11 +758,12 @@ MonoBehaviour:
   impactSFX: {fileID: 5948930744838314775}
   timeBeforeBounce: 0.5
   trail: {fileID: 7912178539449394182}
+  interpolatorsManager: {fileID: 4026079753907811023}
+  vCamSwitcher: {fileID: 0}
+  nearCam: {fileID: 0}
   eventDispatcher: {fileID: 2325827571058912181}
   mgTimer: {fileID: 0}
   bounceState: {fileID: 3289514128787467903}
-  vCamSwitcher: {fileID: 0}
-  nearCam: {fileID: 0}
 --- !u!1 &3289514128781812912
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,16 +937,18 @@ MonoBehaviour:
   accelerationData: {fileID: 0}
   body: {fileID: 3289514128781812916}
   maxJumpHeight: 8
+  visualObjectRoot: {fileID: 3289514128824970441}
+  visualObjectYOffset: 0.279
   jumpLaunchFrames: {fileID: 7053689418511488723}
   jumpRiseFrames: {fileID: 3472372678444729562}
   jumpVFX: {fileID: 3403016381172331550}
-  visualObjectRoot: {fileID: 3289514128824970441}
-  visualObjectYOffset: 0.279
   trail: {fileID: 7912178539449394182}
-  eventDispatcher: {fileID: 2325827571058912181}
-  mgTimer: {fileID: 0}
   vCamSwitcher: {fileID: 0}
   farCam: {fileID: 0}
+  bounceSFX: {fileID: 0}
+  interpolatorsManager: {fileID: 4026079753907811023}
+  eventDispatcher: {fileID: 2325827571058912181}
+  mgTimer: {fileID: 0}
 --- !u!1 &3289514128824970438
 GameObject:
   m_ObjectHideFlags: 0

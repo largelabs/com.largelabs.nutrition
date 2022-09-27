@@ -107,7 +107,7 @@ public class HarankashFallState : FallAbstractState
 
             //VFX Make platform go down using animation manager
             if (animations != null)
-                animations.Nudge(interpolatorsManager);
+                animations.Nudge();
         }
 
         // sfx suggestion: impact sound
