@@ -982,9 +982,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8459986682386045236}
     m_Modifications:
+    - target: {fileID: 650215442715440769, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
+      propertyPath: arabicString
+      value: "\u0625\u0631\u062C\u0639"
+      objectReference: {fileID: 0}
+    - target: {fileID: 650215442715440769, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
+      propertyPath: englishString
+      value: BACK
+      objectReference: {fileID: 0}
     - target: {fileID: 1425944600574641923, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
       propertyPath: m_Text
       value: BACK
+      objectReference: {fileID: 0}
+    - target: {fileID: 3794757413247916789, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
+      propertyPath: arabicString
+      value: "\u0625\u0631\u062C\u0639"
       objectReference: {fileID: 0}
     - target: {fileID: 6183692906995068069, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1092,7 +1104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7826904336643401524, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
       propertyPath: m_Text
-      value: BACK
+      value: "\uFECA\uFE9F\u0631\u0625"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
@@ -1217,7 +1229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7826904336643401524, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}
       propertyPath: m_Text
-      value: RETRY
+      value: "\uFE94\uFEF4\uFEE7\uFE8E\uFE9B"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac5563d0a49d76f4f94e800d3a971909, type: 3}

@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 372464713003128813, guid: eba2c66748840b6428ec93f24dcea4da, type: 3}
       propertyPath: m_Text
-      value: TOTAL SCORE
+      value: score
       objectReference: {fileID: 0}
     - target: {fileID: 2396508090989806120, guid: eba2c66748840b6428ec93f24dcea4da, type: 3}
       propertyPath: m_FontData.m_Alignment
@@ -133,6 +133,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5045785092904396749, guid: eba2c66748840b6428ec93f24dcea4da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6434145315743436427, guid: eba2c66748840b6428ec93f24dcea4da, type: 3}
+      propertyPath: isArabic
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7482154532478549341, guid: eba2c66748840b6428ec93f24dcea4da, type: 3}
