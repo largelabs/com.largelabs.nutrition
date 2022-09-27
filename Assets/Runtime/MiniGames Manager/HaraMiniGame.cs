@@ -65,6 +65,9 @@ public class HaraMiniGame : MiniGameFlow
     [SerializeField] LocalScalePingPong gameOverScale = null;
     [SerializeField] SpriteAlphaLerp gameOverFade = null;
 
+    [Header("Sounds")]
+    [SerializeField] HarraSFXProvider sfxProvider = null;
+
     private int currentPile = 0;
     private int orangeCount = 0;
     private Vector3 originPosition = Vector3.zero;
@@ -160,6 +163,7 @@ public class HaraMiniGame : MiniGameFlow
         playerStateMachine.SetGenericState("d");
 
         // sfx suggestion: failure sound
+        sfxProvider.PlayFailureSFX();
 
         yield return this.Wait(0.5f);
         // show score banner popup
@@ -486,6 +490,7 @@ public class HaraMiniGame : MiniGameFlow
     {
         harrankashPopup.SetScore(scoreManager.TotalScore.ToString());
         harrankashPopup.Appear(true);
+        sfxProvider.PlayAppearSFX();
     }
 
     private void unregisterEvents()
