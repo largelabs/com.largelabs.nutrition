@@ -28,6 +28,8 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     public void ResetSprite()
     {
         rnd.sprite = baseSprite;
+        rnd.transform.localScale = MathConstants.VECTOR_3_ZERO;
+        rnd.color = new Color(rnd.color.r, rnd.color.g, rnd.color.b, 0f);
         open = false;
     }
 
@@ -89,6 +91,7 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     {
         if (nudgePingPong != null)
         {
+            Debug.LogError("Nudge");
             nudgePingPong.AssignInterpolators(i_interps);
             nudgePingPong.StartPingPong();
         }

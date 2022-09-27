@@ -5,19 +5,26 @@ using UnityEngine;
 
 public class HarankashFallState : FallAbstractState
 {
+    [Header("Frames")]
     [SerializeField] private SpriteFrameSwapper fallingFrames = null;
     [SerializeField] private SpriteFrameSwapper landingFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
+
+    [Header("VFX")]
     [SerializeField] private SpriteFrameSwapper landVFX = null;
     [SerializeField] private AudioSource impactSFX = null;
     [SerializeField] private float timeBeforeBounce = 0.5f;
     [SerializeField] private TrailRenderer trail = null;
+    [SerializeField] private InterpolatorsManager interpolatorsManager = null;
+
+    [Header("Camera")]
+    [SerializeField] VCamSwitcher vCamSwitcher = null;
+    [SerializeField] CinemachineVirtualCamera nearCam = null;
+
+    [Header("Extra Configs")]
     [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
     [SerializeField] MinigameTimer mgTimer = null;
     [SerializeField] HarankashBounceState bounceState = null;
-
-    [SerializeField] VCamSwitcher vCamSwitcher = null;
-    [SerializeField] CinemachineVirtualCamera nearCam = null;
 
     Coroutine landingRoutine = null;
 
@@ -85,6 +92,8 @@ public class HarankashFallState : FallAbstractState
 
 
             //VFX Make platform go down using animation manager
+            if (animations != null)
+                animations.Nudge(interpolatorsManager);
         }
 
         // sfx suggestion: impact sound

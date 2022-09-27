@@ -3,11 +3,17 @@ using UnityEngine;
 
 public class HarankashBounceState : HarankashJumpState
 {
-    [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
-    [SerializeField] MinigameTimer mgTimer = null;
+    [Header("Cameras")]
     [SerializeField] VCamSwitcher vCamSwitcher = null;
     [SerializeField] CinemachineVirtualCamera farCam = null;
+
+    [Header("SFX")]
     [SerializeField] AudioSource bounceSFX = null;
+
+    [Header("Extra Configs")]
+    [SerializeField] InterpolatorsManager interpolatorsManager = null;
+    [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
+    [SerializeField] MinigameTimer mgTimer = null;
 
     private HaraPlatformAbstract fallPlatform = null;
 
@@ -24,10 +30,10 @@ public class HarankashBounceState : HarankashJumpState
         if (collidedPlatform == null)
             return;
 
+        HarraPlatformAnimationManager animations = collidedPlatform.GetComponentInChildren<HarraPlatformAnimationManager>();
+
         if (collidedPlatform != fallPlatform)
         {
-            HarraPlatformAnimationManager animations = collidedPlatform.GetComponentInChildren<HarraPlatformAnimationManager>();
-
             if (collidedPlatform.GetComponent<OneJumpHaraPlatform>())
                 eventDispatcher.DispatchOrangeTouchEvent(collidedPlatform.transform.position);
             else if(animations.IsOpen == false)
@@ -45,7 +51,8 @@ public class HarankashBounceState : HarankashJumpState
                 vCamSwitcher.SwitchToVCam(farCam);
 
         //VFX Make platform wobble using animation manager
-
+        if (animations != null)
+            animations.Wobble(interpolatorsManager);
 
         // sfx suggestion: bouncy jump sound
         bounceSFX?.Play();

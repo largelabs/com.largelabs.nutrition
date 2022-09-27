@@ -3,12 +3,15 @@ using UnityEngine;
 
 public class HarankashJumpState : MoveHorizontalAbstractState
 {
+    [Header("Jump Configs")]
     [SerializeField][Range(1f, 30f)] protected float maxJumpHeight = 8f;
+    [SerializeField] Transform visualObjectRoot = null;
+    [SerializeField] float visualObjectYOffset = 0.1263f;
+
+    [Header("Jump VFX")]
     [SerializeField] private SpriteFrameSwapper jumpLaunchFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpVFX = null;
-    [SerializeField] Transform visualObjectRoot = null;
-    [SerializeField] float visualObjectYOffset = 0.1263f;
     [SerializeField] protected TrailRenderer trail = null;
 
     Coroutine launchRoutine = null;

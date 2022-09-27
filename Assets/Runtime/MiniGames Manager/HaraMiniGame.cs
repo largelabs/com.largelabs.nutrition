@@ -92,8 +92,10 @@ public class HaraMiniGame : MiniGameFlow
 	#region PROTECTED
 	protected override IEnumerator introRoutine()
 	{
+		yield return this.Wait(0.2f);
 		sfxProvider.PlayMusic();
 
+		vCamSwitcher.LockSwitching(false);
 		vCamSwitcher.SwitchToVCam(introCam_1);
 
 		platformSpawnManager.GenerateNewMap(0);
@@ -102,6 +104,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		platformSpawnManager.MapAppear();
 		playerStateMachine.SetState<HarankashIdleState>();
+		playerControls.SetLock(false);
 		playerControls.DisableControls();
 		playerControls.SetLock(true);
 		Debug.LogError("DisabledControls");
@@ -114,7 +117,7 @@ public class HaraMiniGame : MiniGameFlow
 			yield return null;
 
 		bannerText.sprite = bannerStart;
-		yield return StartCoroutine(bannerSequence());
+		yield return bannerRoutine = StartCoroutine(bannerSequence());
 	}
 
 	protected override void onGameplayStarted()
@@ -191,39 +194,32 @@ public class HaraMiniGame : MiniGameFlow
 	private void resetGame()
 	{
 		stopBannerSequence();
-
-		deactivateBanner();
+		bannerText.sprite = bannerStart;
 
 		unregisterEvents();
 
 		playerControls.DisableControls();
+		playerControls.SetLock(true);
 
 		playerStateMachine.gameObject.SetActive(true);
 		playerStateMachine.SetState<HarankashIdleState>();
 		playerStateMachine.transform.position = originPosition;
 
+		vCamSwitcher.LockSwitching(false);
+		vCamSwitcher.SwitchToVCam(introCam_0);
+		vCamSwitcher.LockSwitching(true);
+
 		currentPile = 0;
 		mgTimer.ResetTimer();
 		sfxProvider.StopMusic();
 
+		// reset score value
 		scoreManager.gameObject.SetActive(false);
 		uiMGTimer.gameObject.SetActive(false);
 
 		spriteHarraSpawner.DespawnAllTransforms();
 
 		platformSpawnManager.DespawnMap(false);
-	}
-
-	private void stopBannerSequence()
-	{
-		this.DisposeCoroutine(ref bannerRoutine);
-
-		textScale.StopPingPong();
-		leafRotation_0.StopPingPong();
-		leafRotation_1.StopPingPong();
-		leafRotation_2.StopPingPong();
-		shineRotation.StopPingPong();
-
 	}
 
 	private void collectOrange(Vector3 i_platformPos)
@@ -296,7 +292,6 @@ public class HaraMiniGame : MiniGameFlow
 
 	private IEnumerator pileSwitchSequence(SpriteFrameSwapper i_spawnedHarra)
 	{
-
 		float playerTime = slidePlayer(i_spawnedHarra);
 		playerStateMachine.transform.position = originPosition;
 		playerStateMachine.gameObject.SetActive(true);
@@ -422,7 +417,7 @@ public class HaraMiniGame : MiniGameFlow
 		mgTimer.SetTimer(gameData.PileTimes[Mathf.Clamp(currentPile, 0, gameData.PileTimes.Count - 1)], true);
 		//mgTimer.StartOrResumeTimer();
 
-		deactivateBanner();
+		stopBannerSequence();
 	}
 
 	private void deactivateBanner()
@@ -433,8 +428,16 @@ public class HaraMiniGame : MiniGameFlow
 		leafRotation_1.StopPingPong();
 		leafRotation_2.StopPingPong();
 		shineRotation.StopPingPong();
+		textScale.StopPingPong();
 		textScale.SetScale(MathConstants.VECTOR_3_ZERO);
 		bannerPositionIn.transform.parent.gameObject.SetActive(false);
+	}
+
+	private void stopBannerSequence()
+	{
+		this.DisposeCoroutine(ref bannerRoutine);
+
+		deactivateBanner();
 	}
 
 	private void showEndgamePopup()

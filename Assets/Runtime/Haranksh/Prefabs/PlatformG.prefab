@@ -137,8 +137,8 @@ MonoBehaviour:
   scaleDisppear: {fileID: 3593969001576665733}
   alphaAppear: {fileID: 1805368244388822511}
   alphaDisappear: {fileID: 8724632780404744753}
-  nudgePingPong: {fileID: 0}
-  wobblePingPong: {fileID: 0}
+  nudgePingPong: {fileID: 5425579686585680071}
+  wobblePingPong: {fileID: 6732134133913291940}
   rnd: {fileID: 5276797202842317543}
   baseSprite: {fileID: 1170679575, guid: 0879efe8eba3f8441916526e7018a6f9, type: 3}
   openUp: {fileID: 1129212793128652683}
@@ -771,7 +771,7 @@ GameObject:
   - component: {fileID: 7386767239138038099}
   - component: {fileID: 5425579686585680071}
   m_Layer: 7
-  m_Name: MoveDown
+  m_Name: Nudge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
