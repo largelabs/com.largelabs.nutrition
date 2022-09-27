@@ -7,6 +7,7 @@ public class HarankashBounceState : HarankashJumpState
     [SerializeField] MinigameTimer mgTimer = null;
     [SerializeField] VCamSwitcher vCamSwitcher = null;
     [SerializeField] CinemachineVirtualCamera farCam = null;
+    [SerializeField] AudioSource bounceSFX = null;
 
     private HaraPlatformAbstract fallPlatform = null;
 
@@ -47,6 +48,7 @@ public class HarankashBounceState : HarankashJumpState
 
 
         // sfx suggestion: bouncy jump sound
+        bounceSFX?.Play();
 
         maxJumpHeight = collidedPlatform.MaxJumpHeight;
         accelerationData = collidedPlatform.AccelerationConfig;
