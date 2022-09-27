@@ -115,6 +115,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: bbe348bfc21687047aa837f230858757, type: 3}
+    - target: {fileID: 6918557675285251299, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+      propertyPath: platformType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8983614004487468998, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
       propertyPath: frames.Array.data[0].frameObject
       value: 
