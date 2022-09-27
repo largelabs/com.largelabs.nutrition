@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public static class CollectionUtilities
 {
+	private static Random rng = new Random();
+
 	public static T[,] Make2DArray<T>(T[] input, int height, int width)
 	{
 		T[,] output = new T[height, width];
@@ -59,6 +62,23 @@ public static class CollectionUtilities
 		}
 
 		return i_collection[newIndex];
+	}
+
+	public static IList<T> Shuffle<T>(IList<T> i_list)
+	{
+		List<T> ret = new List<T>(i_list);
+
+		int n = ret.Count;
+		while (n > 1)
+		{
+			n--;
+			int k = rng.Next(n + 1);
+			T value = ret[k];
+			ret[k] = ret[n];
+			ret[n] = value;
+		}
+
+		return ret;
 	}
 
 }

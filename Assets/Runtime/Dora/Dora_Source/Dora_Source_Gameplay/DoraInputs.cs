@@ -97,12 +97,6 @@ public class DoraInputs : MonoBehaviourBase
         }
     }
 
-   /* void disposeRoutines()
-    {
-        this.DisposeCoroutine(ref moveRoutine);
-        this.DisposeCoroutine(ref eatRoutine);
-    } */
-
     private IEnumerator dispatchEat()
     {
         OnEatStarted?.Invoke();

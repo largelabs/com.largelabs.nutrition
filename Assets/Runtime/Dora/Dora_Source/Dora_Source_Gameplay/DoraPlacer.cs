@@ -3,22 +3,17 @@ using UnityEngine;
 
 public class DoraPlacer : MonoBehaviourBase
 {
-    public enum DoraPositions
-    {
-        FrontRight,
-        BackRight,
-        FrontLeft,
-        BackLeft
-    }
 
     [Tooltip("Should follow this order: front right -> back right -> front left -> back left")]
     [SerializeField] private List<Transform> anchors = null;
     [SerializeField] private DoraSpawner doraSpawner = null;
 
+    Queue<Transform> positionQueue = null;
+
+
     #region PUBLIC API
 
-    [ExposePublicMethod]
-    public DoraCellMap SpawnDoraAtAnchor(DoraPositions i_doraPosition)
+    public DoraCellMap SpawnDoraAtAnchor(Transform i_anchor, Vector3 i_offset)
     {
         if (doraSpawner == null)
         {
@@ -26,19 +21,26 @@ public class DoraPlacer : MonoBehaviourBase
             return null;
         }
 
-        int spawnIndex = (int)i_doraPosition;
-        DoraCellMap currCob = null;
-        if (spawnIndex < 0 || spawnIndex >= anchors.Count)
-        {
-            Debug.LogError("No valid anchor provided for chosen dora position! Returning!");
-            return null;
-        }
-        else
-        {
-            currCob = doraSpawner.SpawnDoraCobAtAnchor(anchors[spawnIndex]);
-        }
+        if (null == i_anchor) return null;
 
-        return currCob;
+        return doraSpawner.SpawnDoraCobAtAnchor(i_anchor, i_offset);
+    }
+
+    public Transform GetNextAnchor()
+    {
+        return getQueuedDoraPosition();
+    }
+
+    #endregion
+
+    #region PRIVATE
+
+    Transform getQueuedDoraPosition()
+    {
+        if (null == positionQueue || positionQueue.Count == 0) 
+            positionQueue = new Queue<Transform>(CollectionUtilities.Shuffle<Transform>(anchors));
+
+        return positionQueue.Dequeue();
     }
 
     #endregion

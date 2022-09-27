@@ -58,7 +58,7 @@ public class DoraSpawner : MonoBehaviourBase
         return ret;
     }
 
-    public DoraCellMap SpawnDoraCobAtAnchor(Transform i_anchor)
+    public DoraCellMap SpawnDoraCobAtAnchor(Transform i_anchor, Vector3 i_offset)
     {
         if (doraCobPool == null)
         {
@@ -68,7 +68,7 @@ public class DoraSpawner : MonoBehaviourBase
 
         Transform tr = doraCobPool.Spawn(DORA_COB);
         tr.SetParent(i_anchor);
-        tr.localPosition = MathConstants.VECTOR_3_ZERO;
+        tr.localPosition = MathConstants.VECTOR_3_ZERO + i_offset;
         tr.localRotation = MathConstants.QUATERNION_IDENTITY;
         tr.localScale = MathConstants.VECTOR_3_ONE;
 
@@ -109,29 +109,13 @@ public class DoraSpawner : MonoBehaviourBase
         return ret;
     }
 
-    public List<DoraCellMap> SpawnDoraCobGroupAtAnchor(List<Transform> i_anchors)
-    {
-        if (i_anchors == null || i_anchors.Count < 1)
-        {
-            Debug.LogError("The provided anchor list is invalid!");
-            return null;
-        }
-
-        int length = i_anchors.Count;
-        List<DoraCellMap> ret = new List<DoraCellMap>();
-
-        for (int i = 0; i < length; i++)
-        {
-            ret.Add(SpawnDoraCobAtAnchor(i_anchors[i]));
-        }
-
-        return ret;
-    }
-
     public void DespawnDoraCob(DoraCellMap i_doraCob)
     {
-        despawnDoraCob(i_doraCob);
-        livingDora.Remove(i_doraCob);
+        if(true == livingDora.Contains(i_doraCob))
+        {
+            despawnDoraCob(i_doraCob);
+            livingDora.Remove(i_doraCob);
+        }
     }
 
     [ExposePublicMethod]
@@ -158,8 +142,6 @@ public class DoraSpawner : MonoBehaviourBase
         i_doraCob.ReleaseDoraCob();
         doraCobPool?.Despawn(i_doraCob.transform);
         OnDespawn?.Invoke(i_doraCob);
-
-        // unregister from any events if needed
     }
 
     #endregion

@@ -6,10 +6,13 @@ using UnityEngine;
 
 public abstract class DoraAbstractController : MonoBehaviourBase
 {
+    [SerializeField] PanCamera cam = null;
+
     [SerializeField] protected bool useRangeMarking = false;
     [SerializeField] DoraInputs inputs = null;
     [SerializeField] protected DoraCellSelector cellSelector = null;
     [SerializeField] KernelSpawner kernelSpawner = null;
+
     [SerializeField] DoraFrenzyController frenzyController = null;
     [SerializeField] protected DoraGameplayData DoraGameplayData = null;
     [SerializeField] UIDoraBiteAnimation biteAnimation = null;
@@ -46,6 +49,25 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     {
     }
 
+    private void Update()
+    {
+      /*  if(totalGoodKernels == 0f)
+        {
+            cam.SetOrthoSize(0f);
+            return;
+        }
+
+        if(null != frenzyRoutine)
+        {
+            cam.SetOrthoSize(1f);
+            return;
+        }
+
+        float speedRatio = (float)goodEatenCount / (float)totalGoodKernels;
+        cam.SetOrthoSize(speedRatio); */
+
+    }
+
     #endregion
 
     #region PUBLIC API
@@ -57,6 +79,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         cellSelector.SelectAll();
         onEatReleased();
     }
+
+
 
     public int CurrentSelectionRadius => null == frenzyRoutine ? selectedRadius : DoraGameplayData.FrenzySelectionRange;
 

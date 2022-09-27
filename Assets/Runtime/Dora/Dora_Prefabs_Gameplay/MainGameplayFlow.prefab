@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 417055886123930135}
   - component: {fileID: 417055886123930134}
   - component: {fileID: 417055886123930137}
+  - component: {fileID: 7864017646963670438}
   m_Layer: 0
   m_Name: MainGameplayFlow
   m_TagString: Untagged
@@ -104,9 +105,13 @@ MonoBehaviour:
   UIkernelManager: {fileID: 0}
   hudGo: {fileID: 0}
   scorePopupSpawner: {fileID: 0}
+  uiMiniGameTimer: {fileID: 0}
+  interpolators: {fileID: 7864017646963670438}
   panCamera: {fileID: 0}
   vfxPool: {fileID: 417055885605045016}
   sfxProvider: {fileID: 6175531668641136764}
+  fireParticlesBurst: {fileID: 0}
+  uiHighlightBg: {fileID: 0}
   cullingBounds: {fileID: 0}
   selectionBounds: {fileID: 417055884957644404}
   charcoalGroup: {fileID: 5041499228128945674}
@@ -128,6 +133,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeSeconds: 200
+--- !u!114 &7864017646963670438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417055886123930132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxConcurrentFloat: -1
+  maxConcurrentV2: -1
+  maxConcurrentV3: -1
+  maxConcurrentColor: -1
 --- !u!1001 &1005732530505870404
 PrefabInstance:
   m_ObjectHideFlags: 0

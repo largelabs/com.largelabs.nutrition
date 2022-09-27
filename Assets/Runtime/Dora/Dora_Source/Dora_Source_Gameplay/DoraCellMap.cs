@@ -113,8 +113,8 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 
     public void ReleaseDoraCob()
     {
-        if (null == cellFactory) Debug.LogError("cell factory null");
-        if (null == cellMap) Debug.LogError("cell map null");
+        if (null == cellFactory) return;
+        if (null == cellMap) return;
 
         for (int i = 0; i < NB_ROWS; i++)
         {

@@ -352,8 +352,8 @@ MonoBehaviour:
   shiftStackInDirectionOfOffset: 0
   autoDequeue: 1
   scaleAnimationTime: 1
-  queueSizeScalingRef: 20
-  timePerUIElement: 0.3
+  queueSizeScalingRef: 10
+  timePerUIElement: 0.2
   minTimePerUIElement: 0.05
   scoreManager: {fileID: 0}
   uiKernelSpawner: {fileID: 2466997819604082431}
