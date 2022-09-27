@@ -51,6 +51,16 @@ public class HarankashIdleState : State
         checkFall();
     }
 
+    public override void ResetState()
+    {
+        StopAllCoroutines();
+        idlingFrames.Stop();
+        idlingFrames.ResetAnimation();
+        jumpAnticipationFrames.Stop();
+        jumpAnticipationFrames.ResetAnimation();
+        onStateExit();
+    }
+
     #endregion
 
     #region PRIVATE

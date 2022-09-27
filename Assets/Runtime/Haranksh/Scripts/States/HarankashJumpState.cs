@@ -19,7 +19,7 @@ public class HarankashJumpState : MoveHorizontalAbstractState
     float startJumpY = 0f;
     float stopJumpY = 0f;
 
-    #region PROTECTED
+    #region STATE API
     protected override void onStateInit()
     {
     }
@@ -33,8 +33,6 @@ public class HarankashJumpState : MoveHorizontalAbstractState
 
         Debug.Log(startJumpY + "  " + stopJumpY);
 
-        //controls.JumpPressed += goToFastFall;
-
         if (launchRoutine == null)
             launchRoutine = StartCoroutine(launchSequence());
         else
@@ -45,7 +43,6 @@ public class HarankashJumpState : MoveHorizontalAbstractState
 
     protected override void onStateExit()
     {
-        controls.JumpPressed -= goToFastFall;
         jumpRiseFrames.Stop();
         this.DisposeCoroutine(ref launchRoutine);
     }
@@ -60,6 +57,19 @@ public class HarankashJumpState : MoveHorizontalAbstractState
         checkHeight();
     }
 
+    public override void ResetState()
+    {
+        base.ResetState();
+
+        StopAllCoroutines();
+        jumpLaunchFrames.Stop();
+        jumpLaunchFrames.ResetAnimation();
+        jumpRiseFrames.Stop();
+        jumpRiseFrames.ResetAnimation();
+        jumpVFX.Stop();
+        jumpVFX.ResetAnimation();
+        onStateExit();
+    }
     #endregion
 
     #region PRIVATE

@@ -17,6 +17,7 @@ public class HarankashBounceState : HarankashJumpState
 
     private HaraPlatformAbstract fallPlatform = null;
 
+    #region STATE API
     protected override void onStateEnter()
     {
         if (!body.IsGrounded)
@@ -61,12 +62,9 @@ public class HarankashBounceState : HarankashJumpState
         accelerationData = collidedPlatform.AccelerationConfig;
         base.onStateEnter();
     }
+    #endregion
 
-    protected override void onStateExit()
-    {
-        base.onStateExit();
-    }
-
+    #region PRIVATE
     private HaraPlatformAbstract getCollidedPlatformComponent()
     {
         Debug.LogError("Get component bounce");
@@ -98,4 +96,5 @@ public class HarankashBounceState : HarankashJumpState
     {
         fallPlatform = i_platform;
     }
+    #endregion
 }

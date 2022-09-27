@@ -10,7 +10,7 @@ public class HarankashFallState : FallAbstractState
     [SerializeField] private SpriteFrameSwapper landingFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
 
-    [Header("VFX")]
+    [Header("FX")]
     [SerializeField] private SpriteFrameSwapper landVFX = null;
     [SerializeField] private AudioSource impactSFX = null;
     [SerializeField] private float timeBeforeBounce = 0.5f;
@@ -30,7 +30,7 @@ public class HarankashFallState : FallAbstractState
 
     private bool firstFall = true;
 
-    #region PROTECTED
+    #region STATE API
     protected override void onStateInit()
     {
 
@@ -58,6 +58,20 @@ public class HarankashFallState : FallAbstractState
         this.DisposeCoroutine(ref landingRoutine);
     }
 
+    public override void ResetState()
+    {
+        base.ResetState();
+        StopAllCoroutines();
+        fallingFrames.Stop();
+        fallingFrames.ResetAnimation();
+        landingFrames.Stop();
+        landingFrames.ResetAnimation();
+        jumpRiseFrames.Stop();
+        jumpRiseFrames.ResetAnimation();
+        landVFX.Stop();
+        landVFX.ResetAnimation();
+        onStateExit();
+    }
     #endregion
 
     #region PRIVATE

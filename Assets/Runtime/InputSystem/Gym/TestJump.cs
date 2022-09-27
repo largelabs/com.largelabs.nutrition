@@ -38,4 +38,8 @@ public class TestJump : State
     {
         return;
     }
+
+    public override void ResetState()
+    {
+    }
 }

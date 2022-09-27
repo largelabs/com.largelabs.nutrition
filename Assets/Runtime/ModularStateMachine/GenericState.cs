@@ -69,4 +69,9 @@ public class GenericState : State
             action.PerformAction();
         }
     }
+
+    public override void ResetState()
+    {
+       
+    }
 }

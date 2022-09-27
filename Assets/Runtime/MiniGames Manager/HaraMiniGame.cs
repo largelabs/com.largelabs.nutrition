@@ -180,48 +180,6 @@ public class HaraMiniGame : MiniGameFlow
 	#endregion
 
 	#region PRIVATE
-	private void timeOut()
-	{
-		if (playerStateMachine.CurrentState.GetType() == typeof(HarankashIdleState))
-			failGame();
-	}
-
-	private void failGame()
-	{
-		EndMiniGame(false);
-	}
-
-	private void resetGame()
-	{
-		stopBannerSequence();
-		bannerText.sprite = bannerStart;
-
-		unregisterEvents();
-
-		playerControls.DisableControls();
-		playerControls.SetLock(true);
-
-		playerStateMachine.gameObject.SetActive(true);
-		playerStateMachine.SetState<HarankashIdleState>();
-		playerStateMachine.transform.position = originPosition;
-
-		vCamSwitcher.LockSwitching(false);
-		vCamSwitcher.SwitchToVCam(introCam_0);
-		vCamSwitcher.LockSwitching(true);
-
-		currentPile = 0;
-		mgTimer.ResetTimer();
-		sfxProvider.StopMusic();
-
-		// reset score value
-		scoreManager.gameObject.SetActive(false);
-		uiMGTimer.gameObject.SetActive(false);
-
-		spriteHarraSpawner.DespawnAllTransforms();
-
-		platformSpawnManager.DespawnMap(false);
-	}
-
 	private void collectOrange(Vector3 i_platformPos)
 	{
 		scoreManager.AddScore(i_platformPos, gameData.OrangeScore);
@@ -418,6 +376,49 @@ public class HaraMiniGame : MiniGameFlow
 		//mgTimer.StartOrResumeTimer();
 
 		stopBannerSequence();
+	}
+
+	private void timeOut()
+	{
+		if (playerStateMachine.CurrentState.GetType() == typeof(HarankashIdleState))
+			failGame();
+	}
+
+	private void failGame()
+	{
+		EndMiniGame(false);
+	}
+
+	private void resetGame()
+	{
+		stopBannerSequence();
+		bannerText.sprite = bannerStart;
+
+		unregisterEvents();
+
+		playerControls.DisableControls();
+		playerControls.SetLock(true);
+
+		playerStateMachine.ResetAllStates();
+		playerStateMachine.gameObject.SetActive(true);
+		playerStateMachine.SetGenericState("d");
+		playerStateMachine.transform.position = originPosition;
+
+		vCamSwitcher.LockSwitching(false);
+		vCamSwitcher.SwitchToVCam(introCam_0);
+		vCamSwitcher.LockSwitching(true);
+
+		currentPile = 0;
+		mgTimer.ResetTimer();
+		sfxProvider.StopMusic();
+
+		// reset score value
+		scoreManager.gameObject.SetActive(false);
+		uiMGTimer.gameObject.SetActive(false);
+
+		spriteHarraSpawner.DespawnAllTransforms();
+
+		platformSpawnManager.DespawnMap(false);
 	}
 
 	private void deactivateBanner()

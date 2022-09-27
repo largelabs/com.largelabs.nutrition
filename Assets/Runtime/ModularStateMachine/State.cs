@@ -45,6 +45,8 @@ public abstract class State : MonoBehaviourBase
         onStateExit();
     }
 
+    public abstract void ResetState();
+
     #endregion
 
     #region PROTECTED API

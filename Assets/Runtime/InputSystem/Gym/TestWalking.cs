@@ -41,4 +41,9 @@ public class TestWalking : State
     {
         transform.parent.position += new Vector3(controls.MoveDirection() *speed, 0, 0);
     }
+
+    public override void ResetState()
+    {
+      
+    }
 }

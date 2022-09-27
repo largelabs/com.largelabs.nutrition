@@ -49,7 +49,7 @@ public class StateMachine : MonoBehaviourBase
             currentState.ExitState();
 
         currentState = i_state;
-        //Debug.LogError("Entered state: " + currentState);
+        Debug.LogError("Entered state: " + currentState);
         currentState.Initialize(this, controls);
         currentState.EnterState();
     }
@@ -78,6 +78,13 @@ public class StateMachine : MonoBehaviourBase
     }
 
     public State CurrentState => currentState;
+
+    public void ResetAllStates()
+    {
+        int length = allStates.Length;
+        for (int i = 0; i < length; i++)
+            allStates[i].ResetState();
+    }
 
     void initializeStateCollections()
     {
