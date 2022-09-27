@@ -64,7 +64,8 @@ public class UIHarrankashStack : UIElementStack<float>
             UIImageFrameSwapper uiHarraAnimation = uiHarrankashStack.Pop();
 
             // sfx suggestion: collection sound for counting each UI harankash
-            sfxProvider.PlayStackSFX();
+            if(sfxProvider != null)
+                sfxProvider.PlayStackSFX();
 
             yield return StartCoroutine(animateElement(uiHarraAnimation.gameObject, true, true, false));
 

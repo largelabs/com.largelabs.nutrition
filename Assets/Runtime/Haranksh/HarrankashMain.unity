@@ -280,6 +280,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 15385901235657717, guid: b295144cf31de1342b557b9bfd12cb51, type: 3}
   m_PrefabInstance: {fileID: 15385901515889946}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &372812432
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5141851039799369537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_Name
+      value: Test Platform
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141851039799369547, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
 --- !u!1 &723826143
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +388,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7763158, y: 1}
+    m_SensorSize: {x: 1.7780613, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -560,6 +621,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VCams: []
+--- !u!114 &1337651427 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2529863125299437705, guid: 027f746757812504b8a8d7f543f42258, type: 3}
+  m_PrefabInstance: {fileID: 7165359000816630772}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a5a1856bf1f9344aa647f46bfe0eae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1620711417 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 15385900988844771, guid: b295144cf31de1342b557b9bfd12cb51, type: 3}
@@ -747,7 +819,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1.7780613, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -982,7 +1054,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7763158, y: 1}
+    m_SensorSize: {x: 1.7780613, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1080,7 +1152,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7763158, y: 1}
+    m_SensorSize: {x: 1.7780613, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1178,7 +1250,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7763158, y: 1}
+    m_SensorSize: {x: 1.7780613, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1399,6 +1471,10 @@ PrefabInstance:
       propertyPath: timer
       value: 
       objectReference: {fileID: 325070664}
+    - target: {fileID: 6445243140294006675, guid: 7a19cca14bbdfc6478c3311186746427, type: 3}
+      propertyPath: sfxProvider
+      value: 
+      objectReference: {fileID: 1337651427}
     - target: {fileID: 6918587138322911895, guid: 7a19cca14bbdfc6478c3311186746427, type: 3}
       propertyPath: m_Name
       value: HarankashHUD
@@ -1487,6 +1563,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6918587138974470213, guid: 7a19cca14bbdfc6478c3311186746427, type: 3}
+      propertyPath: sfxProvider
+      value: 
+      objectReference: {fileID: 1337651427}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a19cca14bbdfc6478c3311186746427, type: 3}
 --- !u!1001 &7165359000816630772
@@ -1644,10 +1724,6 @@ PrefabInstance:
       propertyPath: farCam
       value: 
       objectReference: {fileID: 1962975427}
-    - target: {fileID: 7165359001618138570, guid: 027f746757812504b8a8d7f543f42258, type: 3}
-      propertyPath: nearCam
-      value: 
-      objectReference: {fileID: 2030303110}
     - target: {fileID: 7165359001618138570, guid: 027f746757812504b8a8d7f543f42258, type: 3}
       propertyPath: vCamSwitcher
       value: 

@@ -20,6 +20,9 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
     [SerializeField] float disappearTime = 0.2f;
     [SerializeField] InterpolatorsManager interpolatorsManager = null;
 
+    [Header("SFX")]
+    [SerializeField] HarraSFXProvider sfxProvider = null;
+
     int currOrange = 0;
 
     System.Random rng = null;
@@ -98,7 +101,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
                 if (length == 1 || (prevSolo && prevOrange) || rng <= currGlobalChance) // spawn a platform at anchor
                 {
                     harraPlatformSpawner.SpawnHaraPlatform(choosePlatformType(idxRatio, greenChances, yellowChances, orangeChances, ref prevSolo, ref prevOrange, spawnedPrev, length),
-                                                            anchorsInRow[i].position);
+                                                            anchorsInRow[i].position, sfxProvider);
 
                     spawnedPrev = true;
                     spawnedInCurrRow++;
@@ -143,7 +146,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
             anchorsInRow = platformRow.Anchors;
             foreach (Transform anchor in anchorsInRow)
             {
-                harraPlatformSpawner.SpawnHaraPlatform(HarraPlatformSpawner.PlatformType.Green, anchor.position);
+                harraPlatformSpawner.SpawnHaraPlatform(HarraPlatformSpawner.PlatformType.Green, anchor.position, sfxProvider);
             }
         }
     }

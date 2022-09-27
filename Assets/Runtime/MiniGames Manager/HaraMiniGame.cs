@@ -131,7 +131,7 @@ public class HaraMiniGame : MiniGameFlow
 	protected override void onGameplayEnded()
 	{
 		unregisterEvents();
-		mgTimer.PauseTimer();
+		mgTimer.ResetTimer();
 	}
 
 	protected override IEnumerator onSuccess()
@@ -159,7 +159,8 @@ public class HaraMiniGame : MiniGameFlow
 		playerStateMachine.SetGenericState("d");
 
 		// sfx suggestion: failure sound
-		sfxProvider.PlayFailureSFX();
+		if(sfxProvider != null)
+			sfxProvider.PlayFailureSFX();
 
 		yield return this.Wait(0.5f);
 		// show score banner popup
@@ -409,7 +410,7 @@ public class HaraMiniGame : MiniGameFlow
 		scoreManager.gameObject.SetActive(true);
 		uiMGTimer.gameObject.SetActive(true);
 		mgTimer.SetTimer(gameData.PileTimes[Mathf.Clamp(currentPile, 0, gameData.PileTimes.Count - 1)], true);
-		mgTimer.StartTimer();
+		mgTimer.ResumeTimer();
 
 		deactivateBanner();
 	}
@@ -430,7 +431,8 @@ public class HaraMiniGame : MiniGameFlow
 	{
 		harrankashPopup.SetScore(scoreManager.TotalScore.ToString());
 		harrankashPopup.Appear(true);
-		sfxProvider.PlayAppearSFX();
+		if(sfxProvider != null)
+			sfxProvider.PlayAppearSFX();
 	}
 
 	private void registerEvents()
