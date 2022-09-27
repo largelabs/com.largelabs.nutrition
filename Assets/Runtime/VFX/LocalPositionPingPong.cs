@@ -3,13 +3,24 @@ using UnityEngine;
 
 public class LocalPositionPingPong : MonoBehaviourBase
 {
+    [Header("Base Configs")]
     [SerializeField] private Transform tr = null;
     [SerializeField] private Vector3 baseLocalPos = Vector3.zero;
     [SerializeField] private Vector3 targetLocalPos = Vector3.zero;
     [SerializeField] private InterpolatorsManager interpolatorsManager = null;
+
+    [Header("Animation Configs")]
+    [SerializeField] private float singleLerpDurationMax = 0.1f;
+    [SerializeField] private float singleLerpDurationMin = 0.1f;
+    [SerializeField] private AnimationCurve singleLerpDurationVarianceCurve = null;
     [SerializeField] private AnimationCurve singleLerpCurve = null;
+    [SerializeField] private int totalLerps = 1;
     [SerializeField] private bool clampValues = true;
+
+    [Header("Extra Configs")]
     [SerializeField] private bool resetOnFinish = true;
+    [SerializeField] private bool flipTargetXAfterEachLerp = false;
+    [SerializeField] private bool flipTargetYAfterEachLerp = false;
 
     private ITypedAnimator<Vector3> localPosInterpolator = null;
     private Coroutine pingPongRoutine = null;
@@ -25,31 +36,31 @@ public class LocalPositionPingPong : MonoBehaviourBase
     #region PUBLIC API
     public bool isMoving => pingPongRoutine != null;
 
-    public void StartPingPong(float i_singleLerpTime,
-                              Vector3? i_baseLocalPos,
-                              Vector3? i_targetLocalPos,
-                              int i_numberOfLerps,
-                              bool i_resetColorOnFinish)
+    public void StartPingPong(float? i_singleLerpTimeMax = null,
+                              float? i_singleLerpTimeMin = null,
+                              Vector3? i_baseLocalPos = null,
+                              Vector3? i_targetLocalPos = null,
+                              int? i_numberOfLerps = null,
+                              bool? i_resetOnFinish = null)
     {
-        resetOnFinish = i_resetColorOnFinish;
+        resetOnFinish = i_resetOnFinish == null? resetOnFinish:i_resetOnFinish.Value;
         if (pingPongRoutine == null)
         {
             originalLocalPos = tr.localPosition;
             lerpsDone = 0;
-            pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, i_baseLocalPos, i_targetLocalPos, i_numberOfLerps));
+            pingPongRoutine = StartCoroutine(
+                pingPongSequence(i_singleLerpTimeMax == null? singleLerpDurationMax: i_singleLerpTimeMax.Value,
+                i_singleLerpTimeMin == null? singleLerpDurationMin: i_singleLerpTimeMin.Value, 
+                i_baseLocalPos, 
+                i_targetLocalPos, 
+                i_numberOfLerps == null? totalLerps:i_numberOfLerps.Value));
         }
     }
-
+    
     [ExposePublicMethod]
-    public void StartPingPong(float i_singleLerpTime,
-                              int i_numberOfLerps)
+    public void StartPingPong()
     {
-        if (pingPongRoutine == null)
-        {
-            originalLocalPos = tr.localPosition;
-            lerpsDone = 0;
-            pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, null, null, i_numberOfLerps));
-        }
+        StartPingPong(null, null, null, null, null);
     }
 
     [ExposePublicMethod]
@@ -87,7 +98,8 @@ public class LocalPositionPingPong : MonoBehaviourBase
     #endregion
 
     #region PRIVATE 
-    private IEnumerator pingPongSequence(float i_singleLerpTime,
+    private IEnumerator pingPongSequence(float i_singleLerpTimeMax,
+                                         float i_singleLerpTimeMin,
                                          Vector3? i_baseLocalPos,
                                          Vector3? i_targetLocalPos,
                                          int i_numberOfLerps)
@@ -98,7 +110,10 @@ public class LocalPositionPingPong : MonoBehaviourBase
         Vector3 localPos_0 = i_baseLocalPos != null ? i_baseLocalPos.Value : baseLocalPos;
         Vector3 localPos_1 = i_targetLocalPos != null ? i_targetLocalPos.Value : targetLocalPos;
 
-        localPosInterpolator = interpolatorsManager.Animate(localPos_0, localPos_1, i_singleLerpTime, mode, clampValues, 0f, null);
+        float lerpTime = Mathf.Lerp(i_singleLerpTimeMin, i_singleLerpTimeMax,
+            singleLerpDurationVarianceCurve.Evaluate(lerpsDone / (float)totalLerps));
+
+        localPosInterpolator = interpolatorsManager.Animate(localPos_0, localPos_1, lerpTime, mode, clampValues, 0f, null);
 
         while (localPosInterpolator.IsActive)
         {
@@ -110,16 +125,23 @@ public class LocalPositionPingPong : MonoBehaviourBase
         lerpsDone++;
 
         if (remainingLerps != 0)
-            pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, localPos_1, localPos_0, remainingLerps));
+        {
+            localPos_0 = new Vector3(
+                flipTargetXAfterEachLerp ? -localPos_0.x : localPos_0.x,
+                flipTargetYAfterEachLerp ? -localPos_0.y : localPos_0.y,
+                localPos_0.z);
+
+            pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTimeMax, i_singleLerpTimeMin, localPos_1, localPos_0, remainingLerps));
+        }
         else if (resetOnFinish)
         {
             if (lerpsDone % 2 == 0)
                 tr.localPosition = originalLocalPos;
-            else
+            else if (lerpsDone > 1)
             {
-                pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTime, localPos_1, localPos_0, 1));
+                pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTimeMax, i_singleLerpTimeMin, localPos_1, localPos_0, 1));
             }
-            
+
         }
     }
     #endregion

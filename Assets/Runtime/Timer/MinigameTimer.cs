@@ -77,6 +77,14 @@ public class MinigameTimer : MonoBehaviourBase
         OnTimerResumed?.Invoke(remainingTime);
     }
 
+    public void StartOrResumeTimer()
+    {
+        if (timerStatus == TimerStatus.Paused) 
+            ResumeTimer();
+        else
+            StartTimer();
+    }
+
     public string GetMinutesString()
     {
         return remainingTime.Minutes.ToString("00");

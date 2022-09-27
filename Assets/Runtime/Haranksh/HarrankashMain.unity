@@ -287,6 +287,102 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: tr
+      value: 
+      objectReference: {fileID: 372812433}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: totalLerps
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: clampValues
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: resetOnFinish
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: targetLocalPos.y
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: interpolatorsManager
+      value: 
+      objectReference: {fileID: 372812437}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationMax
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].time
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[2].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].inSlope
+      value: 0.016433984
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].outSlope
+      value: 0.016433984
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].outWeight
+      value: 0.44033635
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2493539528755232537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366853098596092154, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5141851039799369537, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
       propertyPath: m_Name
       value: Test Platform
@@ -339,8 +435,182 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6617927597686477491, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: sfxProvider
+      value: 
+      objectReference: {fileID: 1337651427}
+    - target: {fileID: 6617927597686477491, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: nudgePingPong
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617927597686477491, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: wobblePingPong
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: tr
+      value: 
+      objectReference: {fileID: 372812433}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: totalLerps
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: clampValues
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: resetOnFinish
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: targetLocalPos.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDuration
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: interpolatorsManager
+      value: 
+      objectReference: {fileID: 372812437}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationMax
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationMin
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: flipTargetXAfterEachLerp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[0].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[0].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpCurve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[1].inSlope
+      value: 3.2977605
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[1].inWeight
+      value: 0.033613443
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[1].outSlope
+      value: 3.2977605
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703479446538069662, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: singleLerpDurationVarianceCurve.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114121667739583069, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+      propertyPath: m_Name
+      value: Nudge
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+--- !u!4 &372812433 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4366853098596092154, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+  m_PrefabInstance: {fileID: 372812432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &372812436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4366853098596092157, guid: 64bd5d0f4070837419bd6047b1302e74, type: 3}
+  m_PrefabInstance: {fileID: 372812432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &372812437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372812436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4695dd453cb6375499abe594ac7df569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxConcurrentFloat: -1
+  maxConcurrentV2: -1
+  maxConcurrentV3: -1
+  maxConcurrentColor: -1
 --- !u!1 &723826143
 GameObject:
   m_ObjectHideFlags: 0

@@ -137,10 +137,13 @@ MonoBehaviour:
   scaleDisppear: {fileID: 3593969001576665733}
   alphaAppear: {fileID: 1805368244388822511}
   alphaDisappear: {fileID: 8724632780404744753}
+  nudgePingPong: {fileID: 0}
+  wobblePingPong: {fileID: 0}
   rnd: {fileID: 5276797202842317543}
   baseSprite: {fileID: 1170679575, guid: 0879efe8eba3f8441916526e7018a6f9, type: 3}
   openUp: {fileID: 1129212793128652683}
   closeUp: {fileID: 8983614004487468998}
+  sfxProvider: {fileID: 0}
 --- !u!114 &6918557675285251299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,6 +157,109 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformType: 2
+--- !u!1 &3833012610317389850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8535033817736442030}
+  - component: {fileID: 6732134133913291940}
+  m_Layer: 7
+  m_Name: Wobble
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8535033817736442030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833012610317389850}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5276797202842317542}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6732134133913291940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833012610317389850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f2c757a47e9b6448325563ae42961b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tr: {fileID: 5276797202842317542}
+  baseLocalPos: {x: 0, y: 0, z: 0}
+  targetLocalPos: {x: -0.1, y: 0, z: 0}
+  interpolatorsManager: {fileID: 0}
+  singleLerpDurationMax: 0.2
+  singleLerpDurationMin: 0.05
+  singleLerpDurationVarianceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 3.2877324
+      outSlope: 3.2877324
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.029411793
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  singleLerpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  totalLerps: 1
+  clampValues: 1
+  resetOnFinish: 1
+  flipTargetXAfterEachLerp: 1
+  flipTargetYAfterEachLerp: 0
 --- !u!1 &3974621486358833378
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,6 +466,8 @@ Transform:
   - {fileID: 3535765736836316493}
   - {fileID: 6748590390830478670}
   - {fileID: 5486531814519544293}
+  - {fileID: 7386767239138038099}
+  - {fileID: 8535033817736442030}
   m_Father: {fileID: 3673627363928991063}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -652,6 +760,109 @@ MonoBehaviour:
     m_RotationOrder: 4
   clampValues: 0
   resetScaleOnFinish: 0
+--- !u!1 &6835136658733294086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7386767239138038099}
+  - component: {fileID: 5425579686585680071}
+  m_Layer: 7
+  m_Name: MoveDown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7386767239138038099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6835136658733294086}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5276797202842317542}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5425579686585680071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6835136658733294086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f2c757a47e9b6448325563ae42961b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tr: {fileID: 5276797202842317542}
+  baseLocalPos: {x: 0, y: 0, z: 0}
+  targetLocalPos: {x: 0, y: -0.1, z: 0}
+  interpolatorsManager: {fileID: 0}
+  singleLerpDurationMax: 0.5
+  singleLerpDurationMin: 0.1
+  singleLerpDurationVarianceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  singleLerpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  totalLerps: 1
+  clampValues: 1
+  resetOnFinish: 1
+  flipTargetXAfterEachLerp: 0
+  flipTargetYAfterEachLerp: 0
 --- !u!1 &8448964140057836824
 GameObject:
   m_ObjectHideFlags: 0

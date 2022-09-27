@@ -9,6 +9,8 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     [SerializeField] LocalScalePingPong scaleDisppear = null;
     [SerializeField] SpriteAlphaLerp alphaAppear = null;
     [SerializeField] SpriteAlphaLerp alphaDisappear = null;
+    [SerializeField] LocalPositionPingPong nudgePingPong = null;
+    [SerializeField] LocalPositionPingPong wobblePingPong = null;
 
     [Header("Animations")]
     [SerializeField] SpriteRenderer rnd = null;
@@ -21,7 +23,6 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
 
     bool open = false;
     
-
     public bool IsOpen => open;
 
     public void ResetSprite()
@@ -79,6 +80,26 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
         closeUp.ResetAnimation();
         closeUp.Play();
         open = false;
+    }
+
+    [ExposePublicMethod]
+    public void Nudge(InterpolatorsManager i_interps)
+    {
+        if (nudgePingPong != null)
+        {
+            nudgePingPong.AssignInterpolators(i_interps);
+            nudgePingPong.StartPingPong();
+        }
+    }
+    
+    [ExposePublicMethod]
+    public void Wobble(InterpolatorsManager i_interps)
+    {
+        if (wobblePingPong != null)
+        {
+            wobblePingPong.AssignInterpolators(i_interps);
+            wobblePingPong.StartPingPong();
+        }
     }
 
     public void RegisterSFX(HarraSFXProvider i_sfx)

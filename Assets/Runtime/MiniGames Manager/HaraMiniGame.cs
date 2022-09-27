@@ -118,6 +118,7 @@ public class HaraMiniGame : MiniGameFlow
 	protected override void onGameplayStarted()
 	{
 		registerEvents();
+		mgTimer.StartTimer();
 
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
@@ -410,7 +411,7 @@ public class HaraMiniGame : MiniGameFlow
 		scoreManager.gameObject.SetActive(true);
 		uiMGTimer.gameObject.SetActive(true);
 		mgTimer.SetTimer(gameData.PileTimes[Mathf.Clamp(currentPile, 0, gameData.PileTimes.Count - 1)], true);
-		mgTimer.ResumeTimer();
+		//mgTimer.StartOrResumeTimer();
 
 		deactivateBanner();
 	}
