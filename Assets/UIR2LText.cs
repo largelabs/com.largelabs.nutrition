@@ -1,49 +1,44 @@
-using UnityEngine;
 using UnityEngine.UI;
+
 
 public class UIR2LText : MonoBehaviourBase
 {
-    [SerializeField] bool isArabic = false;
-    [SerializeField] string englishString = null;
-    [SerializeField] string arabicString = null;
+    Text uiText = null;
 
-    [SerializeField] Font englishFont = null;
-    [SerializeField] Font arabicFont = null;
+    string originaltext = null;
+    string fixedText = null;
 
-    [SerializeField] Text uiText = null;
+    #region PUBLIC API
 
-    string fixedArabicString = null;
-
-    private void OnValidate()
-    {
-        init();
-    }
-
-    void Start()
-    {
-        init();
-    }
-
-    private void init()
+    [ExposePublicMethod(false)]
+    public void FixText()
     {
         if (null == uiText) uiText = GetComponent<Text>();
-        updateText();
+        updateText(false);
     }
 
-    void updateText()
+    [ExposePublicMethod(false)]
+    public void Reset()
+    {
+        originaltext = null;
+        fixedText = null;
+    }
+
+    #endregion
+
+    void updateText(bool i_reset)
     {
         if (null == uiText) return;
-        
-        if(true == isArabic)
+        if (null == originaltext) originaltext = uiText.text;
+
+        if (false == i_reset)
         {
-            fixedArabicString = ArabicFixerTool.FixLine(arabicString);
-            uiText.text = fixedArabicString;
-            uiText.font = arabicFont;
+            if (null == fixedText) fixedText = ArabicFixerTool.FixLine(originaltext);
         }
-        else
-        {
-            uiText.text = englishString;
-            uiText.font = englishFont;
-        }
+        else 
+            fixedText = null;
+
+
+        uiText.text = i_reset ? originaltext : fixedText;
     }
 }

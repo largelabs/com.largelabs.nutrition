@@ -519,11 +519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e8a6e4869c35f44af8097d221ef840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isArabic: 0
-  englishString: RETRY
-  arabicString: "\u062B\u0627\u0646\u064A\u0629"
-  englishFont: {fileID: 12800000, guid: 9b99e6767286a3047bad7f53bbaa6966, type: 3}
-  arabicFont: {fileID: 12800000, guid: 9b99e6767286a3047bad7f53bbaa6966, type: 3}
   uiText: {fileID: 7826904336643401524}
 --- !u!1 &8557833038267070669
 GameObject:
@@ -770,9 +765,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e8a6e4869c35f44af8097d221ef840, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isArabic: 0
-  englishString: RETRY
-  arabicString: "\u062B\u0627\u0646\u064A\u0629"
-  englishFont: {fileID: 12800000, guid: 9b99e6767286a3047bad7f53bbaa6966, type: 3}
-  arabicFont: {fileID: 12800000, guid: 9b99e6767286a3047bad7f53bbaa6966, type: 3}
   uiText: {fileID: 7826904336643401524}

@@ -108,10 +108,11 @@ public class MonoBehaviourBaseInspector : Editor
         foreach (KeyValuePair<string, MethodInfo> pair in publicMethodInfos)
         {
             ExposePublicMethod attr = publicMethodAttributes[pair.Key];
+            bool show = true;
 
-            bool show = EditorApplication.isPlaying;
+            if (attr.PlayModeOnly) show= EditorApplication.isPlaying;
 
-            if(true == show)
+            if (true == show)
             {
                 EditorWidgets.TitleUI(pair.Key);
 
@@ -124,7 +125,6 @@ public class MonoBehaviourBaseInspector : Editor
 
                 EditorWidgets.SeparatorUI();
             }
-
         }
 
         EditorGUI.indentLevel--;
