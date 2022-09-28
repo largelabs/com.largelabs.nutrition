@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goodKernelScore: 10
   burntKernelScore: 80
-  superKernelScore: 200
-  baseTimer: 180
+  superKernelScore: 10
+  baseTimer: 120
