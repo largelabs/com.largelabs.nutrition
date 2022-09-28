@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assignedDoraData: {fileID: 11400000, guid: 022361e63e3149142b800cf71d7a402e, type: 2}
   doraInBatch: 2
-  maxBurntPercentage: 0.1
-  maxBurntPercentageIncrease: 0.05
-  maxBurntPercentageLimit: 0.4
+  maxBurntPercentage: 0.05
+  maxBurntPercentageIncrease: 0.1
+  maxBurntPercentageLimit: 0.5
   distributionStyleLvl1: 1
   distributionStyleLvl2: 0
   distributionStyleLvl3: 3
   batchFinishScoreBonus: 1000
-  batchFinishTimeBonus: 30
+  batchFinishTimeBonus: 45
   superKernelChance: 0.2
   superKernelChanceIncrease: 0.025
   maxSuperKernelsPerCob: 1

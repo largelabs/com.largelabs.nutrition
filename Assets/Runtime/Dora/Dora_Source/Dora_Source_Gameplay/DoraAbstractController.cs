@@ -422,15 +422,15 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         inputs.EnableInputs();
 
-        StartAutoRotation();
-
-        stopFrenzyMode();
+        stopFrenzyMode(true);
     }
 
-    private void stopFrenzyMode()
+    private void stopFrenzyMode(bool i_startAutoRotation = false)
     {
         frenzyController.StopFrenzyMode();
         this.DisposeCoroutine(ref frenzyRoutine);
+
+        if(true == i_startAutoRotation) StartAutoRotation();
     }
 
     private Queue<ScoreKernelInfo> getStackInfo(List<HashSet<DoraKernel>> i_eatenKernels)

@@ -41,6 +41,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 16ce5a80e4090c24996f7cd305c2bc1c, type: 3}
   - {fileID: 21300000, guid: 4ef8d99087e3b58488cce3e9e558501d, type: 3}
   - {fileID: 21300000, guid: f4ff2fe014cdbac41bccb3c650aa4d38, type: 3}
+  - {fileID: 21300000, guid: 70e5a7631b0bfd845a3fe1ad301225ce, type: 3}
   - {fileID: 21300000, guid: dc338ef4898f9774387279576084558b, type: 3}
   - {fileID: 21300000, guid: f1d9aa950bd8e744a921e556f7a06047, type: 3}
   - {fileID: 21300000, guid: 5259c7161cdf75e4a888e123a941b819, type: 3}
@@ -56,6 +57,7 @@ SpriteAtlas:
   - UI_kernel_OK
   - cursor_center_static
   - UI_kernel_bad
+  - Dura_gameover_title_AR
   - UI_timer_corn_icon
   - dura_gameover_popup_button_normal
   - dura_render_GOpopup_01
