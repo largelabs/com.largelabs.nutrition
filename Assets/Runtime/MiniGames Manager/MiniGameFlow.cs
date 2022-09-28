@@ -37,8 +37,6 @@ public abstract class MiniGameFlow : MonoBehaviourBase
 
     }
 
-    public void ExitMiniGame() => SceneManager.LoadScene(0); //or should we use scene name instead?
-
     #endregion
 
     #region PROTECTED API

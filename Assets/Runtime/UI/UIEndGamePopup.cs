@@ -1,26 +1,24 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIEndGamePopup : MonoBehaviourBase, IAppear
+public class UIEndGamePopup : UIDualButtonSelector, IAppear
 {
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] AppearWithLocalScale scaleAppear = null;
     [SerializeField] UIAppearWithCanvasGroupAlpha alphaAppear = null;
     [SerializeField] UIAppearWithCanvasGroupAlpha blackBgAppear = null;
     [SerializeField] Text scoreText = null;
-    [SerializeField] UIEndGameButton button0 = null;
-    [SerializeField] UIEndGameButton button1 = null;
-    [SerializeField] AudioSource onAppearSfx = null;
 
-    UIEndGameButton selectedButton = null;
+    [SerializeField] AudioSource onAppearSfx = null;
 
     #region UNITY AND CORE
 
-    protected virtual void OnDestroy()
+    protected override void OnDestroy()
     {
         scaleAppear.OnDidAppear -= onDidAppear;
         scaleAppear.OnDidDisappear -= onDidDisappear;
-        disableInputs();
+
+        base.OnDestroy();
     }
 
     #endregion
@@ -71,42 +69,18 @@ public class UIEndGamePopup : MonoBehaviourBase, IAppear
 
     #endregion
 
-    #region PRIVATE
 
-
-    UIEndGameButton getOtherButton(UIEndGameButton i_button)
-    {
-        return i_button == button0 ? button1 : button0;
-    }
-
-    void selectButton(UIEndGameButton i_button, bool i_animated)
-    {
-        UIEndGameButton otherButton = getOtherButton(i_button);
-
-        if (null != otherButton) otherButton.Unselect(i_animated);
-        selectedButton = i_button;
-        selectedButton.Select(i_animated);
-    }
-    #endregion
 
     #region PROTECTED
 
-    protected void onAction()
+    protected override void onAction()
     {
-        if (null == selectedButton) return;
+        if (false == HasSelectedButton) return;
 
         Disappear(true);
-        selectedButton.TriggerCallback();
+        base.onAction();
     }
 
-    protected void onMove(Vector2 i_move)
-    {
-        selectButton(getOtherButton(selectedButton), true);
-    }
-    protected void onMove()
-    {
-        onMove(Vector2.zero);
-    }
 
     protected virtual void onDidAppear()
     {
@@ -119,17 +93,9 @@ public class UIEndGamePopup : MonoBehaviourBase, IAppear
     protected virtual void onDidDisappear()
     {
         scaleAppear.OnDidDisappear -= onDidDisappear;
-
-        if (null != selectedButton)
-        {
-            selectedButton.Unselect(true);
-            selectedButton = null;
-        }
+        clearSelection();
     }
 
-    protected virtual void enableInputs() { }
-
-    protected virtual void disableInputs() { }
 
     #endregion
 
