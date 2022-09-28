@@ -62,6 +62,13 @@ public class HarankashBounceState : HarankashJumpState
         accelerationData = collidedPlatform.AccelerationConfig;
         base.onStateEnter();
     }
+
+    public override void ResetState()
+    {
+        StopAllCoroutines();
+        bounceSFX?.Stop();
+        onStateExit();
+    }
     #endregion
 
     #region PRIVATE

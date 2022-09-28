@@ -70,6 +70,7 @@ public class HarankashFallState : FallAbstractState
         jumpRiseFrames.ResetAnimation();
         landVFX.Stop();
         landVFX.ResetAnimation();
+        impactSFX?.Stop();
         onStateExit();
     }
     #endregion

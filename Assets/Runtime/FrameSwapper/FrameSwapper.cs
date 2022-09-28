@@ -88,8 +88,12 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
     public void Resume() => isResumed = true;
 
     [ExposePublicMethod]
-	public void ResetAnimation() => currentFrame = frames[0];
+    public void ResetAnimation(Sprite i_resetSprite = null)
+    {
+        updateRenderedObject(i_resetSprite);
+        currentFrame = frames[0];
 
+    }
 	public void StopLoop() => isLooping = false;
 
 	public void StartLoop() => isLooping = true;
@@ -136,6 +140,7 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
     }
 
     protected abstract void updateRenderedObject();
+    protected abstract void updateRenderedObject(Sprite i_sprite);
 
     private void updateCurrentFrame()
     {

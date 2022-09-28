@@ -75,6 +75,7 @@ public class HarrankashCelebrationState : State
         celebrationFrames.ResetAnimation(); 
         jumpAnticipationFrames.Stop();
         jumpAnticipationFrames.ResetAnimation();
+        victorySound?.Stop();
         onStateExit();
     }
     #endregion

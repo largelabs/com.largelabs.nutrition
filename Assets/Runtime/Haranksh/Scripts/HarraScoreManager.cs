@@ -26,6 +26,7 @@ public class HarraScoreManager : MonoBehaviourBase
     public void ResetScore()
     {
         totalScore = 0;
+        scoreText.text = "0000";
     }
 
     public int TotalScore

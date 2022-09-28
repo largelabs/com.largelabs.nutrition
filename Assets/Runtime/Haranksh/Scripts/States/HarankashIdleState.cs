@@ -58,6 +58,7 @@ public class HarankashIdleState : State
         idlingFrames.ResetAnimation();
         jumpAnticipationFrames.Stop();
         jumpAnticipationFrames.ResetAnimation();
+        jumpSFX?.Stop();
         onStateExit();
     }
 
