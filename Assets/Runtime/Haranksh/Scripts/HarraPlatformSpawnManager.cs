@@ -101,7 +101,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
                 if (length == 1 || (prevSolo && prevOrange) || rng <= currGlobalChance) // spawn a platform at anchor
                 {
                     harraPlatformSpawner.SpawnHaraPlatform(choosePlatformType(idxRatio, greenChances, yellowChances, orangeChances, ref prevSolo, ref prevOrange, spawnedPrev, length),
-                                                            anchorsInRow[i].position, sfxProvider);
+                                                            anchorsInRow[i].position, sfxProvider, interpolatorsManager);
 
                     spawnedPrev = true;
                     spawnedInCurrRow++;
@@ -146,7 +146,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
             anchorsInRow = platformRow.Anchors;
             foreach (Transform anchor in anchorsInRow)
             {
-                harraPlatformSpawner.SpawnHaraPlatform(HarraPlatformSpawner.PlatformType.Green, anchor.position, sfxProvider);
+                harraPlatformSpawner.SpawnHaraPlatform(HarraPlatformSpawner.PlatformType.Green, anchor.position, sfxProvider, interpolatorsManager);
             }
         }
     }
@@ -247,9 +247,9 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
             if (shuffledPlatform.activeSelf == false) shuffledPlatform.SetActive(true);
 
             if (i_appear)
-                shuffledPlatform.GetComponent<HarraPlatformAnimationManager>().PlatformAppear(interpolatorsManager, appearTime);
+                shuffledPlatform.GetComponent<HarraPlatformAnimationManager>().PlatformAppear(appearTime);
             else
-                shuffledPlatform.GetComponent<HarraPlatformAnimationManager>().PlatformDisppear(interpolatorsManager, disappearTime);
+                shuffledPlatform.GetComponent<HarraPlatformAnimationManager>().PlatformDisppear(disappearTime);
 
             spawnedSinceDelay++;
 

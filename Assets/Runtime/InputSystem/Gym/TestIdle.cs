@@ -43,4 +43,9 @@ public class TestIdle : State
     {
         return;
     }
+
+    public override void ResetState()
+    {
+
+    }
 }

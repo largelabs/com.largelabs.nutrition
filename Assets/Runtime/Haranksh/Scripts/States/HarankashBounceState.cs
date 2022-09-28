@@ -3,13 +3,21 @@ using UnityEngine;
 
 public class HarankashBounceState : HarankashJumpState
 {
-    [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
-    [SerializeField] MinigameTimer mgTimer = null;
+    [Header("Cameras")]
     [SerializeField] VCamSwitcher vCamSwitcher = null;
     [SerializeField] CinemachineVirtualCamera farCam = null;
 
+    [Header("SFX")]
+    [SerializeField] AudioSource bounceSFX = null;
+
+    [Header("Extra Configs")]
+    [SerializeField] InterpolatorsManager interpolatorsManager = null;
+    [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
+    [SerializeField] MinigameTimer mgTimer = null;
+
     private HaraPlatformAbstract fallPlatform = null;
 
+    #region STATE API
     protected override void onStateEnter()
     {
         if (!body.IsGrounded)
@@ -23,10 +31,10 @@ public class HarankashBounceState : HarankashJumpState
         if (collidedPlatform == null)
             return;
 
+        HarraPlatformAnimationManager animations = collidedPlatform.GetComponentInChildren<HarraPlatformAnimationManager>();
+
         if (collidedPlatform != fallPlatform)
         {
-            HarraPlatformAnimationManager animations = collidedPlatform.GetComponentInChildren<HarraPlatformAnimationManager>();
-
             if (collidedPlatform.GetComponent<OneJumpHaraPlatform>())
                 eventDispatcher.DispatchOrangeTouchEvent(collidedPlatform.transform.position);
             else if(animations.IsOpen == false)
@@ -44,20 +52,19 @@ public class HarankashBounceState : HarankashJumpState
                 vCamSwitcher.SwitchToVCam(farCam);
 
         //VFX Make platform wobble using animation manager
-
+        if (animations != null)
+            animations.Wobble();
 
         // sfx suggestion: bouncy jump sound
+        bounceSFX?.Play();
 
         maxJumpHeight = collidedPlatform.MaxJumpHeight;
         accelerationData = collidedPlatform.AccelerationConfig;
         base.onStateEnter();
     }
+    #endregion
 
-    protected override void onStateExit()
-    {
-        base.onStateExit();
-    }
-
+    #region PRIVATE
     private HaraPlatformAbstract getCollidedPlatformComponent()
     {
         Debug.LogError("Get component bounce");
@@ -78,8 +85,12 @@ public class HarankashBounceState : HarankashJumpState
         }
         else if(collidedPlatform == null)
         {
-            Debug.LogError("No hara platform component found! setting state to idle.");
-            setState<HarankashIdleState>();
+            collidedPlatform = fallPlatform;
+            if (collidedPlatform == null)
+            {
+                Debug.LogError("No hara platform component found! setting state to idle.");
+                setState<HarankashIdleState>();
+            }
         }
 
         return collidedPlatform;
@@ -89,4 +100,5 @@ public class HarankashBounceState : HarankashJumpState
     {
         fallPlatform = i_platform;
     }
+    #endregion
 }

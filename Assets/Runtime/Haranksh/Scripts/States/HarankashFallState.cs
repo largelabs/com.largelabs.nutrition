@@ -5,24 +5,32 @@ using UnityEngine;
 
 public class HarankashFallState : FallAbstractState
 {
+    [Header("Frames")]
     [SerializeField] private SpriteFrameSwapper fallingFrames = null;
     [SerializeField] private SpriteFrameSwapper landingFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
+
+    [Header("FX")]
     [SerializeField] private SpriteFrameSwapper landVFX = null;
+    [SerializeField] private AudioSource impactSFX = null;
     [SerializeField] private float timeBeforeBounce = 0.5f;
     [SerializeField] private TrailRenderer trail = null;
+    [SerializeField] private InterpolatorsManager interpolatorsManager = null;
+
+    [Header("Camera")]
+    [SerializeField] VCamSwitcher vCamSwitcher = null;
+    [SerializeField] CinemachineVirtualCamera nearCam = null;
+
+    [Header("Extra Configs")]
     [SerializeField] HarrankashPlatformEventDispatcher eventDispatcher = null;
     [SerializeField] MinigameTimer mgTimer = null;
     [SerializeField] HarankashBounceState bounceState = null;
-
-    [SerializeField] VCamSwitcher vCamSwitcher = null;
-    [SerializeField] CinemachineVirtualCamera nearCam = null;
 
     Coroutine landingRoutine = null;
 
     private bool firstFall = true;
 
-    #region PROTECTED
+    #region STATE API
     protected override void onStateInit()
     {
 
@@ -50,6 +58,20 @@ public class HarankashFallState : FallAbstractState
         this.DisposeCoroutine(ref landingRoutine);
     }
 
+    public override void ResetState()
+    {
+        base.ResetState();
+        StopAllCoroutines();
+        fallingFrames.Stop();
+        fallingFrames.ResetAnimation();
+        landingFrames.Stop();
+        landingFrames.ResetAnimation();
+        jumpRiseFrames.Stop();
+        jumpRiseFrames.ResetAnimation();
+        landVFX.Stop();
+        landVFX.ResetAnimation();
+        onStateExit();
+    }
     #endregion
 
     #region PRIVATE
@@ -79,14 +101,19 @@ public class HarankashFallState : FallAbstractState
 
             PlatformID pID = platform.GetComponent<PlatformID>();
             if (pID != null)
+            {
                 if (pID.PType != PlatformID.PlatformType.Yellow)
                     vCamSwitcher.SwitchToVCam(nearCam);
-
+            }
 
             //VFX Make platform go down using animation manager
+            if (animations != null)
+                animations.Nudge();
         }
 
         // sfx suggestion: impact sound
+        impactSFX?.Play();
+
         yield return this.Wait(timeBeforeBounce);
         landingFrames.Stop();
 
@@ -115,7 +142,11 @@ public class HarankashFallState : FallAbstractState
                 setState<HarankashBounceState>();
             }
             else if (i_tag == "Respawn")
+            {
+                Debug.LogError("ENTER CELEBRATION");
                 setState<HarrankashCelebrationState>();
+
+            }
             else
                 setState<HarankashIdleState>();
         }

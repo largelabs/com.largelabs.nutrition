@@ -9,7 +9,8 @@ public class HarraPlatformSpawner : MonoBehaviourBase
     {
         Green,
         Yellow,
-        Orange
+        Orange,
+        OrangeVar
     }
 
     [SerializeField] private SpawnPool platformPool = null;
@@ -17,6 +18,7 @@ public class HarraPlatformSpawner : MonoBehaviourBase
     private static readonly string PLATFORM_G = "PlatformG";
     private static readonly string PLATFORM_Y = "PlatformY";
     private static readonly string PLATFORM_R = "PlatformR";
+    private static readonly string PLATFORM_R_VAR = "PlatformR Variant";
 
     private List<HaraPlatformAbstract> livingPlatforms = null;
 
@@ -32,7 +34,7 @@ public class HarraPlatformSpawner : MonoBehaviourBase
     #region PUBLIC API
     public IReadOnlyList<HaraPlatformAbstract> LivingPlatforms => livingPlatforms;
 
-    public HaraPlatformAbstract SpawnHaraPlatform(PlatformType i_platformType, Vector3 i_worldPosition, HarraSFXProvider i_sfxProvider)
+    public HaraPlatformAbstract SpawnHaraPlatform(PlatformType i_platformType, Vector3 i_worldPosition, HarraSFXProvider i_sfxProvider, InterpolatorsManager i_interps)
     {
         if (platformPool == null)
         {
@@ -51,7 +53,10 @@ public class HarraPlatformSpawner : MonoBehaviourBase
         {
             HarraPlatformAnimationManager animations = ret.GetComponent<HarraPlatformAnimationManager>();
             if (animations != null)
+            {
                 animations.RegisterSFX(i_sfxProvider);
+                animations.RegisterInterpolators(i_interps);
+            }
 
             livingPlatforms.Add(ret);
             ret.EnableCollider(true);
@@ -90,6 +95,8 @@ public class HarraPlatformSpawner : MonoBehaviourBase
             return PLATFORM_Y;
         else if (i_platformType == PlatformType.Orange)
             return PLATFORM_R;
+        else if (i_platformType == PlatformType.OrangeVar)
+            return PLATFORM_R_VAR;
         else
         {
             Debug.LogError("Undefined platform type!");

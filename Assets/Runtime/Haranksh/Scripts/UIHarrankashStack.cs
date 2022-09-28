@@ -47,10 +47,16 @@ public class UIHarrankashStack : UIElementStack<float>
             queuedHarrankash.Enqueue(i_platformScores.Dequeue());
     }
 
-    public void DestackHarrankash()
+    public void DestackHarrankash(bool i_animated)
     {
-        if (null == dequeueKernelsRoutine) 
-            dequeueKernelsRoutine = StartCoroutine(discardUIElements());
+        if (i_animated)
+        {
+            if (null == dequeueKernelsRoutine)
+                dequeueKernelsRoutine = StartCoroutine(discardUIElements());
+        }
+        else
+            uiHarrankashSpawner.DespawnAllTransforms();
+
     }
     #endregion
 

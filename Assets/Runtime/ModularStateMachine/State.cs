@@ -1,7 +1,7 @@
 ﻿
 public abstract class State : MonoBehaviourBase
 {
-    private StateMachine stateMachine = null;
+    protected StateMachine stateMachine = null;
     public Controls controls = null;
     private bool isInit = false;
     private StateFeatureAbstract[] features = null;
@@ -44,6 +44,8 @@ public abstract class State : MonoBehaviourBase
         foreach (StateFeatureAbstract feature in features) feature.FeatureExit();
         onStateExit();
     }
+
+    public abstract void ResetState();
 
     #endregion
 

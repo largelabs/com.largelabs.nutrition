@@ -3,12 +3,15 @@ using UnityEngine;
 
 public class HarankashJumpState : MoveHorizontalAbstractState
 {
+    [Header("Jump Configs")]
     [SerializeField][Range(1f, 30f)] protected float maxJumpHeight = 8f;
+    [SerializeField] Transform visualObjectRoot = null;
+    [SerializeField] float visualObjectYOffset = 0.1263f;
+
+    [Header("Jump VFX")]
     [SerializeField] private SpriteFrameSwapper jumpLaunchFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpRiseFrames = null;
     [SerializeField] private SpriteFrameSwapper jumpVFX = null;
-    [SerializeField] Transform visualObjectRoot = null;
-    [SerializeField] float visualObjectYOffset = 0.1263f;
     [SerializeField] protected TrailRenderer trail = null;
 
     Coroutine launchRoutine = null;
@@ -16,7 +19,7 @@ public class HarankashJumpState : MoveHorizontalAbstractState
     float startJumpY = 0f;
     float stopJumpY = 0f;
 
-    #region PROTECTED
+    #region STATE API
     protected override void onStateInit()
     {
     }
@@ -30,8 +33,6 @@ public class HarankashJumpState : MoveHorizontalAbstractState
 
         Debug.Log(startJumpY + "  " + stopJumpY);
 
-        //controls.JumpPressed += goToFastFall;
-
         if (launchRoutine == null)
             launchRoutine = StartCoroutine(launchSequence());
         else
@@ -42,7 +43,6 @@ public class HarankashJumpState : MoveHorizontalAbstractState
 
     protected override void onStateExit()
     {
-        controls.JumpPressed -= goToFastFall;
         jumpRiseFrames.Stop();
         this.DisposeCoroutine(ref launchRoutine);
     }
@@ -57,6 +57,19 @@ public class HarankashJumpState : MoveHorizontalAbstractState
         checkHeight();
     }
 
+    public override void ResetState()
+    {
+        base.ResetState();
+
+        StopAllCoroutines();
+        jumpLaunchFrames.Stop();
+        jumpLaunchFrames.ResetAnimation();
+        jumpRiseFrames.Stop();
+        jumpRiseFrames.ResetAnimation();
+        jumpVFX.Stop();
+        jumpVFX.ResetAnimation();
+        onStateExit();
+    }
     #endregion
 
     #region PRIVATE

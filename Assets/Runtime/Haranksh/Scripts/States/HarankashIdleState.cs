@@ -9,6 +9,7 @@ public class HarankashIdleState : State
     [SerializeField] Transform visualObjectRoot = null;
     [SerializeField] float visualObjectYOffset = -0.0174f;
     [SerializeField] private TrailRenderer trail = null;
+    [SerializeField] private AudioSource jumpSFX = null;
 
     Coroutine jumpRoutine = null;
 
@@ -50,6 +51,16 @@ public class HarankashIdleState : State
         checkFall();
     }
 
+    public override void ResetState()
+    {
+        StopAllCoroutines();
+        idlingFrames.Stop();
+        idlingFrames.ResetAnimation();
+        jumpAnticipationFrames.Stop();
+        jumpAnticipationFrames.ResetAnimation();
+        onStateExit();
+    }
+
     #endregion
 
     #region PRIVATE
@@ -57,7 +68,8 @@ public class HarankashIdleState : State
     private void onJump()
     {
         // sfx suggestion: launch/strong jump sound
-        
+        jumpSFX?.Play();
+
         if (jumpRoutine == null)
         {
             jumpRoutine = StartCoroutine(onJumpSequence());

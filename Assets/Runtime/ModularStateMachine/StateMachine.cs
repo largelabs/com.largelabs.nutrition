@@ -79,6 +79,13 @@ public class StateMachine : MonoBehaviourBase
 
     public State CurrentState => currentState;
 
+    public void ResetAllStates()
+    {
+        int length = allStates.Length;
+        for (int i = 0; i < length; i++)
+            allStates[i].ResetState();
+    }
+
     void initializeStateCollections()
     {
         allStates = GetComponentsInChildren<State>(true);

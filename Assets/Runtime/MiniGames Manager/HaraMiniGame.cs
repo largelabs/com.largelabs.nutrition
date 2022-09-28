@@ -42,6 +42,7 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] SpriteRenderer bannerText = null;
 	[SerializeField] Sprite bannerStart = null;
 	[SerializeField] Sprite bannerJump = null;
+	private Coroutine bannerRoutine = null;
 
 	[Header("Pile Sequence Components")]
 	[SerializeField] HarraPlatformSpawnManager platformSpawnManager = null;
@@ -72,7 +73,6 @@ public class HaraMiniGame : MiniGameFlow
 	private Vector3 originPosition = Vector3.zero;
 
 	private Coroutine nextPileRoutine = null;
-	private Coroutine bannerRoutine = null;
 
 	private Transform currentRopeSlideStart = null;
 	private Vector3 currentRopeSlideEnd = MathConstants.VECTOR_3_ZERO;
@@ -92,6 +92,10 @@ public class HaraMiniGame : MiniGameFlow
 	#region PROTECTED
 	protected override IEnumerator introRoutine()
 	{
+		yield return this.Wait(0.2f);
+		sfxProvider.PlayMusic();
+
+		vCamSwitcher.LockSwitching(false);
 		vCamSwitcher.SwitchToVCam(introCam_1);
 
 		platformSpawnManager.GenerateNewMap(0);
@@ -100,6 +104,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		platformSpawnManager.MapAppear();
 		playerStateMachine.SetState<HarankashIdleState>();
+		playerControls.SetLock(false);
 		playerControls.DisableControls();
 		playerControls.SetLock(true);
 		Debug.LogError("DisabledControls");
@@ -112,12 +117,13 @@ public class HaraMiniGame : MiniGameFlow
 			yield return null;
 
 		bannerText.sprite = bannerStart;
-		yield return StartCoroutine(bannerSequence());
+		yield return bannerRoutine = StartCoroutine(bannerSequence());
 	}
 
 	protected override void onGameplayStarted()
 	{
 		registerEvents();
+		mgTimer.StartTimer();
 
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
@@ -131,6 +137,9 @@ public class HaraMiniGame : MiniGameFlow
 	protected override void onGameplayEnded()
 	{
 		unregisterEvents();
+
+		sfxProvider.StopMusic();
+
 		mgTimer.ResetTimer();
 	}
 
@@ -139,87 +148,28 @@ public class HaraMiniGame : MiniGameFlow
 		Debug.LogError("SUCCESS");
 		vCamSwitcher.SwitchToVCam(playerCam);
 
-		// sfx suggestion: success sound (note that victory sound could be played with celebration state)
-		// celebration sound would be for every pile finish but this would only be if all piles are finished
-
-		// show score banner popup
 		yield return this.Wait(2.5f);
 		showEndgamePopup();
 
-		playerControls.SetLock(false);
-		playerControls.EnableControls();
 	}
 
 	protected override IEnumerator onFailure()
 	{
 		Debug.LogError("FAIL");
 		playerStateMachine.GetComponentInChildren<TrailRenderer>().enabled = false;
-		//playerStateMachine.SetState<HarankashIdleState>();
-		//yield return null;
+
 		playerStateMachine.SetGenericState("d");
 
-		// sfx suggestion: failure sound
-		if(sfxProvider != null)
+		if (sfxProvider != null)
 			sfxProvider.PlayFailureSFX();
 
 		yield return this.Wait(0.5f);
-		// show score banner popup
 		showEndgamePopup();
-		// sfx suggestion: board appear sound
-
-		playerControls.SetLock(false);
-		playerControls.EnableControls();
+		
 	}
 	#endregion
 
 	#region PRIVATE
-	private void timeOut()
-	{
-		if (playerStateMachine.CurrentState.GetType() == typeof(HarankashIdleState))
-			failGame();
-	}
-
-	private void failGame()
-	{
-		EndMiniGame(false);
-	}
-
-	private void resetGame()
-	{
-		stopBannerSequence();
-
-		deactivateBanner();
-
-		unregisterEvents();
-
-		playerControls.DisableControls();
-
-		playerStateMachine.gameObject.SetActive(true);
-		playerStateMachine.SetState<HarankashIdleState>();
-		playerStateMachine.transform.position = originPosition;
-
-		currentPile = 0;
-		mgTimer.ResetTimer();
-		scoreManager.gameObject.SetActive(false);
-		uiMGTimer.gameObject.SetActive(false);
-
-		spriteHarraSpawner.DespawnAllTransforms();
-
-		platformSpawnManager.DespawnMap(false);
-	}
-
-	private void stopBannerSequence()
-	{
-		this.DisposeCoroutine(ref bannerRoutine);
-
-		textScale.StopPingPong();
-		leafRotation_0.StopPingPong();
-		leafRotation_1.StopPingPong();
-		leafRotation_2.StopPingPong();
-		shineRotation.StopPingPong();
-
-	}
-
 	private void collectOrange(Vector3 i_platformPos)
 	{
 		scoreManager.AddScore(i_platformPos, gameData.OrangeScore);
@@ -290,7 +240,6 @@ public class HaraMiniGame : MiniGameFlow
 
 	private IEnumerator pileSwitchSequence(SpriteFrameSwapper i_spawnedHarra)
 	{
-
 		float playerTime = slidePlayer(i_spawnedHarra);
 		playerStateMachine.transform.position = originPosition;
 		playerStateMachine.gameObject.SetActive(true);
@@ -332,7 +281,7 @@ public class HaraMiniGame : MiniGameFlow
 
 	private IEnumerator UIHarraSlideSequence()
 	{
-		harraStack.DestackHarrankash();
+		harraStack.DestackHarrankash(true);
 
 		harraStack.OnDiscardHarrankash += ropeSlideHarra;
 
@@ -389,6 +338,7 @@ public class HaraMiniGame : MiniGameFlow
 	{
 		bannerPositionIn.transform.parent.gameObject.SetActive(true);
 		bannerPositionIn.MoveToPosition();
+		sfxProvider.PlayBannerSFX();
 		while (bannerPositionIn.IsMoving)
 			yield return null;
 
@@ -397,6 +347,8 @@ public class HaraMiniGame : MiniGameFlow
 		leafRotation_1.StartPingPong(0.5f, -1);
 		leafRotation_2.StartPingPong(0.5f, -1);
 		shineRotation.StartPingPong(10f, 1);
+		sfxProvider.PlayBannerTextSFX();
+
 		while (textScale.isScaling)
 			yield return null;
 
@@ -404,15 +356,60 @@ public class HaraMiniGame : MiniGameFlow
 		yield return this.Wait(1f);
 
 		bannerPositionOut.MoveToPosition();
+		sfxProvider.PlayBannerSFX();
 		while (bannerPositionOut.IsMoving)
 			yield return null;
 
 		scoreManager.gameObject.SetActive(true);
 		uiMGTimer.gameObject.SetActive(true);
 		mgTimer.SetTimer(gameData.PileTimes[Mathf.Clamp(currentPile, 0, gameData.PileTimes.Count - 1)], true);
-		mgTimer.ResumeTimer();
+		mgTimer.StartOrResumeTimer();
 
-		deactivateBanner();
+		stopBannerSequence();
+	}
+
+	private void timeOut()
+	{
+		if (playerStateMachine.CurrentState.GetType() == typeof(HarankashIdleState))
+			failGame();
+	}
+
+	private void failGame()
+	{
+		EndMiniGame(false);
+	}
+
+	private void resetGame()
+	{
+		stopBannerSequence();
+		bannerText.sprite = bannerStart;
+
+		unregisterEvents();
+
+		playerControls.DisableControls();
+		playerControls.SetLock(true);
+
+		playerStateMachine.ResetAllStates();
+		playerStateMachine.gameObject.SetActive(true);
+		playerStateMachine.SetGenericState("d");
+		playerStateMachine.transform.position = originPosition;
+
+		vCamSwitcher.LockSwitching(false);
+		vCamSwitcher.SwitchToVCam(introCam_0);
+		vCamSwitcher.LockSwitching(true);
+
+		currentPile = 0;
+		mgTimer.ResetTimer();
+		sfxProvider.StopMusic();
+
+		scoreManager.ResetScore();
+		scoreManager.gameObject.SetActive(false);
+		uiMGTimer.gameObject.SetActive(false);
+		harraStack.DestackHarrankash(false);
+
+		spriteHarraSpawner.DespawnAllTransforms();
+
+		platformSpawnManager.DespawnMap(false);
 	}
 
 	private void deactivateBanner()
@@ -423,8 +420,16 @@ public class HaraMiniGame : MiniGameFlow
 		leafRotation_1.StopPingPong();
 		leafRotation_2.StopPingPong();
 		shineRotation.StopPingPong();
+		textScale.StopPingPong();
 		textScale.SetScale(MathConstants.VECTOR_3_ZERO);
 		bannerPositionIn.transform.parent.gameObject.SetActive(false);
+	}
+
+	private void stopBannerSequence()
+	{
+		this.DisposeCoroutine(ref bannerRoutine);
+
+		deactivateBanner();
 	}
 
 	private void showEndgamePopup()
@@ -433,6 +438,9 @@ public class HaraMiniGame : MiniGameFlow
 		harrankashPopup.Appear(true);
 		if(sfxProvider != null)
 			sfxProvider.PlayAppearSFX();
+
+		playerControls.SetLock(false);
+		playerControls.EnableControls();
 	}
 
 	private void registerEvents()

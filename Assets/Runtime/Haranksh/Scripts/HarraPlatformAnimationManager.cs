@@ -6,9 +6,11 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
 {
     [Header("VFX")]
     [SerializeField] LocalScalePingPong scaleAppear = null;
-    [SerializeField] LocalScalePingPong scaleDisppear = null;
+    [SerializeField] LocalScalePingPong scaleDisappear = null;
     [SerializeField] SpriteAlphaLerp alphaAppear = null;
     [SerializeField] SpriteAlphaLerp alphaDisappear = null;
+    [SerializeField] LocalPositionPingPong nudgePingPong = null;
+    [SerializeField] LocalPositionPingPong wobblePingPong = null;
 
     [Header("Animations")]
     [SerializeField] SpriteRenderer rnd = null;
@@ -20,39 +22,53 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     [SerializeField] HarraSFXProvider sfxProvider = null;
 
     bool open = false;
+    private InterpolatorsManager interpolatorsManager = null;
     
-
     public bool IsOpen => open;
 
     public void ResetSprite()
     {
         rnd.sprite = baseSprite;
+        rnd.transform.localScale = MathConstants.VECTOR_3_ZERO;
+        rnd.color = new Color(rnd.color.r, rnd.color.g, rnd.color.b, 0f);
         open = false;
     }
 
     [ExposePublicMethod]
-    public void PlatformAppear(InterpolatorsManager i_interps, float i_time)
+    public void PlatformAppear(float i_time)
     {
+        if (interpolatorsManager == null)
+        {
+            Debug.LogError("No Interpolator assigned!");
+            return;
+        }
+
         if (alphaAppear != null)
-            alphaAppear.LerpAlpha(null, null, i_time, i_interps, null, null, null);
+            alphaAppear.LerpAlpha(null, null, i_time, interpolatorsManager, null, null, null);
 
         if (scaleAppear != null)
         {
-            scaleAppear.AssignInterpolators(i_interps);
+            scaleAppear.AssignInterpolators(interpolatorsManager);
             scaleAppear.StartPingPong(i_time, 1);
         }
     }
 
     [ExposePublicMethod]
-    public void PlatformDisppear(InterpolatorsManager i_interps, float i_time)
+    public void PlatformDisppear(float i_time)
     {
-        if (alphaDisappear != null)
-            alphaDisappear.LerpAlpha(null, null, i_time, i_interps, null, null, null);
-
-        if (scaleDisppear != null)
+        if (interpolatorsManager == null)
         {
-            scaleDisppear.AssignInterpolators(i_interps);
-            scaleDisppear.StartPingPong(i_time, 1);
+            Debug.LogError("No Interpolator assigned!");
+            return;
+        }
+
+        if (alphaDisappear != null)
+            alphaDisappear.LerpAlpha(null, null, i_time, interpolatorsManager, null, null, null);
+
+        if (scaleDisappear != null)
+        {
+            scaleDisappear.AssignInterpolators(interpolatorsManager);
+            scaleDisappear.StartPingPong(i_time, 1);
         }
 
         CloseUp();
@@ -63,9 +79,11 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     {
         if (openUp == null) return;
         // sfx suggestion: sound for platform opening
-        if(sfxProvider != null)
+        if (sfxProvider != null)
+        {
             sfxProvider.PlayPlatformOpenningSFX();
-
+            sfxProvider.PlayPlatformOpenning2SFX();
+        }
         openUp.ResetAnimation();
         openUp.Play();
         open = true;
@@ -81,8 +99,56 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
         open = false;
     }
 
+    [ExposePublicMethod]
+    public void Nudge()
+    {
+        if (interpolatorsManager == null)
+        {
+            Debug.LogError("No Interpolator assigned!");
+            return;
+        }
+
+        if (nudgePingPong != null)
+        {
+            Debug.LogError("Nudge");
+            nudgePingPong.AssignInterpolators(interpolatorsManager);
+            nudgePingPong.StartPingPong();
+        }
+    }
+    
+    [ExposePublicMethod]
+    public void Wobble()
+    {
+        if (interpolatorsManager == null)
+        {
+            Debug.LogError("No Interpolator assigned!");
+            return;
+        }
+
+        if (wobblePingPong != null)
+        {
+            wobblePingPong.AssignInterpolators(interpolatorsManager);
+            wobblePingPong.StartPingPong();
+        }
+    }
+
     public void RegisterSFX(HarraSFXProvider i_sfx)
     {
         sfxProvider = i_sfx;
+    }
+
+    public void RegisterInterpolators(InterpolatorsManager i_interps)
+    {
+        interpolatorsManager = i_interps;
+
+        if (wobblePingPong != null)
+            wobblePingPong.AssignInterpolators(interpolatorsManager);
+        if (nudgePingPong != null)
+            nudgePingPong.AssignInterpolators(interpolatorsManager);
+
+        if (scaleAppear != null)
+            scaleAppear.AssignInterpolators(interpolatorsManager);
+        if (scaleDisappear != null)
+            scaleDisappear.AssignInterpolators(interpolatorsManager);
     }
 }

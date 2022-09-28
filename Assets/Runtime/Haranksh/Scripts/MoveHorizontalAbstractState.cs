@@ -78,5 +78,9 @@ public abstract class MoveHorizontalAbstractState : State
     }
 
     #endregion
-   
+
+    public override void ResetState()
+    {
+
+    }
 }
