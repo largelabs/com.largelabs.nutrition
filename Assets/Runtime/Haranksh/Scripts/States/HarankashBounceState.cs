@@ -53,7 +53,10 @@ public class HarankashBounceState : HarankashJumpState
 
         //VFX Make platform wobble using animation manager
         if (animations != null)
-            animations.Wobble();
+        {
+            animations.Wobble2();
+            animations.Flutter();
+        }
 
         // sfx suggestion: bouncy jump sound
         bounceSFX?.Play();

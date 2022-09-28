@@ -11,11 +11,13 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     [SerializeField] SpriteAlphaLerp alphaDisappear = null;
     [SerializeField] LocalPositionPingPong nudgePingPong = null;
     [SerializeField] LocalPositionPingPong wobblePingPong = null;
+    [SerializeField] LocalScaleLerp wobbleLerp = null;
 
     [Header("Animations")]
     [SerializeField] SpriteRenderer rnd = null;
     [SerializeField] Sprite baseSprite = null;
     [SerializeField] SpriteFrameSwapper openUp = null;    
+    [SerializeField] SpriteFrameSwapper flutter = null;    
     [SerializeField] SpriteFrameSwapper closeUp = null;
 
     [Header("SFX")]
@@ -23,6 +25,8 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
 
     bool open = false;
     private InterpolatorsManager interpolatorsManager = null;
+
+    Coroutine platDisappearRoutine = null;
     
     public bool IsOpen => open;
 
@@ -62,6 +66,19 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
             return;
         }
 
+        if (platDisappearRoutine == null)
+            platDisappearRoutine = StartCoroutine(platformDisappearSequence(i_time));
+    }
+
+    private IEnumerator platformDisappearSequence(float i_time)
+    {
+        CloseUp();
+        if (closeUp != null)
+        {
+            while (closeUp.IsPlaying)
+                yield return null;
+        }
+
         if (alphaDisappear != null)
             alphaDisappear.LerpAlpha(null, null, i_time, interpolatorsManager, null, null, null);
 
@@ -71,7 +88,7 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
             scaleDisappear.StartPingPong(i_time, 1);
         }
 
-        CloseUp();
+        yield return null;
     }
 
     [ExposePublicMethod]
@@ -90,9 +107,18 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
     } 
     
     [ExposePublicMethod]
+    public void Flutter()
+    {
+        if (flutter == null) return;
+
+        flutter.ResetAnimation();
+        flutter.Play();
+    } 
+    
+    [ExposePublicMethod]
     public void CloseUp()
     {
-        if (closeUp == null) return;
+        if (closeUp == null || open == false) return;
 
         closeUp.ResetAnimation();
         closeUp.Play();
@@ -129,6 +155,21 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
         {
             wobblePingPong.AssignInterpolators(interpolatorsManager);
             wobblePingPong.StartPingPong();
+        }
+    } 
+    
+    [ExposePublicMethod]
+    public void Wobble2()
+    {
+        if (interpolatorsManager == null)
+        {
+            Debug.LogError("No Interpolator assigned!");
+            return;
+        }
+
+        if (wobbleLerp != null)
+        {
+            wobbleLerp.StartLerp(interpolatorsManager);
         }
     }
 
