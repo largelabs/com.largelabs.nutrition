@@ -16,18 +16,28 @@ public class LocalScaleLerp : MonoBehaviourBase
 
     ITypedAnimator<float> xAnimator = null;
     ITypedAnimator<float> yAnimator = null;
+    Vector3 originalScale = MathConstants.VECTOR_3_ONE;
 
     Coroutine scaleRoutine = null;
 
-    public void StartLerp()
+    [ExposePublicMethod]
+    public void StartLerp(InterpolatorsManager i_interps)
     {
+        interpolators = i_interps;
         if (scaleRoutine == null)
+        {
+            originalScale = targetTr.localScale;
             scaleRoutine = StartCoroutine(lerpSequence());
+        }
     }
 
+    [ExposePublicMethod]
     public void StopLerp()
     {
         this.DisposeCoroutine(ref scaleRoutine);
+
+        if(resetOnFinish)
+            targetTr.localScale = originalScale;
     }
 
     [ExposePublicMethod]
@@ -56,23 +66,21 @@ public class LocalScaleLerp : MonoBehaviourBase
         AnimationMode modeX = new AnimationMode(xCurve);
         AnimationMode modeY = new AnimationMode(yCurve);
 
-        xAnimator = interpolators.Animate(transform.localScale.x, targetScale.x, animationTimeX, modeX, clampX, 0f, null);
-        yAnimator = interpolators.Animate(transform.localScale.y, targetScale.y, animationTimeY, modeY, clampY, 0f, null);
-
-        Vector3 original = transform.localScale;
+        xAnimator = interpolators.Animate(targetTr.localScale.x, targetTr.localScale.x * targetScale.x, animationTimeX, modeX, clampX, 0f, null);
+        yAnimator = interpolators.Animate(targetTr.localScale.y, targetTr.localScale.y * targetScale.y, animationTimeY, modeY, clampY, 0f, null);
 
         while (xAnimator.IsActive || yAnimator.IsActive)
         {
             targetTr.localScale = new Vector3(
-                xAnimator.Current,
-                yAnimator.Current,
+                xAnimator.IsActive ? xAnimator.Current : targetTr.localScale.x,
+                yAnimator.IsActive ? yAnimator.Current : targetTr.localScale.y,
                 targetTr.localScale.z);
 
             yield return null;
         }
 
         if (resetOnFinish)
-            targetTr.localScale = original;
+            targetTr.localScale = originalScale;
         yield return null;
 
         this.DisposeCoroutine(ref scaleRoutine);
