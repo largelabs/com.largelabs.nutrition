@@ -55,7 +55,11 @@ public class UIHarrankashStack : UIElementStack<float>
                 dequeueKernelsRoutine = StartCoroutine(discardUIElements());
         }
         else
+        {
             uiHarrankashSpawner.DespawnAllTransforms();
+            anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;
+            lastAnchor = null;
+        }
 
     }
     #endregion
