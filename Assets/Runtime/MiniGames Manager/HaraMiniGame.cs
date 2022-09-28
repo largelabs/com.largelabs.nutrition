@@ -137,6 +137,9 @@ public class HaraMiniGame : MiniGameFlow
 	protected override void onGameplayEnded()
 	{
 		unregisterEvents();
+
+		sfxProvider.StopMusic();
+
 		mgTimer.ResetTimer();
 	}
 
@@ -145,37 +148,24 @@ public class HaraMiniGame : MiniGameFlow
 		Debug.LogError("SUCCESS");
 		vCamSwitcher.SwitchToVCam(playerCam);
 
-		// sfx suggestion: success sound (note that victory sound could be played with celebration state)
-		// celebration sound would be for every pile finish but this would only be if all piles are finished
-		sfxProvider.StopMusic();
-		// show score banner popup
 		yield return this.Wait(2.5f);
 		showEndgamePopup();
 
-		playerControls.SetLock(false);
-		playerControls.EnableControls();
 	}
 
 	protected override IEnumerator onFailure()
 	{
 		Debug.LogError("FAIL");
 		playerStateMachine.GetComponentInChildren<TrailRenderer>().enabled = false;
-		//playerStateMachine.SetState<HarankashIdleState>();
-		//yield return null;
+
 		playerStateMachine.SetGenericState("d");
 
-		sfxProvider.StopMusic();
-		// sfx suggestion: failure sound
 		if (sfxProvider != null)
 			sfxProvider.PlayFailureSFX();
 
 		yield return this.Wait(0.5f);
-		// show score banner popup
 		showEndgamePopup();
-		// sfx suggestion: board appear sound
-
-		playerControls.SetLock(false);
-		playerControls.EnableControls();
+		
 	}
 	#endregion
 
@@ -373,7 +363,7 @@ public class HaraMiniGame : MiniGameFlow
 		scoreManager.gameObject.SetActive(true);
 		uiMGTimer.gameObject.SetActive(true);
 		mgTimer.SetTimer(gameData.PileTimes[Mathf.Clamp(currentPile, 0, gameData.PileTimes.Count - 1)], true);
-		//mgTimer.StartOrResumeTimer();
+		mgTimer.StartOrResumeTimer();
 
 		stopBannerSequence();
 	}
@@ -412,7 +402,7 @@ public class HaraMiniGame : MiniGameFlow
 		mgTimer.ResetTimer();
 		sfxProvider.StopMusic();
 
-		// reset score value
+		scoreManager.ResetScore();
 		scoreManager.gameObject.SetActive(false);
 		uiMGTimer.gameObject.SetActive(false);
 
@@ -447,6 +437,9 @@ public class HaraMiniGame : MiniGameFlow
 		harrankashPopup.Appear(true);
 		if(sfxProvider != null)
 			sfxProvider.PlayAppearSFX();
+
+		playerControls.SetLock(false);
+		playerControls.EnableControls();
 	}
 
 	private void registerEvents()
