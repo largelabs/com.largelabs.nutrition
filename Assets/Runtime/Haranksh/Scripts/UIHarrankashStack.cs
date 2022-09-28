@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIHarrankashStack : UIElementStack<float>
 {
@@ -15,7 +16,7 @@ public class UIHarrankashStack : UIElementStack<float>
     public Action OnDiscardHarrankash = null;
 
     private Queue<float> queuedHarrankash = null;
-    private Stack<UIImageFrameSwapper> uiHarrankashStack = null;
+    private Stack<Image> uiHarrankashStack = null;
     private Stack<float> scoreStack = null;
 
     Coroutine stackingRoutine = null;
@@ -56,6 +57,7 @@ public class UIHarrankashStack : UIElementStack<float>
         }
         else
         {
+            Debug.LogError("Destrack Harrankash");
             uiHarrankashSpawner.DespawnAllTransforms();
             anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;
             lastAnchor = null;
@@ -71,7 +73,7 @@ public class UIHarrankashStack : UIElementStack<float>
 
         while (uiHarrankashStack.Count != 0)
         {
-            UIImageFrameSwapper uiHarraAnimation = uiHarrankashStack.Pop();
+            Image uiHarraAnimation = uiHarrankashStack.Pop();
 
             // sfx suggestion: collection sound for counting each UI harankash
             if(sfxProvider != null)
@@ -99,7 +101,7 @@ public class UIHarrankashStack : UIElementStack<float>
             lastAnchor = anchorStart;
         }
 
-        if (null == uiHarrankashStack) uiHarrankashStack = new Stack<UIImageFrameSwapper>();
+        if (null == uiHarrankashStack) uiHarrankashStack = new Stack<Image>();
         if (null == scoreStack) scoreStack = new Stack<float>();
 
         if (queuedHarrankash == null) queuedHarrankash = new Queue<float>();
@@ -109,7 +111,7 @@ public class UIHarrankashStack : UIElementStack<float>
             while (queuedHarrankash.Count > 0)
             {
                 scoreStack.Push(queuedHarrankash.Dequeue());
-                UIImageFrameSwapper uiHarraAnimation = 
+                Image uiHarraAnimation = 
                     uiHarrankashSpawner.SpawnTransformAtAnchor(lastAnchor, 
                     new Vector3(xOffsetPerUIKernel, 0, 0), HarraEnumReference.UIHarrankashTypes.Orange,
                     true, true, false);

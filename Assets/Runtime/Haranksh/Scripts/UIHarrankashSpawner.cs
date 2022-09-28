@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, HarraEnumReference.UIHarrankashTypes>
+public class UIHarrankashSpawner : TransformSpawner<Image, HarraEnumReference.UIHarrankashTypes>
 {
     private readonly static string ORANGE_HARRA_ANIM = "UIHarra";
 
@@ -16,11 +16,8 @@ public class UIHarrankashSpawner : TransformSpawner<UIImageFrameSwapper, HarraEn
         }
     }
 
-    protected override void resetComponent(UIImageFrameSwapper i_component)
+    protected override void resetComponent(Image i_component)
     {
-        i_component.Stop();
-        Image img = i_component.GetComponent<Image>();
-        if (img != null)
-            img.color = Color.white;
+      
     }
 }

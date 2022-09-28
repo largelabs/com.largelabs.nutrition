@@ -71,6 +71,7 @@ public class HarankashFallState : FallAbstractState
         landVFX.Stop();
         landVFX.ResetAnimation();
         impactSFX?.Stop();
+        trail.enabled = false;
         onStateExit();
     }
     #endregion

@@ -100,7 +100,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		platformSpawnManager.GenerateNewMap(0);
 
-		yield return this.Wait(1f);
+		yield return this.Wait(0.5f);
 
 		platformSpawnManager.MapAppear();
 		playerStateMachine.SetState<HarankashIdleState>();
@@ -108,7 +108,7 @@ public class HaraMiniGame : MiniGameFlow
 		playerControls.DisableControls();
 		playerControls.SetLock(true);
 		Debug.LogError("DisabledControls");
-		yield return this.Wait(1f);
+		yield return this.Wait(1.5f);
 
 		vCamSwitcher.SwitchToVCam(playerCam);
 		yield return this.Wait(2f);
