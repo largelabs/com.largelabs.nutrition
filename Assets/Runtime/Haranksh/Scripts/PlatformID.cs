@@ -6,7 +6,8 @@ public class PlatformID : MonoBehaviour
     {
         Orange,
         Yellow,
-        Green
+        Green,
+        OrangeVar
     }
 
     [SerializeField] private PlatformType platformType = PlatformType.Green;

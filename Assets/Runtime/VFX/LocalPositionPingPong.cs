@@ -8,6 +8,9 @@ public class LocalPositionPingPong : MonoBehaviourBase
     [SerializeField] private Vector3 baseLocalPos = Vector3.zero;
     [SerializeField] private Vector3 targetLocalPos = Vector3.zero;
     [SerializeField] private InterpolatorsManager interpolatorsManager = null;
+    [SerializeField] private bool moveX = true;
+    [SerializeField] private bool moveY = true;
+    [SerializeField] private bool moveZ = true;
 
     [Header("Animation Configs")]
     [SerializeField] private float singleLerpDurationMax = 0.1f;
@@ -69,7 +72,10 @@ public class LocalPositionPingPong : MonoBehaviourBase
         this.DisposeCoroutine(ref pingPongRoutine);
 
         if (resetOnFinish)
-            tr.localPosition = originalLocalPos;
+            tr.localPosition = new Vector3(
+                originalLocalPos.x,
+                originalLocalPos.y,
+                originalLocalPos.z);
     }
 
     [ExposePublicMethod]
@@ -117,7 +123,11 @@ public class LocalPositionPingPong : MonoBehaviourBase
 
         while (localPosInterpolator.IsActive)
         {
-            tr.localPosition = localPosInterpolator.Current;
+            tr.localPosition = new Vector3(
+                localPosInterpolator.Current.x,
+                localPosInterpolator.Current.y,
+                localPosInterpolator.Current.z);
+
             yield return null;
         }
 
@@ -136,7 +146,10 @@ public class LocalPositionPingPong : MonoBehaviourBase
         else if (resetOnFinish)
         {
             if (lerpsDone % 2 == 0)
-                tr.localPosition = originalLocalPos;
+                tr.localPosition = new Vector3(
+                originalLocalPos.x,
+                originalLocalPos.y,
+                originalLocalPos.z);
             else if (lerpsDone > 1)
             {
                 pingPongRoutine = StartCoroutine(pingPongSequence(i_singleLerpTimeMax, i_singleLerpTimeMin, localPos_1, localPos_0, 1));

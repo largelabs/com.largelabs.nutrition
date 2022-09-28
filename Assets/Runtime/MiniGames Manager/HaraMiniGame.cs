@@ -291,7 +291,7 @@ public class HaraMiniGame : MiniGameFlow
 
 	private IEnumerator UIHarraSlideSequence()
 	{
-		harraStack.DestackHarrankash();
+		harraStack.DestackHarrankash(true);
 
 		harraStack.OnDiscardHarrankash += ropeSlideHarra;
 
@@ -415,6 +415,7 @@ public class HaraMiniGame : MiniGameFlow
 		// reset score value
 		scoreManager.gameObject.SetActive(false);
 		uiMGTimer.gameObject.SetActive(false);
+		harraStack.DestackHarrankash(false);
 
 		spriteHarraSpawner.DespawnAllTransforms();
 

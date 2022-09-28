@@ -101,9 +101,10 @@ public class HarankashFallState : FallAbstractState
 
             PlatformID pID = platform.GetComponent<PlatformID>();
             if (pID != null)
+            {
                 if (pID.PType != PlatformID.PlatformType.Yellow)
                     vCamSwitcher.SwitchToVCam(nearCam);
-
+            }
 
             //VFX Make platform go down using animation manager
             if (animations != null)

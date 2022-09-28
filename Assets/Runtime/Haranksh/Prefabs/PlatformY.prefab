@@ -115,6 +115,26 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: bbe348bfc21687047aa837f230858757, type: 3}
+    - target: {fileID: 5276797204258854090, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.202
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425579686585680071, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+      propertyPath: targetLocalPos.y
+      value: -0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425579686585680071, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+      propertyPath: singleLerpDurationMax
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6732134133913291940, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+      propertyPath: totalLerps
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6732134133913291940, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
+      propertyPath: singleLerpDurationMin
+      value: 0.03
+      objectReference: {fileID: 0}
     - target: {fileID: 6918557675285251299, guid: 773448c0ac9a0d3468d11524cfbfc487, type: 3}
       propertyPath: platformType
       value: 1

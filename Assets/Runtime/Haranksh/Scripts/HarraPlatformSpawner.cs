@@ -9,7 +9,8 @@ public class HarraPlatformSpawner : MonoBehaviourBase
     {
         Green,
         Yellow,
-        Orange
+        Orange,
+        OrangeVar
     }
 
     [SerializeField] private SpawnPool platformPool = null;
@@ -17,6 +18,7 @@ public class HarraPlatformSpawner : MonoBehaviourBase
     private static readonly string PLATFORM_G = "PlatformG";
     private static readonly string PLATFORM_Y = "PlatformY";
     private static readonly string PLATFORM_R = "PlatformR";
+    private static readonly string PLATFORM_R_VAR = "PlatformR Variant";
 
     private List<HaraPlatformAbstract> livingPlatforms = null;
 
@@ -93,6 +95,8 @@ public class HarraPlatformSpawner : MonoBehaviourBase
             return PLATFORM_Y;
         else if (i_platformType == PlatformType.Orange)
             return PLATFORM_R;
+        else if (i_platformType == PlatformType.OrangeVar)
+            return PLATFORM_R_VAR;
         else
         {
             Debug.LogError("Undefined platform type!");
