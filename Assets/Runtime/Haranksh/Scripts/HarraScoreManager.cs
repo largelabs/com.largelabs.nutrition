@@ -23,6 +23,11 @@ public class HarraScoreManager : MonoBehaviourBase
         scoreText.text = temp;
     }
 
+    public void ResetScore()
+    {
+        totalScore = 0;
+    }
+
     public int TotalScore
     {
         get { return totalScore; }
