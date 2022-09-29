@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7634fd69fe36a140ad77a1272a208b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnEnable: 1
+  playOnEnable: 0
   renderer: {fileID: 738392418834062202}
   isLooping: 1
   resetOnLastFrame: 0
@@ -553,6 +553,7 @@ MonoBehaviour:
   scoreText: {fileID: 9029972947552336000}
   onAppearSfx: {fileID: 315085720760752320}
   popupInputs: {fileID: 315085720760752321}
+  sparklesContainer: {fileID: 7648600608565911042}
 --- !u!222 &315085720760752322
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1133,7 +1134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7634fd69fe36a140ad77a1272a208b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnEnable: 1
+  playOnEnable: 0
   renderer: {fileID: 7198789314726032526}
   isLooping: 1
   resetOnLastFrame: 0
@@ -1234,7 +1235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7634fd69fe36a140ad77a1272a208b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnEnable: 1
+  playOnEnable: 0
   renderer: {fileID: 4657526158866214653}
   isLooping: 1
   resetOnLastFrame: 0
@@ -1411,7 +1412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7634fd69fe36a140ad77a1272a208b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnEnable: 1
+  playOnEnable: 0
   renderer: {fileID: 4163617720638279303}
   isLooping: 1
   resetOnLastFrame: 0
@@ -1850,7 +1851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7634fd69fe36a140ad77a1272a208b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playOnEnable: 1
+  playOnEnable: 0
   renderer: {fileID: 6615893180610320180}
   isLooping: 1
   resetOnLastFrame: 0
