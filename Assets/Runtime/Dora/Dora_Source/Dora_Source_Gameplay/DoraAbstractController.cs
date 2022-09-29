@@ -124,6 +124,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     public virtual void StartAutoRotation()
     {
+        Debug.LogError("Start auto rotation");
+
         float speedRatio = (float)goodEatenCount / (float)totalGoodKernels;
         autoRotator.SetRotationSpeedRatio(speedRatio);
 
@@ -143,6 +145,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     public virtual void StopAutoRotation()
     {
+        Debug.LogError("Stop auto rotation");
         autoRotator?.StopAutoRotation();
     }
 
