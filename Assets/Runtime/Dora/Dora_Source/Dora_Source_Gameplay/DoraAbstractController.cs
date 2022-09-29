@@ -83,9 +83,11 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
 
 
-    public int CurrentSelectionRadius => null == frenzyRoutine ? selectedRadius : DoraGameplayData.FrenzySelectionRange;
+    public int CurrentSelectionRadius => IsInFrenzy ? DoraGameplayData.FrenzySelectionRange : selectedRadius;
 
     public int MaxSelectionRadius => null == cellSelector ? 1 : cellSelector.MaxSelectionRadius;
+
+    public bool IsInFrenzy => null != frenzyRoutine;
 
     public bool IsSelectingKernel()
     {
@@ -128,7 +130,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         float speedRatio = (float)goodEatenCount / (float)totalGoodKernels;
         autoRotator.SetRotationSpeedRatio(speedRatio);
 
-        if (null == frenzyRoutine)
+        if (false == IsInFrenzy)
         {
             autoRotator.SetRotationSpeedX(DoraGameplayData.DefaultRotationSpeed);
             autoRotator.SetMaxRotationSpeedX(DoraGameplayData.MaxRotationSpeed);
@@ -303,7 +305,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
                 if (cell.HasKernel)
                 {
-                    if (cell.KernelStatus == KernelStatus.Burnt && frenzyRoutine != null)
+                    if (cell.KernelStatus == KernelStatus.Burnt && true == IsInFrenzy)
                     {
                         // ignore
                     }
@@ -335,7 +337,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
         bool isSmallBite = CurrentSelectionRadius == 0;
         bool isSmallPositiveBite = false == i_negative && isSmallBite;
 
-        if (true == isSmallPositiveBite || null != frenzyRoutine)
+        if (true == isSmallPositiveBite || true == IsInFrenzy)
         {
             cameraShake.SetShakeDuration(0.1f);
             cameraShake.SetIntensity(0.05f);
@@ -400,7 +402,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
         if (true == i_startFrenzy) startFrenzy();
         inputs.EnableEatInputs();
-        if (null == frenzyRoutine) inputs.EnableMoveInputs();
+        if (false == IsInFrenzy) inputs.EnableMoveInputs();
 
         StartAutoRotation();
 
@@ -409,7 +411,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     void startFrenzy()
     {
-        if (null != frenzyRoutine) return;
+        if (true == IsInFrenzy) return;
         frenzyRoutine = StartCoroutine(doFrenzy());
     }
 

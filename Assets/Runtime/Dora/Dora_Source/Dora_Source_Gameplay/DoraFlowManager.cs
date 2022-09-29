@@ -311,7 +311,7 @@ public class DoraFlowManager : MiniGameFlow
         {
             anchor = doraPlacer.GetNextAnchor();
             currCob = doraPlacer.SpawnDoraAtAnchor(anchor, MathConstants.VECTOR_3_UP * 10f);
-            currCob.InitializeDoraCob(cellFactory, vfxPool, cullingBounds, selectionBounds, currentDoraBatch, doraBatchCount, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
+            currCob.InitializeDoraCob(doraController, cellFactory, vfxPool, cullingBounds, selectionBounds, currentDoraBatch, doraBatchCount, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
 
             if(null != currCob)
             {

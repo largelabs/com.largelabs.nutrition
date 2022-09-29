@@ -99,12 +99,12 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     public float BurntPercentage => durabilityManager.BurntPercentage;
     public DoraData DoraData => doraData;
 
-    public void InitializeDoraCob(DoraCellFactory i_cellfactory, SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds, DoraBatchData i_parentBatch, int i_batchCount, bool i_canSpawnSuper, out bool o_superKernelSpawned)
+    public void InitializeDoraCob(DoraAbstractController i_controller, DoraCellFactory i_cellfactory, SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds, DoraBatchData i_parentBatch, int i_batchCount, bool i_canSpawnSuper, out bool o_superKernelSpawned)
     {
         fetchData(i_parentBatch);
         cullingBounds = i_cullingBounds;
         selectionBounds = i_selectionBounds;
-        populateMap(i_cellfactory, i_vfxPool);
+        populateMap(i_controller, i_cellfactory, i_vfxPool);
         durabilityManager.InitializeKernelDurability(i_canSpawnSuper, i_batchCount, out o_superKernelSpawned);
         RevealCells(false);
     }
@@ -174,7 +174,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 
     #region PRIVATE
 
-    public void populateMap(DoraCellFactory i_cellfactory, SpawnPool i_vfxPool)
+    public void populateMap(DoraAbstractController i_controller, DoraCellFactory i_cellfactory, SpawnPool i_vfxPool)
     {
         if (kernelSpawner == null)
         {
@@ -191,7 +191,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 
         for (int i = 0; i < count; i++)
         {
-            cells[i] = i_cellfactory.MakeCell(i_vfxPool, kernelSpawner, anchors[i]);
+            cells[i] = i_cellfactory.MakeCell(i_controller, i_vfxPool, kernelSpawner, anchors[i]);
         }
 
         cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cells, NB_ROWS, NB_COLUMNS);
