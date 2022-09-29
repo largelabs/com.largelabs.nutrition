@@ -81,6 +81,9 @@ public class DoraRaycastController : DoraAbstractController
 
     protected override void onEat()
     {
+        if (false == IsSelectingKernel()) return;
+        if (false == didStartEat) return;
+
         Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
         if (null == currentSelect) return;
 
