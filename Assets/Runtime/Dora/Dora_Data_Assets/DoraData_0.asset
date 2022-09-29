@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DoraData_0
   m_EditorClassIdentifier: 
   maxInitialDurability: 1
-  minInitialDurability: 0.1
-  durabilityLossInterval: 0.1
+  minInitialDurability: 0.05
+  durabilityLossInterval: 0.2
   durabilityFullLossTime: 2

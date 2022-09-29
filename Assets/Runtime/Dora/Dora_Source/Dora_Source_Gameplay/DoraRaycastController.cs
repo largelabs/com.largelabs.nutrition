@@ -47,7 +47,7 @@ public class DoraRaycastController : DoraAbstractController
         autoMoveSpeed = i_speed;
         setInterpolationTarget();
 
-        startAutoMove();
+        startPointerAutoMove();
     }
 
     public void StopAutoMove()
@@ -105,9 +105,13 @@ public class DoraRaycastController : DoraAbstractController
 
     IEnumerator recenterPointer(Transform i_anchor)
     {
+        Vector3 source = raycastSource.transform.position;
+        Vector3 target = i_anchor.position;
+        target.y = source.y;
+
         ITypedAnimator<Vector3> interpolator = interpolators.Animate(
-            raycastSource.transform.position,
-            i_anchor.position,
+            source,
+            target,
             0.1f,
             new AnimationMode(AnimationType.Ease_In_Out));
 
@@ -147,7 +151,7 @@ public class DoraRaycastController : DoraAbstractController
         }
     }
 
-    private void startAutoMove()
+    private void startPointerAutoMove()
     {
         StopAutoMove();
 
@@ -169,7 +173,7 @@ public class DoraRaycastController : DoraAbstractController
 
         setInterpolationTarget();
 
-        startAutoMove();
+        startPointerAutoMove();
     }
 
     private void setInterpolationTarget()
