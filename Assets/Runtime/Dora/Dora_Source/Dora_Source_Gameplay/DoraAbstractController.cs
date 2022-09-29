@@ -124,6 +124,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     public virtual void StartAutoRotation()
     {
+        Debug.LogError("Start auto rotation");
+
         float speedRatio = (float)goodEatenCount / (float)totalGoodKernels;
         autoRotator.SetRotationSpeedRatio(speedRatio);
 
@@ -143,6 +145,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     public virtual void StopAutoRotation()
     {
+        Debug.LogError("Stop auto rotation");
         autoRotator?.StopAutoRotation();
     }
 
@@ -403,8 +406,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     void startFrenzy()
     {
-        Debug.Log("START FRENZY MODE");
-
         if (null != frenzyRoutine) return;
         frenzyRoutine = StartCoroutine(doFrenzy());
     }
@@ -412,8 +413,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private IEnumerator doFrenzy()
     {
-        Debug.LogError("Start Frenzy Mode");
-
         inputs.DisableMoveInputs();
 
         frenzyController.PlayFrenzyMode(autoRotator);
