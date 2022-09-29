@@ -18,6 +18,6 @@ public class UIHarrankashSpawner : TransformSpawner<Image, HarraEnumReference.UI
 
     protected override void resetComponent(Image i_component)
     {
-      
+        i_component.color = Color.white;
     }
 }
