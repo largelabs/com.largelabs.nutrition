@@ -438,12 +438,13 @@ public class HaraMiniGame : MiniGameFlow
 	private void showEndgamePopup()
 	{
 		harrankashPopup.SetScore(scoreManager.TotalScore.ToString());
-		harrankashPopup.Appear(true);
-		if(sfxProvider != null)
-			sfxProvider.PlayAppearSFX();
 
 		playerControls.SetLock(false);
 		playerControls.EnableControls();
+
+		harrankashPopup.Appear(true);
+		if(sfxProvider != null)
+			sfxProvider.PlayAppearSFX();
 	}
 
 	private void registerEvents()
