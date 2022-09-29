@@ -308,7 +308,9 @@ public class HaraMiniGame : MiniGameFlow
 
 	private void ropeSlideHarra()
 	{
-		if (currentSlid > 26)
+		if (currentSlid > gameData.MaxHarraPerRope * 2)
+			return;
+		else if (currentSlid > gameData.MaxHarraPerRope)
 		{
 			slideRight = !slideRight;
 			currentSlid = 0;
@@ -323,7 +325,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		SpriteRenderer[] rnds = spawnedHarra.GetComponentsInChildren<SpriteRenderer>();
 		foreach (SpriteRenderer rnd in rnds)
-			rnd.flipX = slideRight == false;
+			rnd.flipX = (slideRight == false);
 
 		PositionAnimator posAnim = spawnedHarra.GetComponent<PositionAnimator>();
 		Vector3 endPos = Vector3.Lerp(slideStart.position, slideEnd.position, 1 - ((float)currentSlid / maxOnRope));
@@ -399,6 +401,7 @@ public class HaraMiniGame : MiniGameFlow
 		vCamSwitcher.LockSwitching(true);
 
 		currentPile = 0;
+		currentSlid = 0;
 		mgTimer.ResetTimer();
 		sfxProvider.StopMusic();
 
