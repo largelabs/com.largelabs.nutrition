@@ -39,4 +39,17 @@ public class UIHarrankashEndGamePopup : UIEndGamePopup
         foreach (UIImageFrameSwapper sparkle in sparkles)
             sparkle.Stop();
     }
+
+
+    #region PUBLIC API
+
+    [ExposePublicMethod]
+    public override void Disappear(bool i_animated)
+    {
+        if (false == IsAppearInit) return;
+        disableInputs();
+        base.Disappear(i_animated);
+    }
+
+    #endregion
 }

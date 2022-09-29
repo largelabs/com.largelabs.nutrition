@@ -30,6 +30,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     AutoRotator autoRotator = null;
     protected DoraCellMap cellMap = null;
+    protected bool didStartEat = false;
 
     private static readonly string BITE_ANIMATION_PREFAB = "UIPooledBiteAnimation";
 
@@ -82,9 +83,11 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
 
 
-    public int CurrentSelectionRadius => null == frenzyRoutine ? selectedRadius : DoraGameplayData.FrenzySelectionRange;
+    public int CurrentSelectionRadius => IsInFrenzy ? DoraGameplayData.FrenzySelectionRange : selectedRadius;
 
     public int MaxSelectionRadius => null == cellSelector ? 1 : cellSelector.MaxSelectionRadius;
+
+    public bool IsInFrenzy => null != frenzyRoutine;
 
     public bool IsSelectingKernel()
     {
@@ -124,12 +127,10 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     public virtual void StartAutoRotation()
     {
-        Debug.LogError("Start auto rotation");
-
         float speedRatio = (float)goodEatenCount / (float)totalGoodKernels;
         autoRotator.SetRotationSpeedRatio(speedRatio);
 
-        if (null == frenzyRoutine)
+        if (false == IsInFrenzy)
         {
             autoRotator.SetRotationSpeedX(DoraGameplayData.DefaultRotationSpeed);
             autoRotator.SetMaxRotationSpeedX(DoraGameplayData.MaxRotationSpeed);
@@ -145,7 +146,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     public virtual void StopAutoRotation()
     {
-        Debug.LogError("Stop auto rotation");
         autoRotator?.StopAutoRotation();
     }
 
@@ -197,8 +197,10 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     protected virtual void onEatStarted()
     {
+        if (true == didStartEat) return;
         if (false == IsSelectingKernel()) return;
 
+        didStartEat = true;
         StopAutoRotation();
         selectedRadius = 0;
         inputs.DisableMoveInputs();
@@ -206,6 +208,9 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     protected virtual void onEat()
     {
+        if (false == didStartEat) return;
+        if (false == IsSelectingKernel()) return;
+
         Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
         if (null == currentSelect) return;
 
@@ -221,6 +226,8 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     protected virtual void onEatReleased()
     {
+        if (false == didStartEat) return;
+
         sfxProvider.StopRangeSFX();
         eatKernels();
     }
@@ -298,7 +305,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
                 if (cell.HasKernel)
                 {
-                    if (cell.KernelStatus == KernelStatus.Burnt && frenzyRoutine != null)
+                    if (cell.KernelStatus == KernelStatus.Burnt && true == IsInFrenzy)
                     {
                         // ignore
                     }
@@ -327,7 +334,10 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private IEnumerator playBiteAnimation(bool i_negative)
     {
-        if (false == i_negative && (CurrentSelectionRadius == 0 || null != frenzyRoutine))
+        bool isSmallBite = CurrentSelectionRadius == 0;
+        bool isSmallPositiveBite = false == i_negative && isSmallBite;
+
+        if (true == isSmallPositiveBite || true == IsInFrenzy)
         {
             cameraShake.SetShakeDuration(0.1f);
             cameraShake.SetIntensity(0.05f);
@@ -337,19 +347,13 @@ public abstract class DoraAbstractController : MonoBehaviourBase
             UIPooledBiteAnimation bite = biteTr.GetComponent<UIPooledBiteAnimation>();
             bite.Play(biteAnimationPool, interpolators, rangeFeedback);
 
-            if(true == i_negative)
-            {
-                while (bite.IsPlaying) yield return null;
-            }
-
             yield break;
         }
 
-        if(false == i_negative) 
+        if (false == i_negative) 
             sfxProvider.PlayBigBiteSFX();
         else
             sfxProvider.PlaySmallBiteSFX();
-
 
         biteAnimation.Play(i_negative);
         while (true == biteAnimation.IsPlaying)
@@ -392,12 +396,13 @@ public abstract class DoraAbstractController : MonoBehaviourBase
     void onEatSequenceEnded(bool i_startFrenzy)
     {
         this.DisposeCoroutine(ref eatingRoutine);
+        didStartEat = false;
 
         if (true == didGameplayEnd) return;
 
         if (true == i_startFrenzy) startFrenzy();
         inputs.EnableEatInputs();
-        if (null == frenzyRoutine) inputs.EnableMoveInputs();
+        if (false == IsInFrenzy) inputs.EnableMoveInputs();
 
         StartAutoRotation();
 
@@ -406,7 +411,7 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     void startFrenzy()
     {
-        if (null != frenzyRoutine) return;
+        if (true == IsInFrenzy) return;
         frenzyRoutine = StartCoroutine(doFrenzy());
     }
 

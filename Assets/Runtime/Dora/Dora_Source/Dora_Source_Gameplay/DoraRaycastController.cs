@@ -81,10 +81,13 @@ public class DoraRaycastController : DoraAbstractController
 
     protected override void onEat()
     {
+        if (false == IsSelectingKernel()) return;
+        if (false == didStartEat) return;
+
         Vector2Int? currentSelect = cellSelector.CurrentOriginCell;
         if (null == currentSelect) return;
 
-        if (null == frenzyRoutine && null == centerSourceRoutine)
+        if (false == IsInFrenzy && null == centerSourceRoutine)
         {
             DoraCellData cell = cellMap.GetCell(currentSelect.Value, false, false);
             centerSourceRoutine = StartCoroutine(recenterPointer(cell.Anchor));
@@ -139,7 +142,7 @@ public class DoraRaycastController : DoraAbstractController
                     && cellSelector.CurrentOriginCell.Value != cellData.Coords;
 
 
-                if (null == frenzyRoutine) 
+                if (false == IsInFrenzy) 
                     cellSelector.SelectCell(cellData.Coords, false, clearSelection);
                 else
                     cellSelector.SelectRange(cellData.Coords, DoraGameplayData.FrenzySelectionRange, true, false, true);

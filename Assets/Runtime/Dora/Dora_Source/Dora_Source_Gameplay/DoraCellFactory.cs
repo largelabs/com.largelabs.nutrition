@@ -12,11 +12,11 @@ public class DoraCellFactory
         cellPool = new ManagedPool<DoraCellData>(-1);
     }
 
-    public DoraCellData MakeCell(SpawnPool i_vfxPool, KernelSpawner i_kernelSpawner, Transform i_anchor)
+    public DoraCellData MakeCell(DoraAbstractController i_controller, SpawnPool i_vfxPool, KernelSpawner i_kernelSpawner, Transform i_anchor)
     {
         DoraKernel kernel = i_kernelSpawner.SpawnDoraKernelAtAnchor(i_anchor);
 
-        kernel.Init(interpolators, i_vfxPool);
+        kernel.Init(i_controller, interpolators, i_vfxPool);
         kernel.Disappear(false);
 
         DoraCellData cellData = cellPool.GetItem();

@@ -33,10 +33,10 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
     [SerializeField] Material kernelMatBurnt = null;
     [SerializeField] Material kernelMatSuper = null;
 
-    bool isInit = false;
     float durability = 1f;
     bool isSelected = false;
     KernelStatus status = KernelStatus.Normal;
+    DoraAbstractController controller = null;
 
     bool canBurn = false;
 
@@ -46,13 +46,11 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
     public bool IsBurnable => canBurn && status != KernelStatus.Super;
 
-    public void Init(InterpolatorsManager i_interpolators, SpawnPool i_vfxPool)
+    public void Init(DoraAbstractController i_controller, InterpolatorsManager i_interpolators, SpawnPool i_vfxPool)
     {
-        if (true == isInit) return;
-
+        controller = i_controller;
         appear.Init(i_interpolators);
         kernelVFX.Init(i_vfxPool, i_interpolators);
-        isInit = true;
     }
 
     public void ResetValues()
@@ -166,7 +164,7 @@ public class DoraKernel : MonoBehaviourBase, ISelectable, IAppear
 
         swapMaterials(durability, isSelected);
 
-        if (status == KernelStatus.Burnt) kernelVFX.PlaySmokeVFX();
+        if (status == KernelStatus.Burnt && false == controller.IsInFrenzy) kernelVFX.PlaySmokeVFX();
 
         if (true == i_animated)
             kernelVFX.PlayScaleAnimation(selectedScale, selectScaleCurve, selectAnimationSpeed);
