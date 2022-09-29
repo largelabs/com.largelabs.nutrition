@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orangeScore: 60
   normalScore: 10
-  pileAmount: 2
+  pileAmount: 4
   pileTimes:
   - 45
-  - 60
+  - 55
   - 50
   - 30
+  maxHarraPerRope: 26
