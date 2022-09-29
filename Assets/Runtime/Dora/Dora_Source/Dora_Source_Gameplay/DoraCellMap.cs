@@ -12,8 +12,6 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     [SerializeField] InterpolatorsManager interpolators = null;
     [SerializeField] MeshRenderer cobRnd = null;
 
-    DoraCellFactory cellFactory = null;
-
     // Collections
     DoraCellData[] cells = null;
     DoraCellData[,] cellMap = null;
@@ -101,26 +99,26 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
     public float BurntPercentage => durabilityManager.BurntPercentage;
     public DoraData DoraData => doraData;
 
-    public void InitializeDoraCob(SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds, DoraBatchData i_parentBatch, int i_batchCount, bool i_canSpawnSuper, out bool o_superKernelSpawned)
+    public void InitializeDoraCob(DoraCellFactory i_cellfactory, SpawnPool i_vfxPool, BoxCollider i_cullingBounds, BoxCollider i_selectionBounds, DoraBatchData i_parentBatch, int i_batchCount, bool i_canSpawnSuper, out bool o_superKernelSpawned)
     {
         fetchData(i_parentBatch);
         cullingBounds = i_cullingBounds;
         selectionBounds = i_selectionBounds;
-        populateMap(i_vfxPool);
+        populateMap(i_cellfactory, i_vfxPool);
         durabilityManager.InitializeKernelDurability(i_canSpawnSuper, i_batchCount, out o_superKernelSpawned);
         RevealCells(false);
     }
 
-    public void ReleaseDoraCob()
+    public void ReleaseDoraCob(DoraCellFactory i_cellfactory)
     {
-        if (null == cellFactory) return;
+        if (null == i_cellfactory) return;
         if (null == cellMap) return;
 
         for (int i = 0; i < NB_ROWS; i++)
         {
             for (int j = 0; j < NB_COLUMNS; j++)
             {
-                cellFactory.ReleaseCell(cellMap[i, j], kernelSpawner);
+                i_cellfactory.ReleaseCell(cellMap[i, j], kernelSpawner);
             }
         }
 
@@ -176,7 +174,7 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
 
     #region PRIVATE
 
-    public void populateMap(SpawnPool i_vfxPool)
+    public void populateMap(DoraCellFactory i_cellfactory, SpawnPool i_vfxPool)
     {
         if (kernelSpawner == null)
         {
@@ -184,16 +182,16 @@ public class DoraCellMap : MonoBehaviourBase, IDoraCellProvider
             return;
         }
 
+        if (null == i_cellfactory) return;
+
         int count = anchors.Length;
 
         cells = new DoraCellData[count];
         cellsByGo = new Dictionary<GameObject, DoraCellData>(count);
 
-        if (null == cellFactory) cellFactory = new DoraCellFactory(interpolators);
-
         for (int i = 0; i < count; i++)
         {
-            cells[i] = cellFactory.MakeCell(i_vfxPool, kernelSpawner, anchors[i]);
+            cells[i] = i_cellfactory.MakeCell(i_vfxPool, kernelSpawner, anchors[i]);
         }
 
         cellMap = CollectionUtilities.Make2DArray<DoraCellData>(cells, NB_ROWS, NB_COLUMNS);

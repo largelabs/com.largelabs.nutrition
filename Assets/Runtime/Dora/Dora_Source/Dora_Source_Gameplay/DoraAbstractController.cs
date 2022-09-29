@@ -403,8 +403,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     void startFrenzy()
     {
-        Debug.Log("START FRENZY MODE");
-
         if (null != frenzyRoutine) return;
         frenzyRoutine = StartCoroutine(doFrenzy());
     }
@@ -412,8 +410,6 @@ public abstract class DoraAbstractController : MonoBehaviourBase
 
     private IEnumerator doFrenzy()
     {
-        Debug.LogError("Start Frenzy Mode");
-
         inputs.DisableMoveInputs();
 
         frenzyController.PlayFrenzyMode(autoRotator);

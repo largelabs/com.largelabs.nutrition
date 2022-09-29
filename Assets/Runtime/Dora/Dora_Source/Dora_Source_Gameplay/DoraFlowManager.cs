@@ -47,6 +47,7 @@ public class DoraFlowManager : MiniGameFlow
     DoraDurabilityManager currentDurabilityManager = null;
     int doraBatchCount = 0;
     private Stack<Transform> doraCobStack = null;
+    DoraCellFactory cellFactory = null;
 
     // Routines
     Coroutine getNextCobRoutine = null;
@@ -158,7 +159,7 @@ public class DoraFlowManager : MiniGameFlow
         if (null == i_cob) return;
 
         DoraCellMap cellMap = i_cob.GetComponent<DoraCellMap>();
-        if (cellMap != null) doraSpawner.DespawnDoraCob(cellMap);
+        if (cellMap != null) doraSpawner.DespawnDoraCob(cellFactory, cellMap);
     }
 
     IEnumerator moveCurrentCob(bool i_offScreen)
@@ -255,9 +256,11 @@ public class DoraFlowManager : MiniGameFlow
 
     void resetGame()
     {
+        if (null == cellFactory) cellFactory = new DoraCellFactory(interpolators);
+
         unregisterEvents();
 
-        doraSpawner.DespawnAllDora();
+        doraSpawner.DespawnAllDora(cellFactory);
         doraController.DisableController();
 
         scoreManager.ResetScoreManager();
@@ -308,7 +311,7 @@ public class DoraFlowManager : MiniGameFlow
         {
             anchor = doraPlacer.GetNextAnchor();
             currCob = doraPlacer.SpawnDoraAtAnchor(anchor, MathConstants.VECTOR_3_UP * 10f);
-            currCob.InitializeDoraCob(vfxPool, cullingBounds, selectionBounds, currentDoraBatch, doraBatchCount, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
+            currCob.InitializeDoraCob(cellFactory, vfxPool, cullingBounds, selectionBounds, currentDoraBatch, doraBatchCount, canSpawnSuper(superKernelCobsSpawned, ref superKernelChance), out superKernelSpawned);
 
             if(null != currCob)
             {

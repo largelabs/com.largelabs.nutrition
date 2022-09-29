@@ -109,17 +109,17 @@ public class DoraSpawner : MonoBehaviourBase
         return ret;
     }
 
-    public void DespawnDoraCob(DoraCellMap i_doraCob)
+    public void DespawnDoraCob(DoraCellFactory i_cellfactory, DoraCellMap i_doraCob)
     {
         if(true == livingDora.Contains(i_doraCob))
         {
-            despawnDoraCob(i_doraCob);
+            despawnDoraCob(i_cellfactory, i_doraCob);
             livingDora.Remove(i_doraCob);
         }
     }
 
     [ExposePublicMethod]
-    public void DespawnAllDora()
+    public void DespawnAllDora(DoraCellFactory i_cellfactory)
     {
         if (doraCobPool == null) return;
         if (livingDora == null || livingDora.Count < 1) return;
@@ -127,7 +127,7 @@ public class DoraSpawner : MonoBehaviourBase
         int length = livingDora.Count;
         for (int i = 0; i < length; i++)
         {
-            despawnDoraCob(livingDora[i]);
+            despawnDoraCob(i_cellfactory, livingDora[i]);
         }
 
         livingDora.Clear();
@@ -137,9 +137,9 @@ public class DoraSpawner : MonoBehaviourBase
     #endregion
 
     #region PRIVATE API
-    private void despawnDoraCob(DoraCellMap i_doraCob)
+    private void despawnDoraCob(DoraCellFactory i_cellfactory, DoraCellMap i_doraCob)
     {
-        i_doraCob.ReleaseDoraCob();
+        i_doraCob.ReleaseDoraCob(i_cellfactory);
         doraCobPool?.Despawn(i_doraCob.transform);
         OnDespawn?.Invoke(i_doraCob);
     }
