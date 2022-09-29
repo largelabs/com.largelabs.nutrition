@@ -47,11 +47,11 @@ public class UIEndGamePopup : UIDualButtonSelector, IAppear
         scaleAppear.Init(interpolators);
         blackBgAppear.Init(interpolators);
 
+        scaleAppear.OnDidAppear += onDidAppear;
+
         scaleAppear.Appear(i_animated);
         alphaAppear.Appear(i_animated);
         blackBgAppear.Appear(i_animated);
-
-        scaleAppear.OnDidAppear += onDidAppear;
     }
 
     [ExposePublicMethod]
