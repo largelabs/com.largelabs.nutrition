@@ -9,6 +9,7 @@ public class HarankashBounceState : HarankashJumpState
 
     [Header("SFX")]
     [SerializeField] AudioSource bounceSFX = null;
+    [SerializeField] AudioSource jumpSFX = null;
 
     [Header("Extra Configs")]
     [SerializeField] InterpolatorsManager interpolatorsManager = null;
@@ -60,6 +61,7 @@ public class HarankashBounceState : HarankashJumpState
 
         // sfx suggestion: bouncy jump sound
         bounceSFX?.Play();
+        jumpSFX?.Play();
 
         maxJumpHeight = collidedPlatform.MaxJumpHeight;
         accelerationData = collidedPlatform.AccelerationConfig;
@@ -70,6 +72,7 @@ public class HarankashBounceState : HarankashJumpState
     {
         StopAllCoroutines();
         bounceSFX?.Stop();
+        jumpSFX?.Stop();
         onStateExit();
     }
     #endregion
