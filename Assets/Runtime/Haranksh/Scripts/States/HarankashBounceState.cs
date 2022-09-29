@@ -77,7 +77,7 @@ public class HarankashBounceState : HarankashJumpState
     #region PRIVATE
     private HaraPlatformAbstract getCollidedPlatformComponent()
     {
-        Debug.LogError("Get component bounce");
+        //Debug.LogError("Get component bounce");
 
         HaraPlatformAbstract collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInParent<HaraPlatformAbstract>();
 

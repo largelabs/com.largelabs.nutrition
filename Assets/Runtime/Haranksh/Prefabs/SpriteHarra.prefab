@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4076971020428204169}
   - component: {fileID: 4076971020428204170}
-  - component: {fileID: 6428178074513406956}
   - component: {fileID: 4076971020428204171}
   m_Layer: 0
   m_Name: SpriteHarra
@@ -87,26 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6428178074513406956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4076971020428204172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76858a78b01a0eb46b4288c3c562a982, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playOnEnable: 0
-  renderer: {fileID: 4076971020428204170}
-  isLooping: 0
-  resetOnLastFrame: 0
-  frames:
-  - frameObject: {fileID: 1114618752, guid: 0879efe8eba3f8441916526e7018a6f9, type: 3}
-    screenTime: 1
-  loopStartIndex: 0
 --- !u!114 &4076971020428204171
 MonoBehaviour:
   m_ObjectHideFlags: 0

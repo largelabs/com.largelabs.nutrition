@@ -48,7 +48,7 @@ public abstract class MiniGameFlow : MonoBehaviourBase
 	protected abstract void onGameplayEnded();
 	protected virtual void onGameplayUpdate() { }
 
-	protected void disposeAllCoroutines()
+	protected virtual void disposeAllCoroutines()
     {
 		this.DisposeCoroutine(ref introCouroutine);
 		this.DisposeCoroutine(ref successCouroutine);

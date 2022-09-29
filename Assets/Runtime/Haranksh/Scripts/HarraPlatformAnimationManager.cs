@@ -36,6 +36,8 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
         rnd.transform.localScale = MathConstants.VECTOR_3_ZERO;
         rnd.color = new Color(rnd.color.r, rnd.color.g, rnd.color.b, 0f);
         open = false;
+
+        this.DisposeCoroutine(ref platDisappearRoutine);
     }
 
     [ExposePublicMethod]
@@ -89,6 +91,8 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
         }
 
         yield return null;
+
+        this.DisposeCoroutine(ref platDisappearRoutine);
     }
 
     [ExposePublicMethod]
@@ -136,7 +140,7 @@ public class HarraPlatformAnimationManager : MonoBehaviourBase
 
         if (nudgePingPong != null)
         {
-            Debug.LogError("Nudge");
+            //Debug.LogError("Nudge");
             nudgePingPong.AssignInterpolators(interpolatorsManager);
             nudgePingPong.StartPingPong();
         }

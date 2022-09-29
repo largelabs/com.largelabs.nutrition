@@ -38,6 +38,19 @@ public class UIHarrankashStack : UIElementStack<float>
     #endregion
 
     #region PUBLIC API
+    public void ResetStack()
+    {
+        this.DisposeCoroutine(ref dequeueKernelsRoutine);
+        this.DisposeCoroutine(ref stackingRoutine);
+        DestackHarrankash(false);
+        queuedHarrankash.Clear();
+        uiHarrankashStack.Clear();
+        scoreStack.Clear();
+
+        if (stackingRoutine == null)
+            stackingRoutine = StartCoroutine(QueueToStack());
+    }
+
     public bool IsDestacking => dequeueKernelsRoutine != null;
 
     protected override int currentStackSize => uiHarrankashStack == null ? 0 : uiHarrankashStack.Count;
@@ -57,7 +70,7 @@ public class UIHarrankashStack : UIElementStack<float>
         }
         else
         {
-            Debug.LogError("Destrack Harrankash");
+            Debug.LogError("Destack Harrankash");
             uiHarrankashSpawner.DespawnAllTransforms();
             anchorStart.anchoredPosition = anchorStartInitialAnchoredPosition;
             lastAnchor = null;

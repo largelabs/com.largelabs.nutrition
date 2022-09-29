@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpawnPool))]
 public abstract class TransformSpawner<ComponentType, PrefabIdType> : MonoBehaviourBase
-    where ComponentType : MonoBehaviour
+    where ComponentType : Component
 {
     [SerializeField] private SpawnPool transformPool = null;
 

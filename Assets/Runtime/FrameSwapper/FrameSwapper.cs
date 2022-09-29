@@ -94,6 +94,7 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
         currentFrame = frames[0];
 
     }
+
 	public void StopLoop() => isLooping = false;
 
 	public void StartLoop() => isLooping = true;

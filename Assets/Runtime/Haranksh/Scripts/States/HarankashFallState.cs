@@ -160,7 +160,7 @@ public class HarankashFallState : FallAbstractState
     #region UTILITY
     private HaraPlatformAbstract getCollidedPlatformComponent()
     {
-        Debug.LogError("Get component fall");
+        //Debug.LogError("Get component fall");
         HaraPlatformAbstract collidedPlatform = body.CurrentGroundTransform.gameObject.GetComponentInParent<HaraPlatformAbstract>();
 
         if (collidedPlatform == null)

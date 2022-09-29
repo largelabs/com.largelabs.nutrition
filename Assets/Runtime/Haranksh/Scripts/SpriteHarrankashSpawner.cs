@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpriteHarrankashSpawner : TransformSpawner<SpriteFrameSwapper, HarraEnumReference.SpriteHarrankashTypes>
+public class SpriteHarrankashSpawner : TransformSpawner<SpriteRenderer, HarraEnumReference.SpriteHarrankashTypes>
 {
     private readonly static string ORANGE_PLAT = "SpriteHarra"; 
     private readonly static string ORANGE_PLAYER = "SpriteHarraPlayer"; 
@@ -18,8 +18,7 @@ public class SpriteHarrankashSpawner : TransformSpawner<SpriteFrameSwapper, Harr
         }
     }
 
-    protected override void resetComponent(SpriteFrameSwapper i_component)
+    protected override void resetComponent(SpriteRenderer i_component)
     {
-        i_component.Stop();
     }
 }

@@ -47,7 +47,6 @@ public class HaraMiniGame : MiniGameFlow
 	[Header("Pile Sequence Components")]
 	[SerializeField] HarraPlatformSpawnManager platformSpawnManager = null;
 	[SerializeField] TriggerAction2D endTrigger = null;
-	[SerializeField] GameObject topPlatform = null;
 	[SerializeField] UIHarrankashStack harraStack = null;
 	[SerializeField] SpriteHarrankashSpawner spriteHarraSpawner = null;
 	[SerializeField] InterpolatorsManager interpolatorsManager = null;
@@ -61,10 +60,6 @@ public class HaraMiniGame : MiniGameFlow
 	[SerializeField] float slideSpeed = 2f;
 	[SerializeField] UIHarrankashEndGamePopup harrankashPopup = null;
 
-	[Header("End Sequence Components")]
-	[SerializeField] LocalScalePingPong gameOverScale = null;
-	[SerializeField] SpriteAlphaLerp gameOverFade = null;
-
 	[Header("Sounds")]
 	[SerializeField] HarraSFXProvider sfxProvider = null;
 
@@ -73,10 +68,8 @@ public class HaraMiniGame : MiniGameFlow
 	private Vector3 originPosition = Vector3.zero;
 
 	private Coroutine nextPileRoutine = null;
+	private Coroutine uiHarraSlideRoutine = null;
 
-	private Transform currentRopeSlideStart = null;
-	private Vector3 currentRopeSlideEnd = MathConstants.VECTOR_3_ZERO;
-	// add currentSlidHarra to keep track of when to switch ropes
 	private bool slideRight = true;
 	private int maxOnRope = 27;
 	private int currentSlid = 0;
@@ -107,7 +100,7 @@ public class HaraMiniGame : MiniGameFlow
 		playerControls.SetLock(false);
 		playerControls.DisableControls();
 		playerControls.SetLock(true);
-		Debug.LogError("DisabledControls");
+		//Debug.LogError("DisabledControls");
 		yield return this.Wait(1.5f);
 
 		vCamSwitcher.SwitchToVCam(playerCam);
@@ -167,10 +160,19 @@ public class HaraMiniGame : MiniGameFlow
 		showEndgamePopup();
 		
 	}
-	#endregion
 
-	#region PRIVATE
-	private void collectOrange(Vector3 i_platformPos)
+    protected override void disposeAllCoroutines()
+    {
+        base.disposeAllCoroutines();
+
+		this.DisposeCoroutine(ref nextPileRoutine);
+		this.DisposeCoroutine(ref uiHarraSlideRoutine);
+		this.DisposeCoroutine(ref bannerRoutine);
+    }
+    #endregion
+
+    #region PRIVATE
+    private void collectOrange(Vector3 i_platformPos)
 	{
 		scoreManager.AddScore(i_platformPos, gameData.OrangeScore);
 		orangeCount++;
@@ -207,7 +209,7 @@ public class HaraMiniGame : MiniGameFlow
 
 		harrankashPhysicsBody.SetVelocity(Vector2.zero);
 		playerStateMachine.gameObject.SetActive(false);
-		SpriteFrameSwapper spawnedHarra = spriteHarraSpawner.SpawnTransformAtAnchor(playerRopeSlideStart, MathConstants.VECTOR_3_ZERO,
+		SpriteRenderer spawnedHarra = spriteHarraSpawner.SpawnTransformAtAnchor(playerRopeSlideStart, MathConstants.VECTOR_3_ZERO,
 											HarraEnumReference.SpriteHarrankashTypes.OrangePlayer, true, false, false);
 
 		if (nextPileRoutine == null)
@@ -221,7 +223,10 @@ public class HaraMiniGame : MiniGameFlow
 		vCamSwitcher.LockSwitching(true);
 		yield return this.Wait(2f);
 
-		yield return StartCoroutine(UIHarraSlideSequence());
+		if (uiHarraSlideRoutine != null)
+			this.DisposeCoroutine(ref uiHarraSlideRoutine);
+
+		yield return uiHarraSlideRoutine = StartCoroutine(UIHarraSlideSequence());
 
 		if (i_end == false)
 		{
@@ -238,7 +243,7 @@ public class HaraMiniGame : MiniGameFlow
 		this.DisposeCoroutine(ref nextPileRoutine);
 	}
 
-	private IEnumerator pileSwitchSequence(SpriteFrameSwapper i_spawnedHarra)
+	private IEnumerator pileSwitchSequence(SpriteRenderer i_spawnedHarra)
 	{
 		float playerTime = slidePlayer(i_spawnedHarra);
 		playerStateMachine.transform.position = originPosition;
@@ -287,14 +292,16 @@ public class HaraMiniGame : MiniGameFlow
 
 		while (harraStack.IsDestacking)
 		{
-			Debug.LogError("destacking");
+			//Debug.LogError("destacking");
 			yield return null;
 		}
 
 		harraStack.OnDiscardHarrankash -= ropeSlideHarra;
+
+		this.DisposeCoroutine(ref uiHarraSlideRoutine);
 	}
 
-	private float slidePlayer(SpriteFrameSwapper i_spawnedHarra)
+	private float slidePlayer(SpriteRenderer i_spawnedHarra)
 	{
 		Transform slideStart = i_spawnedHarra.transform;
 
@@ -319,7 +326,7 @@ public class HaraMiniGame : MiniGameFlow
 		Transform slideStart = slideRight ? rope0SlideStart : rope1SlideStart;
 		Transform slideEnd = slideRight ? rope0SlideEnd : rope1SlideEnd;
 
-		SpriteFrameSwapper spawnedHarra =
+		SpriteRenderer spawnedHarra =
 			spriteHarraSpawner.SpawnTransformAtAnchor(slideStart, Vector3.zero, HarraEnumReference.SpriteHarrankashTypes.OrangePlat,
 			true, false, false);
 
@@ -408,7 +415,7 @@ public class HaraMiniGame : MiniGameFlow
 		scoreManager.ResetScore();
 		scoreManager.gameObject.SetActive(false);
 		uiMGTimer.gameObject.SetActive(false);
-		harraStack.DestackHarrankash(false);
+		harraStack.ResetStack();
 
 		spriteHarraSpawner.DespawnAllTransforms();
 
@@ -463,6 +470,7 @@ public class HaraMiniGame : MiniGameFlow
 		touchEventDispatcher.OnFirstTouchNormal -= collectNormal;
 		touchEventDispatcher.OnFailConditionMet -= failGame;
 		mgTimer.OnTimerEnded -= timeOut;
+		harraStack.OnDiscardHarrankash -= ropeSlideHarra;
 	}
 	#endregion
 
@@ -494,9 +502,9 @@ public class HaraMiniGame : MiniGameFlow
 	public void RestartGame()
 	{
 		disposeAllCoroutines();
+		StopAllCoroutines();
 		resetGame();
 		EnterMiniGame();
 	}
-
 	#endregion
 }

@@ -28,7 +28,6 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
     System.Random rng = null;
 
     Coroutine platformAnimationRoutine = null;
-    Coroutine platformDisappearRoutine = null;
 
     protected override void Awake()
     {
@@ -132,7 +131,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
                 platformAnimationRoutine = StartCoroutine(platformAnimationSequence(false));
         }
         else
-            harraPlatformSpawner.DespawnAllPlatforms();
+            platformFastDisappear();
     }
 
     [ExposePublicMethod]
@@ -264,6 +263,19 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
 
         if(i_appear == false)
             harraPlatformSpawner.DespawnAllPlatforms();
+
+        this.DisposeCoroutine(ref platformAnimationRoutine);
+    }  
+    
+    private void platformFastDisappear()
+    {
+        IReadOnlyList<HaraPlatformAbstract> livingPlatforms = harraPlatformSpawner.LivingPlatforms;
+
+        int length = livingPlatforms.Count;
+        for (int i = 0; i < length; i++)
+            livingPlatforms[i].gameObject.GetComponent<HarraPlatformAnimationManager>().PlatformDisppear(0.01f);
+       
+        harraPlatformSpawner.DespawnAllPlatforms();
 
         this.DisposeCoroutine(ref platformAnimationRoutine);
     }
