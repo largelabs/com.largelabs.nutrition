@@ -101,6 +101,7 @@ MonoBehaviour:
   appearTime: 0.2
   disappearTime: 0.2
   interpolatorsManager: {fileID: 0}
+  sfxProvider: {fileID: 0}
 --- !u!1 &7373397862852945675
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,18 +311,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: globalSpawnChances.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: orangeSpawnChances.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: yellowSpawnChances.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: globalSpawnChances.Array.data[0]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: globalSpawnChances.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: globalSpawnChances.Array.data[2]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: globalSpawnChances.Array.data[3]
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
@@ -329,7 +342,27 @@ PrefabInstance:
       value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[2]
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[3]
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: yellowSpawnChances.Array.data[0]
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[2]
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166442866238699, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[3]
       value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443052133434, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
@@ -434,7 +467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: greenSpawnChances.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: globalSpawnChances.Array.size
@@ -442,14 +475,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: orangeSpawnChances.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: yellowSpawnChances.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: greenSpawnChances.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: greenSpawnChances.Array.data[1]
       value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
@@ -462,10 +499,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: orangeSpawnChances.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: orangeSpawnChances.Array.data[2]
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: yellowSpawnChances.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166443431912489, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[1]
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443432327409, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
@@ -494,15 +539,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443432327409, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: orangeSpawnChances.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443432327409, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: yellowSpawnChances.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443432327409, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: greenSpawnChances.Array.data[0]
-      value: 0.35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443432327409, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: globalSpawnChances.Array.data[0]
@@ -511,6 +556,14 @@ PrefabInstance:
     - target: {fileID: 8709166443432327409, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: orangeSpawnChances.Array.data[0]
       value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166443432327409, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[0]
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8709166443432327409, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
+      propertyPath: yellowSpawnChances.Array.data[1]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8709166443543907229, guid: a74bdde565bdb9c458b61c396294fd98, type: 3}
       propertyPath: overrideGreen

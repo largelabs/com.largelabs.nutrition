@@ -91,7 +91,7 @@ public class HarraPlatformSpawnManager : MonoBehaviourBase
 
                 currGlobalChance = globalChances[getIdxAtRatio(idxRatio, globalChances.Count)];
 
-                currGlobalChance += currGlobalChance * Mathf.Clamp01(iterationsSinceLastSpawn * 0.2f);
+                currGlobalChance += currGlobalChance * Mathf.Clamp01(iterationsSinceLastSpawn * 0.25f);
 
                 if (spawnedInPrevRow < 2)
                     currGlobalChance *= 2f;
