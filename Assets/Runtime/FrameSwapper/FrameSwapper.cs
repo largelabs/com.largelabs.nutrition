@@ -79,6 +79,13 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
 	{
         this.DisposeCoroutine(ref playback);
         ResetAnimation();
+    } 
+    
+    [ExposePublicMethod]
+    public void StopWithSoftReset()
+	{
+        this.DisposeCoroutine(ref playback);
+        ResetFrameIdx();
     }
 
     [ExposePublicMethod]
@@ -92,7 +99,12 @@ public abstract class FrameSwapper<TRenderer, TFrame> : MonoBehaviourBase, IFram
     {
         updateRenderedObject(i_resetSprite);
         currentFrame = frames[0];
-
+    } 
+    
+    [ExposePublicMethod]
+    public void ResetFrameIdx()
+    {
+        currentFrame = frames[0];
     }
 
 	public void StopLoop() => isLooping = false;

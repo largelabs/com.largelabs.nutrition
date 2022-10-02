@@ -54,10 +54,10 @@ public class HarankashIdleState : State
     public override void ResetState()
     {
         StopAllCoroutines();
-        idlingFrames.Stop();
-        idlingFrames.ResetAnimation();
-        jumpAnticipationFrames.Stop();
-        jumpAnticipationFrames.ResetAnimation();
+        idlingFrames.StopWithSoftReset();
+        idlingFrames.ResetFrameIdx();
+        jumpAnticipationFrames.StopWithSoftReset();
+        jumpAnticipationFrames.ResetFrameIdx();
         jumpSFX?.Stop();
         onStateExit();
     }

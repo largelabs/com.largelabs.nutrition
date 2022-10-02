@@ -71,10 +71,10 @@ public class HarrankashCelebrationState : State
     public override void ResetState()
     {
         StopAllCoroutines();
-        celebrationFrames.Stop();
-        celebrationFrames.ResetAnimation(); 
-        jumpAnticipationFrames.Stop();
-        jumpAnticipationFrames.ResetAnimation();
+        celebrationFrames.StopWithSoftReset();
+        celebrationFrames.ResetFrameIdx(); 
+        jumpAnticipationFrames.StopWithSoftReset();
+        jumpAnticipationFrames.ResetFrameIdx();
         victorySound?.Stop();
         onStateExit();
     }

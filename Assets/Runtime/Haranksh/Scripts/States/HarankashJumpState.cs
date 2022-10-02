@@ -62,10 +62,10 @@ public class HarankashJumpState : MoveHorizontalAbstractState
         base.ResetState();
 
         StopAllCoroutines();
-        jumpLaunchFrames.Stop();
-        jumpLaunchFrames.ResetAnimation();
-        jumpRiseFrames.Stop();
-        jumpRiseFrames.ResetAnimation();
+        jumpLaunchFrames.StopWithSoftReset();
+        jumpLaunchFrames.ResetFrameIdx();
+        jumpRiseFrames.StopWithSoftReset();
+        jumpRiseFrames.ResetFrameIdx();
         jumpVFX.Stop();
         jumpVFX.ResetAnimation();
         onStateExit();

@@ -62,12 +62,12 @@ public class HarankashFallState : FallAbstractState
     {
         base.ResetState();
         StopAllCoroutines();
-        fallingFrames.Stop();
-        fallingFrames.ResetAnimation();
-        landingFrames.Stop();
-        landingFrames.ResetAnimation();
-        jumpRiseFrames.Stop();
-        jumpRiseFrames.ResetAnimation();
+        fallingFrames.StopWithSoftReset();
+        fallingFrames.ResetFrameIdx();
+        landingFrames.StopWithSoftReset();
+        landingFrames.ResetFrameIdx();
+        jumpRiseFrames.StopWithSoftReset();
+        jumpRiseFrames.ResetFrameIdx();
         landVFX.Stop();
         landVFX.ResetAnimation();
         impactSFX?.Stop();
@@ -117,7 +117,7 @@ public class HarankashFallState : FallAbstractState
         impactSFX?.Play();
 
         yield return this.Wait(timeBeforeBounce);
-        landingFrames.Stop();
+        landingFrames.StopWithSoftReset();
 
         if (platform != null)
             platform.onCollision();
