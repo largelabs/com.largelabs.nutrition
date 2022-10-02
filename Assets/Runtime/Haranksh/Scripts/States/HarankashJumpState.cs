@@ -77,8 +77,6 @@ public class HarankashJumpState : MoveHorizontalAbstractState
     {
         matchVisualToCollider();
 
-        //jumpVFX.ResetAnimation();
-        //jumpVFX.Play();
         jumpLaunchFrames.Play();
         yield return this.Wait(0.05f);
 

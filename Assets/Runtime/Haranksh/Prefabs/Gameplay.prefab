@@ -597,10 +597,6 @@ PrefabInstance:
       propertyPath: mgTimer
       value: 
       objectReference: {fileID: 7559566314289358373}
-    - target: {fileID: 3289514128787467903, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-      propertyPath: bounceSFX
-      value: 
-      objectReference: {fileID: 5174501780604565964}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
 --- !u!114 &1713754598247187182 stripped
@@ -614,11 +610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0179e268636e0ee44abbf4d84162c864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &5174501780604565964 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 655641341750284921, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
-  m_PrefabInstance: {fileID: 5680951901074074549}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7165359001280152085 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3289514129004046752, guid: 63c52055efd88b74aa5a662ee20e3ec4, type: 3}
