@@ -214,6 +214,28 @@ public partial class @HarankashInputActions : IInputActionCollection2, IDisposab
                 },
                 {
                     ""name"": """",
+                    ""id"": ""c40e60d6-2d7d-48fe-8f52-a02336f21f49"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a8e56691-ec8e-4605-b4cd-82cb222d1933"",
+                    ""path"": ""<Joystick>/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1414478c-47df-4bac-b5e2-4ec1bb1fe871"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -249,6 +271,28 @@ public partial class @HarankashInputActions : IInputActionCollection2, IDisposab
                     ""name"": """",
                     ""id"": ""6278ea18-7dc3-4053-ac28-6eedafd9b117"",
                     ""path"": ""<HID::DragonRise Inc.   Generic   USB  Joystick  >/trigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d09b4a89-b29b-486a-8ad9-ec5812d71b59"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c8ccd83-d360-4ebb-88b5-bf18e2815f9a"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
