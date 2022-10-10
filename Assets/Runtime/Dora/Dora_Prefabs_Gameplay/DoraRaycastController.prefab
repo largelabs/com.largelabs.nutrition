@@ -841,6 +841,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  clampValues: 1
   thisImg: {fileID: 6590713053485395305}
 --- !u!1 &5651637763097233603
 GameObject:
@@ -939,6 +940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f644cd7762b784abeb719671f10aab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   useRangeMarking: 0
   inputs: {fileID: 4411650203299129230}
   cellSelector: {fileID: 1723940233189729211}
@@ -954,7 +956,7 @@ MonoBehaviour:
   uiKernelManager: {fileID: 0}
   minLocalX: -6.5
   maxLocalX: 5
-  raycastSourceMoveSpeed: 15
+  raycastSourceMoveSpeed: 12
   raycastSource: {fileID: 1314212347534363070}
   pointerUI: {fileID: 8991559408114994871}
 --- !u!114 &5620739680228632249
@@ -1028,6 +1030,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  clampValues: 1
   mat: {fileID: 2100000, guid: ecf53fba01c3b7746b226a8621145008, type: 2}
 --- !u!1 &8060975908451102762
 GameObject:
